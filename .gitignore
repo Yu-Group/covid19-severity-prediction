@@ -13,3 +13,4 @@
 **.asc
 .ipynb_checkpoints/
 data/
+**.bdat
