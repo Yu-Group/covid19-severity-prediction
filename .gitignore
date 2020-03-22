@@ -11,3 +11,5 @@
 **.idea
 **Icon*
 **.asc
+.ipynb_checkpoints/
+data/
