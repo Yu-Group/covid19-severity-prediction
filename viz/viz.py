@@ -1,13 +1,13 @@
 from bokeh.sampledata import us_states, us_counties
 from bokeh.plotting import figure, show, output_notebook, output_file, save
 from bokeh import palettes
-from bokeh.models import ColorBar,HoverTool,LinearColorMapper,ColumnDataSource,FixedTicker
+from bokeh.models import ColorBar,HoverTool,LinearColorMapper,ColumnDataSource,FixedTicker, LogColorMapper
 output_notebook()
 import re
 import numpy as np
 
 
-def plot_counties(df, variable_to_distribute, variables_to_display, state=None):
+def plot_counties(df, variable_to_distribute, variables_to_display, state=None, logcolor=False):
     """Plots the distribution of a given variable across the given sttate
     
     Params
@@ -52,17 +52,20 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None):
         StateCountyID = str(county_id[0]).zfill(2) + str(county_id[1]).zfill(3)
         if StateCountyID in list(df["Header-FIPSStandCtyCode"].values):
             temp_var = df[df["Header-FIPSStandCtyCode"] == StateCountyID][variable_to_distribute].values[0]
-            if temp_var > 0.0:
-                variable_dictionary[re.sub("[^\w]","",variable_to_distribute)].append(temp_var)
-                for vd in variables_to_display:
-                    variable_dictionary[re.sub("[^\w]","",vd)].append(round(float(df[df["Header-FIPSStandCtyCode"] == StateCountyID][vd].values),2))
-                color_idx = list(temp_var - np.array(index_range)).index(min(x for x in list(temp_var - np.array(index_range)) if x >= 0))
-                county_colors.append(colors[color_idx])
+#             if temp_var > 0.0:
+            variable_dictionary[re.sub("[^\w]","",variable_to_distribute)].append(temp_var)
+            for vd in variables_to_display:
+                variable_dictionary[re.sub("[^\w]","",vd)].append(round(float(df[df["Header-FIPSStandCtyCode"] == StateCountyID][vd].values),2))
+            color_idx = list(temp_var - np.array(index_range)).index(min(x for x in list(temp_var - np.array(index_range)) if x >= 0))
+            county_colors.append(colors[color_idx])
+
+            '''
             else:
                 variable_dictionary[re.sub("[^\w]","",variable_to_distribute)].append(0.0)
                 county_colors.append("#A9A9A9")
                 for vd in variables_to_display:
                     variable_dictionary[re.sub("[^\w]","",vd)].append(0.0)
+            '''
         else:
             variable_dictionary[re.sub("[^\w]","",variable_to_distribute)].append(0.0)
             county_colors.append("#A9A9A9")
@@ -73,7 +76,10 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None):
     source = ColumnDataSource(data = variable_dictionary)
     TOOLS = "pan,wheel_zoom,box_zoom,reset,hover,save"
 
-    mapper = LinearColorMapper(palette=colors, low=min_value, high=max_value)
+    if logcolor:
+        mapper = LogColorMapper(palette=colors, low=min_value, high=max_value)
+    else:
+        mapper = LinearColorMapper(palette=colors, low=min_value, high=max_value)
 
     color_bar = ColorBar(color_mapper=mapper, location=(0, 0), orientation='horizontal', 
                      title = variable_to_distribute,ticker=FixedTicker(ticks=index_range))
