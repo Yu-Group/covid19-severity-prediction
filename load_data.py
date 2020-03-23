@@ -9,6 +9,7 @@ from functions import load_medicare_data
 from functions import load_respiratory_disease_data
 from functions import load_tobacco_use_data
 from os.path import join as oj
+import os
 from sklearn.model_selection import train_test_split
 #from load_data import load_county_level
 
@@ -22,8 +23,13 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
         voting = 'data/voting/county_voting_processed.pkl',
         icu = 'data/medicare/icu_county.csv',
         heart_disease_data = "data/cardiovascular_disease/heart_disease_mortality_data.csv",
-        stroke_data = "data/cardiovascular_disease/stroke_mortality_data.csv"):
+        stroke_data = "data/cardiovascular_disease/stroke_mortality_data.csv",
+        use_cached=True,
+        cached_file='data/df_county_level_cached.pkl'):
     print('loading county level data...')
+    if use_cached and os.path.exists(cached_file):
+        return pd.read_pickle(cached_file)
+    
     df = merge_data.merge_data(ahrf_data=ahrf_data, 
                                usafacts_data_cases=usafacts_data_cases,
                                usafacts_data_deaths=usafacts_data_deaths,
@@ -42,7 +48,10 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
     # add features
     df['FracMale2017'] = df['PopTotalMale2017'] / (df['PopTotalMale2017'] + df['PopTotalFemale2017'])
     df['#FTEHospitalTotal2017'] = df['#FTETotalHospitalPersonnelShortTermGeneralHospitals2017'] + df['#FTETotalHospitalPersonnelSTNon-Gen+LongTermHosps2017']
-
+    
+    if use_cached:
+        df.to_pickle(cached_file)
+    
     return df
 
 
