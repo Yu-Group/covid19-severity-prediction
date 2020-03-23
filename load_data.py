@@ -7,6 +7,7 @@ import matplotlib.cbook as cbook
 from functions import merge_data
 from functions import load_medicare_data
 from functions import load_respiratory_disease_data
+from functions import load_tobacco_use_data
 from os.path import join as oj
 from sklearn.model_selection import train_test_split
 

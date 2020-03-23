@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from functions import load_medicare_data
 from functions import load_respiratory_disease_data
+from functions import load_tobacco_use_data
 from os.path import join as oj
 
 
@@ -31,6 +32,8 @@ def merge_data(ahrf_data,
                               and not 'state' in k.lower()})
     
     chronic_all_orig = load_medicare_data.loadChronicSheet(medicare_group)
+    
+    tobacco = load_tobacco_use_data.loadTobaccoData()
     
     diabetes = pd.read_csv(diabetes, skiprows = 2, skipfooter = 1)
     diabetes = diabetes[["CountyFIPS", "Percentage"]]
@@ -74,6 +77,7 @@ def merge_data(ahrf_data,
     df = pd.merge(df, icu, on='countyFIPS')
     df = pd.merge(df, heart_disease, on='countyFIPS')
     df = pd.merge(df, stroke, on='countyFIPS')
+    df = pd.merge(df, tobacco, on='countyFIPS')
     return df
 
 
