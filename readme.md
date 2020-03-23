@@ -15,22 +15,7 @@ Working to predict covid-19 risk at a county-level (in the US) and more.
 ## through scripts
 - **usafacts data (should be updated daily)**: using script at data/usafacts/download_usafacts_data.sh
 - **medicare data**: using script at data/medicare/download_medicare_data.sh
+- **tobacco use data**: using script at data/tobacco/download_tobacco_use_data.sh
 
 
 if all is downloaded properly, you should be able to load the data using `00_load_data_county_level.ipynb`
-
-
-# data dictionary
-
-## risk factors
-- details added tomorrow...
-- **Stroke Mortality**
-- **Heart Disease Mortality**
-- **Diabetes Percentage**
-- **Medicare Conditions**
-
-## coronavirus variables
-
-## hrsa data
-
-## miscellaneous
