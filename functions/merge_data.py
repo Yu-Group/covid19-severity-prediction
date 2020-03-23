@@ -8,7 +8,8 @@ from functions import load_medicare_data
 from os.path import join as oj
 
 
-def merge_data(ahrf_data, usafacts_data_cases, medicare_group="All Beneficiaries"):
+def merge_data(ahrf_data, usafacts_data_cases, diabetes,
+               medicare_group="All Beneficiaries"):
     
     facts = pd.read_pickle(ahrf_data)
     facts = facts.rename(columns={'Blank': 'id'})
@@ -17,6 +18,9 @@ def merge_data(ahrf_data, usafacts_data_cases, medicare_group="All Beneficiaries
                                   if not 'county' in k.lower()
                                   and not 'state' in k.lower()})
     chronic_all_orig = load_medicare_data.loadChronicSheet(medicare_group)
+    diabetes = pd.read_csv(diabetes, skiprows = 2, skipfooter = 1)
+    diabetes = diabetes[["CountyFIPS", "Percentage"]]
+    diabetes.columns = ["countyFIPS", "Diabetes Percentage"]
     cases = cases[cases.countyFIPS != 0]
 
     # raw.iloc[224, 0] = 13245 # fix err with Richmond, Georgia
@@ -28,6 +32,7 @@ def merge_data(ahrf_data, usafacts_data_cases, medicare_group="All Beneficiaries
     chronic_all_orig['countyFIPS'] = chronic_all_orig['countyFIPS'].astype(int)
     df = pd.merge(facts, cases, on='countyFIPS')
     df = pd.merge(df, chronic_all_orig, on='countyFIPS')
+    df = pd.merge(df, diabetes, on='countyFIPS')
     return df
 
 
