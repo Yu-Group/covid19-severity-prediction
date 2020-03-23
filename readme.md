@@ -10,6 +10,7 @@ Working to predict covid-19 risk at a county-level (in the US) and more.
 - **icu beds data**: download `icu_county.csv` from [here](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and put into proper directory data/icu/icu_county.pkl
 - **heart disease data**: heart_disease_mortality_data.csv from [here](https://drive.google.com/open?id=1glMZ7l6UxYTjBUvvFNV7Hu8QXC-j5q3C) and put into proper directory: data/cardiovascular_disease/heart_disease_mortality_data.csv
 - **stroke data**: stroke_mortality_data.csv from [here](https://drive.google.com/open?id=1ozVEjSGaQcRfJYnicKvEimKpAD3umI7o) and put into proper directory: data/cardiovascular_disease/stroke_mortality_data.csv
+- **hospital level data**: available in slack channel
 
 ## through scripts
 - **usafacts data**: using script at data/usafacts/download_usafacts_data.sh
