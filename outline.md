@@ -39,7 +39,7 @@ we have some data at the hospital-level and some at the county-level, which we j
 - potentially contact information and more we are still merging in...
 
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid-19-geographic-risk-prediction/results/NY.html" frameborder="0" allowfullscreen="true"> </iframe>
+  <iframe src="https://yu-group.github.io/covid-19-geographic-risk-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:100%;"> </iframe>
 </figure>
 
 ## county-level data
