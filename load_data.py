@@ -46,11 +46,15 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
     return df
 
 
-def merge_hospital_and_county_data(hospital_info_keys, county_info_keys):
+def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
+                                   merged_hospital_level_info = 'data_hospital_level/processed/hospital_level_info_merged.csv',
+#                                    hospital_info = 'data/02_county_FIPS.csv'):                                   
+                                   hospital_info = 'data_hospital_level/processed/02_county_FIPS.csv'):
     
-    hospitals = pd.read_csv("data/hospital_level_info/02_hospital_info.csv")
+    hospitals = pd.read_csv(hospital_info)
+    print(hospitals.keys())
     county_to_fips = dict(zip(zip(hospitals['COUNTY'], hospitals['STATE']), hospitals['COUNTYFIPS']))
-    hospital_level = pd.read_csv("data/hospital_level_info/03_hospital_level_info_merged.csv")
+    hospital_level = pd.read_csv(merged_hospital_level_info)
     def map_county_to_fips(name, st):
         if type(name) is str:
             #name = re.sub('[^a-zA-Z]+', '', county_name).lower()
