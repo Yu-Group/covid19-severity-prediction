@@ -52,3 +52,7 @@ def split_data(df):
     df_train = df[df.countyFIPS.isin(fips_train)]
     df_test = df[df.countyFIPS.isin(fips_test)]
     return df_train, df_test
+
+if __name__ == '__main__':
+    df = load_county_level()
+    print('loaded succesfully')

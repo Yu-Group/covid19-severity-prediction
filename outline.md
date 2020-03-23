@@ -18,7 +18,7 @@
 # 2 - approach
 
 - we begin by screening for large (academic) hospitals, which can accomodate more ventilators
-- **outcome**: we want to predict 2 things (at the hospital level)
+- **outcomes**: we want to predict 2 things (at the hospital level)
     1. severity of outbreak - as a proxy for ventilator need, we predict the number of deaths (at the county level)
         - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
         - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
@@ -60,11 +60,12 @@ Correlations with number of deaths
 
 ## all correlations
 
-We also have looked at correlations between these features and things like number of confirmed cases + deaths
+Correlations between many different county-level features
 ![](results/correlations_heatmap.png)
 
+## interactive visualizations
 
 We can visualize these features on interactive maps:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid-19-geographic-risk-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:100%;height:800px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid-19-geographic-risk-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
 </figure>
