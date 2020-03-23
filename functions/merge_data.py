@@ -54,12 +54,10 @@ def merge_data(ahrf_data,
 
     # raw.iloc[224, 0] = 13245 # fix err with Richmond, Georgia
 
-    # sum over duplicate counties
-    # cases = cases.groupby(['countyFIPS', 'County Name', 'State', 'stateFIPS']).sum().reset_index()
     
     # clean data
-    cases = cases[cases.countyFIPS != 0]
-    cases = cases.groupby(['countyFIPS']).sum().reset_index()
+    cases = cases[cases.countyFIPS != 0] # ignore cases where county is unknown
+    cases = cases.groupby(['countyFIPS']).sum().reset_index() # sum over duplicate counties
     deaths = deaths[deaths.countyFIPS != 0]
     deaths = deaths.groupby(['countyFIPS']).sum().reset_index()
     facts['countyFIPS'] = facts['Header-FIPSStandCtyCode'].astype(int)

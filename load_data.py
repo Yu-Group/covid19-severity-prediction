@@ -8,6 +8,7 @@ from functions import merge_data
 from functions import load_medicare_data
 from functions import load_respiratory_disease_data
 from os.path import join as oj
+from sklearn.model_selection import train_test_split
 
 outcome_cases = '#Cases_3/22/2020'
 outcome_deaths = '#Deaths_3/22/2020'
@@ -32,3 +33,12 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
                                stroke_data=stroke_data,
                                diabetes=diabetes) # also cleans usafacts data
     return df
+
+
+def split_data(df):
+    np.random.seed(42)
+    countyFIPS = df.countyFIPS.values
+    fips_train, fips_test = train_test_split(countyFIPS, test_size=0.25, random_state=42)
+    df_train = df[df.countyFIPS.isin(fips_train)]
+    df_test = df[df.countyFIPS.isin(fips_test)]
+    return df_train, df_test
