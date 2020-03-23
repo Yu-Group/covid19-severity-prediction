@@ -34,21 +34,21 @@ def merge_data(ahrf_data,
     
     diabetes = pd.read_csv(diabetes, skiprows = 2, skipfooter = 1)
     diabetes = diabetes[["CountyFIPS", "Percentage"]]
-    diabetes.columns = ["countyFIPS", "Diabetes Percentage"]
+    diabetes.columns = ["countyFIPS", "DiabetesPercentage"]
     
     heart_disease = pd.read_csv(heart_disease_data, na_values = [-1, ""])
     heart_disease = heart_disease[["cnty_fips", "Value"]]
-    heart_disease.columns = ["countyFIPS", "Heart Disease Mortality"]
+    heart_disease.columns = ["countyFIPS", "HeartDiseaseMortality"]
     
     stroke = pd.read_csv(stroke_data, na_values = [-1, ""])
     stroke = stroke[["cnty_fips", "Value"]]
-    stroke.columns = ["countyFIPS", "Stroke Mortality"]
+    stroke.columns = ["countyFIPS", "StrokeMortality"]
     
     resp_disease = load_respiratory_disease_data.loadRespDiseaseSheet(resp_group)
     
     icu = pd.read_csv(icu)
     icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
-    icu.columns = ["countyFIPS", "hospitals", "icu_beds"]
+    icu.columns = ["countyFIPS", "#Hospitals", "#ICU_beds"]
     
     voting = pd.read_pickle(voting)
 

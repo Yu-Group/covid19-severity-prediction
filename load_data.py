@@ -39,6 +39,7 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
     
     # add features
     df['FracMale2017'] = df['PopTotalMale2017'] / (df['PopTotalMale2017'] + df['PopTotalFemale2017'])
+    df['#FTEHospitalTotal2017'] = df['#FTETotalHospitalPersonnelShortTermGeneralHospitals2017'] + df['#FTETotalHospitalPersonnelSTNon-Gen+LongTermHosps2017']
 
     return df
 
