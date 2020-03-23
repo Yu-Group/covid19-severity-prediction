@@ -5,9 +5,12 @@ from functions import load_respiratory_disease_data
 from os.path import join as oj
 
 
-def merge_data(ahrf_data, usafacts_data_cases, 
+def merge_data(ahrf_data, 
+               usafacts_data_cases, 
                usafacts_data_deaths,
-               diabetes, voting,
+               diabetes, 
+               voting,
+               icu,
                medicare_group="All Beneficiaries", 
                resp_group="Chronic respiratory diseases"):
     
@@ -27,7 +30,9 @@ def merge_data(ahrf_data, usafacts_data_cases,
     diabetes = diabetes[["CountyFIPS", "Percentage"]]
     diabetes.columns = ["countyFIPS", "Diabetes Percentage"]
     resp_disease = load_respiratory_disease_data.loadRespDiseaseSheet(resp_group)
-    
+    icu = pd.read_csv(icu)
+    icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
+    icu.columns = ["countyFIPS", "hospitals", "icu_beds"]
     voting = pd.read_pickle(voting)
 
     # raw.iloc[224, 0] = 13245 # fix err with Richmond, Georgia
