@@ -31,8 +31,10 @@ def merge_data(ahrf_data,
                               if not 'county' in k.lower()
                               and not 'state' in k.lower()})
     
+    ## Medicare data risk factors
     chronic_all_orig = load_medicare_data.loadChronicSheet(medicare_group)
     
+    ## risk factors data (not from Medicare)
     tobacco = load_tobacco_use_data.loadTobaccoData()
     
     diabetes = pd.read_csv(diabetes, skiprows = 2, skipfooter = 1)
@@ -49,6 +51,7 @@ def merge_data(ahrf_data,
     
     resp_disease = load_respiratory_disease_data.loadRespDiseaseSheet(resp_group)
     print('ks', resp_disease.keys())
+    ## end of risk factors data (not from Medicare)
     
     icu = pd.read_csv(icu)
     icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
