@@ -5,7 +5,7 @@ from functions import load_respiratory_disease_data
 from os.path import join as oj
 
 
-def merge_data(ahrf_data, usafacts_data_cases, diabetes,
+def merge_data(ahrf_data, usafacts_data_cases, diabetes, voting,
                medicare_group="All Beneficiaries", 
                resp_group="Chronic respiratory diseases"):
     
@@ -22,6 +22,7 @@ def merge_data(ahrf_data, usafacts_data_cases, diabetes,
     diabetes.columns = ["countyFIPS", "Diabetes Percentage"]
     resp_disease = load_respiratory_disease_data.loadRespDiseaseSheet(resp_group)
     cases = cases[cases.countyFIPS != 0]
+    voting = pd.read_pickle(voting)
 
     # raw.iloc[224, 0] = 13245 # fix err with Richmond, Georgia
 
@@ -38,6 +39,7 @@ def merge_data(ahrf_data, usafacts_data_cases, diabetes,
     df = pd.merge(df, chronic_all_orig, on='countyFIPS')
     df = pd.merge(df, diabetes, on='countyFIPS')
     df = pd.merge(df, resp_disease, on='countyFIPS')
+    df = pd.merge(df, voting, on='countyFIPS')
     return df
 
 
