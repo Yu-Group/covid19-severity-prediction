@@ -17,3 +17,19 @@ Working to predict covid-19 risk at a county-level (in the US) and more.
 
 
 if all is downloaded properly, you should be able to load the data using `00_load_data_county_level.ipynb`
+
+
+# data dictionary
+
+## risk factors
+- details added tomorrow...
+- **Stroke Mortality**
+- **Heart Disease Mortality**
+- **Diabetes Percentage**
+- **Medicare Conditions**
+
+## coronavirus variables
+
+## hrsa data
+
+## miscellaneous
