@@ -71,8 +71,8 @@ def merge_data(ahrf_data,
     chronic_all_orig['countyFIPS'] = chronic_all_orig['countyFIPS'].astype(int)
     
     # merge data
-    df = pd.merge(facts, cases, on='countyFIPS')
-    df = pd.merge(df, deaths, on='countyFIPS')
+    df = pd.merge(facts, cases, how='left', on='countyFIPS')
+    df = pd.merge(df, deaths, how='left', on='countyFIPS')
     df = pd.merge(df, chronic_all_orig, on='countyFIPS')
     df = pd.merge(df, diabetes, on='countyFIPS')
     df = pd.merge(df, resp_disease, on='countyFIPS')
