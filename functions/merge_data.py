@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
-import load_medicare_data
+from functions import load_medicare_data
 from os.path import join as oj
 
 

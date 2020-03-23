@@ -6,7 +6,7 @@ import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
 
 def loadChronicSheet(sheet_name):
-    orig_data = pd.read_excel("data/County_Table_Chronic_Conditions_Prevalence_by_Age_2017.xlsx",
+    orig_data = pd.read_excel("data/medicare/County_Table_Chronic_Conditions_Prevalence_by_Age_2017.xlsx",
                               sheet_name = sheet_name,
                               skiprows = 5,
                               na_values = ["* ", "*", "  "])
