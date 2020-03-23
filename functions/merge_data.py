@@ -55,6 +55,7 @@ def merge_data(ahrf_data,
     df = pd.merge(df, diabetes, on='countyFIPS')
     df = pd.merge(df, resp_disease, on='countyFIPS')
     df = pd.merge(df, voting, on='countyFIPS')
+    df = pd.merge(df, icu, on='countyFIPS')
     return df
 
 
