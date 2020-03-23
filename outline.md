@@ -31,6 +31,7 @@
         - would like to use information directly from the hospital as well
 - using these outcomes, we then would like to prioritize different hospitals
     - still not sure how to combine them...
+- these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
 - prediction setup
     - we restrict our analysis to counties which already have confirmed cases
     - each day, we randomly split counties to do prediction
@@ -42,7 +43,8 @@ we have some data at the hospital-level and some at the county-level, which we j
 
 ## hospital-level data
 
-- **key predictors**: icu beds, total staff, location info, ratings, hospital type
+- key predictors: icu beds, total staff, location info, ratings, hospital type
+- some of this data is not public so we can't share it all here
 - potentially contact information and more we are still merging in...
 
 
@@ -51,11 +53,18 @@ we have some data at the hospital-level and some at the county-level, which we j
 - daily number of confirmed cases + deaths (from usafacts)
 - population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, ...), hospital data (e.g. # of doctors, # of hospitals, # of icu beds), and more demographic/disease data
 
+## correlations between features
+Correlations with number of deaths
+
+![](results/correlations.png)
+
+## all correlations
+
+We also have looked at correlations between these features and things like number of confirmed cases + deaths
+![](results/correlations_heatmap.png)
+
+
 We can visualize these features on interactive maps:
 <figure class="video_container">
   <iframe src="https://yu-group.github.io/covid-19-geographic-risk-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:100%;height:800px;"> </iframe>
 </figure>
-
-
-We also have looked at correlations between these features and things like number of confirmed cases + deaths
-![](results/correlations.png)

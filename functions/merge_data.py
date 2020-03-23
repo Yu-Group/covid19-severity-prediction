@@ -45,6 +45,7 @@ def merge_data(ahrf_data,
     stroke.columns = ["countyFIPS", "StrokeMortality"]
     
     resp_disease = load_respiratory_disease_data.loadRespDiseaseSheet(resp_group)
+    print('ks', resp_disease.keys())
     
     icu = pd.read_csv(icu)
     icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
