@@ -2,6 +2,7 @@ Working to predict covid-19 risk at a county-level (in the US) and more.
 
 
 # data setup
+- **countyFIPS**: in data/02_county_FIPS.csv.
 ## from google drive
 - **hrsa data**: get df_renamed.pkl from [here](https://drive.google.com/open?id=1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and put into proper directory: data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl 
 - **voting data**: download `county_voting_processed.pkl` from [here](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and put into proper directory data/voting/county_voting_processed.pkl
