@@ -21,5 +21,5 @@ def loadTobaccoData():
         data_ls.append(data)
     
     data = pd.concat(data_ls)
-    data.columns = ["countyFIPS", "% Smokers"]
+    data.columns = ["countyFIPS", "Smokers_Percentage"]
     return data
