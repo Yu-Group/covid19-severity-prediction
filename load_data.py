@@ -26,10 +26,10 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
         stroke_data = "data/cardiovascular_disease/stroke_mortality_data.csv",
         use_cached=True,
         cached_file='data/df_county_level_cached.pkl'):
-    print('loading county level data...')
+    
     if use_cached and os.path.exists(cached_file):
         return pd.read_pickle(cached_file)
-    
+    print('loading county level data...')
     df = merge_data.merge_data(ahrf_data=ahrf_data, 
                                usafacts_data_cases=usafacts_data_cases,
                                usafacts_data_deaths=usafacts_data_deaths,
