@@ -32,6 +32,14 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
                                heart_disease_data=heart_disease_data,
                                stroke_data=stroke_data,
                                diabetes=diabetes) # also cleans usafacts data
+    
+    # basic preprocessing
+    df = df.sort_values(outcome_deaths, ascending=False)
+    df = df.infer_objects()
+    
+    # add features
+    df['FracMale2017'] = df['PopTotalMale2017'] / (df['PopTotalMale2017'] + df['PopTotalFemale2017'])
+
     return df
 
 
