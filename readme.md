@@ -13,7 +13,7 @@ Working to predict covid-19 risk at a county-level (in the US) and more.
 - **hospital level data**: available in slack channel
 
 ## through scripts
-- **usafacts data**: using script at data/usafacts/download_usafacts_data.sh
+- **usafacts data (should be updated daily)**: using script at data/usafacts/download_usafacts_data.sh
 - **medicare data**: using script at data/medicare/download_medicare_data.sh
 
 
