@@ -11,28 +11,45 @@ def merge_data(ahrf_data,
                diabetes, 
                voting,
                icu,
+               heart_disease_data,
+               stroke_data,
                medicare_group="All Beneficiaries", 
                resp_group="Chronic respiratory diseases"):
     
     # read in data
     facts = pd.read_pickle(ahrf_data)
     facts = facts.rename(columns={'Blank': 'id'})
+    
     cases = pd.read_csv(usafacts_data_cases, encoding="iso-8859-1")
     cases = cases.rename(columns={k: '#Cases_' + k for k in cases.keys() 
                                   if not 'county' in k.lower()
                                   and not 'state' in k.lower()})
+    
     deaths = pd.read_csv(usafacts_data_deaths, encoding="iso-8859-1")
     deaths = deaths.rename(columns={k: '#Deaths_' + k for k in deaths.keys() 
                               if not 'county' in k.lower()
                               and not 'state' in k.lower()})
+    
     chronic_all_orig = load_medicare_data.loadChronicSheet(medicare_group)
+    
     diabetes = pd.read_csv(diabetes, skiprows = 2, skipfooter = 1)
     diabetes = diabetes[["CountyFIPS", "Percentage"]]
     diabetes.columns = ["countyFIPS", "Diabetes Percentage"]
+    
+    heart_disease = pd.read_csv(heart_disease_data, na_values = [-1, ""])
+    heart_disease = heart_disease[["cnty_fips", "Value"]]
+    heart_disease.columns = ["countyFIPS", "Heart Disease Mortality"]
+    
+    stroke = pd.read_csv(stroke_data, na_values = [-1, ""])
+    stroke = stroke[["cnty_fips", "Value"]]
+    stroke.columns = ["countyFIPS", "Stroke Mortality"]
+    
     resp_disease = load_respiratory_disease_data.loadRespDiseaseSheet(resp_group)
+    
     icu = pd.read_csv(icu)
     icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
     icu.columns = ["countyFIPS", "hospitals", "icu_beds"]
+    
     voting = pd.read_pickle(voting)
 
     # raw.iloc[224, 0] = 13245 # fix err with Richmond, Georgia
@@ -56,6 +73,8 @@ def merge_data(ahrf_data,
     df = pd.merge(df, resp_disease, on='countyFIPS')
     df = pd.merge(df, voting, on='countyFIPS')
     df = pd.merge(df, icu, on='countyFIPS')
+    df = pd.merge(df, heart_disease, on='countyFIPS')
+    df = pd.merge(df, stroke, on='countyFIPS')
     return df
 
 
