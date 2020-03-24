@@ -1,12 +1,13 @@
 # ventilator demand prediction
 
+
 1. **Goal:** prioritizing where ventilators go
 2. **Approach** 
-    - predict outbreak risk at county-level based on these features
-    - filter hospitals and rank them according to their outbreak risk + ventilator need
+    - predict ventilator demand + supply at the county-level 
+    - filter hospitals and rank them according to their demand for additional ventilators
 3. **Data** 
-    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)
-    - county-level: confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
+    - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
+    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
 4. **Limitations**
     - currently using proxies for ventilator supply and demand instead of real measurements
     - limited data on bridging county-level data with hospital-level data
@@ -15,24 +16,26 @@
 # 1 - goal: prioritizing where ventilators go
 
 - working with [response4life](https://response4life.org/)
-- we would like to prioritize where to send ventilators
+- would like to prioritize where to send available ventilators
 - ideally, this would be where the ventilators could do the most "good" (e.g. save the most lives, minimize the Years of Life lost)
 
 # 2 - approach
 
-- we begin by screening for large (academic) hospitals, which can accomodate more ventilators
-- **outcomes**: we want to predict 2 things (at the hospital level)
-    1. ventilator need - as a proxy for ventilator need, we predict the number of deaths (at the county level)
+- begin by screening for large (academic) hospitals, which can accomodate more ventilators
+- **outcomes**: we predict 2 things
+    1. ventilator need - as a proxy for ventilator need, we predict the number of deaths (per county)
         - we estimate the ventilator need by scaling up the total number of expected deaths
         - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
         - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
         - would like to use information directly from the hospital as well
         - this might also take into account some of the ventilator preparedness
-    2. ventilator supply - as a proxy for current ventilator counts, we use the number of icu beds per hospital
+    2. ventilator supply - as a proxy for current ventilator counts, we use the number of icu beds (per hospital)
         - in reality, there are more ventilators than icu beds
         - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
         - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
         - would like to use information directly from the hospital as well
+        - some hospitals are taking measures now to increase their number of ICU beds
+        - government also has some stockpiled ventilators, although still unclear where they are
 - using these outcomes, we then would like to prioritize different hospitals
     - still not sure how to combine them...
 - these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
@@ -43,21 +46,27 @@
 
 # 3 - data
 
-we have some data at the hospital-level and some at the county-level, which we jointly use to evaluate hospital need
-
-## hospital-level data
-
-- key predictors: icu beds, total staff, location info, ratings, hospital type
-- some of this data is not public so we can't share it all here
-- potentially contact information and more we are still merging in...
-
+we have some data at the county-level and some at the hospital-level, which we jointly use to evaluate hospital need
 
 ## county-level data
 
 - daily number of confirmed cases + deaths (from usafacts)
 - population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, ...), hospital data (e.g. # of doctors, # of hospitals, # of icu beds), and more demographic/disease data
 
-## correlations between features
+## outbreak at the county-level
+We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
+<figure class="video_container" style="text-align: center">
+  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:900;"> </iframe>
+</figure>
+
+## interactive visualizations
+
+We can visualize these features on interactive maps:
+<figure class="video_container">
+  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:900;"> </iframe>
+</figure>
+
+## correlations between county-level features and number of deaths
 Correlations with number of deaths
 
 ![](results/correlations.png)
@@ -67,9 +76,10 @@ Correlations with number of deaths
 Correlations between many different county-level features
 ![](results/correlations_heatmap.png)
 
-## interactive visualizations
 
-We can visualize these features on interactive maps:
-<figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
-</figure>
+
+## hospital-level data
+
+- key predictors: icu beds, total staff, location info, ratings, hospital type
+- some of this data is not public so we can't share it all here
+- potentially contact information and more we are still merging in...
