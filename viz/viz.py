@@ -110,7 +110,7 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None, 
 
 
 def viz_curves(df, filename='out.html', 
-               key_toggle=['CountyName'],
+               key_toggle='CountyName',
                keys_table=['CountyName', 'StateName'], 
                keys_curves=['deaths', 'cases'],
                decimal_places=0,
@@ -137,7 +137,7 @@ def viz_curves(df, filename='out.html',
         key0 = df_tab[key_toggle].values[0] # only want this to be visible
         for i in range(df.shape[0]):
             row = df.iloc[i]
-            key = row[key_toggle].values[0]
+            key = row[key_toggle]
             
             for j, key_curve in enumerate(keys_curves):
                 curve = row[key_curve]
@@ -163,7 +163,7 @@ def viz_curves(df, filename='out.html',
                 dict(
                     method='restyle',
                     args=[{'visible': visible}],
-                    label=key[0]
+                    label=key
                 ))
 
         # initialize xaxis2 and yaxis2
