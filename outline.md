@@ -1,4 +1,4 @@
-# ventilator risk prediction
+# ventilator demand prediction
 
 1. **Goal:** prioritizing where ventilators go
 2. **Approach** 
@@ -7,6 +7,9 @@
 3. **Data** 
     - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)
     - county-level: confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
+4. **Limitations**
+    - currently using proxies for ventilator supply and demand instead of real measurements
+    - limited data on bridging county-level data with hospital-level data
 
 
 # 1 - goal: prioritizing where ventilators go
@@ -19,12 +22,13 @@
 
 - we begin by screening for large (academic) hospitals, which can accomodate more ventilators
 - **outcomes**: we want to predict 2 things (at the hospital level)
-    1. severity of outbreak - as a proxy for ventilator need, we predict the number of deaths (at the county level)
+    1. ventilator need - as a proxy for ventilator need, we predict the number of deaths (at the county level)
+        - we estimate the ventilator need by scaling up the total number of expected deaths
         - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
         - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
         - would like to use information directly from the hospital as well
         - this might also take into account some of the ventilator preparedness
-    2. ventilator-preparedness - as a proxy for current ventilator counts, we use the number of icu beds per hospital
+    2. ventilator supply - as a proxy for current ventilator counts, we use the number of icu beds per hospital
         - in reality, there are more ventilators than icu beds
         - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
         - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
@@ -67,5 +71,5 @@ Correlations between many different county-level features
 
 We can visualize these features on interactive maps:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid-19-geographic-risk-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
 </figure>
