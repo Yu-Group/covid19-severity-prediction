@@ -56,7 +56,7 @@ we have some data at the county-level and some at the hospital-level, which we j
 ## outbreak at the county-level
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
 <figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:1600[x];"> </iframe>
+  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:1600px;"> </iframe>
 </figure>
 
 ## interactive visualizations
