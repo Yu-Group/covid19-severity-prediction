@@ -1,7 +1,5 @@
 # ventilator demand prediction
 
-[toc]
-
 
 1. **Goal:** prioritizing where ventilators go
 2. **Approach** 
@@ -36,6 +34,8 @@
         - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
         - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
         - would like to use information directly from the hospital as well
+        - some hospitals are taking measures now to increase their number of ICU beds
+        - government also has some stockpiled ventilators, although still unclear where they are
 - using these outcomes, we then would like to prioritize different hospitals
     - still not sure how to combine them...
 - these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
@@ -56,7 +56,7 @@ we have some data at the county-level and some at the hospital-level, which we j
 ## outbreak at the county-level
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
 <figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:180%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:1600px;"> </iframe>
 </figure>
 
 ## interactive visualizations

@@ -14,12 +14,12 @@ from sklearn.model_selection import train_test_split
 import re
 #from load_data import load_county_level
 
-outcome_cases = '#Cases_3/22/2020'
-outcome_deaths = '#Deaths_3/22/2020'
+outcome_cases = '#Cases_3/23/2020'
+outcome_deaths = '#Deaths_3/23/2020'
 
 def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
-        usafacts_data_cases = 'data/usafacts/confirmed_cases_mar23.csv',
-        usafacts_data_deaths = 'data/usafacts/deaths_mar23.csv',
+        usafacts_data_cases = 'data/usafacts/confirmed_cases.csv',
+        usafacts_data_deaths = 'data/usafacts/deaths.csv',
         diabetes = 'data/diabetes/DiabetesAtlasCountyData.csv',
         voting = 'data/voting/county_voting_processed.pkl',
         icu = 'data/medicare/icu_county.csv',
@@ -83,9 +83,36 @@ def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
     hospital_county_merged = hospital_level.merge(county_level, how='left', on='countyFIPS')
     return hospital_county_merged
 
+def important_keys(df):
+    demographics = ['PopulationEstimate2018', 'Population(Persons)2017',  
+                    'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
+                    'PopulationEstimate65+2017',
+                    'PopulationDensityperSqMile2010',
+                    'MedianAge2010', 'MedianAge,Male2010', 'MedianAge,Female2010']
 
+    # hospital vars
+    hospitals_hrsa = ['#FTEHospitalTotal2017', "TotalM.D.'s,TotNon-FedandFed2017", '#HospParticipatinginNetwork2017']
+    hospitals_misc = ["#Hospitals", "#ICU_beds"]
+    hospitals = hospitals_hrsa + hospitals_misc
 
-def split_data(df):
+    age_distr = list([k for k in df.keys() if 'pop' in k.lower() 
+                      and '2010' in k
+                      and ('popmale' in k.lower() or 'popfmle' in k.lower())])
+    mortality = [k for k in df.keys() if 'mort' in k.lower() 
+                 and '2015-17' in k.lower()]
+
+    # comorbidity (simultaneous presence of multiple conditions) vars
+    comorbidity_hrsa = [ '#EligibleforMedicare2018',  'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
+    comorbidity_misc = ["DiabetesPercentage", "HeartDiseaseMortality", "StrokeMortality", "Smokers_Percentage"]
+    comorbidity = comorbidity_hrsa + comorbidity_misc
+
+    # political leanings (ratio of democrat : republican votes in 2016 presidential election)
+    political = ['dem_to_rep_ratio']
+
+    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality
+    return important_keys
+
+def split_data_by_county(df):
     np.random.seed(42)
     countyFIPS = df.countyFIPS.values
     fips_train, fips_test = train_test_split(countyFIPS, test_size=0.25, random_state=42)
