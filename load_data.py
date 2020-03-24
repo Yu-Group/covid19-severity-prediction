@@ -11,66 +11,64 @@ from sklearn.model_selection import train_test_split
 import re
 from functions import preprocess
 from functions import load_usafacts_data
-#from load_data import load_county_level
+
+# from load_data import load_county_level
 
 outcome_cases = '#Cases_3/23/2020'
 outcome_deaths = '#Deaths_3/23/2020'
 
 
-
 def load_county_level(
         cached_file='data/df_county_level_cached.pkl',
-        ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
-        diabetes = 'data/diabetes/DiabetesAtlasCountyData.csv',
-        voting = 'data/voting/county_voting_processed.pkl',
-        icu = 'data/medicare/icu_county.csv',
-        heart_disease_data = "data/cardiovascular_disease/heart_disease_mortality_data.csv",
-        stroke_data = "data/cardiovascular_disease/stroke_mortality_data.csv"):
-    
+        ahrf_data='data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
+        diabetes='data/diabetes/DiabetesAtlasCountyData.csv',
+        voting='data/voting/county_voting_processed.pkl',
+        icu='data/medicare/icu_county.csv',
+        heart_disease_data="data/cardiovascular_disease/heart_disease_mortality_data.csv",
+        stroke_data="data/cardiovascular_disease/stroke_mortality_data.csv"):
     df_covid = load_usafacts_data.load_daily_data()
-    
+
     if os.path.exists(cached_file):
         df = pd.read_pickle(cached_file)
         return pd.merge(df, df_covid, on='countyFIPS')
-    
+
     print('loading county level data...')
-    df = merge_data.merge_data(ahrf_data=ahrf_data, 
+    df = merge_data.merge_data(ahrf_data=ahrf_data,
                                medicare_group="All Beneficiaries",
                                voting=voting,
                                icu=icu,
                                resp_group="Chronic respiratory diseases",
                                heart_disease_data=heart_disease_data,
                                stroke_data=stroke_data,
-                               diabetes=diabetes) # also cleans usafacts data
-    
-    
+                               diabetes=diabetes)  # also cleans usafacts data
+
     # basic preprocessing
-    df = df.loc[:,~df.columns.duplicated()]
+    df = df.loc[:, ~df.columns.duplicated()]
     df = df.infer_objects()
-    
+
     # add features
     df = preprocess.add_features(df)
-    
+
     # write cached file
     print('caching to', cached_file)
     df.to_pickle(cached_file)
-    
+
     # add covid data
     df = pd.merge(df, df_covid, on='countyFIPS')
-    
+
     return df
 
 
 def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
-                                   merged_hospital_level_info = 'data_hospital_level/processed/hospital_level_info_merged.csv',
-#                                    hospital_info = 'data/02_county_FIPS.csv'):                                   
-                                   fips_info = 'data_hospital_level/processed/02_county_FIPS.csv'):
-    
+                                   merged_hospital_level_info='data_hospital_level/processed/hospital_level_info_merged.csv',
+                                   #                                    hospital_info = 'data/02_county_FIPS.csv'):
+                                   fips_info='data_hospital_level/processed/02_county_FIPS.csv'):
     county_fips = pd.read_csv(fips_info)
-    #print(hospitals.keys())
+    # print(hospitals.keys())
     county_fips['COUNTY'] = county_fips.apply(lambda x: re.sub('[^a-zA-Z]+', '', x['COUNTY']).lower(), axis=1)
     county_to_fips = dict(zip(zip(county_fips['COUNTY'], county_fips['STATE']), county_fips['COUNTYFIPS']))
     hospital_level = pd.read_csv(merged_hospital_level_info)
+
     def map_county_to_fips(name, st):
         if type(name) is str:
             index = name.find(' County, ')
@@ -79,7 +77,9 @@ def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
             if (name, st) in county_to_fips:
                 return int(county_to_fips[(name, st)])
         return np.nan
-    hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']), axis=1).astype('float')
+
+    hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
+                                                        axis=1).astype('float')
     county_level = load_county_level()
     if county_info_keys != 'all':
         county_level = county_level[county_info_keys]
@@ -88,8 +88,9 @@ def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
     hospital_county_merged = hospital_level.merge(county_level, how='left', on='countyFIPS')
     return hospital_county_merged
 
+
 def important_keys(df):
-    demographics = ['PopulationEstimate2018', 'Population(Persons)2017',  
+    demographics = ['PopulationEstimate2018', 'Population(Persons)2017',
                     'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
                     'PopulationEstimate65+2017',
                     'PopulationDensityperSqMile2010',
@@ -101,14 +102,14 @@ def important_keys(df):
     hospitals_misc = ["#Hospitals", "#ICU_beds"]
     hospitals = hospitals_hrsa + hospitals_misc
 
-    age_distr = list([k for k in df.keys() if 'pop' in k.lower() 
+    age_distr = list([k for k in df.keys() if 'pop' in k.lower()
                       and '2010' in k
                       and ('popmale' in k.lower() or 'popfmle' in k.lower())])
-    mortality = [k for k in df.keys() if 'mort' in k.lower() 
+    mortality = [k for k in df.keys() if 'mort' in k.lower()
                  and '2015-17' in k.lower()]
 
     # comorbidity (simultaneous presence of multiple conditions) vars
-    comorbidity_hrsa = [ '#EligibleforMedicare2018',  'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
+    comorbidity_hrsa = ['#EligibleforMedicare2018', 'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
     comorbidity_misc = ["DiabetesPercentage", "HeartDiseaseMortality", "StrokeMortality", "Smokers_Percentage"]
     comorbidity = comorbidity_hrsa + comorbidity_misc
 
@@ -118,6 +119,7 @@ def important_keys(df):
     important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality
     return important_vars
 
+
 def split_data_by_county(df):
     np.random.seed(42)
     countyFIPS = df.countyFIPS.values
@@ -125,6 +127,7 @@ def split_data_by_county(df):
     df_train = df[df.countyFIPS.isin(fips_train)]
     df_test = df[df.countyFIPS.isin(fips_test)]
     return df_train, df_test
+
 
 if __name__ == '__main__':
     df = load_county_level()
