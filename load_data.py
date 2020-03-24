@@ -11,6 +11,7 @@ from functions import load_tobacco_use_data
 from os.path import join as oj
 import os
 from sklearn.model_selection import train_test_split
+import re
 #from load_data import load_county_level
 
 outcome_cases = '#Cases_3/22/2020'
@@ -58,19 +59,22 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
 def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
                                    merged_hospital_level_info = 'data_hospital_level/processed/hospital_level_info_merged.csv',
 #                                    hospital_info = 'data/02_county_FIPS.csv'):                                   
-                                   hospital_info = 'data_hospital_level/processed/02_county_FIPS.csv'):
+                                   fips_info = 'data_hospital_level/processed/02_county_FIPS.csv'):
     
-    hospitals = pd.read_csv(hospital_info)
-    print(hospitals.keys())
-    county_to_fips = dict(zip(zip(hospitals['COUNTY'], hospitals['STATE']), hospitals['COUNTYFIPS']))
+    county_fips = pd.read_csv(fips_info)
+    #print(hospitals.keys())
+    county_fips['COUNTY'] = county_fips.apply(lambda x: re.sub('[^a-zA-Z]+', '', x['COUNTY']).lower(), axis=1)
+    county_to_fips = dict(zip(zip(county_fips['COUNTY'], county_fips['STATE']), county_fips['COUNTYFIPS']))
     hospital_level = pd.read_csv(merged_hospital_level_info)
     def map_county_to_fips(name, st):
         if type(name) is str:
-            #name = re.sub('[^a-zA-Z]+', '', county_name).lower()
-            if (name, st) in county_to_fips and county_to_fips[(name, st)] != "NOT AVAILABLE":
+            index = name.find(' County, ')
+            name = name[:index]
+            name = re.sub('[^a-zA-Z]+', '', name).lower()
+            if (name, st) in county_to_fips:
                 return int(county_to_fips[(name, st)])
         return np.nan
-    hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_y'], x['State_x']), axis=1).astype('float')
+    hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']), axis=1).astype('float')
     county_level = load_county_level()
     if county_info_keys != 'all':
         county_level = county_level[county_info_keys]
