@@ -12,6 +12,7 @@ from os.path import join as oj
 import os
 from sklearn.model_selection import train_test_split
 import re
+import preprocess
 #from load_data import load_county_level
 
 outcome_cases = '#Cases_3/23/2020'
@@ -47,8 +48,7 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
     df = df.infer_objects()
     
     # add features
-    df['FracMale2017'] = df['PopTotalMale2017'] / (df['PopTotalMale2017'] + df['PopTotalFemale2017'])
-    df['#FTEHospitalTotal2017'] = df['#FTETotalHospitalPersonnelShortTermGeneralHospitals2017'] + df['#FTETotalHospitalPersonnelSTNon-Gen+LongTermHosps2017']
+    df = preprocess.add_features(df)
     
     if use_cached:
         df.to_pickle(cached_file)
@@ -88,6 +88,7 @@ def important_keys(df):
                     'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
                     'PopulationEstimate65+2017',
                     'PopulationDensityperSqMile2010',
+                    'CensusPopulation2010',
                     'MedianAge2010', 'MedianAge,Male2010', 'MedianAge,Female2010']
 
     # hospital vars
@@ -99,7 +100,7 @@ def important_keys(df):
                       and '2010' in k
                       and ('popmale' in k.lower() or 'popfmle' in k.lower())])
     mortality = [k for k in df.keys() if 'mort' in k.lower() 
-                 and '2015-17' in k.lower()]
+                 and '2015-17' in k.lower()] + ['mortality2015-17Estimated']
 
     # comorbidity (simultaneous presence of multiple conditions) vars
     comorbidity_hrsa = [ '#EligibleforMedicare2018',  'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
@@ -110,7 +111,7 @@ def important_keys(df):
     political = ['dem_to_rep_ratio']
 
     important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality
-    return important_keys
+    return important_vars
 
 def split_data_by_county(df):
     np.random.seed(42)
