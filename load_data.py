@@ -12,7 +12,7 @@ from os.path import join as oj
 import os
 from sklearn.model_selection import train_test_split
 import re
-import preprocess
+import functions import preprocess
 #from load_data import load_county_level
 
 outcome_cases = '#Cases_3/23/2020'
@@ -44,6 +44,7 @@ def load_county_level(ahrf_data = 'data/hrsa/data_AHRF_2018-2019/processed/df_re
                                diabetes=diabetes) # also cleans usafacts data
     
     # basic preprocessing
+    df = df.loc[:,~df.columns.duplicated()]
     df = df.sort_values(outcome_deaths, ascending=False)
     df = df.infer_objects()
     
@@ -100,7 +101,7 @@ def important_keys(df):
                       and '2010' in k
                       and ('popmale' in k.lower() or 'popfmle' in k.lower())])
     mortality = [k for k in df.keys() if 'mort' in k.lower() 
-                 and '2015-17' in k.lower()] + ['mortality2015-17Estimated']
+                 and '2015-17' in k.lower()]
 
     # comorbidity (simultaneous presence of multiple conditions) vars
     comorbidity_hrsa = [ '#EligibleforMedicare2018',  'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
