@@ -113,7 +113,7 @@ def viz_curves(df, filename='out.html',
                key_toggle=['CountyName'],
                keys_table=['CountyName', 'StateName'], 
                keys_curves=['deaths', 'cases'],
-               decimal_places=2,
+               decimal_places=0,
                expl_dict=None, interval_dicts=None, 
                point_id=None, show_stds=False, ):
         '''Visualize explanation for all features (table + ICE curves) 
@@ -147,7 +147,7 @@ def viz_curves(df, filename='out.html',
                     showlegend=False,
                     visible=i==0, #key == key0,# False, #key == key0,
                     name=key_curve,
-                    line=dict(color=color_strings[j]),
+                    line=dict(color=color_strings[j], width=4),
                     xaxis='x2', yaxis='y2')
                 )
                 
@@ -196,7 +196,7 @@ def viz_curves(df, filename='out.html',
         
 
         fig.layout.update({
-            'title': s,
+            'title': 'County-level outbreaks',
             'height': 800
         })
 

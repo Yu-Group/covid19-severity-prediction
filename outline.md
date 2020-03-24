@@ -57,6 +57,12 @@ we have some data at the hospital-level and some at the county-level, which we j
 - daily number of confirmed cases + deaths (from usafacts)
 - population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, ...), hospital data (e.g. # of doctors, # of hospitals, # of icu beds), and more demographic/disease data
 
+## outbreak at the county-level
+We can plot the outbreak for the counties with the highest number of deaths so far:
+<figure class="video_container">
+  <iframe src="https://yu-group.github.io/covid-19-ventillator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:180%;height:1600px;"> </iframe>
+</figure>
+
 ## correlations between features
 Correlations with number of deaths
 
