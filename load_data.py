@@ -62,12 +62,9 @@ def load_county_level(
     return df
 
 
-def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
-                                   merged_hospital_level_info='data_hospital_level/processed/hospital_level_info_merged.csv',
-                                   #                                    hospital_info = 'data/02_county_FIPS.csv'):
-                                   fips_info='data_hospital_level/processed/02_county_FIPS.csv'):
+def load_hospital_level(merged_hospital_level_info='data_hospital_level/processed/04_hospital_level_info_merged_with_website.csv',
+                        fips_info='data_hospital_level/processed/02_county_FIPS.csv'):
     county_fips = pd.read_csv(fips_info)
-    # print(hospitals.keys())
     county_fips['COUNTY'] = county_fips.apply(lambda x: re.sub('[^a-zA-Z]+', '', x['COUNTY']).lower(), axis=1)
     county_to_fips = dict(zip(zip(county_fips['COUNTY'], county_fips['STATE']), county_fips['COUNTYFIPS']))
     hospital_level = pd.read_csv(merged_hospital_level_info)
@@ -83,13 +80,8 @@ def merge_hospital_and_county_data(hospital_info_keys, county_info_keys,
 
     hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
                                                         axis=1).astype('float')
-    county_level = load_county_level()
-    if county_info_keys != 'all':
-        county_level = county_level[county_info_keys]
-    if hospital_info_keys != 'all':
-        hospital_level = hospital_level[hospital_info_keys]
-    hospital_county_merged = hospital_level.merge(county_level, how='left', on='countyFIPS')
-    return hospital_county_merged
+    
+    return hospital_level
 
 
 def important_keys(df):
