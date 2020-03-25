@@ -30,15 +30,14 @@
         - would like to use information directly from the hospital as well
         - this might also take into account some of the ventilator preparedness
     2. ventilator supply - as a proxy for current ventilator counts, we use the number of icu beds (per hospital)
-        - hopefully, we can get some of this data from hospitals directly
+        - hopefully, we can get some of this data from hospitals directly (although it might be sensitive)
         - in reality, there are more ventilators than icu beds
         - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
         - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
         - would like to use information directly from the hospital as well
         - some hospitals are taking measures now to increase their number of ICU beds
         - government also has some stockpiled ventilators, although still unclear where they are
-- using these outcomes, we then would like to prioritize different hospitals
-    - something like ventilator need (2-3 * # deaths) - ventilator supply ()
+- using these outcomes, we then would like to prioritize different hospitals using a metric like: *ventilator need* (2-3 * # deaths) - *ventilator supply*
 - these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
 - prediction setup
     - we restrict our analysis to counties which already have confirmed cases
