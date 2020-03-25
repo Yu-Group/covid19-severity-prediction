@@ -17,7 +17,6 @@ def add_features(df):
     df['FracMale2017'] = df['PopTotalMale2017'] / (df['PopTotalMale2017'] + df['PopTotalFemale2017'])
     df['#FTEHospitalTotal2017'] = df['#FTETotalHospitalPersonnelShortTermGeneralHospitals2017'] + df['#FTETotalHospitalPersonnelSTNon-Gen+LongTermHosps2017']
     
-    
     # add estimated mortality
     age_distr = list([k for k in df.keys() if 'pop' in k.lower() 
                       and '2010' in k
@@ -47,5 +46,6 @@ def add_features(df):
             vals += vals1.values * vals2.values
         return vals
     df['mortality2015-17Estimated'] = weighted_sum(df, pop, mort)
+    
     
     return df
