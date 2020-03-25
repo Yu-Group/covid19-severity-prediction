@@ -22,5 +22,13 @@ def load_daily_data(usafacts_data_cases='data/usafacts/confirmed_cases.csv',
 
     df = pd.merge(cases, deaths, how='left', on='countyFIPS')
     df = df.fillna(0)
+    
+    # add time-series keys
+    deaths_keys = [k for k in df.keys() if '#Deaths' in k]
+    cases_keys = [k for k in df.keys() if '#Cases' in k]
+    deaths = df[deaths_keys].values
+    cases = df[cases_keys].values
+    df['deaths'] = [deaths[i] for i in range(deaths.shape[0])]
+    df['cases'] = [cases[i] for i in range(cases.shape[0])]
 
     return df
