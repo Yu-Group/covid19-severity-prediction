@@ -26,9 +26,21 @@ def load_county_level(
         voting='data/voting/county_voting_processed.pkl',
         icu='data/medicare/icu_county.csv',
         heart_disease_data="data/cardiovascular_disease/heart_disease_mortality_data.csv",
-        stroke_data="data/cardiovascular_disease/stroke_mortality_data.csv"):
-    df_covid = load_usafacts_data.load_daily_data()
-
+        stroke_data="data/cardiovascular_disease/stroke_mortality_data.csv",
+        dir_mod = ""
+    ):
+    df_covid = load_usafacts_data.load_daily_data(dir_mod=dir_mod)
+    
+    cached_file = dir_mod + cached_file
+    cached_file_abridged = dir_mod + cached_file_abridged
+    ahrf_data = dir_mod + ahrf_data
+    diabetes = dir_mod + diabetes
+    voting = dir_mod + voting
+    icu = dir_mod + icu
+    heart_disease_data = dir_mod + heart_disease_data
+    stroke_data = dir_mod + stroke_data
+    
+    
     if os.path.exists(cached_file):
         df = pd.read_pickle(cached_file)
         return pd.merge(df, df_covid, on='countyFIPS')
