@@ -20,6 +20,7 @@ outcome_deaths = '#Deaths_3/23/2020'
 
 def load_county_level(
         cached_file='data/df_county_level_cached.pkl',
+        cached_file_abridged='data/df_county_level_abridged_cached.csv',
         ahrf_data='data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
         diabetes='data/diabetes/DiabetesAtlasCountyData.csv',
         voting='data/voting/county_voting_processed.pkl',
@@ -52,6 +53,8 @@ def load_county_level(
     # write cached file
     print('caching to', cached_file)
     df.to_pickle(cached_file)
+    important_vars = important_keys(df)
+    df[important_vars].to_csv(cached_file_abridged)
 
     # add covid data
     df = pd.merge(df, df_covid, on='countyFIPS')
