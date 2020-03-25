@@ -80,7 +80,7 @@ def load_hospital_level(merged_hospital_level_info='data_hospital_level/processe
 
     hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
                                                         axis=1).astype('float')
-    
+    hospital_level['IsAcademicHospital'] = ~pd.isna(hospital_level['TIN'])
     return hospital_level
 
 
