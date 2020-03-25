@@ -3,6 +3,7 @@ import pandas as pd
 from functions import load_medicare_data
 from functions import load_respiratory_disease_data
 from functions import load_tobacco_use_data
+from functions import load_mortality_data
 from os.path import join as oj
 
 
@@ -41,6 +42,8 @@ def merge_data(ahrf_data,
     print('ks', resp_disease.keys())
     ## end of risk factors data (not from Medicare)
     
+    mortality = load_mortality_data.loadMortalityData()
+    
     icu = pd.read_csv(icu)
     icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
     icu.columns = ["countyFIPS", "#Hospitals", "#ICU_beds"]
@@ -65,6 +68,7 @@ def merge_data(ahrf_data,
     df = pd.merge(df, heart_disease, on='countyFIPS')
     df = pd.merge(df, stroke, on='countyFIPS')
     df = pd.merge(df, tobacco, on='countyFIPS')
+    df = pd.merge(df, mortality, on='countyFIPS')
     return df
 
 
