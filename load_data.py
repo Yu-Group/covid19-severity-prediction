@@ -14,8 +14,8 @@ from functions import load_usafacts_data
 
 # from load_data import load_county_level
 
-outcome_cases = '#Cases_3/23/2020'
-outcome_deaths = '#Deaths_3/23/2020'
+outcome_cases = '#Cases_3/24/2020'
+outcome_deaths = '#Deaths_3/24/2020'
 
 
 def load_county_level(
@@ -127,3 +127,7 @@ def split_data_by_county(df):
 if __name__ == '__main__':
     df = load_county_level()
     print('loaded succesfully')
+    print(df.shape)
+    print('data including', 
+          [k for k in df.keys() if '#Deaths' in k][-1],
+          [k for k in df.keys() if '#Cases' in k][-1])
