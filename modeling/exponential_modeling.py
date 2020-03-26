@@ -13,7 +13,7 @@ import load_data
 import copy
 import statsmodels.api as sm
 
-def exponential_fit(counts):
+def exponential_fit(counts, target_day=np.array([1])):
     
     predicted_counts = []
     for i in range(len(counts)):
@@ -25,15 +25,17 @@ def exponential_fit(counts):
         else:
             start = len(ts)
         active_day = len(ts) - start
-        if active_day >= 3 and ts[-1] > 5:
-            predictors = np.transpose(np.vstack((np.array(range(active_day)), 
+        if active_day >= 2 and ts[-1] > 5:
+            X_train = np.transpose(np.vstack((np.array(range(active_day)), 
                                       np.ones(active_day))))
-            m = sm.GLM(ts[start:], predictors,
+            m = sm.GLM(ts[start:], X_train,
                        family=sm.families.Poisson())
             m = m.fit()
-            predicted_counts.append(int(m.predict([active_day, 1])[0]))
+            X_test = np.transpose(np.vstack((target_day + active_day - 1, 
+                                             np.ones(len(target_day)))))
+            predicted_counts.append(m.predict(X_test))
         else:
-            predicted_counts.append(ts[-1])  
+            predicted_counts.append([ts[-1]]*len(target_day))  
                 
     return predicted_counts 
 
@@ -63,19 +65,19 @@ def estimate_death_rate(df, method="constant"):
     return df
     
     
-def estimate_deaths(df, method="exponential"):
+def estimate_deaths(df, method="exponential", target_day=np.array([1])):
     
     predicted_deaths = []
     
     if method == 'exponential':
-        predicted_deaths = np.array(exponential_fit(df['deaths'].values))
+        predicted_deaths = exponential_fit(df['deaths'].values, target_day=target_day)
         
     elif method == 'cases_exponential_rate_constant':
         predicted_cases = np.array(estimate_cases(df, method="exponential")['predicted_cases'])
         predicted_death_rate = np.array(estimate_death_rate(df, method="constant")['predicted_death_rate'])
         predicted_deaths = predicted_cases * predicted_death_rate
         
-    df[f'predicted_deaths_{method}'] = predicted_deaths.astype(int)
+    df[f'predicted_deaths_{method}'] = predicted_deaths
         
     return df
         

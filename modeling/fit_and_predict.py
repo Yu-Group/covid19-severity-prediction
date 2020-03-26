@@ -19,14 +19,14 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 
-def fit_and_predict(train_df, test_df, method):
+def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
     
     if method == 'AR':
         loss, model, best_window = naive_autoreg_baselines.train_and_evaluate_model(train_df,test_df)
         return naive_autoreg_baselines.make_predictions(test_df,model,best_window)
     
     elif method == 'exponential':
-        train_df = exponential_modeling.estimate_deaths(train_df)
+        train_df = exponential_modeling.estimate_deaths(train_df, target_day=target_day)
         test_df['predicted_deaths_exponential'] = train_df['predicted_deaths_exponential']
         return test_df
     
