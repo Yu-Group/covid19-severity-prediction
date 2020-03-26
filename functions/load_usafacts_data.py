@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 def load_daily_data(usafacts_data_cases='data/usafacts/confirmed_cases.csv',
                     usafacts_data_deaths='data/usafacts/deaths.csv',dir_mod = ""):
@@ -33,5 +33,7 @@ def load_daily_data(usafacts_data_cases='data/usafacts/confirmed_cases.csv',
     cases = df[cases_keys].values
     df['deaths'] = [deaths[i] for i in range(deaths.shape[0])]
     df['cases'] = [cases[i] for i in range(cases.shape[0])]
+    df['deaths_cum'] = [np.cumsum(deaths[i]) for i in range(deaths.shape[0])]
+    df['cases_cum'] = [np.cumsum(cases[i]) for i in range(cases.shape[0])]
 
     return df
