@@ -33,11 +33,6 @@ def load_daily_data(usafacts_data_cases='data/usafacts/confirmed_cases.csv',
     cases = df[cases_keys].values
     df['deaths'] = [deaths[i] for i in range(deaths.shape[0])]
     df['cases'] = [cases[i] for i in range(cases.shape[0])]
-    df['deaths_cum'] = [np.cumsum(deaths[i]) for i in range(deaths.shape[0])]
-    df['cases_cum'] = [np.cumsum(cases[i]) for i in range(cases.shape[0])]
-    df['new_deaths_yesterday'] = deaths[:, -1]
-    df['new_cases_yesterday'] = cases[:, -1]
-    df['tot_deaths'] = [df['deaths_cum'].iloc[i][-1] for i in range(deaths.shape[0])]
-    df['tot_cases'] = [df['cases_cum'].iloc[i][-1] for i in range(cases.shape[0])]
-
+    df['tot_deaths'] = deaths[:, -1]
+    df['tot_cases'] = cases[:, -1]
     return df
