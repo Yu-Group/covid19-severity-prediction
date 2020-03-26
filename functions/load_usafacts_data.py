@@ -27,8 +27,8 @@ def load_daily_data(usafacts_data_cases='data/usafacts/confirmed_cases.csv',
     df = df.fillna(0)
     
     # add time-series keys
-    deaths_keys = [k for k in df.keys() if '#Deaths' in k]
-    cases_keys = [k for k in df.keys() if '#Cases' in k]
+    deaths_keys = [k for k in df.keys() if '#Deaths' in k and not 'Unnamed' in k]
+    cases_keys = [k for k in df.keys() if '#Cases' in k and not 'Unnamed' in k]
     deaths = df[deaths_keys].values
     cases = df[cases_keys].values
     df['deaths'] = [deaths[i] for i in range(deaths.shape[0])]

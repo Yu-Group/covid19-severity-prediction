@@ -16,6 +16,10 @@ print(df.shape) # (1212, 7306)
 
 # full data sources
 
+## related county-level projects
+- https://github.com/JieYingWu/COVID-19_US_County-level_Summaries
+- https://github.com/COVIDmodeling/covid_19_modeling
+
 Only need to download these if you want to rerun the scraping / preprocessing pipeline.
 
 ## from google drive
