@@ -20,6 +20,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 
 def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
+
     
     if method == 'AR':
         loss, model, best_window = naive_autoreg_baselines.train_and_evaluate_model(train_df,test_df)
@@ -30,6 +31,11 @@ def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
         test_df['predicted_deaths_exponential'] = train_df['predicted_deaths_exponential']
         return test_df
     
+    elif method == 'shared_exponential':
+        # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is log(previous_days_deaths+1)
+        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df)
+        test_df['predicted_deaths_shared'] = cur_day_predictions
+        return test_df
     else:
         print('Unknown method')
         raise ValueError
