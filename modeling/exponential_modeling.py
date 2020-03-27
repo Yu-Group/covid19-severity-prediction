@@ -37,7 +37,7 @@ def exponential_fit(counts, target_day=np.array([1])):
         else:
             start = len(ts)
         active_day = len(ts) - start # days since 'outbreak'
-        if active_day >= 2 and ts[-1] > 5:
+        if active_day >= 3 and ts[-1] > 5:
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
                                       np.ones(active_day))))
             m = sm.GLM(ts[start:], X_train,
@@ -88,9 +88,13 @@ def estimate_deaths(df, method="exponential", target_day=np.array([1])):
         predicted_deaths = exponential_fit(df['deaths'].values, target_day=target_day)
         
     elif method == 'cases_exponential_rate_constant':
-        predicted_cases = np.array(estimate_cases(df, method="exponential")['predicted_cases'])
-        predicted_death_rate = np.array(estimate_death_rate(df, method="constant")['predicted_death_rate'])
-        predicted_deaths = predicted_cases * predicted_death_rate
+        
+        # predicts number of cases using exponential fitting,
+        # then multiply by latest death rate
+        
+        predicted_cases = estimate_cases(df, method="exponential", target_day=target_day)['predicted_cases'].values
+        predicted_death_rate = estimate_death_rate(df, method="constant")['predicted_death_rate'].values
+        predicted_deaths = [np.array(predicted_cases[i]) * predicted_death_rate[i] for i in range(len(df))]
         
     df[f'predicted_deaths_{method}'] = predicted_deaths
         
