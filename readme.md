@@ -18,6 +18,16 @@ print(df.shape) # (1212, 7306)
 - https://github.com/JieYingWu/COVID-19_US_County-level_Summaries
 - https://github.com/COVIDmodeling/covid_19_modeling
 
+# Deaths predictions
+- To get deaths predictions of the naive exponential growth model, the simplest way is to call
+```python
+df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
+
+# df is county level dataFrame
+# target_day: time horizon, target_day=np.array([1]) predicts the next day, target_day=np.array([1, 2, 3]) predicts next 3 days, etc.
+# return: dataFrame with new column 'predicted_deaths_exponential' 
+```
+
 # full data sources
 
 Only need to download these if you want to rerun the scraping / preprocessing pipeline.
