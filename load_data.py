@@ -143,3 +143,17 @@ if __name__ == '__main__':
     print('data including', 
           [k for k in df.keys() if '#Deaths' in k][-1],
           [k for k in df.keys() if '#Cases' in k][-1])
+
+    
+def city_to_countFIPS_dict(df):
+    '''
+    '''
+    # city to countyFIPS dict
+    r = df[['countyFIPS', 'City']]
+    dr = {}
+    for i in range(r.shape[0]):
+        row = r.iloc[i]
+        if not row['City'] in dr:
+            dr[row['City']] = row['countyFIPS']
+        elif row['City'] in dr and not np.isnan(row['countyFIPS']):
+            dr[row['City']] = row['countyFIPS']
