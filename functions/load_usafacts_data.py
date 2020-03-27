@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
+from os.path import join as oj
 
 def load_daily_data(usafacts_data_cases='data/usafacts/confirmed_cases.csv',
-                    usafacts_data_deaths='data/usafacts/deaths.csv',dir_mod = ""):
-    usafacts_data_cases = dir_mod + usafacts_data_cases
-    usafacts_data_deaths = dir_mod + usafacts_data_deaths
+                    usafacts_data_deaths='data/usafacts/deaths.csv',
+                    dir_mod = ""):
+    usafacts_data_cases = oj(dir_mod, usafacts_data_cases)
+    usafacts_data_deaths = oj(dir_mod, usafacts_data_deaths)
   
     cases = pd.read_csv(usafacts_data_cases, encoding="iso-8859-1")
     cases = cases.rename(columns={k: '#Cases_' + k for k in cases.keys()
