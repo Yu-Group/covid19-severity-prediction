@@ -13,7 +13,7 @@ import load_data
 import copy
 import statsmodels.api as sm
 
-def exponential_fit(counts, target_day=np.array([1])): 
+def exponential_fit(counts, mode, target_day=np.array([1])): 
     # let target_day=np.array([5]) to predict 5 days in advance, 
     # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
     
@@ -29,26 +29,38 @@ def exponential_fit(counts, target_day=np.array([1])):
     """
     predicted_counts = []
     for i in range(len(counts)):
-        ts = counts[i]
-        if ts[-1] > 100:
-            start = np.where(ts >= 10)[0][0]
-        elif ts[-1] >= 1:
-            start = np.where(ts >= 1)[0][0]
+        if mode == 'eval_mode':
+            # Only use days up to from target[-1] for training. So if target[-1] = 1, only use the days before today for training and predict on today's data
+            num_days_back = target_day[-1]
+            train_ts = counts[i][:-num_days_back]
+        elif mode == 'predict_future':
+            # Use all days
+            train_ts = counts[i]
         else:
-            start = len(ts)
-        active_day = len(ts) - start # days since 'outbreak'
-        if active_day >= 3 and ts[-1] > 5:
+            print('Unknown mode')
+            raise ValueError 
+
+        if train_ts[-1] > 100:
+            start = np.where(train_ts >= 10)[0][0]
+        elif train_ts[-1] >= 1:
+            start = np.where(train_ts >= 1)[0][0]
+        else:
+            start = len(train_ts)
+        active_day = len(train_ts) - start # days since 'outbreak'
+        if active_day >= 3 and train_ts[-1] > 5:
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
                                       np.ones(active_day))))
-            m = sm.GLM(ts[start:], X_train,
+            m = sm.GLM(train_ts[start:], X_train,
                        family=sm.families.Poisson())
             m = m.fit()
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
+
             predicted_counts.append(m.predict(X_test))
         else:
-            predicted_counts.append([ts[-1]]*len(target_day)) 
+            predicted_counts.append([train_ts[-1]]*len(target_day)) 
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
+
                 
     return predicted_counts 
 
@@ -81,16 +93,25 @@ def estimate_death_rate(df, method="constant"):
     return df
     
     
-def estimate_deaths(df, method="exponential",
+def estimate_deaths(df, mode, method="exponential", 
                     target_day=np.array([1]),
                     output_key='predicted_deaths_exponential'):
+    """
+    mode: either 'predict_future' or 'eval_mode'
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow's deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count
+    using information from k days ago. target_day= np.array([1,2,3,...,k]) will predict todays deaths, yesterdays deaths, deaths k-1 days ago
+    using information from k days ago.
+    """
     
     predicted_deaths = []
     
     if method == 'exponential':
-        predicted_deaths = exponential_fit(df['deaths'].values, target_day=target_day)
+        predicted_deaths = exponential_fit(df['deaths'].values, mode, target_day=target_day)
         
     elif method == 'cases_exponential_rate_constant':
+        print('Nick: I need to add eval/future mode')
+        raise NotImplementedError
         
         # predicts number of cases using exponential fitting,
         # then multiply by latest death rate
@@ -139,40 +160,43 @@ def _fit_shared_exponential(X_train,y_train):
     Output: 
     Trains a poisson GLM with parameters shared across all counties.
     """
-
     model = sm.GLM(y_train, X_train,
                family=sm.families.Poisson())
     model = model.fit()
     return model 
 
-def fit_and_predict_shared_exponential(train_df,test_df):
+def fit_and_predict_shared_exponential(train_df,test_df,mode):
     """
     fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
     Input:
     train_df, test_df: dataframes with county level deaths:
+    mode: either 'predict_future' or 'eval_mode'
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow's deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count using info from k days ago
     Output:
     predicted_deaths: a list containing predictions for the current death count for current day of test_df
     """
     X_train, y_train = create_shared_simple_dataset(train_df)
     model = _fit_shared_exponential(X_train,y_train)
-    predicted_deaths = get_shared_death_predictions_for_current_day(test_df,model)
+    predicted_deaths = get_shared_death_predictions_for_current_day(test_df,model,mode)
     return predicted_deaths
 
 
 
-def get_shared_death_predictions_for_current_day(test_df,model):
+def get_shared_death_predictions_for_current_day(test_df,model,mode):
     """Predicts the death total for the most recent day in test_df
     Input:
     test_df: dataframes with county level deaths:
     Output:
     predicted_deaths: a list containing predictions for the current death count for current day of test_df
-
     """
-
     county_deaths = list(test_df['deaths'])
     predicted_deaths = []
     for deaths in county_deaths:
-        predicted_deaths.append(model.predict([[np.log(deaths[-2]+1),1]]))
+        if mode == 'predict_future':
+            predicted_deaths.append(model.predict([[np.log(deaths[-1]+1),1]]))
+        elif mode == 'eval_mode':
+            predicted_deaths.append(model.predict([[np.log(deaths[-2]+1),1]]))
     return predicted_deaths 
 
 

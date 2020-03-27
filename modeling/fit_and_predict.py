@@ -19,7 +19,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 
-def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
+def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1])):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
     Predicts the values of the number of deaths for the final day of test_df and writes to the column
@@ -28,12 +28,19 @@ def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
     Input:
     train_df, tests: dfs with county level deaths and cases
     method: string
-    target_day = np.array([1,2,..,n]) predicts these number of days ahead (can just be np.array([3])) for example)
+    target_day = np.array([1,2,..,n]) predicts these number of days ahead (can just be np.array([3])) for example if you just want 3 days ahead)
+    mode: either 'predict_future' or 'eval_mode'
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow's deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count
+    using information from k days ago. target_day= np.array([1,2,3,...,k]) will predict todays deaths, yesterdays deaths, deaths k-1 days ago
+    using information from k days ago.
+
 
     Output:
     test_df 
     """
         
+    assert mode == 'predict_future' or mode == 'eval_mode', 'unknown mode'
     if method == 'AR':
         print('currently deprecated')
         raise NotImplementedError
@@ -41,15 +48,17 @@ def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
         return naive_autoreg_baselines.make_predictions(test_df,model,best_window)
     
     elif method == 'exponential':
-        train_df = exponential_modeling.estimate_deaths(train_df, target_day=target_day)
-        test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = train_df['predicted_deaths_exponential']
+        test_df = exponential_modeling.estimate_deaths(test_df, mode, target_day=target_day)
+        test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = test_df['predicted_deaths_exponential']
+        del test_df['predicted_deaths_exponential']
+
         return test_df
     
     elif method == 'shared_exponential':
         if target_day != np.array([1]):
             raise NotImplementedError
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is log(previous_days_deaths+1)
-        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df)
+        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode)
         test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = cur_day_predictions
         return test_df
     else:
