@@ -14,11 +14,11 @@ print(df.shape) # (1212, 7306)
 - for an intro to some of the analysis here, visit the project webpage: https://yu-group.github.io/covid-19-ventilator-demand-prediction/outline
 
 
-# full data sources
-
 ## related county-level projects
 - https://github.com/JieYingWu/COVID-19_US_County-level_Summaries
 - https://github.com/COVIDmodeling/covid_19_modeling
+
+# full data sources
 
 Only need to download these if you want to rerun the scraping / preprocessing pipeline.
 

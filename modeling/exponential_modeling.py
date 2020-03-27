@@ -80,7 +80,9 @@ def estimate_death_rate(df, method="constant"):
     return df
     
     
-def estimate_deaths(df, method="exponential", target_day=np.array([1])):
+def estimate_deaths(df, method="exponential",
+                    target_day=np.array([1]),
+                    output_key='predicted_deaths_exponential'):
     
     predicted_deaths = []
     
@@ -96,7 +98,7 @@ def estimate_deaths(df, method="exponential", target_day=np.array([1])):
         predicted_death_rate = estimate_death_rate(df, method="constant")['predicted_death_rate'].values
         predicted_deaths = [np.array(predicted_cases[i]) * predicted_death_rate[i] for i in range(len(df))]
         
-    df[f'predicted_deaths_{method}'] = predicted_deaths
+    df[output_key] = predicted_deaths
         
     return df
         
