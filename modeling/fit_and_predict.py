@@ -20,9 +20,23 @@ from sklearn.ensemble import RandomForestRegressor
 
 
 def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
-
+    """
+    Trains a method (method) to predict a current number of days ahead (target_day)
+    Predicts the values of the number of deaths for the final day of test_df and writes to the column
+    'predicted_deaths_'+method+'_'+str(target_day[-1]) of the test_df
     
+    Input:
+    train_df, tests: dfs with county level deaths and cases
+    method: string
+    target_day = np.array([1,2,..,n]) predicts these number of days ahead (can just be np.array([3])) for example)
+
+    Output:
+    test_df 
+    """
+        
     if method == 'AR':
+        print('currently deprecated')
+        raise NotImplementedError
         loss, model, best_window = naive_autoreg_baselines.train_and_evaluate_model(train_df,test_df)
         return naive_autoreg_baselines.make_predictions(test_df,model,best_window)
     
