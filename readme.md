@@ -28,6 +28,16 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 # return: dataFrame with new column 'predicted_deaths_exponential' 
 ```
 
+The model training and visualization pipeline lives in:
+modeling/basic_model_framework.ipynb
+which will train and visualize the outputs of various models.
+
+The high level wrapper for training and predicting values is the fit_and_predict function in 
+modeling/fit_and_predict.py
+this allows you to train a few models by passing in different arguments. For more details please see the function documentation.
+
+    
+
 # full data sources
 
 Only need to download these if you want to rerun the scraping / preprocessing pipeline.
