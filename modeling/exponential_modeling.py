@@ -55,7 +55,8 @@ def exponential_fit(counts, target_day=np.array([1])):
 
 
 
-def estimate_cases(df, method="exponential", target_day=np.array([1])):
+def estimate_cases(df, method="exponential", target_day=np.array([1]),
+                   output_key='predicted_cases'):
     
     # estimate number of cases using exponential curve
     
@@ -64,7 +65,7 @@ def estimate_cases(df, method="exponential", target_day=np.array([1])):
     if method == "exponential":
         predicted_cases = exponential_fit(df['cases'].values, target_day=target_day)
     
-    df['predicted_cases'] = predicted_cases
+    df[output_key] = predicted_cases
     return df
                 
     
