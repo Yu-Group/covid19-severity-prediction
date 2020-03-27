@@ -12,13 +12,9 @@ import re
 from functions import preprocess
 from functions import load_usafacts_data
 
-# from load_data import load_county_level
-
-outcome_cases = '#Cases_3/24/2020'
-outcome_deaths = '#Deaths_3/24/2020'
-
 
 def load_county_level(
+        data_dir='data',
         cached_file='data/df_county_level_cached.pkl',
         cached_file_abridged='data/df_county_level_abridged_cached.csv',
         ahrf_data='data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
@@ -31,7 +27,7 @@ def load_county_level(
     ):
     df_covid = load_usafacts_data.load_daily_data(dir_mod=dir_mod)
     
-    cached_file = dir_mod + cached_file
+    cached_file = oj(dir_mod, cached_file)
     cached_file_abridged = dir_mod + cached_file_abridged
     ahrf_data = dir_mod + ahrf_data
     diabetes = dir_mod + diabetes
