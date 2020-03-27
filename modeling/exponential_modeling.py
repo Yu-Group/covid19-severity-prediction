@@ -171,7 +171,7 @@ def get_shared_death_predictions_for_current_day(test_df,model):
     county_deaths = list(test_df['deaths'])
     predicted_deaths = []
     for deaths in county_deaths:
-        predicted_deaths.append(model.predict([[np.log(deaths[-2]+1),1]])[0])
+        predicted_deaths.append(model.predict([[np.log(deaths[-2]+1),1]]))
     return predicted_deaths 
 
 

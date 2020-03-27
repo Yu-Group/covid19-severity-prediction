@@ -28,13 +28,15 @@ def fit_and_predict(train_df, test_df, method, target_day=np.array([1])):
     
     elif method == 'exponential':
         train_df = exponential_modeling.estimate_deaths(train_df, target_day=target_day)
-        test_df['predicted_deaths_exponential'] = train_df['predicted_deaths_exponential']
+        test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = train_df['predicted_deaths_exponential']
         return test_df
     
     elif method == 'shared_exponential':
+        if target_day != np.array([1]):
+            raise NotImplementedError
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is log(previous_days_deaths+1)
         cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df)
-        test_df['predicted_deaths_shared'] = cur_day_predictions
+        test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = cur_day_predictions
         return test_df
     else:
         print('Unknown method')
