@@ -123,7 +123,23 @@ def estimate_deaths(df, mode, method="exponential",
     df[output_key] = predicted_deaths
         
     return df
-        
+
+
+def get_exponential_forecasts(df, 
+                  outcome='cases',
+                  target_day=np.array([1]),
+                  output_key='predicted_cases_exponential'):
+    """
+    merging cases and deaths prediction
+    
+    outcome='cases' for future cases prediction, 'deaths' for future deaths prediction
+    """
+    
+    predicted_outcome = exponential_fit(df[outcome].values, target_day=target_day)
+    df[output_key] = predicted_outcome
+    
+    return df
+           
 def create_leave_one_day_out_valid(df):    
     df2 = copy.deepcopy(df)
     days = len(df['deaths'].values[0])
@@ -132,7 +148,7 @@ def create_leave_one_day_out_valid(df):
         df2['cases'].values[i] = df2['cases'].values[i][0:(days-1)]
     return df2
 
-def create_shared_simple_dataset(train_df):
+def create_shared_simple_dataset(train_df, outcome='deaths'):
     """
     Create a very simple dataset for creating a shared Poisson GLM across counties:
     Input: train_df: A df with county level deaths
@@ -142,7 +158,7 @@ def create_shared_simple_dataset(train_df):
     """
     X_train = []
     y_train = []
-    county_deaths = list(train_df['deaths'])
+    county_deaths = list(train_df[outcome])
     for i in range(len(county_deaths)):       
         deaths = county_deaths[i]
         for j in range(len(deaths)):
@@ -165,7 +181,8 @@ def _fit_shared_exponential(X_train,y_train):
     model = model.fit()
     return model 
 
-def fit_and_predict_shared_exponential(train_df,test_df,mode):
+
+def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths'):
     """
     fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
     Input:
@@ -176,21 +193,21 @@ def fit_and_predict_shared_exponential(train_df,test_df,mode):
     Output:
     predicted_deaths: a list containing predictions for the current death count for current day of test_df
     """
-    X_train, y_train = create_shared_simple_dataset(train_df)
+    X_train, y_train = create_shared_simple_dataset(train_df, outcome=outcome)
     model = _fit_shared_exponential(X_train,y_train)
-    predicted_deaths = get_shared_death_predictions_for_current_day(test_df,model,mode)
+    predicted_deaths = get_shared_death_predictions_for_current_day(test_df,model,mode,outcome=outcome)
     return predicted_deaths
 
 
 
-def get_shared_death_predictions_for_current_day(test_df,model,mode):
+def get_shared_death_predictions_for_current_day(test_df,model,mode,outcome='deaths'):
     """Predicts the death total for the most recent day in test_df
     Input:
     test_df: dataframes with county level deaths:
     Output:
     predicted_deaths: a list containing predictions for the current death count for current day of test_df
     """
-    county_deaths = list(test_df['deaths'])
+    county_deaths = list(test_df[outcome])
     predicted_deaths = []
     for deaths in county_deaths:
         if mode == 'predict_future':
