@@ -13,8 +13,20 @@ import load_data
 import copy
 import statsmodels.api as sm
 
-def exponential_fit(counts, target_day=np.array([1])):
+def exponential_fit(counts, target_day=np.array([1])): 
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
     
+    """
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    """
     predicted_counts = []
     for i in range(len(counts)):
         ts = counts[i]
@@ -24,7 +36,7 @@ def exponential_fit(counts, target_day=np.array([1])):
             start = np.where(ts >= 1)[0][0]
         else:
             start = len(ts)
-        active_day = len(ts) - start
+        active_day = len(ts) - start # days since 'outbreak'
         if active_day >= 2 and ts[-1] > 5:
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
                                       np.ones(active_day))))
@@ -35,19 +47,22 @@ def exponential_fit(counts, target_day=np.array([1])):
                                              np.ones(len(target_day)))))
             predicted_counts.append(m.predict(X_test))
         else:
-            predicted_counts.append([ts[-1]]*len(target_day))  
+            predicted_counts.append([ts[-1]]*len(target_day)) 
+            ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
                 
     return predicted_counts 
 
 
 
 
-def estimate_cases(df, method="exponential"):
+def estimate_cases(df, method="exponential", target_day=np.array([1])):
+    
+    # estimate number of cases using exponential curve
     
     predicted_cases = []
     
     if method == "exponential":
-        predicted_cases = exponential_fit(df['cases'].values)
+        predicted_cases = exponential_fit(df['cases'].values, target_day=target_day)
     
     df['predicted_cases'] = predicted_cases
     return df
