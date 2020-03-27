@@ -102,6 +102,18 @@ def estimate_deaths(df, method="exponential",
     df[output_key] = predicted_deaths
         
     return df
+
+
+def get_forecasts(df, 
+                  outcome='cases',
+                  target_day=np.array([1]),
+                  output_key='predicted_cases_exponential'):
+    
+    predicted_outcome = exponential_fit(df[outcome].values, target_day=target_day)
+    df[output_key] = predicted_outcome
+    
+    return df
+    
         
 def create_leave_one_day_out_valid(df):    
     df2 = copy.deepcopy(df)
