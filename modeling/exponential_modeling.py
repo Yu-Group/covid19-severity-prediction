@@ -104,7 +104,7 @@ def estimate_deaths(df, method="exponential",
     return df
 
 
-def get_forecasts(df, 
+def get_exponential_forecasts(df, 
                   outcome='cases',
                   target_day=np.array([1]),
                   output_key='predicted_cases_exponential'):
