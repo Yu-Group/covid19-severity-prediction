@@ -13,8 +13,20 @@ import load_data
 import copy
 import statsmodels.api as sm
 
-def exponential_fit(counts, target_day=np.array([1])):
+def exponential_fit(counts, target_day=np.array([1])): 
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
     
+    """
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    """
     predicted_counts = []
     for i in range(len(counts)):
         ts = counts[i]
@@ -24,8 +36,8 @@ def exponential_fit(counts, target_day=np.array([1])):
             start = np.where(ts >= 1)[0][0]
         else:
             start = len(ts)
-        active_day = len(ts) - start
-        if active_day >= 2 and ts[-1] > 5:
+        active_day = len(ts) - start # days since 'outbreak'
+        if active_day >= 3 and ts[-1] > 5:
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
                                       np.ones(active_day))))
             m = sm.GLM(ts[start:], X_train,
@@ -35,19 +47,22 @@ def exponential_fit(counts, target_day=np.array([1])):
                                              np.ones(len(target_day)))))
             predicted_counts.append(m.predict(X_test))
         else:
-            predicted_counts.append([ts[-1]]*len(target_day))  
+            predicted_counts.append([ts[-1]]*len(target_day)) 
+            ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
                 
     return predicted_counts 
 
 
 
 
-def estimate_cases(df, method="exponential"):
+def estimate_cases(df, method="exponential", target_day=np.array([1])):
+    
+    # estimate number of cases using exponential curve
     
     predicted_cases = []
     
     if method == "exponential":
-        predicted_cases = exponential_fit(df['cases'].values)
+        predicted_cases = exponential_fit(df['cases'].values, target_day=target_day)
     
     df['predicted_cases'] = predicted_cases
     return df
@@ -65,7 +80,9 @@ def estimate_death_rate(df, method="constant"):
     return df
     
     
-def estimate_deaths(df, method="exponential", target_day=np.array([1])):
+def estimate_deaths(df, method="exponential",
+                    target_day=np.array([1]),
+                    output_key='predicted_deaths_exponential'):
     
     predicted_deaths = []
     
@@ -73,13 +90,15 @@ def estimate_deaths(df, method="exponential", target_day=np.array([1])):
         predicted_deaths = exponential_fit(df['deaths'].values, target_day=target_day)
         
     elif method == 'cases_exponential_rate_constant':
-        predicted_cases = np.array(estimate_cases(df, method="exponential")['predicted_cases'])
-        predicted_death_rate = np.array(estimate_death_rate(df, method="constant")['predicted_death_rate'])
-        predicted_deaths = predicted_cases * predicted_death_rate
         
-
+        # predicts number of cases using exponential fitting,
+        # then multiply by latest death rate
         
-    df[f'predicted_deaths_{method}'] = predicted_deaths
+        predicted_cases = estimate_cases(df, method="exponential", target_day=target_day)['predicted_cases'].values
+        predicted_death_rate = estimate_death_rate(df, method="constant")['predicted_death_rate'].values
+        predicted_deaths = [np.array(predicted_cases[i]) * predicted_death_rate[i] for i in range(len(df))]
+        
+    df[output_key] = predicted_deaths
         
     return df
         
