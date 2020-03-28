@@ -50,10 +50,10 @@ def compute_pmdl_weight(df, methods, outcome):
             
             df2 = exponential_modeling.leave_t_day_out(df, t)
             df2 = fit_and_predict.get_forecasts(df2,
-                                outcome=outcome,
-                                method=method,
-                                output_key='y_preds',
-                                target_day=np.array([1]))
+                                                outcome=outcome,
+                                                method=method,
+                                                output_key='y_preds',
+                                                target_day=np.array([1]))
             y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][0] for i in range(len(df))])
             
         weights[method] = pmdl_weight(y, y_preds)

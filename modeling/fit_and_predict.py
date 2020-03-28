@@ -13,7 +13,7 @@ from sklearn.model_selection import RandomizedSearchCV
 import load_data
 import naive_autoreg_baselines
 import exponential_modeling
-
+import pmdl_weight
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -71,6 +71,27 @@ def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),de
             save_name += '_demographics'
         test_df[save_name] = cur_day_predictions
         return test_df
+    
+    elif method == 'ensemble':
+        shared_preds = exponential_modeling.fit_and_predict_shared_exponential(train_df,
+                                                                                     test_df,
+                                                                                     mode,
+                                                                                     demographic_vars=demographic_vars)
+        if mode == 'predict_future':
+            use_df = test_df
+        else:
+            use_df = train_df
+        exp_preds = exponential_modeling.get_exponential_forecasts(df=use_df, 
+                                                                   outcome='deaths', 
+                                                                   target_day=target_day,
+                                                                   output_key='y_preds')['y_preds'].values
+        weights = pmdl_weight.compute_pmdl_weight(use_df, methods = ['exponential', 'shared_exponential'], outcome='deaths')
+        weights_sum = weights['exponential'] + weights['shared_exponential']
+        preds = [exp_preds[i] * weights['exponential'][i] / weights_sum[i] + np.array(shared_preds)[i] * weights['shared_exponential'][i] / weights_sum[i] for i in range(len(test_df))]
+        test_df['predicted_deaths_ensemble'] = preds
+        return test_df
+        
+        
     else:
         print('Unknown method')
         raise ValueError
@@ -110,13 +131,27 @@ def get_forecasts(df,
         if target_day != np.array([1]):
             raise NotImplementedError
         df[output_key] = exponential_modeling.fit_and_predict_shared_exponential(df, 
-                                                            df, 
-                                                            mode='predict_future', 
-                                                            demographic_vars=very_important_vars,
-                                                            outcome=outcome)
+                                                                                 df, 
+                                                                                 mode='predict_future', 
+                                                                                 demographic_vars=[],
+                                                                                 outcome=outcome)
         return df
+    
+    elif method == 'ensemble':
+        if target_day != np.array([1]):
+            raise NotImplementedError
+        df[output_key] = fit_and_predict.fit_and_predict(df, 
+                                                         df, 
+                                                         method='ensemble',
+                                                         mode='predict_future', 
+                                                         demographic_vars=[],
+                                                         outcome=outcome)['predicted_deaths_ensemble']
+        return df        
 
     
     else:
         print('Unknown method')
         raise ValueError        
+
+        
+        

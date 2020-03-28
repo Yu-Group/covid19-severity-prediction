@@ -59,7 +59,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
 
             predicted_counts.append(m.predict(X_test))
         else:
-            predicted_counts.append([train_ts[-1]]*len(target_day)) 
+            predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
 
                 
