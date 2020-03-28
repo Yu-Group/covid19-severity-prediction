@@ -83,3 +83,18 @@ Correlations between many different county-level features
 - key predictors: icu beds, total staff, location info, ratings, hospital type
 - some of this data is not public so we can't share it all here
 - potentially contact information and more we are still merging in...
+
+
+## hospital-level employee time
+
+- ICU Beds/Nurses ~ 4-8%
+- Nurses / Total Employees ~ 20-40%
+- Total Employees in top 4 states (NY/TX/CA/OH) ~ 1M.
+
+
+# acknowledgements
+
+The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
+
+- Yu Group team (alphabetical order): Nick Altieri, Raaz Dwivedi, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
+- Shen Group tean (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
