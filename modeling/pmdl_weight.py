@@ -54,7 +54,7 @@ def compute_pmdl_weight(df, methods, outcome):
                                 method=method,
                                 output_key='y_preds',
                                 target_day=np.array([1]))
-            y_preds[:,(7-t)] = np.array(df2['y_preds'].values)
+            y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][0] for i in range(len(df))])
             
         weights[method] = pmdl_weight(y, y_preds)
         
