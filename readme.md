@@ -19,7 +19,7 @@ print(df.shape) # (1212, 7306)
 - https://github.com/JieYingWu/COVID-19_US_County-level_Summaries
 - https://github.com/COVIDmodeling/covid_19_modeling
 
-# Deaths predictions
+# forecasting county-level covid-19 deaths
 - To get deaths predictions of the naive exponential growth model, the simplest way is to call
 ```python
 df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))

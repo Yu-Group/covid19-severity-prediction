@@ -76,8 +76,17 @@ def load_county_level(
     return df
 
 
-def load_hospital_level(merged_hospital_level_info='data_hospital_level/processed/04_hospital_level_info_merged_with_website.csv',
-                        fips_info='data_hospital_level/processed/02_county_FIPS.csv'):
+def load_hospital_level(data_dir='data_hospital_level',
+                        merged_hospital_level_info='processed/04_hospital_level_info_merged_with_website.csv',
+                        fips_info='processed/02_county_FIPS.csv'):
+    '''
+    Params
+    ------
+    data_dir 
+        path to the hospital data directory
+    '''
+    merged_hospital_level_info = oj(data_dir, merged_hospital_level_info)
+    fips_info = oj(data_dir, fips_info)
     county_fips = pd.read_csv(fips_info)
     county_fips['COUNTY'] = county_fips.apply(lambda x: re.sub('[^a-zA-Z]+', '', x['COUNTY']).lower(), axis=1)
     county_to_fips = dict(zip(zip(county_fips['COUNTY'], county_fips['STATE']), county_fips['COUNTYFIPS']))
