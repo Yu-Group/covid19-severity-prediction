@@ -13,6 +13,7 @@ from sklearn.model_selection import RandomizedSearchCV
 import load_data
 import naive_autoreg_baselines
 import exponential_modeling
+import fit_and_predict
 
 def pmdl_weight(y, y_preds):
     
@@ -38,7 +39,27 @@ def pmdl_weight(y, y_preds):
         
     return np.array(model_weights)
 
-
+def compute_pmdl_weight(df, methods, outcome):
+    
+    y = np.array([df[outcome].values[i][-7:] for i in range(len(df))])
+    weights = {}
+    for method in methods:
+        
+        y_preds = np.zeros(y.shape)
+        for t in range(1, 8):
+            
+            df2 = exponential_modeling.leave_t_day_out(df, t)
+            df2 = fit_and_predict.get_forecasts(df2,
+                                outcome=outcome,
+                                method=method,
+                                output_key='y_preds',
+                                target_day=np.array([1]))
+            y_preds[:,(7-t)] = np.array(df2['y_preds'].values)
+            
+        weights[method] = pmdl_weight(y, y_preds)
+        
+    return weights
+    
 
         
         

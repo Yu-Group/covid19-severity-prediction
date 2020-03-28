@@ -141,12 +141,12 @@ def get_exponential_forecasts(df,
     
     return df
            
-def create_leave_one_day_out_valid(df):    
+def leave_t_day_out(df, t):    
     df2 = copy.deepcopy(df)
-    days = len(df['deaths'].values[0])
+    #days = len(df['deaths'].values[0])
     for i in range(len(df)):
-        df2['deaths'].values[i] = df2['deaths'].values[i][0:(days-1)]
-        df2['cases'].values[i] = df2['cases'].values[i][0:(days-1)]
+        df2['deaths'].values[i] = df2['deaths'].values[i][:-t]
+        df2['cases'].values[i] = df2['cases'].values[i][:-t]
     return df2
 
 def create_shared_simple_dataset(train_df, outcome='deaths'):

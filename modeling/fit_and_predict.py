@@ -18,6 +18,13 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
+very_important_vars = ['PopulationDensityperSqMile2010',
+                       'MedicareEnrollment,AgedTot2017',
+                       'PopulationEstimate2018',
+                       '#ICU_beds',
+                       'dem_to_rep_ratio',
+                       'MedianAge2010']
+
 
 def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),demographic_vars=[]):
     """
@@ -102,7 +109,11 @@ def get_forecasts(df,
     elif method == 'shared_exponential':
         if target_day != np.array([1]):
             raise NotImplementedError
-        df[output_key] = fit_and_predict_shared_exponential(df, df, mode='predict_future', outcome=outcome)
+        df[output_key] = exponential_modeling.fit_and_predict_shared_exponential(df, 
+                                                            df, 
+                                                            mode='predict_future', 
+                                                            demographic_vars=very_important_vars,
+                                                            outcome=outcome)
         return df
 
     
