@@ -187,6 +187,7 @@ def create_shared_demographic_dataset(train_df, demographic_vars, outcome='death
         for j in range(len(deaths)):
             # Only add a point if total death are greater than 3. (3 chosen abritrarily)
             if deaths[j] > 3: 
+                # sometimes the numeric values are stored as strings for some variables
                 demographics = [float(d) for d in list(demographic_info[i])]
                 X_train.append(list(demographics)+[np.log(deaths[j-1]+1),1])
                 y_train.append(deaths[j])
@@ -246,6 +247,7 @@ def get_shared_death_predictions_for_current_day(test_df,model,mode,outcome='dea
     for i,deaths in enumerate(county_deaths):
         if mode == 'predict_future':
             if len(demographic_vars) > 0:
+                # sometimes the numeric values are stored as strings for some variables
                 demographics = [float(d) for d in list(demographic_info[i])]
                 predicted_deaths.append(model.predict([demographics+[np.log(deaths[-1]+1),1]]))
 
@@ -253,6 +255,7 @@ def get_shared_death_predictions_for_current_day(test_df,model,mode,outcome='dea
                 predicted_deaths.append(model.predict([[np.log(deaths[-1]+1),1]]))
         elif mode == 'eval_mode':
             if len(demographic_vars) > 0:
+                # sometimes the numeric values are stored as strings for some variables
                 demographics = [float(d) for d in list(demographic_info[i])]
                 predicted_deaths.append(model.predict([demographics+[np.log(deaths[-2]+1),1]]))
 
