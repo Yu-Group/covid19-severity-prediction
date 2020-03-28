@@ -68,9 +68,10 @@ def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1])):
 
 def get_forecasts(df,
                   outcome,
-                  method, 
+                  method,
+                  output_key,
                   target_day=np.array([1]),
-                  output_key):
+                  ):
     
     """
     This is a tentative interface for extracting cases/deaths forecasts of future days
@@ -84,6 +85,8 @@ def get_forecasts(df,
     output: df with forecasts in output_key 
     """
     
+    ### not tested yet
+    
     
     if method == 'exponential':
         return exponential_modeling.get_exponential_forecasts(df=df, 
@@ -95,8 +98,8 @@ def get_forecasts(df,
     elif method == 'shared_exponential':
         if target_day != np.array([1]):
             raise NotImplementedError
-        ###
-        
+        df[output_key] = fit_and_predict_shared_exponential(df, df, mode='predict_future', outcome=outcome)
+        return df
     
     else:
         print('Unknown method')
