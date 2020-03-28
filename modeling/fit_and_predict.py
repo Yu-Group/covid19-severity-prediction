@@ -19,7 +19,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 
-def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1])):
+def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),demographic_vars=[]):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
     Predicts the values of the number of deaths for the final day of test_df and writes to the column
@@ -57,47 +57,50 @@ def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1])):
     elif method == 'shared_exponential':
         if target_day != np.array([1]):
             raise NotImplementedError
-        # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is log(previous_days_deaths+1)
-        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode)
-        test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = cur_day_predictions
+        # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
+        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode,demographic_vars=demographic_vars)
+        save_name = 'predicted_deaths_'+method+'_'+str(target_day[-1])
+        if len(demographic_vars) > 0:
+            save_name += '_demographics'
+        test_df[save_name] = cur_day_predictions
         return test_df
     else:
         print('Unknown method')
         raise ValueError
         
 
-def get_forecasts(df,
-                  outcome,
-                  method, 
-                  target_day=np.array([1]),
-                  output_key):
+# def get_forecasts(df,
+#                   outcome,
+#                   method, 
+#                   target_day=np.array([1]),
+#                   output_key):
     
-    """
-    This is a tentative interface for extracting cases/deaths forecasts of future days
+#     """
+#     This is a tentative interface for extracting cases/deaths forecasts of future days
     
-    df: county_level df
-    outcome: 'cases' or 'deaths'
-    method: currently only support 'exponential' and 'shared_exponential'
-    target_day:
-    output_key
+#     df: county_level df
+#     outcome: 'cases' or 'deaths'
+#     method: currently only support 'exponential' and 'shared_exponential'
+#     target_day:
+#     output_key
     
-    output: df with forecasts in output_key 
-    """
+#     output: df with forecasts in output_key 
+#     """
     
     
-    if method == 'exponential':
-        return exponential_modeling.get_exponential_forecasts(df=df, 
-                                                              outcome=outcome, 
-                                                              target_day=target_day,
-                                                              output_key=output_key)
+#     if method == 'exponential':
+#         return exponential_modeling.get_exponential_forecasts(df=df, 
+#                                                               outcome=outcome, 
+#                                                               target_day=target_day,
+#                                                               output_key=output_key)
          
     
-    elif method == 'shared_exponential':
-        if target_day != np.array([1]):
-            raise NotImplementedError
-        ###
+#     elif method == 'shared_exponential':
+#         if target_day != np.array([1]):
+#             raise NotImplementedError
+#         ###
         
     
-    else:
-        print('Unknown method')
-        raise ValueError        
+#     else:
+#         print('Unknown method')
+#         raise ValueError        
