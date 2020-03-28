@@ -136,7 +136,7 @@ def get_exponential_forecasts(df,
     outcome='cases' for future cases prediction, 'deaths' for future deaths prediction
     """
     
-    predicted_outcome = exponential_fit(df[outcome].values, target_day=target_day)
+    predicted_outcome = exponential_fit(df[outcome].values, mode='predict_future', target_day=target_day)
     df[output_key] = predicted_outcome
     
     return df
