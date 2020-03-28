@@ -2,15 +2,16 @@ Working to predict covid-19 ventilator-demand (in the US) and more.
 
 
 # quickstart
-- (non-cumulative) daily cases + deaths are in `data/usafacts/confirmed_cases.csv` and `data/usafacts/deaths.csv` (updated every morning)
-- abridged csv with county-level info such as demographics, hospital information, risk factors, and voting data is at `data/df_county_level_abridged_cached.csv`
-- full data (as a pickled dataframe `df_county_level_cached.pkl`) can be downloaded from [this folder](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and placed into the `data` directory
-- can now load/merge the data:
+1. download the processed data (as a pickled dataframe `df_county_level_cached.pkl`) from [this folder](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and place into the `data` directory
+2. Can now load/merge the data:
 ```python
 import load_data
-df = load_data.load_county_level()
+df = load_data.load_county_level(data_dir='/path/to/data')
 print(df.shape) # (1212, 7306)
 ```
+- note: (non-cumulative) daily cases + deaths are in `data/usafacts/confirmed_cases.csv` and `data/usafacts/deaths.csv` (updated daily)
+- note: abridged csv with county-level info such as demographics, hospital information, risk factors, and voting data is at `data/df_county_level_abridged_cached.csv`
+
 - for an intro to some of the analysis here, visit the project webpage: https://yu-group.github.io/covid-19-ventilator-demand-prediction/outline
 
 

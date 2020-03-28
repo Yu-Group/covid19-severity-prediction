@@ -15,32 +15,38 @@ from functions import load_usafacts_data
 
 def load_county_level(
         data_dir='data',
-        cached_file='data/df_county_level_cached.pkl',
-        cached_file_abridged='data/df_county_level_abridged_cached.csv',
-        ahrf_data='data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
-        diabetes='data/diabetes/DiabetesAtlasCountyData.csv',
-        voting='data/voting/county_voting_processed.pkl',
-        icu='data/medicare/icu_county.csv',
-        heart_disease_data="data/cardiovascular_disease/heart_disease_mortality_data.csv",
-        stroke_data="data/cardiovascular_disease/stroke_mortality_data.csv",
-        dir_mod = ""
+        cached_file='df_county_level_cached.pkl',
+        ahrf_data='hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
+        diabetes='diabetes/DiabetesAtlasCountyData.csv',
+        voting='voting/county_voting_processed.pkl',
+        icu='medicare/icu_county.csv',
+        heart_disease_data="cardiovascular_disease/heart_disease_mortality_data.csv",
+        stroke_data="cardiovascular_disease/stroke_mortality_data.csv"
     ):
-    df_covid = load_usafacts_data.load_daily_data(dir_mod=dir_mod)
+    '''
+    Params
+    ------
+    data_dir 
+        path to the data directory
+    cached_file
+        path to the cached file (within the data directory)
+    '''
+    df_covid = load_usafacts_data.load_daily_data(dir_mod=data_dir)
     
-    cached_file = oj(dir_mod, cached_file)
-    cached_file_abridged = dir_mod + cached_file_abridged
-    ahrf_data = dir_mod + ahrf_data
-    diabetes = dir_mod + diabetes
-    voting = dir_mod + voting
-    icu = dir_mod + icu
-    heart_disease_data = dir_mod + heart_disease_data
-    stroke_data = dir_mod + stroke_data
-    
-    
+    cached_file = oj(data_dir, cached_file)
+    ahrf_data = oj(data_dir, ahrf_data)
+    diabetes = oj(data_dir, diabetes)
+    voting = oj(data_dir, voting)
+    icu = oj(data_dir, icu)
+    heart_disease_data = oj(data_dir, heart_disease_data)
+    stroke_data = oj(data_dir, stroke_data)
+
+    # look for cached file in data_dir
     if os.path.exists(cached_file):
         df = pd.read_pickle(cached_file)
         return pd.merge(df, df_covid, on='countyFIPS')
 
+    # otherwise run whole pipeline
     print('loading county level data...')
     df = merge_data.merge_data(ahrf_data=ahrf_data,
                                medicare_group="All Beneficiaries",

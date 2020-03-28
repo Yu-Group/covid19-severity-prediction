@@ -98,3 +98,5 @@ The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
 
 - Yu Group team (alphabetical order): Nick Altieri, Raaz Dwivedi, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
 - Shen Group tean (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
+- the response4Life team and volunteers
+- Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
