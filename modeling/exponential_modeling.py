@@ -255,6 +255,16 @@ def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',de
 
 
 def _predict_shared_deaths(number_of_deaths,demographics,model,target_day):
+
+
+    """
+    Predicts deaths for days in target_day
+    """
+    # Inputs:
+    # number_of_deaths: number of deaths to start predicting from
+    # demographics: demographic information by county if any 
+    # model: model that implements predict function
+    # target_day: see parent functions
     death_predictions = [] 
     prev_deaths = number_of_deaths
     for i in range(target_day[-1]):
