@@ -29,7 +29,7 @@ def pmdl_weight(y, y_preds):
     assert y.shape == y_preds.shape, 'y and y_preds have different shapes'
     
     n, t = y.shape
-    c0, mu = 2, 0.9
+    c0, mu = 1, 0.9
     
     error_weights = c0 * (1-mu) * np.array([mu**i for i in range(t-1, -1, -1)])
     model_weights = []
@@ -56,7 +56,7 @@ def compute_pmdl_weight(df, methods, outcome):
                                                 target_day=np.array([1]))
             y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][0] for i in range(len(df))])
             
-        weights[method] = pmdl_weight(y, y_preds)
+        weights[method] = pmdl_weight(np.log(y + 1), np.log(y_preds + 1))
         
     return weights
     
