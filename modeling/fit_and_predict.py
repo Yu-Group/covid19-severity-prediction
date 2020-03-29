@@ -64,17 +64,21 @@ def fit_and_predict(train_df, test_df, outcome, method, mode, target_day=np.arra
         return test_df
     
     elif method == 'shared_exponential':
-        if target_day != np.array([1]):
-            raise NotImplementedError
+
+
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
-        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode,outcome=outcome,demographic_vars=demographic_vars)
+        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode,outcome=outcome,demographic_vars=demographic_vars,target_day=target_day)
         save_name = f'predicted_{outcome}_{method}_{target_day[-1]}'
         if len(demographic_vars) > 0:
             save_name += '_demographics'
+        # import IPython
+        # IPython.embed()
         test_df[save_name] = cur_day_predictions
         return test_df
     
     elif method == 'ensemble':
+        if target_day != np.array([1]):
+            raise NotImplementedError
         shared_preds = exponential_modeling.fit_and_predict_shared_exponential(train_df,
                                                                                      test_df,
                                                                                      mode=mode,

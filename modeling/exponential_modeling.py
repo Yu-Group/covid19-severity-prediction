@@ -165,7 +165,7 @@ def leave_t_day_out(df, t):
         df2['cases'].values[i] = df2['cases'].values[i][:-t]
     return df2
 
-def create_shared_simple_dataset(train_df, outcome='deaths'):
+def create_shared_simple_dataset(train_df, outcome='deaths',days_to_subtract=0):
     """
     Create a very simple dataset for creating a shared Poisson GLM across counties:
     Input: train_df: A df with county level deaths
@@ -178,7 +178,7 @@ def create_shared_simple_dataset(train_df, outcome='deaths'):
     county_deaths = list(train_df[outcome])
     for i in range(len(county_deaths)):       
         deaths = county_deaths[i]
-        for j in range(len(deaths)):
+        for j in range(len(deaths)-days_to_subtract):
             # Only add a point if total death are greater than 3. (3 chosen abritrarily)
             if deaths[j] > 3: 
                 X_train.append([np.log(deaths[j-1]+1),1])
@@ -186,7 +186,7 @@ def create_shared_simple_dataset(train_df, outcome='deaths'):
     return X_train, y_train
 
 
-def create_shared_demographic_dataset(train_df, demographic_vars, outcome='deaths'):
+def create_shared_demographic_dataset(train_df, demographic_vars, outcome='deaths',days_to_subtract=0):
     """
     Create a very simple dataset for creating a shared Poisson GLM across counties:
     Input: train_df: A df with county level deaths
@@ -200,7 +200,7 @@ def create_shared_demographic_dataset(train_df, demographic_vars, outcome='death
     demographic_info = list(train_df[demographic_vars].values)
     for i in range(len(county_deaths)):       
         deaths = county_deaths[i]
-        for j in range(len(deaths)):
+        for j in range(len(deaths)-days_to_subtract):
             # Only add a point if total death are greater than 3. (3 chosen abritrarily)
             if deaths[j] > 3: 
                 # sometimes the numeric values are stored as strings for some variables
@@ -225,7 +225,7 @@ def _fit_shared_exponential(X_train,y_train):
     return model 
 
 
-def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',demographic_vars=[]):
+def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1])):
     """
     fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
     Input:
@@ -239,16 +239,35 @@ def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',de
     """
 
     if len(demographic_vars) > 0:
-        X_train, y_train =  create_shared_demographic_dataset(train_df, demographic_vars, outcome=outcome)
+        if mode == 'predict_future':
+            X_train, y_train =  create_shared_demographic_dataset(test_df, demographic_vars, outcome=outcome)
+        elif mode == 'eval_mode':
+            X_train, y_train =  create_shared_demographic_dataset(test_df, demographic_vars, outcome=outcome,days_to_subtract=target_day[-1])
     else:
-        X_train, y_train = create_shared_simple_dataset(train_df, outcome=outcome)
+        if mode == 'predict_future':
+            X_train, y_train =  create_shared_simple_dataset(test_df, outcome=outcome)
+        elif mode == 'eval_mode':
+            X_train, y_train =  create_shared_simple_dataset(test_df, outcome=outcome,days_to_subtract=target_day[-1])
+
     model = _fit_shared_exponential(X_train,y_train)
-    predicted_deaths = get_shared_death_predictions_for_current_day(test_df,model,mode,outcome=outcome,demographic_vars=demographic_vars)
+    predicted_deaths = get_shared_death_predictions(test_df,model,mode,target_day=target_day,outcome=outcome,demographic_vars=demographic_vars)
     return predicted_deaths
 
 
+def _predict_shared_deaths(number_of_deaths,demographics,model,target_day):
+    death_predictions = [] 
+    prev_deaths = number_of_deaths
+    for i in range(target_day[-1]):
+        cur_deaths = model.predict([demographics+[np.log(prev_deaths+1),1]])[0]
+        if i+1 in target_day:
+            death_predictions.append(cur_deaths)
+            prev_deaths = cur_deaths
+    return death_predictions
 
-def get_shared_death_predictions_for_current_day(test_df,model,mode,outcome='deaths',demographic_vars=[]):
+
+
+
+def get_shared_death_predictions(test_df,model,mode,target_day,outcome='deaths',demographic_vars=[]):
     """Predicts the death total for the most recent day in test_df
     Input:
     test_df: dataframes with county level deaths:
@@ -261,22 +280,17 @@ def get_shared_death_predictions_for_current_day(test_df,model,mode,outcome='dea
 
     predicted_deaths = []
     for i,deaths in enumerate(county_deaths):
+        if len(demographic_vars) > 0:
+            # sometimes the numeric values are stored as strings for some variables
+            demographics = [float(d) for d in list(demographic_info[i])]
+        else:
+            demographics = []
         if mode == 'predict_future':
-            if len(demographic_vars) > 0:
-                # sometimes the numeric values are stored as strings for some variables
-                demographics = [float(d) for d in list(demographic_info[i])]
-                predicted_deaths.append(model.predict([demographics+[np.log(deaths[-1]+1),1]]))
-
-            else:
-                predicted_deaths.append(model.predict([[np.log(deaths[-1]+1),1]]))
+            predicted_county_deaths = _predict_shared_deaths(deaths[-1],demographics,model,target_day)
         elif mode == 'eval_mode':
-            if len(demographic_vars) > 0:
-                # sometimes the numeric values are stored as strings for some variables
-                demographics = [float(d) for d in list(demographic_info[i])]
-                predicted_deaths.append(model.predict([demographics+[np.log(deaths[-2]+1),1]]))
+            predicted_county_deaths = _predict_shared_deaths(deaths[-(target_day[-1]+1)],demographics,model,target_day)
+        predicted_deaths.append(predicted_county_deaths)
 
-            else:
-                predicted_deaths.append(model.predict([[np.log(deaths[-2]+1),1]]))
     return predicted_deaths 
 
 
