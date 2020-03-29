@@ -41,26 +41,40 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             print('Unknown mode')
             raise ValueError 
 
-        if train_ts[-1] > 100:
-            start = np.where(train_ts >= 10)[0][0]
-        elif train_ts[-1] >= 1:
+        #if train_ts[-1] > 100:
+        #    start = np.where(train_ts >= 10)[0][0]
+        
+        if train_ts[-1] >= 1:
             start = np.where(train_ts >= 1)[0][0]
         else:
             start = len(train_ts)
         active_day = len(train_ts) - start # days since 'outbreak'
-        if active_day >= 3 and train_ts[-1] > 5:
+        
+        if active_day <=1 or min(train_ts[start:]) == max(train_ts[start:]):
+            # corner case 1: cases remain constant, unable to fit Poisson glm
+            # solution: use previous day cases to predict
+            predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        #if active_day >= 3 and train_ts[-1] > 4:
+        elif min(train_ts[start:]) > 0 and min(np.diff(np.log(train_ts[start:]))) == max(np.diff(np.log(train_ts[start:]))):
+            # corner case 2: cases follow perfect exponential growth, unable to fit Poisson glm
+            # solution: use cosntant growth rate to predict
+            rate = 1.0 * train_ts[-1]/train_ts[-2]
+            predicted_counts.append(np.array(train_ts[-1]*[rate**(i+1) for i in range(len(target_day))]))
+        else:
+            # fit Poisson glm
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
                                               np.ones(active_day))))
-            m = sm.GLM(train_ts[start:], X_train,
+            m = sm.GLM(train_ts[start:], 
+                       X_train,
                        family=sm.families.Poisson(),
-                       freq_weights=np.array([0.5 ** i for i in range(active_day)])[::-1])
+                       #family=sm.families.NegativeBinomial(alpha=.05),
+                       freq_weights=np.array([0.8 ** i for i in range(active_day)])[::-1])
             m = m.fit()
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
-
             predicted_counts.append(m.predict(X_test))
-        else:
-            predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        #else:
+        #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
 
                 
