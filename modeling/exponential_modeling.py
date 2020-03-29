@@ -50,9 +50,10 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
         active_day = len(train_ts) - start # days since 'outbreak'
         if active_day >= 3 and train_ts[-1] > 5:
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
-                                      np.ones(active_day))))
+                                              np.ones(active_day))))
             m = sm.GLM(train_ts[start:], X_train,
-                       family=sm.families.Poisson())
+                       family=sm.families.Poisson(),
+                       freq_weights=np.array([0.5 ** i for i in range(active_day)])[::-1])
             m = m.fit()
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
