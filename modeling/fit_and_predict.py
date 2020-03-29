@@ -26,7 +26,7 @@ very_important_vars = ['PopulationDensityperSqMile2010',
                        'MedianAge2010']
 
 
-def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),demographic_vars=[]):
+def fit_and_predict(train_df, test_df, outcome, method, mode, target_day=np.array([1]),demographic_vars=[]):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
     Predicts the values of the number of deaths for the final day of test_df and writes to the column
@@ -55,9 +55,11 @@ def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),de
         return naive_autoreg_baselines.make_predictions(test_df,model,best_window)
     
     elif method == 'exponential':
-        test_df = exponential_modeling.estimate_deaths(test_df, mode, target_day=target_day)
-        test_df['predicted_deaths_'+method+'_'+str(target_day[-1])] = test_df['predicted_deaths_exponential']
-        del test_df['predicted_deaths_exponential']
+        preds = exponential_modeling.exponential_fit(test_df[outcome].values, 
+                                                     mode=mode, 
+                                                     target_day=target_day)
+        test_df[f'predicted_{outcome}_{method}_{target_day[-1]}'] = preds
+        #del test_df['predicted_deaths_exponential']
 
         return test_df
     
@@ -65,8 +67,8 @@ def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),de
         if target_day != np.array([1]):
             raise NotImplementedError
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
-        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode,demographic_vars=demographic_vars)
-        save_name = 'predicted_deaths_'+method+'_'+str(target_day[-1])
+        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(train_df,test_df,mode,outcome=outcome,demographic_vars=demographic_vars)
+        save_name = f'predicted_{outcome}_{method}_{target_day[-1]}'
         if len(demographic_vars) > 0:
             save_name += '_demographics'
         test_df[save_name] = cur_day_predictions
@@ -75,20 +77,20 @@ def fit_and_predict(train_df, test_df, method, mode, target_day=np.array([1]),de
     elif method == 'ensemble':
         shared_preds = exponential_modeling.fit_and_predict_shared_exponential(train_df,
                                                                                      test_df,
-                                                                                     mode,
+                                                                                     mode=mode,
+                                                                                     outcome=outcome,
                                                                                      demographic_vars=demographic_vars)
+        exp_preds = exponential_modeling.exponential_fit(test_df[outcome].values, 
+                                                         mode=mode, 
+                                                         target_day=target_day)
         if mode == 'predict_future':
             use_df = test_df
         else:
             use_df = train_df
-        exp_preds = exponential_modeling.get_exponential_forecasts(df=use_df, 
-                                                                   outcome='deaths', 
-                                                                   target_day=target_day,
-                                                                   output_key='y_preds')['y_preds'].values
-        weights = pmdl_weight.compute_pmdl_weight(use_df, methods = ['exponential', 'shared_exponential'], outcome='deaths')
+        weights = pmdl_weight.compute_pmdl_weight(use_df, methods = ['exponential', 'shared_exponential'], outcome=outcome)
         weights_sum = weights['exponential'] + weights['shared_exponential']
         preds = [exp_preds[i] * weights['exponential'][i] / weights_sum[i] + np.array(shared_preds)[i] * weights['shared_exponential'][i] / weights_sum[i] for i in range(len(test_df))]
-        test_df['predicted_deaths_ensemble'] = preds
+        test_df[f'predicted_{outcome}_{method}_{target_day[-1]}'] = preds
         return test_df
         
         
@@ -145,7 +147,7 @@ def get_forecasts(df,
                                                          method='ensemble',
                                                          mode='predict_future', 
                                                          demographic_vars=[],
-                                                         outcome=outcome)['predicted_deaths_ensemble']
+                                                         outcome=outcome)[f'predicted_{outcome}_{method}_{target_day[-1]}']
         return df        
 
     

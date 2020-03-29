@@ -128,6 +128,7 @@ def estimate_deaths(df, mode, method="exponential",
 
 def get_exponential_forecasts(df, 
                   outcome='cases',
+                              
                   target_day=np.array([1]),
                   output_key='predicted_cases_exponential'):
     """
@@ -223,7 +224,7 @@ def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',de
     """
 
     if len(demographic_vars) > 0:
-        X_train, y_train =  create_shared_demographic_dataset(train_df, demographic_vars, outcome='deaths')
+        X_train, y_train =  create_shared_demographic_dataset(train_df, demographic_vars, outcome=outcome)
     else:
         X_train, y_train = create_shared_simple_dataset(train_df, outcome=outcome)
     model = _fit_shared_exponential(X_train,y_train)
