@@ -186,6 +186,15 @@ def create_shared_simple_dataset(train_df, outcome='deaths',days_to_subtract=0):
     return X_train, y_train
 
 
+def create_time_features(time_index,county_deaths):
+    time_feature_names = ['log(deaths)','dif log deaths']
+    time_features = []
+    time_features.append(np.log(county_deaths[time_index]+1))
+    time_features.append(np.log(county_deaths[time_index]+1)-np.log(county_deaths[time_index-1]+1))
+    return time_feature_names, time_features
+
+
+
 def create_shared_demographic_dataset(train_df, demographic_vars, outcome='deaths',days_to_subtract=0):
     """
     Create a very simple dataset for creating a shared Poisson GLM across counties:
@@ -205,6 +214,7 @@ def create_shared_demographic_dataset(train_df, demographic_vars, outcome='death
             if deaths[j] > 3: 
                 # sometimes the numeric values are stored as strings for some variables
                 demographics = [float(d) for d in list(demographic_info[i])]
+                # time_feature_names, time_features = create_time_features(j-1,deaths)
                 X_train.append(list(demographics)+[np.log(deaths[j-1]+1),1])
                 y_train.append(deaths[j])
     return X_train, y_train
@@ -250,7 +260,7 @@ def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars
             X_train, y_train =  create_shared_simple_dataset(df, outcome=outcome,days_to_subtract=target_day[-1])
 
     model = _fit_shared_exponential(X_train,y_train)
-    features = ['bias','log(deaths)']+demographic_vars
+    features = demographic_vars+['log(deaths)','bias']
     print('Feature weights')
     for i,f in enumerate(features):
         print(f+' : '+str(model.params[i]))

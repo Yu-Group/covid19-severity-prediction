@@ -77,8 +77,8 @@ def fit_and_predict(df, outcome, method, mode, target_day=np.array([1]),demograp
         return df
     
     elif method == 'ensemble':
-        #if target_day != np.array([1]):
-        #    raise NotImplementedError
+        if target_day != np.array([1]):
+           raise NotImplementedError
         shared_preds = exponential_modeling.fit_and_predict_shared_exponential(df,
                                                                                mode=mode,
                                                                                outcome=outcome,
@@ -91,7 +91,7 @@ def fit_and_predict(df, outcome, method, mode, target_day=np.array([1]),demograp
             use_df = df
         else:
             use_df = exponential_modeling.leave_t_day_out(df, target_day[-1])
-        weights = pmdl_weight.compute_pmdl_weight(use_df, methods = ['exponential', 'shared_exponential'], outcome=outcome)
+        weights = pmdl_weight.compute_pmdl_weight(use_df, methods = ['exponential', 'shared_exponential'], outcome=outcome,target_day=target_day)
         weights_sum = weights['exponential'] + weights['shared_exponential']
         
         preds = [exp_preds[i] * weights['exponential'][i] / weights_sum[i] + np.array(shared_preds[i]) * weights['shared_exponential'][i] / weights_sum[i] for i in range(len(df))]
@@ -109,6 +109,7 @@ def get_forecasts(df,
                   method,
                   output_key,
                   target_day=np.array([1]),
+                  demographic_vars=[]
                   ):
     
     """
@@ -135,19 +136,22 @@ def get_forecasts(df,
     
 
     elif method == 'shared_exponential':
-        if target_day != np.array([1]):
-            raise NotImplementedError
         df[output_key] = exponential_modeling.fit_and_predict_shared_exponential(df, 
                                                                                  mode='predict_future', 
                                                                                  demographic_vars=[],
                                                                                  outcome=outcome)
         return df
+    elif method == 'shared_demographic':
+        assert len(demographic_vars) > 0
+
+        df[output_key] = exponential_modeling.fit_and_predict_shared_exponential(df, 
+                                                                                 mode='predict_future', 
+                                                                                 demographic_vars=demographic_vars,
+                                                                                 outcome=outcome)
+        return df
     
     elif method == 'ensemble':
-        if target_day != np.array([1]):
-            raise NotImplementedError
         df[output_key] = fit_and_predict.fit_and_predict(df, 
-                                                         df, 
                                                          method='ensemble',
                                                          mode='predict_future', 
                                                          demographic_vars=[],
