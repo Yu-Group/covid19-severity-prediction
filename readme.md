@@ -42,8 +42,9 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
     - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
     - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
 4. **Limitations**
-    - currently using proxies for ventilator supply and demand instead of real measurements
+    - currently using proxies for hospitals supplies/demands instead of real measurements
     - limited data on bridging county-level data with hospital-level data
+    - missing some local data which would be helpful, such as amount of testing and social distancing measures
 
 
 # 1 - goal: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
@@ -53,7 +54,20 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 
 # 2 - approach
 
-- begin by screening for large (academic) hospitals, which can accomodate more ventilators
+- **outcome**: the main thing we predict is the number of deaths (per county)
+    - we estimate the ventilator need by scaling up the total number of expected deaths
+    - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
+    - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
+    - would like to use information directly from the hospital as well
+    - this might also take into account some of the ventilator preparedness
+    - we try to predict future deaths given current data
+- distributing supply - we use proxies for how many supplies a hospital has/needs
+    - main proxies: num icu beds, num total employees
+    - factors to adjust for: hospital type, occupancy rate, demographics, social distancing measures
+    
+## ventilator-specific approach
+
+- begin by screening for (academic) hospitals, which can accomodate more ventilators
 - **outcome**: the main thing we predict is the number of deaths (per county)
     - we estimate the ventilator need by scaling up the total number of expected deaths
     - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
@@ -61,7 +75,6 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
     - would like to use information directly from the hospital as well
     - this might also take into account some of the ventilator preparedness
 - distributing supply - as a proxy for current ventilator counts, we use the number of icu beds (per hospital)
-    - hopefully, we can get some of this data from hospitals directly (although it might be sensitive)
     - in reality, there are more ventilators than icu beds
     - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
     - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
@@ -71,7 +84,6 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 - these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
 - prediction setup
     - we restrict our analysis to counties which already have confirmed cases
-    - each day, we randomly split counties to do prediction
 
 
 # 3 - data
@@ -94,13 +106,13 @@ we have some data at the county-level and some at the hospital-level, which we j
 
 We can visualize these features on interactive maps:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid-19-ventilator-demand-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
 </figure>
 
 
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
 <figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid-19-ventilator-demand-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:1600px;"> </iframe>
 </figure>
 ## correlations between county-level features and number of deaths
 Correlations with number of deaths
