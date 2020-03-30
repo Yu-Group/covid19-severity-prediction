@@ -49,6 +49,9 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
         else:
             start = len(train_ts)
         active_day = len(train_ts) - start # days since 'outbreak'
+        if active_day > 4:
+            active_day = 4
+            start = len(train_ts) - active_day
         
         if active_day <=2 or min(train_ts[start:]) == max(train_ts[start:]):
             # corner case 1: cases remain constant, unable to fit Poisson glm
