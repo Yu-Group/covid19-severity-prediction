@@ -41,10 +41,10 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             print('Unknown mode')
             raise ValueError 
 
-        #if train_ts[-1] > 100:
-        #    start = np.where(train_ts >= 10)[0][0]
+        if train_ts[-1] > 100:
+            start = np.where(train_ts >= 10)[0][0]
         
-        if train_ts[-1] >= 1:
+        elif train_ts[-1] >= 1:
             start = np.where(train_ts >= 1)[0][0]
         else:
             start = len(train_ts)
@@ -68,7 +68,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
                        X_train,
                        family=sm.families.Poisson(),
                        #family=sm.families.NegativeBinomial(alpha=.05),
-                       freq_weights=np.array([0.8 ** i for i in range(active_day)])[::-1])
+                       freq_weights=np.array([0.7 ** i for i in range(active_day)])[::-1])
             m = m.fit()
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
