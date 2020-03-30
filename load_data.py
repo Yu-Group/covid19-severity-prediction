@@ -103,7 +103,19 @@ def load_hospital_level(data_dir='data_hospital_level',
 
     hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
                                                         axis=1).astype('float')
-    hospital_level['IsAcademicHospital'] = ~pd.isna(hospital_level['TIN'])
+    hospital_level['IsAcademicHospital'] = ~pd.isna(hospital_level['TIN']).astype(int)
+    hospital_level['IsUrbanHospital'] = (hospital_level['Urban or Rural Designation'] == 'Urban').astype(int)
+    hospital_level['IsAcuteCareHospital'] = (hospital_level['Hospital Type'] == 'Acute Care Hospitals').astype(int)
+    
+    # rename keys
+    remap = {
+        '#ICU_beds': 'ICU Beds in County', 
+        'Total Employees': 'Hospital Employees',
+        'County Name_x': 'County Name',
+        'Facility Name_x': 'Hospital Name'
+    }
+    hospital_level = hospital_level.rename(columns=remap)
+    
     return hospital_level
 
 
