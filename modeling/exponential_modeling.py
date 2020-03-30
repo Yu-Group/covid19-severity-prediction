@@ -286,7 +286,7 @@ def _predict_shared_deaths(number_of_deaths,demographics,model,target_day):
         cur_deaths = model.predict([demographics+[np.log(prev_deaths+1),1]])[0]
         if i+1 in target_day:
             death_predictions.append(cur_deaths)
-            prev_deaths = cur_deaths
+        prev_deaths = cur_deaths
     return death_predictions
 
 
