@@ -112,7 +112,7 @@ def load_hospital_level(data_dir='data_hospital_level',
         '#ICU_beds': 'ICU Beds in County', 
         'Total Employees': 'Hospital Employees',
         'County Name_x': 'County Name',
-        'Facility Name_x': 'Facility Name'
+        'Facility Name_x': 'Hospital Name'
     }
     hospital_level = hospital_level.rename(columns=remap)
     
