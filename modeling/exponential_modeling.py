@@ -225,11 +225,11 @@ def _fit_shared_exponential(X_train,y_train):
     return model 
 
 
-def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1])):
+def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1])):
     """
     fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
     Input:
-    train_df, test_df: dataframes with county level deaths:
+    df: dataframes with county level deaths, cases, and demographic information
     mode: either 'predict_future' or 'eval_mode'
     predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow's deaths
     eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count using info from k days ago
@@ -240,17 +240,22 @@ def fit_and_predict_shared_exponential(train_df,test_df,mode,outcome='deaths',de
 
     if len(demographic_vars) > 0:
         if mode == 'predict_future':
-            X_train, y_train =  create_shared_demographic_dataset(test_df, demographic_vars, outcome=outcome)
+            X_train, y_train =  create_shared_demographic_dataset(df, demographic_vars, outcome=outcome)
         elif mode == 'eval_mode':
-            X_train, y_train =  create_shared_demographic_dataset(test_df, demographic_vars, outcome=outcome,days_to_subtract=target_day[-1])
+            X_train, y_train =  create_shared_demographic_dataset(df, demographic_vars, outcome=outcome,days_to_subtract=target_day[-1])
     else:
         if mode == 'predict_future':
-            X_train, y_train =  create_shared_simple_dataset(test_df, outcome=outcome)
+            X_train, y_train =  create_shared_simple_dataset(df, outcome=outcome)
         elif mode == 'eval_mode':
-            X_train, y_train =  create_shared_simple_dataset(test_df, outcome=outcome,days_to_subtract=target_day[-1])
+            X_train, y_train =  create_shared_simple_dataset(df, outcome=outcome,days_to_subtract=target_day[-1])
 
     model = _fit_shared_exponential(X_train,y_train)
-    predicted_deaths = get_shared_death_predictions(test_df,model,mode,target_day=target_day,outcome=outcome,demographic_vars=demographic_vars)
+    features = ['bias','log(deaths)']+demographic_vars
+    print('Feature weights')
+    for i,f in enumerate(features):
+        print(f+' : '+str(model.params[i]))
+
+    predicted_deaths = get_shared_death_predictions(df,model,mode,target_day=target_day,outcome=outcome,demographic_vars=demographic_vars)
     return predicted_deaths
 
 
