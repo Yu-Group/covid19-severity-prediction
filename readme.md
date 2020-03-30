@@ -33,7 +33,8 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
     
 # overview
 
-1. **Goal:** prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
+1. **Goal:**
+    - prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
 2. **Approach** 
     - predict expected deaths/cases at the county-level
     - estimate supplies/need based on available data (e.g. number of icu beds, personnel in hospital)
@@ -41,10 +42,12 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 3. **Data** 
     - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
     - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
-4. **Limitations**
-    - currently using proxies for hospitals supplies/demands instead of real measurements
-    - limited data on bridging county-level data with hospital-level data
-    - missing some local data which would be helpful, such as amount of testing and social distancing measures
+    - limitations
+        - currently using proxies for hospitals supplies/demands instead of real measurements
+        - limited data on bridging county-level data with hospital-level data
+        - missing some local data which would be helpful, such as amount of testing and social distancing measures   
+4. **Results**
+
 
 
 # 1 - goal: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
@@ -129,7 +132,7 @@ Correlations between many different county-level features
 
 The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
 
-- Yu Group team (alphabetical order): Nick Altieri, Raaz Dwivedi, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
+- Yu Group team (alphabetical order): Nick Altieri, James Duncan, Raaz Dwivedi, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
 - Shen Group tean (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
 - the response4Life team and volunteers
 - Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Aaron Kornblith, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
