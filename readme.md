@@ -13,14 +13,14 @@ print(df.shape) # (1212, 7306)
 ```
 - note: (non-cumulative) daily cases + deaths are in `data/usafacts/confirmed_cases.csv` and `data/usafacts/deaths.csv` (updated daily)
 - note: abridged csv with county-level info such as demographics, hospital information, risk factors, and voting data is at `data/df_county_level_abridged_cached.csv`
-- for more details on the data see [./data/readme.md](./data/readme.md)
-- for an intro to some of the analysis here, visit the project webpage: https://yu-group.github.io/covid-19-ventilator-demand-prediction/
+- for more data details, see [./data/readme.md](./data/readme.md)
+- for an intro to some of the analysis here, visit the [project webpage](https://yu-group.github.io/covid19-severity-prediction/)
 
 ## prediction
 - To get deaths predictions of the naive exponential growth model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
+
 ```python
 df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
-
 # df is county level dataFrame
 # target_day: time horizon, target_day=np.array([1]) predicts the next day, target_day=np.array([1, 2, 3]) predicts next 3 days, etc.
 # return: dataFrame with new column 'predicted_deaths_exponential' 
@@ -33,10 +33,11 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
     
 # overview
 
-1. **Goal:** prioritizing where ventilators go
+1. **Goal:** prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
 2. **Approach** 
-    - predict ventilator demand + supply at the county-level 
-    - filter hospitals and rank them according to their demand for additional ventilators
+    - predict expected deaths/cases at the county-level
+    - estimate supplies/need based on available data (e.g. number of icu beds, personnel in hospital)
+    - filter hospitals and score them according to their expected demand for additional supplies
 3. **Data** 
     - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
     - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
@@ -45,31 +46,28 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
     - limited data on bridging county-level data with hospital-level data
 
 
-# 1 - goal: prioritizing where supplies (i.e. masks, ventilators) should be sent
+# 1 - goal: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
 
 - working with [response4life](https://response4life.org/)
-- would like to prioritize where to send available ventilators
-- ideally, this would be where the ventilators could do the most "good" (e.g. save the most lives, minimize the Years of Life lost)
+- ideally, this would be where the supplies could do the most "good" (e.g. save the most lives, minimize the Years of Life lost)
 
 # 2 - approach
 
 - begin by screening for large (academic) hospitals, which can accomodate more ventilators
-- **outcomes**: we predict 2 things
-    1. ventilator need - as a proxy for ventilator need, we predict the number of deaths (per county)
-        - we estimate the ventilator need by scaling up the total number of expected deaths
-        - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
-        - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
-        - would like to use information directly from the hospital as well
-        - this might also take into account some of the ventilator preparedness
-    2. ventilator supply - as a proxy for current ventilator counts, we use the number of icu beds (per hospital)
-        - hopefully, we can get some of this data from hospitals directly (although it might be sensitive)
-        - in reality, there are more ventilators than icu beds
-        - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
-        - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
-        - would like to use information directly from the hospital as well
-        - some hospitals are taking measures now to increase their number of ICU beds
-        - government also has some stockpiled ventilators, although still unclear where they are
-- using these outcomes, we then would like to prioritize different hospitals using a metric like: *ventilator need* (2-3 * # deaths) - *ventilator supply*
+- **outcome**: the main thing we predict is the number of deaths (per county)
+    - we estimate the ventilator need by scaling up the total number of expected deaths
+    - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
+    - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
+    - would like to use information directly from the hospital as well
+    - this might also take into account some of the ventilator preparedness
+- distributing supply - as a proxy for current ventilator counts, we use the number of icu beds (per hospital)
+    - hopefully, we can get some of this data from hospitals directly (although it might be sensitive)
+    - in reality, there are more ventilators than icu beds
+    - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
+    - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
+    - would like to use information directly from the hospital as well
+    - some hospitals are taking measures now to increase their number of ICU beds
+    - government also has some stockpiled ventilators, although still unclear where they are
 - these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
 - prediction setup
     - we restrict our analysis to counties which already have confirmed cases
