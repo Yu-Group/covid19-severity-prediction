@@ -59,7 +59,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             # corner case 2: cases follow perfect exponential growth, unable to fit Poisson glm
             # solution: use cosntant growth rate to predict
             rate = 1.0 * train_ts[-1]/train_ts[-2]
-            predicted_counts.append(np.array(train_ts[-1]*[rate**(i+1) for i in range(len(target_day))]))
+            predicted_counts.append(np.array(train_ts[-1]*np.array([rate**i for i in target_day])))
         else:
             # fit Poisson glm
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
@@ -72,7 +72,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             m = m.fit()
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
-            predicted_counts.append(m.predict(X_test))
+            predicted_counts.append(np.array(m.predict(X_test)))
         #else:
         #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
