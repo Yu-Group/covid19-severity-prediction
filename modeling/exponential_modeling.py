@@ -50,7 +50,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             start = len(train_ts)
         active_day = len(train_ts) - start # days since 'outbreak'
         
-        if active_day <=1 or min(train_ts[start:]) == max(train_ts[start:]):
+        if active_day <=2 or min(train_ts[start:]) == max(train_ts[start:]):
             # corner case 1: cases remain constant, unable to fit Poisson glm
             # solution: use previous day cases to predict
             predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
@@ -68,7 +68,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
                        X_train,
                        family=sm.families.Poisson(),
                        #family=sm.families.NegativeBinomial(alpha=.05),
-                       freq_weights=np.array([0.7 ** i for i in range(active_day)])[::-1])
+                       freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
             m = m.fit()
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
