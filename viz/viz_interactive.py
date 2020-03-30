@@ -113,6 +113,7 @@ def viz_curves(df, filename='out.html',
                key_toggle='CountyName',
                keys_table=['CountyName', 'StateName'], 
                keys_curves=['deaths', 'cases'],
+               dropdown_suffix=' County',
                decimal_places=0,
                expl_dict=None, interval_dicts=None, 
                point_id=None, show_stds=False, ):
@@ -163,7 +164,7 @@ def viz_curves(df, filename='out.html',
                 dict(
                     method='restyle',
                     args=[{'visible': visible}],
-                    label=key
+                    label=key + dropdown_suffix
                 ))
 
         # initialize xaxis2 and yaxis2
