@@ -309,7 +309,7 @@ def _fit_shared_exponential(X_train,y_train):
     return model 
 
 
-def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1])):
+def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1]),verbose=False):
     """
     fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
     Input:
@@ -335,9 +335,10 @@ def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars
 
     model = _fit_shared_exponential(X_train,y_train)
     features = demographic_vars+['log(deaths)','bias']
-    print('Feature weights')
-    for i,f in enumerate(features):
-        print(f+' : '+str(model.params[i]))
+    if verbose == True:
+        print('Feature weights')
+        for i,f in enumerate(features):
+            print(f+' : '+str(model.params[i]))
 
     predicted_deaths = get_shared_death_predictions(df,model,mode,target_day=target_day,outcome=outcome,demographic_vars=demographic_vars)
     return predicted_deaths
