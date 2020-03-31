@@ -1,5 +1,6 @@
 Working to predict/evaluate covid-19 severity (in the US) for counties and hospitals.
 
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 # quickstart
 
@@ -105,31 +106,28 @@ we have some data at the county-level and some at the hospital-level, which we j
 
 # 4 - results
 
+## correlations between some county-level features
+
+Correlations between many different county-level features
+![](results/correlations_heatmap.png)
+
 ## interactive visualizations of different counties
 
 We can visualize these features on interactive maps:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>
 </figure>
+
 
 We can also plot the expected number of deaths at the county-level:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>
 </figure>
 
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
 <figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" style="width:140%;height:1600px;"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>
 </figure>
-## correlations between county-level features and number of deaths
-Correlations with number of deaths
-
-![](results/correlations.png)
-
-## all correlations
-
-Correlations between many different county-level features
-![](results/correlations_heatmap.png)
 
 
 # acknowledgements
