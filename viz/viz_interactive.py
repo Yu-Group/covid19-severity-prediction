@@ -5,11 +5,13 @@ from bokeh.models import ColorBar,HoverTool,LinearColorMapper,ColumnDataSource,F
 output_notebook()
 import re
 import numpy as np
-
-
+from modeling import exponential_modeling
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.offline import plot
+from urllib.request import urlopen
+import json
+
 credstr ='rgb(234, 51, 86)'
 cbluestr = 'rgb(57, 138, 242)'
 
@@ -203,6 +205,100 @@ def viz_curves(df, filename='out.html',
 
         # fig.layout.template = 'plotly_dark'
         plot(fig, filename=filename, config={'showLink': False, 
+                                             'showSendToCloud': False,
+                                             'sendData': True,
+                                             'responsive': True,
+                                             'autosizable': True,
+                                             'showEditInChartStudio': False,
+                                             'displaylogo': False
+                                            }) 
+#         fig.show()
+        print('plot saved to', filename)
+        
+def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="results/deaths.html"):
+
+    with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+        counties = json.load(response)
+
+
+    # must pip install plotly-geo
+    # See:
+    # https://plotly.com/python/county-choropleth/
+    # https://plotly.com/python/choropleth-maps/
+    # https://plotly.com/python/sliders/
+    # https://plotly.com/python/reference/#choropleth
+    # https://plotly.com/python-api-reference/
+    # TODO: allow filtering by state
+
+
+    df_preds = exponential_modeling.estimate_deaths(
+        df, mode='predict_future', target_day=target_days
+    )
+
+    zmax = df_preds['predicted_deaths_exponential'].apply(
+        lambda x: x[len(target_days)-1]
+    ).max()
+
+    scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'], 
+           [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
+
+    fips = df_preds['SecondaryEntityOfFile'].tolist()
+
+    fig = go.Figure()
+
+    for day in range(len(target_days)):
+
+        values = df_preds['predicted_deaths_exponential'].apply(
+            lambda x: x[day]
+        ).tolist()
+
+        fig.add_trace(
+            go.Choropleth(
+                colorscale=scl,
+                visible=False,
+                z=values,
+                geojson=counties,
+                locations=fips,
+                zmin=0,
+                zmax=zmax
+            )
+        )
+
+        # TODO: text for mouse hover 
+
+    # make first trace visible
+    fig.data[0].visible = True
+
+    steps = []
+    for i in range(len(fig.data)):
+        step = dict(
+            method="restyle",
+            args=["visible", [False] * len(fig.data)],
+        )
+        step["args"][1][i] = True  # Toggle i'th trace to "visible"
+        steps.append(step)
+
+    sliders = [dict(
+        active=10,
+        currentvalue={"prefix": "Frequency: "},
+        pad={"t": 50},
+        steps=steps
+    )]
+
+    fig.update_layout(
+        title_text='Predicted COVID-19 Deaths',
+        geo = dict(
+            scope='usa',
+            projection=go.layout.geo.Projection(type = 'albers usa'),
+            showlakes=False, # lakes
+            lakecolor='rgb(255, 255, 255)'),
+        sliders=sliders
+    )
+
+    fig.show()
+    
+
+    plot(fig, filename=filename, config={'showLink': False, 
                                              'showSendToCloud': False,
                                              'sendData': True,
                                              'responsive': True,

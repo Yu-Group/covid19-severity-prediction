@@ -112,6 +112,10 @@ We can visualize these features on interactive maps:
   <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
 </figure>
 
+We can also plot the expected number of deaths at the county-level:
+<figure class="video_container">
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" style="width:150%;height:1600px;"> </iframe>
+</figure>
 
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
 <figure class="video_container" style="text-align: center">
@@ -132,7 +136,7 @@ Correlations between many different county-level features
 
 The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
 
-- Yu Group team (alphabetical order): Nick Altieri, James Duncan, Raaz Dwivedi, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
+- Yu Group team (alphabetical order): Nick Altieri, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
 - Shen Group tean (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
 - the response4Life team and volunteers
 - Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Aaron Kornblith, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
