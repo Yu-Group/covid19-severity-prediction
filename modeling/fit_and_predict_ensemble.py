@@ -84,10 +84,12 @@ def fit_and_predict_ensemble(df,
     for model_index in weights:
         sum_weights = sum_weights + np.array(weights[model_index])
     
-    weighted_preds = np.zeros((len(use_df), len(target_day)))
+    #weighted_preds = np.zeros((len(use_df), len(target_day)))
+    weighted_preds = [np.zeros(len(target_day)) for i in range(len(use_df))]
     for i in range(len(df)):
         for model_index in weights:
-            weighted_preds[i,:] += np.array(predictions[model_index][i]) * weights[model_index][i] / sum_weights[i]
+            weighted_preds[i] += np.array(predictions[model_index][i]) * weights[model_index][i] / sum_weights[i]
+        
         
     df[output_key] = weighted_preds
     return df
