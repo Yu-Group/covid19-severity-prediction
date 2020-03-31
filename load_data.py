@@ -108,7 +108,7 @@ def load_hospital_level(data_dir='data_hospital_level',
 
     hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
                                                         axis=1).astype('float')
-    hospital_level['IsAcademicHospital'] = ~pd.isna(hospital_level['TIN']).astype(int)
+    hospital_level['IsAcademicHospital'] = (pd.isna(hospital_level['TIN'])==False).astype(int)
     hospital_level['IsUrbanHospital'] = (hospital_level['Urban or Rural Designation'] == 'Urban').astype(int)
     hospital_level['IsAcuteCareHospital'] = (hospital_level['Hospital Type'] == 'Acute Care Hospitals').astype(int)
     
