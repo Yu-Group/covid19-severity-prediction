@@ -13,6 +13,7 @@ def merge_data(ahrf_data,
                icu,
                heart_disease_data,
                stroke_data,
+               unacast,
                medicare_group="All Beneficiaries", 
                resp_group="Chronic respiratory diseases"):
     
@@ -42,17 +43,30 @@ def merge_data(ahrf_data,
     print('ks', resp_disease.keys())
     ## end of risk factors data (not from Medicare)
     
+    ## unacast social distancing data
+    unacast = pd.read_csv(unacast)
+    unacast = unacast[["FIPS", "grade", "n_grade", 
+                       "daily_distance_diff", "county_population", "Shape__Area"]]
+    unacast = unacast.rename(columns={'FIPS': 'countyFIPS', 
+                                      'grade': 'unacast_grade', 
+                                      'n_grade': 'unacast_n_grade', 
+                                      'daily_distance_diff': 'unacast_daily_distance_diff', 
+                                      'county_population': 'unacast_county_pop', 
+                                      'Shape__Area': 'unacast_county_area'})
+    
+    ## load mortality data
     mortality = load_mortality_data.loadMortalityData()
     
+    ## load icu data
     icu = pd.read_csv(icu)
     icu = icu[["cnty_fips", "hospitals", "icu_beds"]]
     icu.columns = ["countyFIPS", "#Hospitals", "#ICU_beds"]
     
+    ## load voting data
     voting = pd.read_pickle(voting)
 
     # raw.iloc[224, 0] = 13245 # fix err with Richmond, Georgia
 
-    
     # clean data
     facts['countyFIPS'] = facts['Header-FIPSStandCtyCode'].astype(int)
     chronic_all_orig['countyFIPS'] = chronic_all_orig['countyFIPS'].astype(int)
@@ -68,6 +82,7 @@ def merge_data(ahrf_data,
     df = pd.merge(df, heart_disease, on='countyFIPS')
     df = pd.merge(df, stroke, on='countyFIPS')
     df = pd.merge(df, tobacco, on='countyFIPS')
+    df = pd.merge(df, unacast, on='countyFIPS')
     df = pd.merge(df, mortality, on='countyFIPS')
     return df
 

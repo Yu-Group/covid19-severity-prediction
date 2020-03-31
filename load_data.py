@@ -16,12 +16,14 @@ from functions import load_usafacts_data
 def load_county_level(
         data_dir='data',
         cached_file='df_county_level_cached.pkl',
+        cached_file_abridged='df_county_level_abridged_cached.csv',
         ahrf_data='hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
         diabetes='diabetes/DiabetesAtlasCountyData.csv',
         voting='voting/county_voting_processed.pkl',
         icu='medicare/icu_county.csv',
         heart_disease_data="cardiovascular_disease/heart_disease_mortality_data.csv",
-        stroke_data="cardiovascular_disease/stroke_mortality_data.csv"
+        stroke_data="cardiovascular_disease/stroke_mortality_data.csv",
+        unacast="unacast/Unacast_Social_Distancing_Latest_Available_03_23.csv"
     ):
     '''
     Params
@@ -34,12 +36,14 @@ def load_county_level(
     df_covid = load_usafacts_data.load_daily_data(dir_mod=data_dir)
     
     cached_file = oj(data_dir, cached_file)
+    cached_file_abridged = oj(data_dir, cached_file_abridged)
     ahrf_data = oj(data_dir, ahrf_data)
     diabetes = oj(data_dir, diabetes)
     voting = oj(data_dir, voting)
     icu = oj(data_dir, icu)
     heart_disease_data = oj(data_dir, heart_disease_data)
     stroke_data = oj(data_dir, stroke_data)
+    unacast = oj(data_dir, unacast)
 
     # look for cached file in data_dir
     if os.path.exists(cached_file):
@@ -55,7 +59,8 @@ def load_county_level(
                                resp_group="Chronic respiratory diseases",
                                heart_disease_data=heart_disease_data,
                                stroke_data=stroke_data,
-                               diabetes=diabetes)  # also cleans usafacts data
+                               diabetes=diabetes,
+                               unacast=unacast)  # also cleans usafacts data
 
     # basic preprocessing
     df = df.loc[:, ~df.columns.duplicated()]
@@ -140,13 +145,15 @@ def important_keys(df):
 
     # comorbidity (simultaneous presence of multiple conditions) vars
     comorbidity_hrsa = ['#EligibleforMedicare2018', 'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
-    comorbidity_misc = ["DiabetesPercentage", "HeartDiseaseMortality", "StrokeMortality", "Smokers_Percentage"]
+    comorbidity_misc = ["DiabetesPercentage", "HeartDiseaseMortality", "StrokeMortality", "Smokers_Percentage", 'Respiratory Mortality']
     comorbidity = comorbidity_hrsa + comorbidity_misc
 
     # political leanings (ratio of democrat : republican votes in 2016 presidential election)
     political = ['dem_to_rep_ratio']
+    
+    social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
 
-    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality
+    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social_dist
     return important_vars
 
 

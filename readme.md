@@ -12,7 +12,7 @@ df = load_data.load_county_level(data_dir='/path/to/data')
 print(df.shape) # (1212, 7306)
 ```
 - note: (non-cumulative) daily cases + deaths are in `data/usafacts/confirmed_cases.csv` and `data/usafacts/deaths.csv` (updated daily)
-- note: abridged csv with county-level info such as demographics, hospital information, risk factors, and voting data is at `data/df_county_level_abridged_cached.csv`
+- note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is at `data/df_county_level_abridged_cached.csv`
 - for more data details, see [./data/readme.md](./data/readme.md)
 - for an intro to some of the analysis here, visit the [project webpage](https://yu-group.github.io/covid19-severity-prediction/)
 
@@ -96,7 +96,7 @@ we have some data at the county-level and some at the hospital-level, which we j
 ## county-level data
 
 - daily number of confirmed cases + deaths (from usafacts)
-- population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, ...), hospital data (e.g. # of doctors, # of hospitals, # of icu beds), and more demographic/disease data
+- population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, ...), social distancing data (from Unacast), hospital data (e.g. # of doctors, # of hospitals, # of icu beds), and more demographic/disease data
 
 ## hospital-level data
 - key predictors: icu beds, total staff, location info, ratings, hospital type
