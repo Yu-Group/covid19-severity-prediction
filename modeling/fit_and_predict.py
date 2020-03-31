@@ -143,7 +143,8 @@ def fit_and_predict_ensemble(df,
     Output:
         df with ensemble prediction
     """
-    
+    if output_key is None:
+        output_key = f'predicted_{outcome}_ensemble_{target_day[-1]}'
     predictions = {}
     for (i, model) in enumerate(methods):
         

@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 from os.path import join as oj
 
-def load_daily_data(usafacts_data_cases='nytimes/confirmed_cases.csv',
-                    usafacts_data_deaths='nytimes/deaths.csv',
+def load_daily_data(usafacts_data_cases='usafacts/confirmed_cases.csv',
+                    usafacts_data_deaths='usafacts/deaths.csv',
                     dir_mod = ""):
     usafacts_data_cases = oj(dir_mod, usafacts_data_cases)
     usafacts_data_deaths = oj(dir_mod, usafacts_data_deaths)
