@@ -86,6 +86,17 @@ def fit_and_predict(df,
 
         return df
     
+    elif method == 'linear':
+        preds = exponential_modeling.linear_fit(df[outcome].values, 
+                                                     mode=mode, 
+                                                     target_day=target_day)
+        
+            
+        df[output_key] = preds
+        #del test_df['predicted_deaths_exponential']
+
+        return df        
+    
     elif method == 'shared_exponential':
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
         cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(df,mode,outcome=outcome,demographic_vars=demographic_vars,target_day=target_day)

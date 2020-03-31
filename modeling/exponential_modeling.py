@@ -100,6 +100,77 @@ def estimate_cases(df, method="exponential", target_day=np.array([1]),
     return df
                 
     
+def linear_fit(counts, mode, target_day=np.array([1])): 
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
+    
+    """
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    """
+    predicted_counts = []
+    for i in range(len(counts)):
+        if mode == 'eval_mode':
+            # Only use days up to from target[-1] for training. So if target[-1] = 1, only use the days before today for training and predict on today's data
+            num_days_back = target_day[-1]
+            train_ts = counts[i][:-num_days_back]
+        elif mode == 'predict_future':
+            # Use all days
+            train_ts = counts[i]
+        else:
+            print('Unknown mode')
+            raise ValueError 
+
+        active_day = 4
+        start = len(train_ts) - active_day
+        
+        if min(train_ts[start:]) == max(train_ts[start:]):
+            # corner case 1: cases remain constant, unable to fit Poisson glm
+            # solution: use previous day cases to predict
+            predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        elif min(np.diff(train_ts[start:])) == max(np.diff(train_ts[start:])):
+            rate = max(train_ts[-1] - train_ts[-2], 0)
+            predicted_counts.append(np.array(train_ts[-1] + np.array([rate*i for i in target_day])))            
+        else:
+            # fit Gaussian glm
+            X_train = np.transpose(np.vstack((np.array(range(active_day)), 
+                                              np.ones(active_day))))
+            m = sm.GLM(train_ts[start:], 
+                       X_train,
+                       family=sm.families.Gaussian()
+                       #family=sm.families.NegativeBinomial(alpha=.05),
+                       )
+            m = m.fit()
+            X_test = np.transpose(np.vstack((target_day + active_day - 1, 
+                                             np.ones(len(target_day)))))
+            predicted_counts.append(np.array(m.predict(X_test)))
+        #else:
+        #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+            ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
+
+                
+    return predicted_counts 
+
+
+def estimate_cases(df, method="exponential", target_day=np.array([1]),
+                   output_key='predicted_cases'):
+    
+    # estimate number of cases using exponential curve
+    
+    predicted_cases = []
+    
+    if method == "exponential":
+        predicted_cases = exponential_fit(df['cases'].values, target_day=target_day)
+    
+    df[output_key] = predicted_cases
+    return df
+    
 def estimate_death_rate(df, method="constant"):
     
     predicted_death_rate = []
