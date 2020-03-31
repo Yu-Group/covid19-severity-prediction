@@ -5,7 +5,7 @@ from bokeh.models import ColorBar,HoverTool,LinearColorMapper,ColumnDataSource,F
 output_notebook()
 import re
 import numpy as np
-from modeling import exponential_modeling
+from modeling import fit_and_predict
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.offline import plot
@@ -230,27 +230,32 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
     # https://plotly.com/python-api-reference/
     # TODO: allow filtering by state
 
-
-    df_preds = exponential_modeling.estimate_deaths(
-        df, mode='predict_future', target_day=target_days
+    df_preds = fit_and_predict.fit_and_predict(
+        df, method='ensemble', outcome='deaths',
+        mode='predict_future', target_day=target_days
     )
 
-    zmax = df_preds['predicted_deaths_exponential'].apply(
-        lambda x: x[len(target_days)-1]
-    ).max()
-
-    scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'], 
-           [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
-
+    preds = df_preds.iloc[:,len(df_preds.columns)-1]
+    zmax = preds.apply(lambda x: x[len(target_days)-1]).max()
     fips = df_preds['SecondaryEntityOfFile'].tolist()
+
+    df_preds['text'] = 'State: ' + df_preds['StateName'] + \
+        ' (' + df_preds['StateNameAbbreviation'] + ')' + '<br>' + \
+        'County: ' + df_preds['CountyName'] + '<br>' + \
+        'Total Cases: ' + df_preds['tot_cases'].astype(str) + '<br>' + \
+        'Total Deaths: ' + df_preds['tot_deaths'].astype(str) + '<br>' + \
+        'Population (2018): ' + df_preds['PopulationEstimate2018'].astype(str) + '<br>' + \
+        '# Hospitals: ' + df_preds['#Hospitals'].astype(str)
+    text = df_preds['text'].tolist()
+
+    scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
+           [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
 
     fig = go.Figure()
 
     for day in range(len(target_days)):
 
-        values = df_preds['predicted_deaths_exponential'].apply(
-            lambda x: x[day]
-        ).tolist()
+        values = preds.apply(lambda x: x[day]).tolist()
 
         fig.add_trace(
             go.Choropleth(
@@ -260,11 +265,13 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
                 geojson=counties,
                 locations=fips,
                 zmin=0,
-                zmax=zmax
+                zmax=zmax,
+                hovertemplate='<b>Predicted Deaths</b>: %{z:.2f}<br>'+'%{text}',
+                text=text
             )
         )
 
-        # TODO: text for mouse hover 
+
 
     # make first trace visible
     fig.data[0].visible = True
@@ -274,6 +281,7 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
         step = dict(
             method="restyle",
             args=["visible", [False] * len(fig.data)],
+            label="Day "+str(target_days[i])
         )
         step["args"][1][i] = True  # Toggle i'th trace to "visible"
         steps.append(step)
@@ -282,11 +290,12 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
         active=10,
         currentvalue={"prefix": "Frequency: "},
         pad={"t": 50},
-        steps=steps
+        steps=steps,
     )]
 
     fig.update_layout(
-        title_text='Predicted COVID-19 Deaths',
+        title_text='Predicted COVID-19 Deaths Over the Next '+
+        str(target_days.size) + ' Days',
         geo = dict(
             scope='usa',
             projection=go.layout.geo.Projection(type = 'albers usa'),
@@ -305,4 +314,4 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
                                              'autosizable': True,
                                              'showEditInChartStudio': False,
                                              'displaylogo': False
-                                            }) 
+                                            })
