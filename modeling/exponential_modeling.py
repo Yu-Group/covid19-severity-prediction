@@ -9,6 +9,7 @@ import seaborn as sns
 from bokeh.plotting import figure, show, output_notebook, output_file, save
 from functions import merge_data
 from sklearn.model_selection import RandomizedSearchCV
+from statsmodels.genmod.generalized_linear_model import PerfectSeparationError
 import load_data
 import copy
 import statsmodels.api as sm
@@ -72,7 +73,24 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
                        family=sm.families.Poisson(),
                        #family=sm.families.NegativeBinomial(alpha=.05),
                        freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
-            m = m.fit()
+            try:
+                m =  m.fit()
+            except PerfectSeparationError as e:
+                print('Warning: PerfectSeparationError detected, adding one death to last day')
+                X_train[-1][0] += 1
+                m = sm.GLM(train_ts[start:], 
+                X_train,
+                family=sm.families.Poisson(),
+                #family=sm.families.NegativeBinomial(alpha=.05),
+                freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
+                m =  m.fit()
+
+
+
+
+
+
+
             X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
             predicted_counts.append(np.array(m.predict(X_test)))
