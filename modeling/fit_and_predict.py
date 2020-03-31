@@ -43,7 +43,7 @@ def fit_and_predict(df,
     df
         a df with county level deaths and cases and demographic information
     outcome
-        outcome to predict
+        key for the outcome to predict (the values in this column should have a list for each row)
     method
         what method to use to do forecasting
     target_day
