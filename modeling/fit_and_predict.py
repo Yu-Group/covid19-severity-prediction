@@ -27,7 +27,7 @@ very_important_vars = ['PopulationDensityperSqMile2010',
 
 
 def fit_and_predict(df, 
-                    outcome: str='tot_deaths', 
+                    outcome: str='deaths', 
                     method: str='exponential', 
                     mode: str='predict_future', 
                     target_day: np.ndarray=np.array([1]),
@@ -67,6 +67,8 @@ def fit_and_predict(df,
     assert mode == 'predict_future' or mode == 'eval_mode', 'unknown mode'
     if output_key is None:
         output_key = f'predicted_{outcome}_{method}_{target_day[-1]}'
+        if len(demographic_vars) > 0:
+            output_key += '_demographics'
     if method == 'AR':
         print('currently deprecated')
         raise NotImplementedError
@@ -85,12 +87,10 @@ def fit_and_predict(df,
         return df
     
     elif method == 'shared_exponential':
-
-
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
         cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(df,mode,outcome=outcome,demographic_vars=demographic_vars,target_day=target_day)
-        if len(demographic_vars) > 0:
-            output_key += '_demographics'
+        #if len(demographic_vars) > 0:
+        #    output_key += '_demographics'
         # import IPython
         # IPython.embed()
         df[output_key] = cur_day_predictions

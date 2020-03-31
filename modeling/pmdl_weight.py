@@ -29,7 +29,7 @@ def pmdl_weight(y, y_preds):
     assert y.shape == y_preds.shape, 'y and y_preds have different shapes'
     
     n, t = y.shape
-    c0, mu = 1, 0.9
+    c0, mu = 1, 0.5
     
     error_weights = c0 * (1-mu) * np.array([mu**i for i in range(t-1, -1, -1)])
     model_weights = []
@@ -43,20 +43,28 @@ def compute_pmdl_weight(df, methods, outcome):
     
     y = np.array([df[outcome].values[i][-7:] for i in range(len(df))])
     weights = {}
-    for method in methods:
+    for (i, model) in enumerate(methods):
+        
+        if 'demographic_vars' in model:
+            demographic_vars = model['demographic_vars']
+        else:
+            demographic_vars = []
         
         y_preds = np.zeros(y.shape)
         for t in range(1, 8):
             
             df2 = exponential_modeling.leave_t_day_out(df, t)
-            df2 = fit_and_predict.get_forecasts(df2,
-                                                outcome=outcome,
-                                                method=method,
-                                                output_key='y_preds',
-                                                target_day=np.array([1]))
+            df2 = fit_and_predict.fit_and_predict(df2, 
+                                         outcome=outcome, 
+                                         method=model['model_type'], 
+                                         mode='predict_future', 
+                                         target_day=np.array([1]),
+                                         output_key='y_preds',
+                                         demographic_vars=demographic_vars)
+            
             y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][0] for i in range(len(df))])
             
-        weights[method] = pmdl_weight(np.log(y + 1), np.log(y_preds + 1))
+        weights[i] = pmdl_weight(np.log(y + 1), np.log(y_preds + 1))
         
     return weights
     
