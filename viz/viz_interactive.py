@@ -215,11 +215,11 @@ def viz_curves(df, filename='out.html',
 #         fig.show()
         print('plot saved to', filename)
         
-def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="results/deaths.html"):
+def plot_counties_slider(df, method="ensemble", target_days=np.array([1, 2, 3, 4]),
+                         filename="results/deaths.html", cumulative=True):
 
     with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
         counties = json.load(response)
-
 
     # must pip install plotly-geo
     # See:
@@ -230,20 +230,38 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
     # https://plotly.com/python-api-reference/
     # TODO: allow filtering by state
 
+    pred_col = 'predicted_deaths_' + method + '_' + str(target_days[-1])
+
+    # get predictions
     df_preds = fit_and_predict.fit_and_predict(
-        df, method='ensemble', outcome='deaths',
+        df, method=method, outcome='deaths',
         mode='predict_future', target_day=target_days
     )
 
-    preds = df_preds.iloc[:,len(df_preds.columns)-1]
+    # filter out any rows with predictions over 10,000
+    # TODO: fix upstream rather than filter here
+    df_preds = df_preds[df_preds[pred_col].apply(lambda x: np.all(x < 1e4))]
+
+    preds = df_preds[pred_col]
     zmax = preds.apply(lambda x: x[len(target_days)-1]).max()
     fips = df_preds['SecondaryEntityOfFile'].tolist()
+    tot_deaths = df_preds['tot_deaths']
+
+    if not cumulative:
+        df_preds['new_deaths'] = (preds - tot_deaths).apply(
+            lambda x: np.array(
+                [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
+            )
+        )
+        title_text='Predicted New COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    else:
+        title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
     df_preds['text'] = 'State: ' + df_preds['StateName'] + \
         ' (' + df_preds['StateNameAbbreviation'] + ')' + '<br>' + \
         'County: ' + df_preds['CountyName'] + '<br>' + \
         'Total Cases: ' + df_preds['tot_cases'].astype(str) + '<br>' + \
-        'Total Deaths: ' + df_preds['tot_deaths'].astype(str) + '<br>' + \
+        'Total Deaths: ' + tot_deaths.astype(str) + '<br>' + \
         'Population (2018): ' + df_preds['PopulationEstimate2018'].astype(str) + '<br>' + \
         '# Hospitals: ' + df_preds['#Hospitals'].astype(str)
     text = df_preds['text'].tolist()
@@ -255,7 +273,10 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
 
     for day in range(len(target_days)):
 
-        values = preds.apply(lambda x: x[day]).tolist()
+        if cumulative:
+            values = preds.apply(lambda x: x[day]).tolist()
+        else:
+            values = df_preds['new_deaths'].apply(lambda x: x[day]).tolist()
 
         fig.add_trace(
             go.Choropleth(
@@ -266,12 +287,10 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
                 locations=fips,
                 zmin=0,
                 zmax=zmax,
-                hovertemplate='<b>Predicted Deaths</b>: %{z:.2f}<br>'+'%{text}',
+                hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
                 text=text
             )
         )
-
-
 
     # make first trace visible
     fig.data[0].visible = True
@@ -294,8 +313,7 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
     )]
 
     fig.update_layout(
-        title_text='Predicted COVID-19 Deaths Over the Next '+
-        str(target_days.size) + ' Days',
+        title_text=title_text,
         geo = dict(
             scope='usa',
             projection=go.layout.geo.Projection(type = 'albers usa'),
@@ -305,7 +323,6 @@ def plot_counties_slider(df, target_days=np.array([1, 2, 3, 4]), filename="resul
     )
 
     fig.show()
-    
 
     plot(fig, filename=filename, config={'showLink': False, 
                                              'showSendToCloud': False,
