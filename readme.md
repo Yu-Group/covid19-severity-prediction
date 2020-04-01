@@ -2,7 +2,9 @@ Working to predict/evaluate covid-19 severity (in the US) for counties and hospi
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-# quickstart
+# quickstart with the data
+
+If you want to quickly download and get started with the data + models, read this section.
 
 ## data
 1. download the processed data (as a pickled dataframe `df_county_level_cached.pkl`) from [this folder](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and place into the `data` directory
@@ -108,20 +110,19 @@ we have some data at the county-level and some at the hospital-level, which we j
 
 ## correlations between some county-level features
 
-Correlations between many different county-level features
+Many of the county-level features we have collected are correlated with the total number of deaths recorded so far at each county (and with each other):
 ![](results/correlations_heatmap.png)
 
 ## interactive visualizations of different counties
 
+We can also plot the predicted number of deaths at the county-level:
+<figure class="video_container">
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>
+</figure>
+
 We can visualize these features on interactive maps:
 <figure class="video_container">
   <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-
-We can also plot the expected number of deaths at the county-level:
-<figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>
 </figure>
 
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
@@ -134,7 +135,7 @@ We can plot the outbreak for the counties with the highest number of deaths so f
 
 The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
 
-- Yu Group team (alphabetical order): Nick Altieri, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
+- Yu Group team (alphabetical order): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
 - Shen Group tean (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
 - the response4Life team and volunteers
 - Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Aaron Kornblith, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
