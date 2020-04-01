@@ -16,3 +16,4 @@ data/
 **ref*
 **.json
 **.xlsx
+data_hospital_level/processed/*hospital*
