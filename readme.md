@@ -30,13 +30,13 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 ```
 
 ## related county-level projects
-- https://github.com/JieYingWu/COVID-19_US_County-level_Summaries
-- https://github.com/COVIDmodeling/covid_19_modeling
+- ![County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
+- ![More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
 
     
 # overview
 
-1. **Goal:**
+1. **Goal**
     - prioritizing where to send medical supplies (i.e. ventilators, masks, etc.)
 2. **Approach** 
     - predict expected deaths/cases at the county-level
@@ -61,36 +61,22 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 # 2 - approach
 
 - **outcome**: the main thing we predict is the number of deaths (per county)
-    - we estimate the ventilator need by scaling up the total number of expected deaths
-    - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
-    - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
-    - would like to use information directly from the hospital as well
-    - this might also take into account some of the ventilator preparedness
-    - we try to predict future deaths given current data
-- distributing supply - we use proxies for how many supplies a hospital has/needs
+    - we use many features at the county-level, such as demographics, comorbidity statistics, voting data
+    - we are also trying to build in data about social distancing
+- understanding supplies: we use proxies for how to distribute county-level resources among hospitals
     - main proxies: num icu beds, num total employees
     - factors to adjust for: hospital type, occupancy rate, demographics, social distancing measures
     
 ## ventilator-specific approach
 
 - begin by screening for (academic) hospitals, which can accomodate more ventilators
-- **outcome**: the main thing we predict is the number of deaths (per county)
     - we estimate the ventilator need by scaling up the total number of expected deaths
-    - here, we use many features at the county-level, such as demographics, comorbidity statistics, voting data
-    - we are also trying to build in something local gov. action data (e.g. what has been enacted by local governments)
-    - would like to use information directly from the hospital as well
-    - this might also take into account some of the ventilator preparedness
 - distributing supply - as a proxy for current ventilator counts, we use the number of icu beds (per hospital)
     - in reality, there are more ventilators than icu beds
     - some ventilators (maybe 10-20%) will still be needed for non-covid-19 use
     - we would also like to build in something local gov. action data (e.g. what has been enacted by local governments)
-    - would like to use information directly from the hospital as well
     - some hospitals are taking measures now to increase their number of ICU beds
     - government also has some stockpiled ventilators, although still unclear where they are
-- these efforts should be coordinated with how the gov. is distributing ventilator stockpiles
-- prediction setup
-    - we restrict our analysis to counties which already have confirmed cases
-
 
 # 3 - data
 
