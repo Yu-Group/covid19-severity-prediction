@@ -64,7 +64,7 @@ def compute_pmdl_weight(df, methods, outcome):
             
             y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][0] for i in range(len(df))])
             
-        weights[i] = pmdl_weight(np.log(y + 1), np.log(y_preds + 1))
+        weights[i] = pmdl_weight(np.log(y + 1), np.log(np.maximum(y_preds,0) + 1))
         
     return weights
     

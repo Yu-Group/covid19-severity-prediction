@@ -10,6 +10,7 @@ import seaborn as sns
 from bokeh.plotting import figure, show, output_notebook, output_file, save
 from functions import merge_data
 from sklearn.model_selection import RandomizedSearchCV
+from collections import Counter
 import load_data
 import naive_autoreg_baselines
 import exponential_modeling
@@ -179,6 +180,24 @@ def fit_and_predict_ensemble(df,
     for i in range(len(df)):
         for model_index in weights:
             weighted_preds[i] += np.array(predictions[model_index][i]) * weights[model_index][i] / sum_weights[i]
+
+    # print out the relative contribution of each model
+    print('--- Model Contributions ---')
+    model_weight_counter = Counter()
+    for model_index in weights:
+        m_weights = 0
+        for i in range(len(use_df)):
+            m_weights += weights[model_index][i] / sum_weights[i]
+        m_weights = m_weights/len(use_df)
+        model_weight_counter[model_index] = m_weights
+    for model_index, weight in model_weight_counter.most_common():
+        print(str(methods[model_index])+': '+str(weight))
+
+
+
+    
+
+
         
         
     df[output_key] = weighted_preds
