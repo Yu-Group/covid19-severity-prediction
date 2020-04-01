@@ -46,12 +46,12 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             start = np.where(train_ts >= 10)[0][0]
         
         elif train_ts[-1] >= 1:
-            start = np.where(train_ts >= 1)[0][0]
+            start = np.where(train_ts == 0)[0][-1] + 1
         else:
             start = len(train_ts)
         active_day = len(train_ts) - start # days since 'outbreak'
-        if active_day > 4:
-            active_day = 4
+        if active_day > 5:
+            active_day = 5
             start = len(train_ts) - active_day
         
         if active_day <=2 or min(train_ts[start:]) == max(train_ts[start:]):
@@ -63,10 +63,11 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             # corner case 2: cases follow perfect exponential growth, unable to fit Poisson glm
             # solution: use cosntant growth rate to predict
             rate = 1.0 * train_ts[-1]/train_ts[-2]
-            predicted_counts.append(np.array(train_ts[-1]*np.array([rate**i for i in target_day])))
+            predicted_counts.append(np.array(train_ts[-1]*np.array([rate**i for i in target_day])))   
         else:
             # fit Poisson glm
             X_train = np.transpose(np.vstack((np.array(range(active_day)), 
+                                              #np.log(np.array(range(active_day))+1),
                                               np.ones(active_day))))
             m = sm.GLM(train_ts[start:], 
                        X_train,
@@ -75,25 +76,22 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
                        freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
             try:
                 m =  m.fit()
-            except PerfectSeparationError as e:
-                print('Warning: PerfectSeparationError detected, adding one death to last day')
-                X_train[-1][0] += 1
-                m = sm.GLM(train_ts[start:], 
-                X_train,
-                family=sm.families.Poisson(),
-                #family=sm.families.NegativeBinomial(alpha=.05),
-                freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
-                m =  m.fit()
-
-
-
-
-
-
-
-            X_test = np.transpose(np.vstack((target_day + active_day - 1, 
+                X_test = np.transpose(np.vstack((target_day + active_day - 1, 
+                                             #np.log(target_day + active_day),
                                              np.ones(len(target_day)))))
-            predicted_counts.append(np.array(m.predict(X_test)))
+                predicted_counts.append(np.array(m.predict(X_test)))
+            except PerfectSeparationError as e:
+                print('Warning: PerfectSeparationError detected')
+                rate = 1.0 * train_ts[-1]/train_ts[-2]
+                predicted_counts.append(np.array(train_ts[-1]*np.array([rate**i for i in target_day])))  
+                #X_train[-1][0] += 1
+                #m = sm.GLM(train_ts[start:], 
+                #X_train,
+                #family=sm.families.Poisson(),
+                #family=sm.families.NegativeBinomial(alpha=.05),
+                #freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
+                #m =  m.fit()
+
         #else:
         #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
