@@ -18,6 +18,7 @@ import pmdl_weight
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from functools import partial
 
 very_important_vars = ['PopulationDensityperSqMile2010',
 #                        'MedicareEnrollment,AgedTot2017',
@@ -193,13 +194,6 @@ def fit_and_predict_ensemble(df,
     for model_index, weight in model_weight_counter.most_common():
         print(str(methods[model_index])+': '+str(weight))
 
-
-
-    
-
-
-        
-        
     df[output_key] = weighted_preds
     return df
         
@@ -265,3 +259,27 @@ def get_forecasts(df,
 
         
         
+def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3]):
+
+    # df_county = exponential_modeling.estimate_deaths(df_county) # adds key 
+    for num_days_in_future in NUM_DAYS_LIST: # 1 is tomorrow
+        output_key = f'Predicted Deaths {num_days_in_future}-day'    
+        df_county = fit_and_predict_ensemble(df_county, 
+                                    # method='ensemble', 
+                                    outcome='deaths',
+                                    mode='predict_future',
+                                    target_day=np.array([num_days_in_future]),
+                                    output_key=output_key
+                                   )
+
+        # extract out vals from list
+        print(df_county.keys())
+        vals = df_county[output_key].values
+        out = []
+        for i in range(vals.shape[0]):
+            if np.isnan(vals[i]):
+                out.append(0)
+            else:
+                out.append(vals[i][0])
+        df_county[output_key] = out
+    return df_county

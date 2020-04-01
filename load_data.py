@@ -125,12 +125,14 @@ def load_hospital_level(data_dir='data_hospital_level',
 
 
 def important_keys(df):
-    demographics = ['PopulationEstimate2018', 'Population(Persons)2017',
+    demographics = ['PopulationEstimate2018',
                     'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
                     'PopulationEstimate65+2017',
                     'PopulationDensityperSqMile2010',
                     'CensusPopulation2010',
-                    'MedianAge2010', 'MedianAge,Male2010', 'MedianAge,Female2010']
+                    'MedianAge2010',
+#                     'MedianAge,Male2010', 'MedianAge,Female2010',
+                   ]
 
     # hospital vars
     hospitals_hrsa = ['#FTEHospitalTotal2017', "TotalM.D.'s,TotNon-FedandFed2017", '#HospParticipatinginNetwork2017']
@@ -151,7 +153,7 @@ def important_keys(df):
     # political leanings (ratio of democrat : republican votes in 2016 presidential election)
     political = ['dem_to_rep_ratio']
     
-    social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
+    social_dist = ['unacast_n_grade'] #, 'unacast_daily_distance_diff']
 
     important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social_dist
     return important_vars
