@@ -1,10 +1,8 @@
-Working to predict/evaluate covid-19 severity (in the US) for counties and hospitals.
-
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 # quickstart with the data
 
-If you want to quickly download and get started with the data + models, read this section.
+This section details how to quickly download and get started with the data + models.
 
 ## data
 1. download the processed data (as a pickled dataframe `df_county_level_cached.pkl`) from [this folder](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and place into the `data` directory
@@ -30,8 +28,8 @@ df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
 ```
 
 ## related county-level projects
-- ![County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
-- ![More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
+- [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
+- [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
 
     
 # overview
@@ -94,7 +92,7 @@ we have some data at the county-level and some at the hospital-level, which we j
 
 # 4 - results
 
-## correlations between some county-level features
+## looking at some county-level statistics
 
 Many of the county-level features we have collected are correlated with the total number of deaths recorded so far at each county (and with each other):
 ![](results/correlations_heatmap.png)
