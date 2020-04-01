@@ -1,5 +1,4 @@
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-</figure>
 
 # quickstart with the data
 
@@ -84,7 +83,7 @@ we have some data at the county-level and some at the hospital-level, which we j
 ## county-level data
 
 - daily number of confirmed cases + deaths (from usafacts)
-- population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, ...), social distancing data (from Unacast), hospital data (e.g. # of doctors, # of hospitals, # of icu beds), and more demographic/disease data
+- population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions), social distancing data from Unacast, hospital-level data (e.g. # of employees, # of icu beds, occupancy rate), and other demographic and disease mortality data
 
 ## hospital-level data
 - key predictors: icu beds, total staff, location info, ratings, hospital type
