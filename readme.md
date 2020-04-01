@@ -1,6 +1,8 @@
 Working to predict/evaluate covid-19 severity (in the US) for counties and hospitals.
 
+<figure class="video_container" style="text-align: center">
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</figure>
 
 # quickstart with the data
 
