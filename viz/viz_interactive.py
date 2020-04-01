@@ -214,7 +214,8 @@ def viz_curves(df, filename='out.html',
                                             }) 
 #         fig.show()
         print('plot saved to', filename)
-        
+
+
 def plot_counties_slider(df,
                          methods: list=[fit_and_predict.exponential,
                                         fit_and_predict.shared_exponential,
@@ -224,17 +225,10 @@ def plot_counties_slider(df,
                          cumulative: bool=True,
                          scale_max: int=100):
 
-    with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-        counties = json.load(response)
-
-    # must pip install plotly-geo
-    # See:
-    # https://plotly.com/python/county-choropleth/
-    # https://plotly.com/python/choropleth-maps/
-    # https://plotly.com/python/sliders/
-    # https://plotly.com/python/reference/#choropleth
-    # https://plotly.com/python-api-reference/
-    # TODO: allow filtering by state
+    with urlopen(
+            'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
+    ) as response:
+         counties = json.load(response)
 
     # get predictions
     df_preds = fit_and_predict.fit_and_predict_ensemble(
@@ -268,53 +262,220 @@ def plot_counties_slider(df,
         'Total Deaths: ' + tot_deaths.astype(str) + '<br>' + \
         'Population (2018): ' + df_preds['PopulationEstimate2018'].astype(str) + '<br>' + \
         '# Hospitals: ' + df_preds['#Hospitals'].astype(str)
-    text = df_preds['text'].tolist()
 
-    scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
-           [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
+    days = ["Day " + str(day) for day in target_days]
 
-    fig = go.Figure()
+    color_scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
+                 [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
 
-    for day in range(len(target_days)):
+    # make figure
+    fig_dict = {
+        "data": [],
+        "layout": {},
+        "frames": []
+    }
 
-        if cumulative:
-            values = preds.apply(lambda x: x[day]).tolist()
-        else:
-            values = df_preds['new_deaths'].apply(lambda x: x[day]).tolist()
+    # fill in most of layout
+    fig_dict["layout"]["hovermode"] = "closest"
+    # fig_dict["layout"]["sliders"] = {
+    #     "args": [
+    #         "transition", {
+    #             "duration": 400,
+    #             "easing": "cubic-in-out"
+    #         }
+    #     ],
+    #     "initialValue": "Day 1",
+    #     "plotlycommand": "animate",
+    #     "values": days,
+    #     "visible": True
+    # }
+    fig_dict["layout"]["updatemenus"] = [
+        # TODO: couldn't get animations working correctly
+        # {
+        #     "buttons": [
+        #         {
+        #             "args": [[None], {"frame": {"duration": 500, "redraw": True},
+        #                               "fromcurrent": True, "transition": {"duration": 2000,
+        #                                                                   "easing": "quadratic-in-out"}}],
+        #             "label": "Play",
+        #             "method": "animate"
+        #         },
+        #         {
+        #             "args": [None, {"frame": {"duration": 0, "redraw": True},
+        #                             "mode": "immediate",
+        #                             "transition": {"duration": 0}}],
+        #             "label": "Pause",
+        #             "method": "animate"
+        #         }
+        #     ],
+        #     "direction": "left",
+        #     "pad": {"r": 10, "t": 87},
+        #     "showactive": False,
+        #     "type": "buttons",
+        #     "x": 0.1,
+        #     "xanchor": "right",
+        #     "y": 0,
+        #     "yanchor": "top"
+        # },
+        # dict(
+        #     active=0,
+        #     buttons=list([
+        #         dict(label="Heatmap",
+        #              method="update",
+        #              args=[{"visible": [True] + [False] * (2*target_days.size - 1)},
+        #                    {"title": "Heatmap"}]),
+        #         dict(label="Bubble Map",
+        #              method="update",
+        #              args=[{"visible": [False] * target_days.size + [True] + [False] * (target_days.size - 1)},
+        #                    {"title": "Bubble Map"}])
+        #     ]),
+        #     direction="down",
+        #     pad={"r": 10, "t": 10},
+        #     showactive=True,
+        #     x=0.1,
+        #     xanchor="left",
+        #     y=1.1,
+        #     yanchor="top"
+        # )
 
-        fig.add_trace(
-            go.Choropleth(
-                colorscale=scl,
-                visible=False,
-                z=values,
-                geojson=counties,
-                locations=fips,
-                zmin=0,
-                zmax=scale_max,
-                hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
-                text=text
-            )
+    ]
+
+    sliders = [
+        {
+            "active": 0,
+            "visible": True,
+            "pad": {"t": 50},
+            "steps": []
+        },
+        {
+            "active": 0,
+            "visible": False,
+            "pad": {"t": 50},
+            "steps": []
+        }
+    ]
+
+    # add data for default view
+    # values = preds.apply(lambda x: x[0])
+    # choropleth_trace = go.Choropleth(
+    #     colorscale=color_scl,
+    #     z=values.tolist(),
+    #     geojson=counties,
+    #     locations=fips,
+    #     zmin=0,
+    #     zmax=scale_max,
+    #     hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
+    #     text=text
+    # )
+    # fig_dict["data"].append(choropleth_trace)
+
+    # # add frames
+    # for i in range(target_days.size):
+
+    #     day_name = "Day " + str(target_days[i])
+    #     frame = {"data": [], "name": day_name}
+
+    #     # TODO: add new deaths
+    #     values = preds.apply(lambda x: x[i])
+
+    #     choropleth_trace = go.Choropleth(
+    #         colorscale=color_scl,
+    #         z=values.tolist(),
+    #         geojson=counties,
+    #         locations=fips,
+    #         zmin=0,
+    #         zmax=scale_max,
+    #         hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
+    #         text=text
+    #     )
+    #     frame["data"].append(choropleth_trace)
+    #     fig_dict["frames"].append(frame)
+    #     slider_step = {"args": [
+    #         [day_name],
+    #         {"frame": {"duration": 2000, "redraw": True},
+    #          "mode": "immediate",
+    #          "transition": {"duration": 2000}}
+    #     ],
+    #                    "label": day_name,
+    #                    "method": "animate"}
+    #     sliders_dict["steps"].append(slider_step)
+
+    fig = go.Figure(fig_dict)
+
+    # add traces for choropleth
+    for i in range(target_days.size):
+
+        day_name = "Day " + str(target_days[i])
+        # TODO: add new deaths
+        values = preds.apply(lambda x: x[i])
+
+        text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
+            df_preds['text'].tolist()
+
+        choropleth_trace = go.Choropleth(
+            visible=False,
+            colorscale=color_scl,
+            z=values.tolist(),
+            geojson=counties,
+            locations=fips,
+            zmin=0,
+            zmax=scale_max,
+            hovertemplate='%{text}',
+            text=text,
+            name="Choropleth " + day_name
         )
+        fig.add_trace(choropleth_trace)
+
+        slider_step = {
+            "args": ["visible", [False] * target_days.size],
+            "label": day_name,
+            "method": "restyle"
+        }
+        slider_step['args'][1][i] = True # Toggle i'th trace to "visible"
+        sliders[0]["steps"].append(slider_step)
 
     # make first trace visible
     fig.data[0].visible = True
 
-    steps = []
-    for i in range(len(fig.data)):
-        step = dict(
-            method="restyle",
-            args=["visible", [False] * len(fig.data)],
-            label="Day "+str(target_days[i])
-        )
-        step["args"][1][i] = True  # Toggle i'th trace to "visible"
-        steps.append(step)
+    # add traces for bubbleplot
+    for i in range(target_days.size):
 
-    sliders = [dict(
-        active=10,
-        currentvalue={"prefix": "Frequency: "},
-        pad={"t": 50},
-        steps=steps,
-    )]
+        day_name = "Day " + str(target_days[i])
+        values = preds.apply(lambda x: x[i])
+
+        text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
+            df_preds['text'].tolist()
+
+        bubble_trace = go.Scattergeo(
+            visible=False,
+            geojson=counties,
+            lon=df['lon'],
+            lat=df['lat'],
+            hovertemplate='%{text}',
+            text=text,
+            name="Bubble " + day_name,
+            marker = dict(
+                size = values,
+                sizeref = 0.5,
+                # color = values.tolist(),
+                cmin=0,
+                cmax=scale_max,
+                line_color='rgb(40,40,40)',
+                line_width=0.5,
+                sizemode = 'area'
+            )
+        )
+        fig.add_trace(bubble_trace)
+
+        slider_step = {
+            "args": ["visible", [False] * target_days.size],
+            "label": day_name,
+            "method": "restyle"
+        }
+        slider_step['args'][1][i] = True # Toggle i'th trace to "visible"
+        sliders[1]["steps"].append(slider_step)
+
+    fig.data[target_days.size].visible = True
 
     fig.update_layout(
         title_text=title_text,
@@ -326,13 +487,14 @@ def plot_counties_slider(df,
         sliders=sliders
     )
 
-    fig.show()
+    # fig.show()
 
-    plot(fig, filename=filename, config={'showLink': False, 
-                                             'showSendToCloud': False,
-                                             'sendData': True,
-                                             'responsive': True,
-                                             'autosizable': True,
-                                             'showEditInChartStudio': False,
-                                             'displaylogo': False
-                                            })
+    plot(fig, filename=filename, config={
+        'showLink': False,
+        'showSendToCloud': False,
+        'sendData': True,
+        'responsive': True,
+        'autosizable': True,
+        'showEditInChartStudio': False,
+        'displaylogo': False
+    })
