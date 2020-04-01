@@ -1,1 +1,0 @@
-# Get projections for other models
