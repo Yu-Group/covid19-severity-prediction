@@ -215,8 +215,14 @@ def viz_curves(df, filename='out.html',
 #         fig.show()
         print('plot saved to', filename)
         
-def plot_counties_slider(df, method="ensemble", target_days=np.array([1, 2, 3, 4]),
-                         filename="results/deaths.html", cumulative=True):
+def plot_counties_slider(df,
+                         methods: list=[fit_and_predict.exponential,
+                                        fit_and_predict.shared_exponential,
+                                        fit_and_predict.demographics],
+                         target_days: np.ndarray=np.array([1, 2, 3, 4]),
+                         filename: str="results/deaths.html",
+                         cumulative: bool=True,
+                         scale_max: int=100):
 
     with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
         counties = json.load(response)
@@ -230,20 +236,18 @@ def plot_counties_slider(df, method="ensemble", target_days=np.array([1, 2, 3, 4
     # https://plotly.com/python-api-reference/
     # TODO: allow filtering by state
 
-    pred_col = 'predicted_deaths_' + method + '_' + str(target_days[-1])
-
     # get predictions
-    df_preds = fit_and_predict.fit_and_predict(
-        df, method=method, outcome='deaths',
-        mode='predict_future', target_day=target_days
+    df_preds = fit_and_predict.fit_and_predict_ensemble(
+        df, outcome='deaths', methods=methods,
+        mode='predict_future', target_day=target_days,
+        output_key='predicted_deaths'
     )
 
     # filter out any rows with predictions over 10,000
     # TODO: fix upstream rather than filter here
-    df_preds = df_preds[df_preds[pred_col].apply(lambda x: np.all(x < 1e4))]
+    df_preds = df_preds[df_preds['predicted_deaths'].apply(lambda x: np.all(x < 1e4))]
 
-    preds = df_preds[pred_col]
-    zmax = preds.apply(lambda x: x[len(target_days)-1]).max()
+    preds = df_preds['predicted_deaths']
     fips = df_preds['SecondaryEntityOfFile'].tolist()
     tot_deaths = df_preds['tot_deaths']
 
@@ -286,7 +290,7 @@ def plot_counties_slider(df, method="ensemble", target_days=np.array([1, 2, 3, 4
                 geojson=counties,
                 locations=fips,
                 zmin=0,
-                zmax=zmax,
+                zmax=scale_max,
                 hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
                 text=text
             )
