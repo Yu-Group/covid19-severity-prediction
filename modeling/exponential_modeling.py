@@ -42,21 +42,30 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
             print('Unknown mode')
             raise ValueError 
 
-        if train_ts[-1] > 100:
-            start = np.where(train_ts >= 10)[0][0]
+        # if train_ts[-1] > 100:
+        #     start = np.where(train_ts >= 10)[0][0]
         
-        elif train_ts[-1] >= 1:
-            start = np.where(train_ts == 0)[0][-1] + 1
+        # elif train_ts[-1] >= 1:
+        #     start = np.where(train_ts == 0)[0][-1] + 1
+        # else:
+        #     start = len(train_ts)
+        # active_day = len(train_ts) - start # days since 'outbreak'
+
+
+        # # active_day =5
+        # # start = len(train_ts)-active_day 
+        # if active_day > 5:
+        #     active_day = 5
+        #     start = len(train_ts) - active_day
+
+        if train_ts[-1] >= 1:
+             start = np.where(train_ts == 0)[0][-1] + 1
         else:
-            start = len(train_ts)
+             start = len(train_ts)
         active_day = len(train_ts) - start # days since 'outbreak'
-
-
-        # active_day =5
-        # start = len(train_ts)-active_day 
         if active_day > 5:
             active_day = 5
-            start = len(train_ts) - active_day
+        start = len(train_ts) - active_day
         
         if active_day <=2 or min(train_ts[start:]) == max(train_ts[start:]):
             # corner case 1: cases remain constant, unable to fit Poisson glm
