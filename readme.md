@@ -21,10 +21,8 @@ print(df.shape) # (1212, 7306)
 - To get deaths predictions of the naive exponential growth model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
 
 ```python
-df = exponential_modeling.estimate_deaths(df, target_day=np.array([...]))
-# df is county level dataFrame
-# target_day: time horizon, target_day=np.array([1]) predicts the next day, target_day=np.array([1, 2, 3]) predicts next 3 days, etc.
-# return: dataFrame with new column 'predicted_deaths_exponential' 
+df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1-day"
+# NUM_DAYS_LIST is number of days in the future to predict
 ```
 
 ## related county-level projects
@@ -119,7 +117,7 @@ We can plot the outbreak for the counties with the highest number of deaths so f
 
 The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
 
-- Yu Group team (alphabetical order): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh, Yan Shuo Tan, Tiffany Tang, Yu Wang
+- Yu Group team (alphabetical order): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (Student Lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
 - Shen Group tean (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
 - the response4Life team and volunteers
 - Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Aaron Kornblith, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi

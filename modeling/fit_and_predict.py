@@ -130,7 +130,8 @@ def fit_and_predict_ensemble(df,
                              outcome: str='deaths', 
                              methods: list=[exponential, shared_exponential, demographics],
                              mode: str='predict_future', 
-                             output_key: str=None):
+                             output_key: str=None,
+                             verbose: bool=True):
     
     """
     Function for ensemble prediction
@@ -184,16 +185,17 @@ def fit_and_predict_ensemble(df,
             weighted_preds[i] += np.array(predictions[model_index][i]) * weights[model_index][i] / sum_weights[i]
 
     # print out the relative contribution of each model
-    print('--- Model Contributions ---')
-    model_weight_counter = Counter()
-    for model_index in weights:
-        m_weights = 0
-        for i in range(len(use_df)):
-            m_weights += weights[model_index][i] / sum_weights[i]
-        m_weights = m_weights/len(use_df)
-        model_weight_counter[model_index] = m_weights
-    for model_index, weight in model_weight_counter.most_common():
-        print(str(methods[model_index])+': '+str(weight))
+    if verbose:
+        print('--- Model Contributions ---')
+        model_weight_counter = Counter()
+        for model_index in weights:
+            m_weights = 0
+            for i in range(len(use_df)):
+                m_weights += weights[model_index][i] / sum_weights[i]
+            m_weights = m_weights/len(use_df)
+            model_weight_counter[model_index] = m_weights
+        for model_index, weight in model_weight_counter.most_common():
+            print(str(methods[model_index])+': '+str(weight))
 
     df[output_key] = weighted_preds
     return df
@@ -260,7 +262,7 @@ def get_forecasts(df,
 
         
         
-def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3]):
+def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False):
 
     # df_county = exponential_modeling.estimate_deaths(df_county) # adds key 
     for num_days_in_future in NUM_DAYS_LIST: # 1 is tomorrow
@@ -270,8 +272,8 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3]):
                                     outcome='deaths',
                                     mode='predict_future',
                                     target_day=np.array([num_days_in_future]),
-                                    output_key=output_key
-                                   )
+                                    output_key=output_key,
+                                    verbose=verbose)
 
         # extract out vals from list
         print(df_county.keys())
@@ -282,5 +284,12 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3]):
                 out.append(0)
             else:
                 out.append(vals[i][0])
+        
+        '''
+        # set everything below 0.1 to 0.1
+        out = np.array(out)
+        out[out < 0.1] = 0.1
+        '''
+        
         df_county[output_key] = out
     return df_county
