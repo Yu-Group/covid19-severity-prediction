@@ -122,8 +122,6 @@ def load_hospital_level(data_dir='data_hospital_level',
     hospital_level = hospital_level.rename(columns=remap)
     
     return hospital_level
-
-def load_merged_data():
     
 
 def important_keys(df):
