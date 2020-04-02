@@ -10,6 +10,13 @@ import load_data
 from fit_and_predict import add_preds
 from functions import merge_data
 
+meanings = {
+        1: 'Low',
+        2: 'Moderate',
+        3: 'Substantial',
+        4: 'Severe',
+        5: 'Critical'
+    }
 
 def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
     def apply_manual_thresholds(vals, manual_thresholds = {5: 10,
@@ -31,13 +38,6 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
     k = 2
     s_hosp = f'Predicted Deaths Hospital {k}-day'
     s_index = f'Severity {k}-day'
-    meanings = {
-        1: 'Low',
-        2: 'Moderate',
-        3: 'Substantial',
-        4: 'Severe',
-        5: 'Critical'
-    }
     return df.sort_values(s_hosp, ascending=False).round(2)
 
 def write_to_gsheets(df, ks_output=['Severity 1-day', 'Severity 2-day', 'Severity 3-day', 'Hospital Name',
