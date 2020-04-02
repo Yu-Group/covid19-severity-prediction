@@ -48,7 +48,8 @@ def load_county_level(
     # look for cached file in data_dir
     if os.path.exists(cached_file):
         df = pd.read_pickle(cached_file)
-        return pd.merge(df, df_covid, on='countyFIPS')
+        df = pd.merge(df, df_covid, on='countyFIPS')
+        return df.sort_values('tot_deaths', ascending=False)
 
     # otherwise run whole pipeline
     print('loading county level data...')
@@ -77,8 +78,7 @@ def load_county_level(
 
     # add covid data
     df = pd.merge(df, df_covid, on='countyFIPS')
-
-    return df
+    return df.sort_values('tot_deaths', ascending=False)
 
 
 def load_hospital_level(data_dir='data_hospital_level',
@@ -123,6 +123,8 @@ def load_hospital_level(data_dir='data_hospital_level',
     
     return hospital_level
 
+def load_merged_data():
+    
 
 def important_keys(df):
     demographics = ['PopulationEstimate2018',

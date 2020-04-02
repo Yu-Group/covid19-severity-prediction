@@ -87,5 +87,22 @@ def merge_data(ahrf_data,
     return df
 
 
-    
-    
+def merge_county_and_hosp(df_county, df_hospital):
+    outcomes = ['tot_cases', 'tot_deaths']
+    df = df_hospital.merge(df_county, how='left', on='countyFIPS')
+    df[outcomes] = df[outcomes].fillna(0)
+
+    # aggregate employees by county
+    total_emp_county = df.groupby('countyFIPS').agg({'Hospital Employees': 'sum'})
+    total_emp_county = total_emp_county.rename(columns={'Hospital Employees': 'Hospital Employees in County'})
+    df_county = pd.merge(df_county, total_emp_county, how='left', on='countyFIPS')
+    df = pd.merge(df, total_emp_county, how='left', on='countyFIPS')
+
+    # filter hospitals
+    df = df[~df['countyFIPS'].isna()] # & df['IsAcademicHospital'] & df['Hospital Employees'] > 0]
+    df = df.sort_values(by=['tot_deaths', 'Hospital Employees'], ascending=False)
+
+
+    # fraction of employees out of all county hospitals
+    df['Frac Hospital Employees of County'] = df['Hospital Employees'] / df['Hospital Employees in County']
+    return df
