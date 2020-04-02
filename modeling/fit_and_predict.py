@@ -171,7 +171,8 @@ def fit_and_predict_ensemble(df,
     
     weights = pmdl_weight.compute_pmdl_weight(use_df, 
                                               methods=methods, 
-                                              outcome=outcome)
+                                              outcome=outcome,
+                                              target_day=target_day)
     sum_weights = np.zeros(len(use_df))
     for model_index in weights:
         sum_weights = sum_weights + np.array(weights[model_index])
