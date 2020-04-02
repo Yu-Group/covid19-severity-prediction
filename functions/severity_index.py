@@ -41,7 +41,7 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
     return df.sort_values(s_hosp, ascending=False).round(2)
 
 def write_to_gsheets(df, ks_output=['Severity 1-day', 'Severity 2-day', 'Severity 3-day', 'Hospital Name',
-                                    'CMS Certification Number', 'countyFIPS', 'CountyName', 'StateName'],
+                                    'CMS Certification Number', 'countyFIPS', 'CountyName', 'StateName', 'System Affiliation'],
                      sheet_name='COVID Severity Index',
                      service_file='../creds.json'):
     print('writing to gsheets...')
