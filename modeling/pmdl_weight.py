@@ -39,7 +39,7 @@ def pmdl_weight(y, y_preds):
         
     return np.array(model_weights)
 
-def compute_pmdl_weight(df, methods, outcome):
+def compute_pmdl_weight(df, methods, outcome, target_day):
     
     y = np.array([df[outcome].values[i][-7:] for i in range(len(df))])
     weights = {}
@@ -53,16 +53,16 @@ def compute_pmdl_weight(df, methods, outcome):
         y_preds = np.zeros(y.shape)
         for t in range(1, 8):
             
-            df2 = exponential_modeling.leave_t_day_out(df, t)
+            df2 = exponential_modeling.leave_t_day_out(df, t+target_day[-1]-1)
             df2 = fit_and_predict.fit_and_predict(df2, 
                                          outcome=outcome, 
                                          method=model['model_type'], 
                                          mode='predict_future', 
-                                         target_day=np.array([1]),
+                                         target_day=np.array([target_day[-1]]),
                                          output_key='y_preds',
                                          demographic_vars=demographic_vars)
             
-            y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][0] for i in range(len(df))])
+            y_preds[:,(7-t)] = np.array([df2['y_preds'].values[i][-1] for i in range(len(df))])
             
         weights[i] = pmdl_weight(np.log(y + 1), np.log(np.maximum(y_preds,0) + 1))
         
