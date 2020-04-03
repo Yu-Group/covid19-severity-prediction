@@ -25,6 +25,9 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 # NUM_DAYS_LIST is number of days in the future to predict
 ```
 
+## new data
+- we are constantly monitoring for new data sources, and updating sources of data as they become available [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/)
+
 ## related county-level projects
 - [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
 - [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
