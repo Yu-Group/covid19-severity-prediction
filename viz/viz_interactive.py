@@ -242,8 +242,8 @@ def make_counties_slider_subplots(title_text, subplot_titles):
     fig.update_layout(
         title = {
             'text' : title_text,
-            'y' : 0.9,
-            'x' : 0.5,
+            'y' : 0.95,
+            'x' : 0.18,
             'xanchor': 'center',
             'yanchor': 'top'
         }
@@ -430,7 +430,7 @@ def make_counties_slider_sliders(target_days, plot_choropleth):
     return sliders
 
 
-def plot_counties_slider2(df,
+def plot_counties_slider(df,
                          target_days=np.array([1, 2, 3]),
                          filename="results/deaths.html",
                          cumulative=True,
@@ -472,11 +472,14 @@ def plot_counties_slider2(df,
     df['deaths_past_7_days'] = df['deaths'].apply(lambda x: x[-8:-1].sum())
     df = df.sort_values('deaths_past_7_days', ascending = False)
 
-    top_6 = df['CountyName'].take(range(6)).tolist()
-    subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + [""] + top_6[4:] + [""]
+    top_6_county = df['CountyName'].take(range(6)).tolist()
+    top_6_state = df['StateNameAbbreviation'].take(range(6)).tolist()
+    top_6 = [county + ', ' + state for (county, state) in zip(top_6_county, top_6_state)]
+    subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + top_6[4:]
 
     # make main figure
-    fig = make_counties_slider_subplots("", subplot_titles=subplot_titles)
+    fig = make_counties_slider_subplots("Counties w/ Highest # Deaths, Past 7 Days",
+                                        subplot_titles=subplot_titles)
 
     # make choropleth if plotting
     # want this to happen first so bubbles overlay
