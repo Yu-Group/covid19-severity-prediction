@@ -263,7 +263,7 @@ def get_forecasts(df,
         
         
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False):
-
+    print('predicting...')
     # df_county = exponential_modeling.estimate_deaths(df_county) # adds key 
     for num_days_in_future in NUM_DAYS_LIST: # 1 is tomorrow
         output_key = f'Predicted Deaths {num_days_in_future}-day'    
@@ -276,7 +276,8 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False):
                                     verbose=verbose)
 
         # extract out vals from list
-        print(df_county.keys())
+        if verbose:
+            print(df_county.keys())
         vals = df_county[output_key].values
         out = []
         for i in range(vals.shape[0]):
