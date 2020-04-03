@@ -153,7 +153,7 @@ def important_keys(df):
     # political leanings (ratio of democrat : republican votes in 2016 presidential election)
     political = ['dem_to_rep_ratio']
     
-    social_dist = ['unacast_n_grade'] #, 'unacast_daily_distance_diff']
+    social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
 
     important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social_dist
     return important_vars
