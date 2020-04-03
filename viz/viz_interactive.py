@@ -9,7 +9,7 @@ from modeling import fit_and_predict
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.offline import plot
-from urllib.request import urlopen
+from plotly.subplots import make_subplots
 import json
 
 credstr ='rgb(234, 51, 86)'
@@ -216,278 +216,292 @@ def viz_curves(df, filename='out.html',
         print('plot saved to', filename)
 
 
-def plot_counties_slider(df,
-                         methods: list=[fit_and_predict.exponential,
-                                        fit_and_predict.shared_exponential,
-                                        fit_and_predict.demographics],
-                         target_days: np.ndarray=np.array([1, 2, 3, 4]),
-                         filename: str="results/deaths.html",
-                         cumulative: bool=True,
-                         scale_max: int=100):
-
-    with urlopen(
-            'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
-    ) as response:
-         counties = json.load(response)
-
-    # get predictions
-    df_preds = fit_and_predict.fit_and_predict_ensemble(
-        df, outcome='deaths', methods=methods,
-        mode='predict_future', target_day=target_days,
-        output_key='predicted_deaths'
+def make_counties_slider_subplots(title_text, subplot_titles):
+    fig = make_subplots(
+        rows=3, cols=3, column_widths=[0.15, .15, 0.7],
+        specs=[ # indices of outer list correspond to rows
+            [ # indices of inner list to cols
+                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scattergeo', 'rowspan' : 3}
+            ], # row 1
+            [
+                {"type" : 'scatter'}, {"type" : 'scatter'}, None # row 2
+            ], # row 2
+            [
+                {"type" : 'scatter'}, {"type" : 'scatter'}, None # row 2
+            ] # row 3
+        ],
+        subplot_titles=subplot_titles
     )
 
-    # filter out any rows with predictions over 10,000
-    # TODO: fix upstream rather than filter here
-    df_preds = df_preds[df_preds['predicted_deaths'].apply(lambda x: np.all(x < 1e4))]
+    fig.update_geos(
+        scope = 'usa',
+        projection=go.layout.geo.Projection(type = 'albers usa'),
+        landcolor = 'rgb(217, 217, 217)'
+    )
 
-    preds = df_preds['predicted_deaths']
-    fips = df_preds['SecondaryEntityOfFile'].tolist()
-    tot_deaths = df_preds['tot_deaths']
+    fig.update_layout(
+        title = {
+            'text' : title_text,
+            'y' : 0.9,
+            'x' : 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        }
+    )
 
-    if not cumulative:
-        df_preds['new_deaths'] = (preds - tot_deaths).apply(
-            lambda x: np.array(
-                [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
-            )
-        )
-        title_text='Predicted New COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
-    else:
-        title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    return fig
 
-    df_preds['text'] = 'State: ' + df_preds['StateName'] + \
-        ' (' + df_preds['StateNameAbbreviation'] + ')' + '<br>' + \
-        'County: ' + df_preds['CountyName'] + '<br>' + \
-        'Total Cases: ' + df_preds['tot_cases'].astype(str) + '<br>' + \
-        'Total Deaths: ' + tot_deaths.astype(str) + '<br>' + \
-        'Population (2018): ' + df_preds['PopulationEstimate2018'].astype(str) + '<br>' + \
-        '# Hospitals: ' + df_preds['#Hospitals'].astype(str)
 
-    days = ["Day " + str(day) for day in target_days]
+def add_counties_slider_scatter_traces(fig, df,
+                                       key_toggle='CountyName',
+                                       keys_curves=['deaths', 'cases'],
+                                       decimal_places=0,
+                                       expl_dict=None, interval_dicts=None,
+                                       point_id=None, show_stds=False, ):
+        '''
+        Plot the top 6 counties with the most deaths.
+        '''
+        color_strings = [credstr, cbluestr]
+
+        # scatter plots
+        num_traces_per_plot = len(keys_curves)
+        # for i in range(df.shape[0]):
+        for i in range(6):
+            row = df.iloc[i]
+            key = row[key_toggle]
+
+            for j, key_curve in enumerate(keys_curves):
+                curve = row[key_curve]
+                x = np.arange(curve.size)
+                fig.add_trace(
+                    go.Scatter(x=x,
+                               y=curve,
+                               showlegend=False,
+                               visible=True,
+                               name=key_curve,
+                               line=dict(color=color_strings[j], width=4),
+                               xaxis='x1', yaxis='y1'),
+                    row=i % 3 + 1, col=(i - 1) % 2 + 1
+                )
+                # annotations.append(
+                #     {
+                #         'x' : .05,
+                #         'y' : 0,
+                #         'text' : key + ' County, ' + row['StateNameAbbreviation'],
+                #         'visible' : i==0
+                #     }
+                # )
+
+                # fig.layout['hovermode'] = annotations
+
+        return None
+
+
+def add_counties_slider_choropleth_traces(fig, df, target_days, scale_max, counties_json):
 
     color_scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
                  [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
 
-    # make figure
-    fig_dict = {
-        "data": [],
-        "layout": {},
-        "frames": []
-    }
+    slider_step = []
 
-    # fill in most of layout
-    fig_dict["layout"]["hovermode"] = "closest"
-    # fig_dict["layout"]["sliders"] = {
-    #     "args": [
-    #         "transition", {
-    #             "duration": 400,
-    #             "easing": "cubic-in-out"
-    #         }
-    #     ],
-    #     "initialValue": "Day 1",
-    #     "plotlycommand": "animate",
-    #     "values": days,
-    #     "visible": True
-    # }
-    fig_dict["layout"]["updatemenus"] = [
-        # TODO: couldn't get animations working correctly
-        # {
-        #     "buttons": [
-        #         {
-        #             "args": [[None], {"frame": {"duration": 500, "redraw": True},
-        #                               "fromcurrent": True, "transition": {"duration": 2000,
-        #                                                                   "easing": "quadratic-in-out"}}],
-        #             "label": "Play",
-        #             "method": "animate"
-        #         },
-        #         {
-        #             "args": [None, {"frame": {"duration": 0, "redraw": True},
-        #                             "mode": "immediate",
-        #                             "transition": {"duration": 0}}],
-        #             "label": "Pause",
-        #             "method": "animate"
-        #         }
-        #     ],
-        #     "direction": "left",
-        #     "pad": {"r": 10, "t": 87},
-        #     "showactive": False,
-        #     "type": "buttons",
-        #     "x": 0.1,
-        #     "xanchor": "right",
-        #     "y": 0,
-        #     "yanchor": "top"
-        # },
-        # dict(
-        #     active=0,
-        #     buttons=list([
-        #         dict(label="Heatmap",
-        #              method="update",
-        #              args=[{"visible": [True] + [False] * (2*target_days.size - 1)},
-        #                    {"title": "Heatmap"}]),
-        #         dict(label="Bubble Map",
-        #              method="update",
-        #              args=[{"visible": [False] * target_days.size + [True] + [False] * (target_days.size - 1)},
-        #                    {"title": "Bubble Map"}])
-        #     ]),
-        #     direction="down",
-        #     pad={"r": 10, "t": 10},
-        #     showactive=True,
-        #     x=0.1,
-        #     xanchor="left",
-        #     y=1.1,
-        #     yanchor="top"
-        # )
+    for i in range(target_days.size):
 
-    ]
+        #df['new_deaths'] = (preds - tot_deaths).apply(
+        #    lambda x: np.array(
+        #        [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
+        #    )
+        #)w
 
+        pred_col = f'Predicted Deaths {i+1}-day'
+        values = df[pred_col]
+        val_idx = values < 10000
+        values = values[val_idx]
+        fips = df['SecondaryEntityOfFile'][val_idx]
+
+        day_name = "Day " + str(target_days[i])
+        # TODO: add new deaths
+
+        text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
+            df['text'][val_idx].tolist()
+
+        choropleth_trace = go.Choropleth(
+            visible=False,
+            colorscale=color_scl,
+            z=values,
+            geojson=counties_json,
+            locations=fips,
+            zmin=0,
+            zmax=scale_max,
+            hoverinfo='skip',
+            # hovertemplate='%{text}',
+            # text=text,
+            name="Choropleth " + day_name
+        )
+
+        fig.add_trace(choropleth_trace, row=1, col=3)
+
+    return None
+
+
+def add_counties_slider_bubble_traces(fig, df, target_days, scale_max):
+
+    color_scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
+                 [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
+
+    slider_step = []
+
+    for i in range(target_days.size):
+
+        #df['new_deaths'] = (preds - tot_deaths).apply(
+        #    lambda x: np.array(
+        #        [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
+        #    )
+        #)w
+
+        pred_col = f'Predicted Deaths {i+1}-day'
+        values = df[pred_col]
+        val_idx = values < 10000
+        values = values[val_idx]
+        fips = df['SecondaryEntityOfFile'][val_idx]
+        lon = df['lon'][val_idx]
+        lat = df['lat'][val_idx]
+
+        day_name = "Day " + str(target_days[i])
+        # TODO: add new deaths
+
+        text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
+            df['text'][val_idx].tolist()
+
+        bubble_trace = go.Scattergeo(
+            visible=False,
+            # locationmode = 'USA-states',
+            lon=lon,
+            lat=lat,
+            text=text,
+            hovertemplate='%{text}',
+            # name="Bubble " + day_name,
+            marker = dict(
+                size = values,
+                sizeref = 0.5*(100/scale_max), # make bubble slightly larger
+                color = values,
+                colorscale = color_scl,
+                cmin=0,
+                cmax=scale_max,
+                line_color='rgb(40,40,40)',
+                line_width=0.5,
+                sizemode='area'
+                # showscale=True
+            )
+        )
+
+        fig.add_trace(bubble_trace, row=1, col=3)
+
+    return None
+
+
+def make_counties_slider_sliders(target_days, plot_choropleth):
     sliders = [
         {
             "active": 0,
             "visible": True,
             "pad": {"t": 50},
             "steps": []
-        },
-        {
-            "active": 0,
-            "visible": False,
-            "pad": {"t": 50},
-            "steps": []
         }
     ]
 
-    # add data for default view
-    # values = preds.apply(lambda x: x[0])
-    # choropleth_trace = go.Choropleth(
-    #     colorscale=color_scl,
-    #     z=values.tolist(),
-    #     geojson=counties,
-    #     locations=fips,
-    #     zmin=0,
-    #     zmax=scale_max,
-    #     hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
-    #     text=text
-    # )
-    # fig_dict["data"].append(choropleth_trace)
-
-    # # add frames
-    # for i in range(target_days.size):
-
-    #     day_name = "Day " + str(target_days[i])
-    #     frame = {"data": [], "name": day_name}
-
-    #     # TODO: add new deaths
-    #     values = preds.apply(lambda x: x[i])
-
-    #     choropleth_trace = go.Choropleth(
-    #         colorscale=color_scl,
-    #         z=values.tolist(),
-    #         geojson=counties,
-    #         locations=fips,
-    #         zmin=0,
-    #         zmax=scale_max,
-    #         hovertemplate='<b>Deaths Predicted</b>: %{z:.2f}<br>'+'%{text}',
-    #         text=text
-    #     )
-    #     frame["data"].append(choropleth_trace)
-    #     fig_dict["frames"].append(frame)
-    #     slider_step = {"args": [
-    #         [day_name],
-    #         {"frame": {"duration": 2000, "redraw": True},
-    #          "mode": "immediate",
-    #          "transition": {"duration": 2000}}
-    #     ],
-    #                    "label": day_name,
-    #                    "method": "animate"}
-    #     sliders_dict["steps"].append(slider_step)
-
-    fig = go.Figure(fig_dict)
-
-    # add traces for choropleth
     for i in range(target_days.size):
-
         day_name = "Day " + str(target_days[i])
-        # TODO: add new deaths
-        values = preds.apply(lambda x: x[i])
-
-        text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
-            df_preds['text'].tolist()
-
-        choropleth_trace = go.Choropleth(
-            visible=False,
-            colorscale=color_scl,
-            z=values.tolist(),
-            geojson=counties,
-            locations=fips,
-            zmin=0,
-            zmax=scale_max,
-            hovertemplate='%{text}',
-            text=text,
-            name="Choropleth " + day_name
-        )
-        fig.add_trace(choropleth_trace)
-
+        if plot_choropleth:
+            args = ["visible", [False] * 2*target_days.size + [True] * 12]
+        else:
+            args = ["visible", [False] * target_days.size + [True] * 12],
         slider_step = {
-            "args": ["visible", [False] * target_days.size],
+            # the first 2*target_days.size falses are the map traces
+            # the last 12 trues are the scatter traces
+            "args": args,
             "label": day_name,
             "method": "restyle"
         }
         slider_step['args'][1][i] = True # Toggle i'th trace to "visible"
-        sliders[0]["steps"].append(slider_step)
+        if plot_choropleth:
+            slider_step['args'][1][target_days.size + i] = True # and the other layer
+        sliders[0]['steps'].append(slider_step)
 
-    # make first trace visible
+    return sliders
+
+
+def plot_counties_slider2(df,
+                         target_days=np.array([1, 2, 3]),
+                         filename="results/deaths.html",
+                         cumulative=True,
+                         plot_choropleth=False,
+                         counties_json=None):
+    """
+    """
+    # TODO: note that df should have all data (preds and lat lon)
+    # TODO: add previous days
+    fips = df['countyFIPS'].tolist()
+    tot_deaths = df['tot_deaths']
+
+    df['text'] = 'State: ' + df['StateName'] + \
+        ' (' + df['StateNameAbbreviation'] + ')' + '<br>' + \
+        'County: ' + df['CountyName'] + '<br>' + \
+        'Population (2018): ' + df['PopulationEstimate2018'].astype(str) + '<br>' + \
+        '# Recorded Cases: ' + df['tot_cases'].astype(str) + '<br>' + \
+        '# Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
+        '# Hospitals: ' + df['#Hospitals'].astype(str)
+
+    # compute scale_max for plotting colors
+    pred_col = f'Predicted Deaths {target_days[-1]}-day'
+    values = df[pred_col]
+    val_idx = values < 10000
+    values = values[val_idx]
+    scale_max = values.quantile(.995)
+
+    if not cumulative:
+        #df['new_deaths'] = (preds - tot_deaths).apply(
+        #    lambda x: np.array(
+        #        [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
+        #    )
+        #)w
+        title_text='Predicted New COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    else:
+        title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+
+
+    df['deaths_past_7_days'] = df['deaths'].apply(lambda x: x[-8:-1].sum())
+    df = df.sort_values('deaths_past_7_days', ascending = False)
+
+    top_6 = df['CountyName'].take(range(6)).tolist()
+    subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + [""] + top_6[4:] + [""]
+
+    # make main figure
+    fig = make_counties_slider_subplots("", subplot_titles=subplot_titles)
+
+    # make choropleth if plotting
+    # want this to happen first so bubbles overlay
+    if plot_choropleth:
+        add_counties_slider_choropleth_traces(
+            fig, df, target_days, scale_max, counties_json
+        )
+
+    # add Scattergeo
+    add_counties_slider_bubble_traces(fig, df, target_days, scale_max)
+
+    # make first day visible
     fig.data[0].visible = True
+    if plot_choropleth:
+        # make bubbles visible
+        fig.data[target_days.size].visible = True
 
-    # add traces for bubbleplot
-    for i in range(target_days.size):
+    # add case and death curves
+    add_counties_slider_scatter_traces(fig, df)
 
-        day_name = "Day " + str(target_days[i])
-        values = preds.apply(lambda x: x[i])
-
-        text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
-            df_preds['text'].tolist()
-
-        bubble_trace = go.Scattergeo(
-            visible=False,
-            geojson=counties,
-            lon=df['lon'],
-            lat=df['lat'],
-            hovertemplate='%{text}',
-            text=text,
-            name="Bubble " + day_name,
-            marker = dict(
-                size = values,
-                sizeref = 0.5,
-                # color = values.tolist(),
-                cmin=0,
-                cmax=scale_max,
-                line_color='rgb(40,40,40)',
-                line_width=0.5,
-                sizemode = 'area'
-            )
-        )
-        fig.add_trace(bubble_trace)
-
-        slider_step = {
-            "args": ["visible", [False] * target_days.size],
-            "label": day_name,
-            "method": "restyle"
-        }
-        slider_step['args'][1][i] = True # Toggle i'th trace to "visible"
-        sliders[1]["steps"].append(slider_step)
-
-    fig.data[target_days.size].visible = True
+    sliders = make_counties_slider_sliders(target_days, plot_choropleth)
 
     fig.update_layout(
-        title_text=title_text,
-        geo = dict(
-            scope='usa',
-            projection=go.layout.geo.Projection(type = 'albers usa'),
-            showlakes=False, # lakes
-            lakecolor='rgb(255, 255, 255)'),
         sliders=sliders
     )
-
-    # fig.show()
 
     plot(fig, filename=filename, config={
         'showLink': False,
