@@ -1,0 +1,7 @@
+- Data source: https://coronavirus-resources.esri.com/datasets/definitivehc::definitive-healthcare-usa-hospital-beds
+- Last downloaded: 04-01-2020
+- Description: This data has Facility ID, location, and number of employees info about each hospital.
+- Known data quality issues: 
+    - None
+- Selected Columns:
+    - To be added.
