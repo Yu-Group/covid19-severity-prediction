@@ -102,7 +102,7 @@ Many of the county-level features we have collected are correlated with the tota
 
 We can also plot the predicted number of deaths at the county-level:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
 </figure>
 
 We can visualize these features on interactive maps:
