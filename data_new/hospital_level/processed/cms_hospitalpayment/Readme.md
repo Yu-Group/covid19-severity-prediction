@@ -1,0 +1,9 @@
+- Data source: In the webpage https://www.cms.gov/OpenPayments/About/Resources with the download link https://www.cms.gov/OpenPayments/Downloads/2020-Reporting-Cycle-Teaching-Hospital-List-PDF-.pdf
+- Last downloaded: 04-01-2020
+- Description: This data has TIN, business addresses and hospital cost addresses about each hospital.
+- Known data quality issues: 
+    - There are two addresses for each hospital and it is not clear which one to use.
+- Selected Columns:
+    - CMS Certification Number: int, CMS control number, CMS is the Center for Medicare-Medicaid Services (CMS)
+    - TIN: int, Taxpayer identification number
+    - Hospital Name: str, Name of a hospital
