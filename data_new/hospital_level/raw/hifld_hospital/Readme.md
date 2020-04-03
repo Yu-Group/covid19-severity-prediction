@@ -1,0 +1,42 @@
+- Data source: https://hifld-geoplatform.opendata.arcgis.com/datasets/6ac5e325468c4cb9b905f1728d6fbf0f_0
+- Last downloaded: 04-01-2020
+- Description: This data has ICU, location, and number of employees info about each hospital.
+- Known data quality issues: 
+    - Not all hospitals in the US are included.
+    - Does not have CMS Certification Number, which would be used a primary key for each hospital.
+- Selected Columns:
+    - X: float, longitude (in decimal degrees)
+    - Y: float, latitude (in decimal degrees)
+    - OBJECTID: int, not quite sure what this is, but it is unique for each hospital
+    - ID: int, ID number
+    - NAME: str, hospital name
+    - ADDRESS: str, street address
+    - CITY: str, name of city where hospital is located
+    - STATE: str, state where hospital is located
+    - ZIP: int, 5 digit zipcode
+    - ZIP4: int, additional 4 digits for zipcode (not available for most hospitals)
+    - TELEPHONE: str, phone number (1084 not available)
+    - TYPE: str, type of hospital (most common type is generate acute care (4524))
+    - STATUS: str, closed or open (435 closed)
+    - POPULATION: int, I suspect this is number of staff, median = 65
+    - COUNTY: str, name of county where hospital is located
+    - COUNTYFIPS: str, 6 digit county code from Federal Information Processing Standards
+    - COUNTRY: str, 3 letter country code (data also includes hospitals from Puerto Rico (PRI), Guam (GUM), etc.)
+    - LATITUDE: float, latitude (in decimal degrees)
+    - LONGITUDE: float, longitude (in decimal degrees)
+    - NAICS_CODE: int, North American Industry Classification code for establishment type, 622110 is for hospital
+    - NAICS_DESC: str, description of hospital type (general vs psychiatric, etc.)
+    - SOURCE: str, webpage URL containing ino about hospital (state government webpages)
+    - SOURCEDATE: str, date on which data was scalped (I think)
+    - VAL_METHOD: str, ??? (two levels: IMAGERY or IMAGERY/OTHER)
+    - VAL_DATE: str, some date
+    - WEBSITE: str, hospital website URL
+    - STATE_ID: str, ID from state, not quite sure what this is (most are not available)
+    - ALT_NAME: alternative name for hospital? (most not available (6677), also seems to have some miscoding)
+    - ST_FIPS: int, 2 digit FIPS code for each state.
+    - OWNER: str, ownership type of hospital (government, proprietary, non-profit, etc.)
+    - TTL_STAFF: int, all missing
+    - BEDS: int, number of hospital beds
+    - TRAUMA: str, trauma center level
+    - HELIPAD: str, whether hospital has a helipad
+
