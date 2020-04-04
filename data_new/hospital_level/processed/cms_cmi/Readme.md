@@ -1,0 +1,11 @@
+- Data source: https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/FY2020-IPPS-Final-Rule-Home-Page-Items/FY2020-IPPS-Final-Rule-Data-Files
+- Last downloaded: 04-01-2020
+- Description: This data has Case Mix Index (CMI), total cases, and the total relative weights about each hospital.
+- Known data quality issues: 
+    - None
+- Selected Columns:
+    - CMS Certification Number,
+    - Case Mix Index,
+    - Total Cases,
+    - Total Relative Weights,
+

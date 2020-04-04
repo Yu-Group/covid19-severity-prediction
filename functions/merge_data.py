@@ -105,4 +105,5 @@ def merge_county_and_hosp(df_county, df_hospital):
 
     # fraction of employees out of all county hospitals
     df['Frac Hospital Employees of County'] = df['Hospital Employees'] / df['Hospital Employees in County']
+    df = df.loc[:,~df.columns.duplicated()]
     return df
