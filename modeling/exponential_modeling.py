@@ -64,7 +64,7 @@ def exponential_fit(counts, mode, target_day=np.array([1])):
              start = len(train_ts)
         active_day = len(train_ts) - start # days since 'outbreak'
         if active_day > 5:
-            active_day = 5
+            active_day = 5 
         start = len(train_ts) - active_day
         
         if active_day <=2 or min(train_ts[start:]) == max(train_ts[start:]):
@@ -283,7 +283,7 @@ def create_shared_simple_dataset(train_df, outcome='deaths',days_to_subtract=0):
         deaths = county_deaths[i]
         for j in range(len(deaths)-days_to_subtract):
             # Only add a point if total death are greater than 3. (3 chosen abritrarily)
-            if deaths[j] > 3: 
+            if deaths[j] >= 3: 
                 X_train.append([np.log(deaths[j-1]+1),1])
                 y_train.append(deaths[j])
     return X_train, y_train
@@ -314,7 +314,7 @@ def create_shared_demographic_dataset(train_df, demographic_vars, outcome='death
         deaths = county_deaths[i]
         for j in range(len(deaths)-days_to_subtract):
             # Only add a point if total death are greater than 3. (3 chosen abritrarily)
-            if deaths[j] >= 0: 
+            if deaths[j] >= 3: 
                 # sometimes the numeric values are stored as strings for some variables
                 demographics = [float(d) for d in list(demographic_info[i])]
                 # time_feature_names, time_features = create_time_features(j-1,deaths)
@@ -338,7 +338,7 @@ def _fit_shared_exponential(X_train,y_train):
     return model 
 
 
-def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1]),verbose=False):
+def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars=[],target_day=np.array([1]),verbose=True):
     """
     fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
     Input:
