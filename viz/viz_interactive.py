@@ -6,6 +6,7 @@ output_notebook()
 import re
 import numpy as np
 from modeling import fit_and_predict
+from functions import severity_index
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.offline import plot
@@ -343,7 +344,7 @@ def add_counties_slider_choropleth_traces(fig, df, target_days, scale_max, count
     return None
 
 
-def add_counties_slider_bubble_traces(fig, df, target_days, scale_max):
+def add_counties_slider_bubble_traces(fig, df, target_days, scale_max, plot_choropleth):
 
     color_scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
                  [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
@@ -366,7 +367,7 @@ def add_counties_slider_bubble_traces(fig, df, target_days, scale_max):
         lon = df['lon'][val_idx]
         lat = df['lat'][val_idx]
 
-        day_name = "Day " + str(target_days[i])
+        # day_name = "Day " + str(target_days[i])
         # TODO: add new deaths
 
         text = '<b>Deaths Predicted</b>: ' + values.round(2).astype(str) + '<br>' + \
@@ -374,12 +375,11 @@ def add_counties_slider_bubble_traces(fig, df, target_days, scale_max):
 
         bubble_trace = go.Scattergeo(
             visible=False,
-            # locationmode = 'USA-states',
             lon=lon,
             lat=lat,
             text=text,
             hovertemplate='%{text}',
-            # name="Bubble " + day_name,
+            name="Bubble Plot",
             marker = dict(
                 size = values,
                 sizeref = 0.5*(100/scale_max), # make bubble slightly larger
@@ -389,8 +389,8 @@ def add_counties_slider_bubble_traces(fig, df, target_days, scale_max):
                 cmax=scale_max,
                 line_color='rgb(40,40,40)',
                 line_width=0.5,
-                sizemode='area'
-                # showscale=True
+                sizemode='area',
+                showscale=not plot_choropleth
             )
         )
 
@@ -433,7 +433,7 @@ def make_counties_slider_sliders(target_days, plot_choropleth):
 def plot_counties_slider(df,
                          target_days=np.array([1, 2, 3]),
                          filename="results/deaths.html",
-                         cumulative=True,
+                         cumulative=True, # not currently used
                          plot_choropleth=False,
                          counties_json=None):
     """
@@ -458,27 +458,41 @@ def plot_counties_slider(df,
     values = values[val_idx]
     scale_max = values.quantile(.995)
 
-    if not cumulative:
-        #df['new_deaths'] = (preds - tot_deaths).apply(
-        #    lambda x: np.array(
-        #        [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
-        #    )
-        #)w
-        title_text='Predicted New COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
-    else:
-        title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    # if not cumulative:
+    #     df['new_deaths'] = (preds - tot_deaths).apply(
+    #        lambda x: np.array(
+    #            [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
+    #        )
+    #     )
+    #     title_text='Predicted New COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    # else:
+    #     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
+    # TODO: use new_deaths
+    title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
-    df['deaths_past_7_days'] = df['deaths'].apply(lambda x: x[-8:-1].sum())
-    df = df.sort_values('deaths_past_7_days', ascending = False)
+    # compute scaled growth rate: pop_density * (avg_growth past 4 days + cov(time, growth))
+    # adds more weight to areas with high pop density and median age and penalizes areas where growth is slowing
+    def compute_growth_factor(x, n_days=4):
+        past_n_days = x[-n_days:]
+        growth_factor = (past_n_days / np.insert(x[-4:-1], 0, 1))[-(n_days-1):]
+        return np.mean(growth_factor) + np.cov(np.arange(3), growth_factor)[0][1]
+    df['growth_factor'] = df['deaths'].apply(lambda x: compute_growth_factor(x))
 
-    top_6_county = df['CountyName'].take(range(6)).tolist()
-    top_6_state = df['StateNameAbbreviation'].take(range(6)).tolist()
+    #df['emerging_index'] = np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] * df['growth_factor']
+    # scale to be between 0 and 1
+    #df['emerging_index'] = (df['emerging_index'] - df['emerging_index'].min()) / (df['emerging_index'].max() / df['emerging_index'].min())
+
+    df_top_6 = df.sort_values('growth_factor', ascending = False)
+    df_top_6 = df_top_6[df_top_6['tot_deaths'] > 50]
+
+    top_6_county = df_top_6['CountyName'].take(range(6)).tolist()
+    top_6_state = df_top_6['StateNameAbbreviation'].take(range(6)).tolist()
     top_6 = [county + ', ' + state for (county, state) in zip(top_6_county, top_6_state)]
     subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + top_6[4:]
 
     # make main figure
-    fig = make_counties_slider_subplots("Counties w/ Highest # Deaths, Past 7 Days",
+    fig = make_counties_slider_subplots("Emerging Hotspots",
                                         subplot_titles=subplot_titles)
 
     # make choropleth if plotting
@@ -489,7 +503,7 @@ def plot_counties_slider(df,
         )
 
     # add Scattergeo
-    add_counties_slider_bubble_traces(fig, df, target_days, scale_max)
+    add_counties_slider_bubble_traces(fig, df, target_days, scale_max, plot_choropleth)
 
     # make first day visible
     fig.data[0].visible = True
