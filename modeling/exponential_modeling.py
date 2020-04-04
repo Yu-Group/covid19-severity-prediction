@@ -10,6 +10,7 @@ from bokeh.plotting import figure, show, output_notebook, output_file, save
 from functions import merge_data
 from sklearn.model_selection import RandomizedSearchCV
 from statsmodels.genmod.generalized_linear_model import PerfectSeparationError
+from sklearn.preprocessing import StandardScaler
 import load_data
 import copy
 import statsmodels.api as sm
@@ -332,9 +333,13 @@ def _fit_shared_exponential(X_train,y_train):
     Output: 
     Trains a poisson GLM with parameters shared across all counties.
     """
-    model = sm.GLM(y_train, X_train,
+
+    model = sm.GLM(y_train, [x+[1] for x in X_train],
                family=sm.families.Poisson())
-    model = model.fit()
+
+    # model = model.fit()
+    model = model.fit_regularized()
+
     return model 
 
 
@@ -362,18 +367,21 @@ def fit_and_predict_shared_exponential(df,mode,outcome='deaths',demographic_vars
         elif mode == 'eval_mode':
             X_train, y_train =  create_shared_simple_dataset(df, outcome=outcome,days_to_subtract=target_day[-1])
 
+    scaler = StandardScaler().fit(X_train)
+    X_train = scaler.transform(X_train)
+
     model = _fit_shared_exponential(X_train,y_train)
-    features = demographic_vars+['log(deaths)','bias']
+    features = demographic_vars+['log(deaths)','bias'] #,'bias2']
     if verbose == True:
         print('Feature weights')
         for i,f in enumerate(features):
             print(f+' : '+str(model.params[i]))
 
-    predicted_deaths = get_shared_death_predictions(df,model,mode,target_day=target_day,outcome=outcome,demographic_vars=demographic_vars)
+    predicted_deaths = get_shared_death_predictions(df,model,mode,target_day=target_day,outcome=outcome,demographic_vars=demographic_vars,scaler=scaler)
     return predicted_deaths
 
 
-def _predict_shared_deaths(number_of_deaths,demographics,model,target_day):
+def _predict_shared_deaths(number_of_deaths,demographics,model,target_day,scaler):
 
 
     """
@@ -387,7 +395,9 @@ def _predict_shared_deaths(number_of_deaths,demographics,model,target_day):
     death_predictions = [] 
     prev_deaths = number_of_deaths
     for i in range(target_day[-1]):
-        cur_deaths = model.predict([demographics+[np.log(prev_deaths+1),1]])[0]
+        cur_deaths = model.predict(scaler.transform([demographics+[np.log(prev_deaths+1),1]])+[1])[0]
+        # cur_deaths = model.predict([demographics+[np.log(prev_deaths+1),1]+[1]])[0]
+
         if i+1 in target_day:
             death_predictions.append(cur_deaths)
         prev_deaths = cur_deaths
@@ -396,7 +406,7 @@ def _predict_shared_deaths(number_of_deaths,demographics,model,target_day):
 
 
 
-def get_shared_death_predictions(test_df,model,mode,target_day,outcome='deaths',demographic_vars=[]):
+def get_shared_death_predictions(test_df,model,mode,target_day,scaler,outcome='deaths',demographic_vars=[]):
     """Predicts the death total for the most recent day in test_df
     Input:
     test_df: dataframes with county level deaths:
@@ -415,9 +425,9 @@ def get_shared_death_predictions(test_df,model,mode,target_day,outcome='deaths',
         else:
             demographics = []
         if mode == 'predict_future':
-            predicted_county_deaths = _predict_shared_deaths(deaths[-1],demographics,model,target_day)
+            predicted_county_deaths = _predict_shared_deaths(deaths[-1],demographics,model,target_day,scaler)
         elif mode == 'eval_mode':
-            predicted_county_deaths = _predict_shared_deaths(deaths[-(target_day[-1]+1)],demographics,model,target_day)
+            predicted_county_deaths = _predict_shared_deaths(deaths[-(target_day[-1]+1)],demographics,model,target_day,scaler)
         predicted_deaths.append(predicted_county_deaths)
 
     return predicted_deaths 
