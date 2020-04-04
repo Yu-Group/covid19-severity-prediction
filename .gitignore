@@ -17,3 +17,4 @@ data/
 **.json
 **.xlsx
 data_hospital_level/processed/*hospital*
+data_new/county_level/raw/unacast_mobility/download.py
