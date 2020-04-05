@@ -20,6 +20,8 @@ def load_daily_data(usafacts_data_cases='usafacts/confirmed_cases.csv',
                                     if not 'county' in k.lower()
                                     and not 'state' in k.lower()})
 
+    deaths.countyFIPS = deaths.countyFIPS.astype(int)
+    cases.countyFIPS = cases.countyFIPS.astype(int)
     cases = cases[cases.countyFIPS != 0]  # ignore cases where county is unknown
     cases = cases.groupby(['countyFIPS']).sum().reset_index()  # sum over duplicate counties
     deaths = deaths[deaths.countyFIPS != 0]
