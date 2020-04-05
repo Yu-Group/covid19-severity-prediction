@@ -237,10 +237,12 @@ def make_counties_slider_subplots(title_text, subplot_titles):
     fig.update_geos(
         scope = 'usa',
         projection=go.layout.geo.Projection(type = 'albers usa'),
-        landcolor = 'rgb(217, 217, 217)'
+        subunitcolor = "rgb(0, 0, 0)",
+        landcolor = 'rgb(255, 255, 255)'
     )
 
     fig.update_layout(
+        dragmode = 'pan',
         title = {
             'text' : title_text,
             'y' : 0.95,
@@ -421,7 +423,9 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
             "active": 0,
             "visible": True,
             "pad": {"t": 50},
-            "steps": []
+            "currentvalue": {'xanchor' : 'right'},
+            'transition': {'duration': 1000, 'easing': 'cubic-in-out'},
+            "steps": [],
         }
     ]
 
