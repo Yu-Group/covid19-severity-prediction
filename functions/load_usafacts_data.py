@@ -8,14 +8,14 @@ def load_daily_data(usafacts_data_cases='usafacts/confirmed_cases.csv',
     usafacts_data_cases = oj(dir_mod, usafacts_data_cases)
     usafacts_data_deaths = oj(dir_mod, usafacts_data_deaths)
   
-    cases = pd.read_csv(usafacts_data_cases, encoding="iso-8859-1")
+    cases = pd.read_csv(usafacts_data_cases, encoding="iso-8859-1", index_col=0).T
     cases = cases.rename(columns={k: '#Cases_' + k for k in cases.keys()
                                   if not 'county' in k.lower()
                                   and not 'state' in k.lower()})
 
-    deaths = pd.read_csv(usafacts_data_deaths, encoding="iso-8859-1")
+    deaths = pd.read_csv(usafacts_data_deaths, encoding="iso-8859-1", index_col=0).T
     if not 'countyFIPS' in deaths.keys():
-        deaths = pd.read_csv(usafacts_data_deaths, encoding="utf-8")
+        deaths = pd.read_csv(usafacts_data_deaths, encoding="utf-8", index_col=0).T
     deaths = deaths.rename(columns={k: '#Deaths_' + k for k in deaths.keys()
                                     if not 'county' in k.lower()
                                     and not 'state' in k.lower()})
