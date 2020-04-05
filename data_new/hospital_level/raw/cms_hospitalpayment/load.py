@@ -6,9 +6,7 @@ def load_cms_hospitalpayment(input="./cms_hospitalpayment.xlsx"):
     teaching = pd.read_excel(
         input,
         index_col=0,
-        dtype={
-            "CCN":str,
-        }
+        dtype=str,
     )
     return teaching
 

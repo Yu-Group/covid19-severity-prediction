@@ -5,17 +5,16 @@
     - Not all hospitals in the US are included.
     - Does not have CMS Certification Number, which would be used a primary key for each hospital.
 - Selected Columns:
+    - Hospital Name, str, all lower case
     - Long, 
     - Lat,
-    - Hospital Name
-    - Address
-    - City
+    - Address, str, all lower case
+    - City, str, all lower case
     - Zipcode
     - State
-    - Telephone
-    - Status
+    - Telephone, Missing value is NOT AVAILABLE
     - countyFIPS
     - Total Beds
     - Website
-    - Trauma Center Level
-    - Hospital Type
+    - Trauma Center Level, 1-5
+    - Hospital Type, str, lower case
