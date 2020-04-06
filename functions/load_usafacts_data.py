@@ -15,7 +15,15 @@ def load_daily_data(usafacts_data_cases='usafacts/confirmed_cases.csv',
     # change to int type
     for col in cases.columns:
         if not 'county' in col.lower() and not 'state' in col.lower():
+            if col[-4:] != '2020':
+                cases = cases.rename(columns = {col: col + '20'})
+                col = col + '20'
             cases[col] = cases[col].astype(float).astype(int)
+    for col in deaths.columns:
+        if not 'county' in col.lower() and not 'state' in col.lower():
+            if col[-4:] != '2020':
+                deaths = deaths.rename(columns = {col: col + '20'})
+                col = col + '20'
             deaths[col] = deaths[col].astype(float).astype(int)
     # rename column names
     cases = cases.rename(columns={k: '#Cases_' + k for k in cases.keys()
