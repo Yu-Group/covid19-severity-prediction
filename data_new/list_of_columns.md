@@ -16,7 +16,7 @@
 
 #### Geographical identifiers
 | Data variable     | Description | Source data set |
-| ---   | --- |
+| ---   | --- | --- |
 |**lat**| latitude corresponding to county's geographic center | county_latlong |
 |**lon**| longitude corresponding to county's geographic center | county_latlong |
 |CensusRegionName| name of census region | ahrf_health |
