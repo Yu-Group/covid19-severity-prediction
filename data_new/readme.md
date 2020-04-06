@@ -1,6 +1,13 @@
 ## Overview of all the data sets
 
-We compiled a large corpus of data, including both hospital-level and county-level data, and build a machine-readable data set with this information to facilitate COVID-19 prediction tasks relating to hospital need and cases/deaths forecasts. At the hospital level, our data includes the location of the hospital, the number of ICU beds, the total number of employees, and the hospital type. At the county-level, our data includes daily COVID-19 cases/deaths from USA Facts and NYT, demographic information and health resource availability, COVID-19 health risk factors, and social mobility data. An overview of each data set in this corpus is provided below.
+To forecast demand for healthcare supplies through the prediction of COVID-19
+cases/deaths, we compiled and cleaned a large corpus of county-level and hospital-level data from a variety of primary sources. At the county level, our data
+include COVID-19 cases/deaths from USA Facts and NYT, automatically updated
+every day, along with demographic information, health resource availability,
+COVID-19 health risk factors, and social mobility information. At the hospital level, our
+data include the location of the hospital, the number of ICU beds, the total
+number of employees, and the hospital type. An overview of
+each data set in this corpus is provided in this file.
 
 - **Hospital Level Data**
     - **cms_cmi**: Case Mix Index for hospitals from CMS 
