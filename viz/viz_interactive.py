@@ -517,20 +517,20 @@ def plot_counties_slider(df,
     # TODO: use new_deaths
     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
-    # compute scaled growth rate: pop_density * (avg_growth past 4 days + cov(time, growth))
-    # adds more weight to areas with high pop density and median age and penalizes areas where growth is slowing
+    # compute normalized growth rate:
+    # avg(growth = # deaths day i / # deaths day i-1) + cov(time, growth)
+    # and penalizes areas where growth is slowing
     def compute_growth_factor(x, n_days=4):
         past_n_days = x[-n_days:]
         growth_factor = (past_n_days / np.insert(x[-4:-1], 0, 1))[-(n_days-1):]
         return np.mean(growth_factor) + np.cov(np.arange(3), growth_factor)[0][1]
-    df['growth_factor'] = df['deaths'].apply(lambda x: compute_growth_factor(x))
 
-    #df['emerging_index'] = np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] * df['growth_factor']
-    # scale to be between 0 and 1
-    #df['emerging_index'] = (df['emerging_index'] - df['emerging_index'].min()) / (df['emerging_index'].max() / df['emerging_index'].min())
+    # the emerging_index scales by log(pop_density) * median_age / (# hospitals + 1)
+    df['emerging_index'] = df['deaths'].apply(lambda x: compute_growth_factor(x)) * \
+        (np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] / (df['#Hospitals'] + 1))
 
-    df_top_6 = df.sort_values('growth_factor', ascending = False)
-    df_top_6 = df_top_6[df_top_6['tot_deaths'] > 50]
+    df_top_6 = df.sort_values('emerging_index', ascending = False)
+    df_top_6 = df_top_6[(df_top_6['tot_deaths'] > 20) & (df_top_6['tot_deaths'] < 50)]
 
     top_6_county = df_top_6['CountyName'].take(range(6)).tolist()
     top_6_state = df_top_6['StateNameAbbreviation'].take(range(6)).tolist()
@@ -541,7 +541,7 @@ def plot_counties_slider(df,
     past_days = df.filter(regex='#Deaths_').columns[-n_past_days:]
 
     # make main figure
-    fig = make_counties_slider_subplots("Emerging Hotspots",
+    fig = make_counties_slider_subplots("Emerging Hotspots: Fastest Growth in Death Rate <br> 20 to 50 Deaths, Weighted by log Pop. Density * Median Age / (# Hospitals + 1)",
                                         subplot_titles=subplot_titles)
 
     # make choropleth if plotting
