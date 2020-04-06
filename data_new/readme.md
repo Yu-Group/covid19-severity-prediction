@@ -47,6 +47,7 @@ An overview of each data set in this corpus is provided below:
 
     - **Social Distancing and Mobility/Miscellaneous**
         - **unacast_mobility**: county-level estimates of the change in mobility from pre-COVID-19 baseline from Unacast (private data)
+        - **jhu_interventions**: contains the dates that counties (or states governing them) took measures to mitigate the spread by restricting gatherings (e.g., travel bans, stay at home orders)
         - **mit_voting**: county-level returns for presidential elections from 2000 to 2016 according to official state election data records
 
 

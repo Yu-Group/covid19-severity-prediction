@@ -171,6 +171,14 @@
 | ---   | --- | --- |
 |**daily\_distance\_diff%Y-%m-%d**| change of average distance traveled on %Y-%m-%d from baseline (avg. distance traveled for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
 |**daily\_visitation\_diff%Y-%m-%d**| change of visits to non-essential retail and services on %Y-%m-%d from baseline (avg. visits for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
+|**stay at home**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**>50 gatherings**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**>500 gatherings**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**public schools**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**restaurant dine-in**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**entertainment/gym**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**federal guidelines**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|**foreign travel ban**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 
 
 #### Miscellaneous

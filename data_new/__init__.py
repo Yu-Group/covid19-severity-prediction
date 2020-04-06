@@ -20,6 +20,7 @@ from .county_level.processed.mit_voting.clean import clean_mit_voting
 from .county_level.processed.nchs_mortality.clean import clean_nchs_mortality
 from .county_level.processed.unacast_mobility.clean import clean_unacast_mobility
 from .county_level.processed.usdss_diabetes.clean import clean_usdss_diabetes
+from .county_level.processed.jhu_interventions.clean import clean_jhu_interventions
 
 
 def load_county(data_dir=".", cached_file="county_data.csv", 
@@ -78,7 +79,7 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         datasets = ["ahrf_health", "cdc_svi", "chrr_smoking", "dhdsp_heart",
                     "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
                     "medicare_chronic", "mit_voting", "nchs_mortality", 
-                    "unacast_mobility", "usdss_diabetes"]
+                    "unacast_mobility", "usdss_diabetes", "jhu_interventions"]
         df_ls = []
         for dataset in datasets:
             # check if raw data files exist locally
@@ -89,10 +90,10 @@ def load_county(data_dir=".", cached_file="county_data.csv",
                     os.system("python3 download.py")
                     print("downloaded " + dataset + " successfully")
                     os.chdir(orig_dir)
-            elif dataset == "unacast":  # private data
+            elif dataset == "unacast_mobility":  # private data
                 if not "unacast_mobility.csv" in os.listdir(oj(data_dir_raw, dataset)):
                     continue
-            else:
+            elif dataset != "jhu_interventions":
                 if not any(fname.startswith(dataset) \
                            for fname in os.listdir(oj(data_dir_raw, dataset))):
                     # download raw data
@@ -252,7 +253,8 @@ def important_keys(df):
     # social mobility data
     social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
     social_dist_daily = [var for var in list(df.columns) if "daily_distance_diff" in var]
-    social =  social_dist + social_dist_daily
+    interventions = ['stay at home', '>50 gatherings', '>500 gatherings', 'public schools', 'restaurant dine-in', 'entertainment/gym', 'federal guidelines', 'foreign travel ban']
+    social =  social_dist + social_dist_daily + interventions
     
     # resource shortages/social vulnerability
     vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
