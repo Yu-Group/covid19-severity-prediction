@@ -27,13 +27,14 @@ An overview of each data set in this corpus is provided below:
 
 - **County Level Data**
     - **COVID-19 Cases/Deaths Data**
-        - **nytimes_covid**: COVID-19-related death/case counts per day per county from NYT
-        - **usafacts_covid**: COVID-19-related death/case counts per day per county from USA Facts
+        - **nytimes_infections**: COVID-19-related death/case counts per day per county from NYT
+        - **usafacts_infections**: COVID-19-related death/case counts per day per county from USA Facts
 
     - **Demographics and Health Resource Availability**
         - **ahrf_health**: contains county-level information on health facilities, health professions, measures of resource scarcity, health status, economic activity, health training programs, and socioeconomic and environmental characteristics from Area Health Resources Files
         - **cdc_svi**: Social Vulnerability Index for counties from CDC
         - **hpsa_shortage**: information on areas with shortages of primary care, as designated by the Health Resources & Services Administration (HRSA)
+        - **khn_icu**: information on number of ICU beds and hospitals per county from Kaiser Health News
 
     - **Health Risk Factors**
         - **chrr_smoking**: estimated percentage of adult smokers in each county from County Health Rankings & Roadmaps
@@ -41,8 +42,8 @@ An overview of each data set in this corpus is provided below:
         - **dhdsp_stroke**: stroke mortality rates from CDC DHDSP
         - **ihme_respiratory**: chronic respiratory disease mortality rates from IHME
         - **medicare_chronic**: Medicare claims data for 21 chronic conditions
-        - **nhs_mortality**: overall mortality rates for each county from National Center for Health Statistics
-        - **dss_diabetes**: diagnosed diabetes in each county from CDC USDSS
+        - **nchs_mortality**: overall mortality rates for each county from National Center for Health Statistics
+        - **usdss_diabetes**: diagnosed diabetes in each county from CDC USDSS
 
     - **Social Distancing and Mobility/Miscellaneous**
         - **unacast_mobility**: county-level estimates of the change in mobility from pre-COVID-19 baseline from Unacast (private data)
@@ -50,7 +51,7 @@ An overview of each data set in this corpus is provided below:
 
 
 ## Folder Structure 
-In this folder, we collect the useful hospital level data from a variety of sources. The strcture of the folder is as the following:
+In this folder, we collect the useful hospital level data from a variety of sources. The structure of the folder is as the following:
 - raw (contains raw data)
     - [datasource]_[shortname]/
         - load.py (a script that loads the data)
