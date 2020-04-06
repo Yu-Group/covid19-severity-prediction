@@ -11,7 +11,7 @@
 
 - **Short list of data columns**: 
 	- **countyFIPS**: county FIPS code
-	- **DemToRepRatio**: ratio of the number of votes received by the Democratic candidate over that received by the Republican candidate in the 2016 presidential election
+	- **dem_to_rep_ratio**: ratio of the number of votes received by the Democratic candidate over that received by the Republican candidate in the 2016 presidential election
 
 - **Notes**: 
 	- MIT Election Data and Science Lab, 2018, "County Presidential Election Returns 2000-2016", https://doi.org/10.7910/DVN/VOQCHQ, Harvard Dataverse, V6, UNF:6:ZZe1xuZ5H2l4NUiSRcRf8Q== [fileUNF]

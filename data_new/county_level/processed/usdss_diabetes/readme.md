@@ -12,9 +12,9 @@
 	- **County**: county name
 	- **State**: state name
 	- **countyFIPS**: county FIPS
-	- **DiagDiabetes**: estimated age-adjusted percentage of diagnosed diabetes in 2016 among adults age 20 and over
-	- **DiagDiabetesLowCI95**: lower limit of 95% confidence interval for diagnosed diabetes percentage
-	- **DiagDiabetesHighCI95**: upper limit of 95% confidence interval for diagnosed diabetes percentage
+	- **DiabetesPercentage**: estimated age-adjusted percentage of diagnosed diabetes in 2016 among adults age 20 and over
+	- **DiabetesLowCI95**: lower limit of 95% confidence interval for diagnosed diabetes percentage
+	- **DiabetesHighCI95**: upper limit of 95% confidence interval for diagnosed diabetes percentage
 
 - **Notes**:
 

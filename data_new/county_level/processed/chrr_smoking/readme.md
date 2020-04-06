@@ -10,9 +10,9 @@
 
 - **Short list of data columns**: 
 	- **countyFIPS**: county FIPS
-	- **Smoking**: estimated percentage of adult smoking
-	- **SmokingLowCI95**: lower limit of 95% confidence interval
-	- **SmokingHighCI95**: upper limit of 95% confidence interval
+	- **Smokers_Percentage**: estimated percentage of adult smoking
+	- **SmokersLowCI95**: lower limit of 95% confidence interval
+	- **SmokersHighCI95**: upper limit of 95% confidence interval
 
 - **Notes**: 
 	- Caution Should be Used When Comparing these Estimates Across State Lines. The model used to create these estimates includes a state-level factor that limits comparability between neighboring counties of adjacent states
