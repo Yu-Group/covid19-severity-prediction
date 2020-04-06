@@ -245,10 +245,11 @@ def make_counties_slider_subplots(title_text, subplot_titles):
         dragmode = 'pan',
         title = {
             'text' : title_text,
+            'pad' : {'b': 25},
             'y' : 0.95,
             'x' : 0.18,
             'xanchor': 'center',
-            'yanchor': 'top'
+            'yanchor': 'bottom'
         }
     )
 
@@ -541,7 +542,7 @@ def plot_counties_slider(df,
     past_days = df.filter(regex='#Deaths_').columns[-n_past_days:]
 
     # make main figure
-    fig = make_counties_slider_subplots("Emerging Hotspots: Fastest Growth in Death Rate <br> 20 to 50 Deaths, Weighted by log Pop. Density * Median Age / (# Hospitals + 1)",
+    fig = make_counties_slider_subplots("Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)",
                                         subplot_titles=subplot_titles)
 
     # make choropleth if plotting
