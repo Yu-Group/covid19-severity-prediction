@@ -253,6 +253,9 @@ def important_keys(df):
     social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
     social_dist_daily = [var for var in list(df.columns) if "daily_distance_diff" in var]
     social =  social_dist + social_dist_daily
+    
+    # resource shortages/social vulnerability
+    vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
 
     # get list of important variables
     important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social
