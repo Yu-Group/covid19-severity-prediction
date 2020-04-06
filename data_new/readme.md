@@ -14,8 +14,8 @@ We prepared this data to support emergency medical supply distribution efforts
 through short-term (days) prediction of COVID-19 deaths (and cases) at the
 county level. We are using the predictions and hospital data to arrive at a
 covid Pandemic Severity Index (c-PSI) for each hospital. This project is in
-partnership with response4life.org. We will be adding more relevant data sets as
-they are found.
+partnership with [response4life.org](http://response4life.org). We will be
+adding more relevant data sets as they are found.
 
 An overview of each data set in this corpus is provided below:
 
