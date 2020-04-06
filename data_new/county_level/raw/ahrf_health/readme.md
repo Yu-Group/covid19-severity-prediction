@@ -13,5 +13,5 @@
 	- feature categories: county classifications, health professions, health facilities, utilization, expenditures, population, and environment
 
 - **Notes**:
-	- For a full list of data columns, descriptions, and technical information, please see user documentation [here](https://data.hrsa.gov/data/download)
+	- For a full list of data columns, descriptions, and technical information, please see user documentation in DOC/
 	- Some code to load in AHRF from https://github.com/adityanagara/AHRF_project

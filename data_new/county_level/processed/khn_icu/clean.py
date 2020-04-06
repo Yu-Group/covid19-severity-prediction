@@ -25,7 +25,7 @@ def clean_khn_icu(data_dir='../../raw/khn_icu/',
     df = load_khn_icu(data_dir = data_dir)
     
     # drop features
-    drop_keys = "hospitals_in_cost_reports"
+    drop_keys = ["hospitals_in_cost_reports", "Total_pop", "60plus", "60plus_pct"]
     df = df.drop(columns = drop_keys)
     
     # rename features

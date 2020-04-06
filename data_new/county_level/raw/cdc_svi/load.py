@@ -17,7 +17,7 @@ def load_cdc_svi(data_dir='.'):
     '''
     
     # load in data
-    raw = pd.read_csv(oj(data_dir, "cdc_svi.csv"))
+    raw = pd.read_csv(oj(data_dir, "cdc_svi.csv"), na_values = [-999])
     
     return raw
 
