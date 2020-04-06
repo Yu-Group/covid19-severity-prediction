@@ -16,6 +16,7 @@ print(df.shape) # (1212, 7306)
 - note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is at `data/df_county_level_abridged_cached.csv`
 - for more data details, see [./data/readme.md](./data/readme.md)
 - for an intro to some of the analysis here, visit the [project webpage](https://yu-group.github.io/covid19-severity-prediction/)
+- we are constantly monitoring for new data sources, and updating sources of data as they become available [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/)
 
 ## Prediction
 - To get deaths predictions of the naive exponential growth model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
@@ -25,12 +26,10 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 # NUM_DAYS_LIST is number of days in the future to predict
 ```
 
-## New data
-- we are constantly monitoring for new data sources, and updating sources of data as they become available [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/)
-
 ## Related county-level projects
 - [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
 - [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
+- [UChicago visualization team](https://github.com/GeoDaCenter/covid)
 
     
 # Overview
