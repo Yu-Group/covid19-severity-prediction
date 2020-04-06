@@ -1,11 +1,37 @@
 ## Overview of all the data sets
-- hospital level
-    - cms_cmi: Case Mix Index for hospitals from CMS 
-    - cms_hospitalpayment: Teaching Hospital info from CMS
-    - DH_hospital: US Hospital info from Definitive Healthcase
-    - hifld_hospital: Hospital info from homeland infrastructue foundation level data
-- county level
-    - data
+
+We compiled a large corpus of data, including both hospital-level and county-level data, and build a machine-readable data set with this information to facilitate COVID-19 prediction tasks relating to hospital need and cases/deaths forecasts. At the hospital level, our data includes the location of the hospital, the number of ICU beds, the total number of employees, and the hospital type. At the county-level, our data includes daily COVID-19 cases/deaths from USA Facts and NYT, demographic information and health resource availability, COVID-19 health risk factors, and social mobility data. An overview of each data set in this corpus is provided below.
+
+- **Hospital Level Data**
+    - **cms_cmi**: Case Mix Index for hospitals from CMS 
+    - **cms_hospitalpayment**: Teaching Hospital info from CMS
+    - **DH_hospital**: US Hospital info from Definitive Healthcare
+    - **hifld_hospital**: Hospital info from homeland infrastructue foundation level data
+
+- **County Level Data**
+    - **COVID-19 Cases/Deaths Data**
+        - **nytimes_covid**: COVID-19-related death/case counts per day per county from NYT
+        - **usafacts_covid**: COVID-19-related death/case counts per day per county from USA Facts
+
+    - **Demographics and Health Resource Availability**
+        - **ahrf_health**: contains county-level information on health facilities, health professions, measures of resource scarcity, health status, economic activity, health training programs, and socioeconomic and environmental characteristics from Area Health Resources Files
+        - **cdc_svi**: Social Vulnerability Index for counties from CDC
+        - **hpsa_shortage**: information on areas with shortages of primary care, as designated by the Health Resources & Services Administration (HRSA)
+
+    - **Health Risk Factors**
+        - **chrr_smoking**: estimated percentage of adult smokers in each county from County Health Rankings & Roadmaps
+        - **dhdsp_heart**: cardiovascular disease mortality rates from CDC DHDSP
+        - **dhdsp_stroke**: stroke mortality rates from CDC DHDSP
+        - **ihme_respiratory**: chronic respiratory disease mortality rates from IHME
+        - **medicare_chronic**: Medicare claims data for 21 chronic conditions
+        - **nhs_mortality**: overall mortality rates for each county from National Center for Health Statistics
+        - **dss_diabetes**: diagnosed diabetes in each county from CDC USDSS
+
+    - **Social Distancing and Mobility/Miscellaneous**
+        - **unacast_mobility**: county-level estimates of the change in mobility from pre-COVID-19 baseline from Unacast (private data)
+        - **mit_voting**: county-level returns for presidential elections from 2000 to 2016 according to official state election data records
+
+
 ## Folder Structure 
 In this folder, we collect the useful hospital level data from a variety of sources. The strcture of the folder is as the following:
 - raw (contains raw data)
