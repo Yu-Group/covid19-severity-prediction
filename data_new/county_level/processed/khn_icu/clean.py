@@ -4,11 +4,11 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.dhdsp_stroke.load import load_dhdsp_stroke
+from ...raw.khn_icu.load import load_khn_icu
 
-def clean_dhdsp_stroke(data_dir='../../raw/dhdsp_stroke/', 
-                        out_dir='.'):
-    ''' Clean CDC DHDSP stroke mortality data
+def clean_khn_icu(data_dir='../../raw/khn_icu/', 
+                  out_dir='.'):
+    ''' Clean Kaiser Health News ICU Beds by County Data
     
     Parameters
     ----------
@@ -22,16 +22,21 @@ def clean_dhdsp_stroke(data_dir='../../raw/dhdsp_stroke/',
     '''
     
     # load in data
-    df = load_dhdsp_stroke(data_dir = data_dir)
+    df = load_khn_icu(data_dir = data_dir)
     
     # drop features
-    drop_keys = ['display_name', 'theme_range']
+    drop_keys = "hospitals_in_cost_reports"
     df = df.drop(columns = drop_keys)
     
     # rename features
     remap = {
         'cnty_fips': 'countyFIPS',
-        'Value': 'StrokeMortality'
+        'cnty_name': 'County Name',
+        'st': 'State Name',
+        'state': 'State',
+        'Hospitals_in_HC': '#Hospitals',
+        'all_icu': '#ICU_beds',
+        '60plus_per_each_icu_bed': '60plusPerICUBed'
     }
     df = df.rename(columns = remap)
     
@@ -39,10 +44,11 @@ def clean_dhdsp_stroke(data_dir='../../raw/dhdsp_stroke/',
     df['countyFIPS'] = df['countyFIPS'].astype(str).str.zfill(5)
     
     # write out to csv
-    df.to_csv(oj(out_dir, "dhdsp_stroke.csv"), header=True, index=False)
+    df.to_csv(oj(out_dir, "khn_icu.csv"), header=True, index=False)
     
     return df
 
 if __name__ == '__main__':
-    df = clean_dhdsp_stroke()
-    print("cleaned dhdsp_stroke successfully.")
+    df = clean_khn_icu()
+    print("cleaned khn_icu successfully.")
+

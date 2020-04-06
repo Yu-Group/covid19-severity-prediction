@@ -1,12 +1,11 @@
 #! /usr/bin/python3
 
 import pandas as pd
-from os.path import join as oj
 import os
+from os.path import join as oj
+from os.path import dirname
 
-import sys
-sys.path.append('../../raw/ahrf_health/')
-from load import load_ahrf_health
+from ...raw.ahrf_health.load import load_ahrf_health
 
 def clean_ahrf_health(data_dir='../../raw/ahrf_health/', 
                       out_dir='.'):
@@ -39,8 +38,9 @@ def clean_ahrf_health(data_dir='../../raw/ahrf_health/',
         'StateNameAbbreviation': 'State Name',
         'CountyName': 'County Name'
     }
-    
     df = df.rename(columns = remap)
+
+    df["countyFIPS"] = df["countyFIPS"].astype(str).str.zfill(5)
     
     # write out to csv
     df.to_csv(oj(out_dir, "ahrf_health.csv"), header=True, index=False)

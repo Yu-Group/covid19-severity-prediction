@@ -4,9 +4,7 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-import sys
-sys.path.append('../../raw/nchs_mortality/')
-from load import load_nchs_mortality
+from ...raw.nchs_mortality.load import load_nchs_mortality
 
 def clean_nchs_mortality(data_dir='../../raw/nchs_mortality/',
                          out_dir='.'):

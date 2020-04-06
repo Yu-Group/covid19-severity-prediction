@@ -6,9 +6,7 @@ from os.path import join as oj
 import os
 from tqdm import tqdm
 
-import sys
-sys.path.append('../../raw/mit_voting/')
-from load import load_mit_voting
+from ...raw.mit_voting.load import load_mit_voting
 
 def clean_mit_voting(data_dir='../../raw/mit_voting/', 
                      out_dir='.'):
@@ -37,11 +35,11 @@ def clean_mit_voting(data_dir='../../raw/mit_voting/',
     # compute additional statistic: democrat-to-republican ratio
     ks = sorted(np.unique(df.FIPS))
     r = {'countyFIPS': ks, 
-         'DemToRepRatio': []}
+         'dem_to_rep_ratio': []}
     for k in tqdm(ks):
         v = df[df.FIPS == k]
         ratio = v[v.party == 'democrat'].candidatevotes.iloc[0] / v[v.party == 'republican'].candidatevotes.iloc[0]
-        r['DemToRepRatio'].append(ratio)
+        r['dem_to_rep_ratio'].append(ratio)
     df = pd.DataFrame.from_dict(r)
     
     # county FIPS to string with padded zeros

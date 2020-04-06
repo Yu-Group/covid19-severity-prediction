@@ -4,9 +4,7 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-import sys
-sys.path.append('../../raw/usdss_diabetes/')
-from load import load_usdss_diabetes
+from ...raw.usdss_diabetes.load import load_usdss_diabetes
 
 def clean_usdss_diabetes(data_dir='../../raw/usdss_diabetes/',
                          out_dir='.'):
@@ -29,9 +27,9 @@ def clean_usdss_diabetes(data_dir='../../raw/usdss_diabetes/',
     # rename features
     remap = {
         'CountyFIPS': 'countyFIPS',
-        'Percentage': 'DiagDiabetes',
-        'Lower Limit': 'DiagDiabetesLowCI95',
-        'Upper Limit': 'DiagDiabetesHighCI95'
+        'Percentage': 'DiabetesPercentage',
+        'Lower Limit': 'DiabetesLowCI95',
+        ' Upper Limit': 'DiabetesHighCI95'
     }
     df = df.rename(columns = remap)
     

@@ -4,9 +4,7 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-import sys
-sys.path.append('../../raw/ihme_respiratory/')
-from load import load_ihme_respiratory
+from ...raw.ihme_respiratory.load import load_ihme_respiratory
 
 def clean_ihme_respiratory(data_dir='../../raw/ihme_respiratory/', 
                            out_dir='.'):

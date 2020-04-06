@@ -4,9 +4,7 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-import sys
-sys.path.append('../../raw/unacast_mobility/')
-from load import load_unacast_mobility
+from ...raw.unacast_mobility.load import load_unacast_mobility
 
 def clean_unacast_mobility(data_dir='../../raw/unacast_mobility/',
                            out_dir='.'):
@@ -25,9 +23,6 @@ def clean_unacast_mobility(data_dir='../../raw/unacast_mobility/',
     
     # load in data
     df = load_unacast_mobility(data_dir = data_dir)
-    
-    # filter to post covid data
-    df = df[df["covid"] == "POST"]
     
     # drop features
     drop_keys = ['weekday', 'covid', 'state_fips', 'county_population', 

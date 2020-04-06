@@ -4,13 +4,11 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-import sys
-sys.path.append('../../raw/brfss_smoking/')
-from load import load_brfss_smoking
+from ...raw.chrr_smoking.load import load_chrr_smoking
 
-def clean_brfss_smoking(data_dir='../../raw/brfss_smoking/', 
-                        out_dir='.'):
-    ''' Clean BRFSS Adult Smoking data (2017)
+def clean_chrr_smoking(data_dir='../../raw/chrr_smoking/', 
+                       out_dir='.'):
+    ''' Clean County Health Rankings & Roadmaps Adult Smoking data (2017)
     
     Parameters
     ----------
@@ -24,14 +22,14 @@ def clean_brfss_smoking(data_dir='../../raw/brfss_smoking/',
     '''
     
     # load in data
-    df = load_brfss_smoking(data_dir = data_dir)
+    df = load_chrr_smoking(data_dir = data_dir)
     
     # rename features
     remap = {
         'FIPS': 'countyFIPS',
-        '% Smokers': 'Smoking',
-        '95% CI - Low.5': 'SmokingLowCI95',
-        '95% CI - High.5': 'SmokingHighCI95'
+        '% Smokers': 'Smokers_Percentage',
+        '95% CI - Low.5': 'SmokersLowCI95',
+        '95% CI - High.5': 'SmokersHighCI95'
     }
     
     df = df.rename(columns = remap)
@@ -40,11 +38,11 @@ def clean_brfss_smoking(data_dir='../../raw/brfss_smoking/',
     df['countyFIPS'] = df['countyFIPS'].astype(str).str.zfill(5)
     
     # write out to csv
-    df.to_csv(oj(out_dir, "brfss_smoking.csv"), header=True, index=False)
+    df.to_csv(oj(out_dir, "chrr_smoking.csv"), header=True, index=False)
     
     return df
 
 if __name__ == '__main__':
-    df = clean_brfss_smoking()
-    print("cleaned brfss_smoking successfully.")
+    df = clean_chrr_smoking()
+    print("cleaned chrr_smoking successfully.")
 

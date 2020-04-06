@@ -4,9 +4,7 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-import sys
-sys.path.append('../../raw/cdc_svi/')
-from load import load_cdc_svi
+from ...raw.cdc_svi.load import load_cdc_svi
 
 def clean_cdc_svi(data_dir='../../raw/cdc_svi/', 
                   out_dir='.'):
