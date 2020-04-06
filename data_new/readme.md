@@ -1,13 +1,23 @@
 ## Overview of all the data sets
 
-To forecast demand for healthcare supplies through the prediction of COVID-19
-cases/deaths, we compiled and cleaned a large corpus of county-level and hospital-level data from a variety of primary sources. At the county level, our data
-include COVID-19 cases/deaths from USA Facts and NYT, automatically updated
-every day, along with demographic information, health resource availability,
-COVID-19 health risk factors, and social mobility information. At the hospital level, our
-data include the location of the hospital, the number of ICU beds, the total
-number of employees, and the hospital type. An overview of
-each data set in this corpus is provided in this file.
+The Yu group at UC Berkeley Statistics and EECS compiled and cleaned a large
+corpus of hospital- and county-level data from a variety of public sources to
+aid data science efforts to combat COVID-19. At the hospital level, our data
+include the location of the hospital, the number of ICU beds, the total number
+of employees, and the hospital type. At the county level, our data include
+COVID-19 cases/deaths from USA Facts and NYT, automatically updated every day,
+along with demographic information, health resource availability, COVID-19
+health risk factors, and social mobility information. An overview of each data
+set in this corpus is provided in this file.
+
+We prepared this data to support emergency medical supply distribution efforts
+through short-term (days) prediction of COVID-19 deaths (and cases) at the
+county level. We are using the predictions and hospital data to arrive at a
+covid Pandemic Severity Index (c-PSI) for each hospital. This project is in
+partnership with response4life.org. We will be adding more relevant data sets as
+they are found.
+
+An overview of each data set in this corpus is provided below:
 
 - **Hospital Level Data**
     - **cms_cmi**: Case Mix Index for hospitals from CMS 
