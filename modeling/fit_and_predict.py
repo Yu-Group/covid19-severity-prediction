@@ -4,6 +4,8 @@ import numpy as np
 import scipy as sp
 import pandas as pd
 import matplotlib.pyplot as plt
+from os.path import join as oj
+import os
 import matplotlib.dates as mdates
 import seaborn as sns
 # from viz import viz
@@ -42,7 +44,8 @@ def fit_and_predict(df,
                     mode: str='predict_future', 
                     target_day: np.ndarray=np.array([1]),
                     output_key: str=None,
-                    demographic_vars=[]):
+                    demographic_vars=[],
+                    verbose: bool=False):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
     Predicts the values of the number of deaths for the final day of test_df and writes to the column
@@ -86,7 +89,6 @@ def fit_and_predict(df,
         return naive_autoreg_baselines.make_predictions(test_df,model,best_window)
     
     elif method == 'exponential':
-        print('outcome', outcome, mode, target_day)
         preds = exponential_modeling.exponential_fit(df[outcome].values, 
                                                      mode=mode, 
                                                      target_day=target_day)
@@ -164,7 +166,8 @@ def fit_and_predict_ensemble(df,
                                          mode=mode, 
                                          target_day=target_day,
                                          output_key=f'y_preds_{i}',
-                                         demographic_vars=demographic_vars)[f'y_preds_{i}'].values
+                                         demographic_vars=demographic_vars,
+                                         verbose=verbose)[f'y_preds_{i}'].values
             
     if mode == 'predict_future':
         use_df = df
@@ -269,10 +272,10 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     if cached_dir is not None:
         # getting current date and time
         d = datetime.datetime.today()
-        cached_fname = oj(cached_dir, f'{d.month}_{d.day}.pkl')
+        cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
         
         if os.path.exists(cached_fname):
-            return pd.read_pickle(cached_file)
+            return pd.read_pickle(cached_fname)
     
     print('predicting...')
     # df_county = exponential_modeling.estimate_deaths(df_county) # adds key 
@@ -306,5 +309,5 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
         df_county[output_key] = out
         
     if cached_dir is not None:
-        df_county.to_pickle(cached_file)
+        df_county.to_pickle(cached_fname)
     return df_county
