@@ -14,12 +14,12 @@ states_list = ['Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
               'West%20Virginia', 'Wisconsin', 'Wyoming', 'District%20of%20Columbia']
 
 for state in states_list:
-    os.system("wget https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20County%20Health%20Rankings%20" + state + "%20Data%20-%20v1_0.xlsx -O ./state_data/brfss_smoking_" + state + ".xlsx")
+    os.system("wget https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20County%20Health%20Rankings%20" + state + "%20Data%20-%20v1_0.xlsx -O ./state_data/chrr_smoking_" + state + ".xlsx")
 
 states_list2 = ['Alabama', 'North%20Dakota']
 for state in states_list2:
-    os.system("wget https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20County%20Health%20Rankings%20" + state + "%20Data%20-%20v1_1.xlsx -O ./state_data/brfss_smoking_" + state + ".xlsx")
+    os.system("wget https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20County%20Health%20Rankings%20" + state + "%20Data%20-%20v1_1.xlsx -O ./state_data/chrr_smoking_" + state + ".xlsx")
 
 states_list3 = ['West%20Virginia', 'Wyoming']
 for state in states_list3:
-    os.system("wget https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20County%20Health%20Rankings%20" + state + "%20Data%20-%20v1.xlsx -O ./state_data/brfss_smoking_" + state + ".xlsx")
+    os.system("wget https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20County%20Health%20Rankings%20" + state + "%20Data%20-%20v1.xlsx -O ./state_data/chrr_smoking_" + state + ".xlsx")
