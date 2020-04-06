@@ -4,13 +4,13 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-def load_brfss_smoking(data_dir='.'):
-    ''' Load in BRFSS Adult Smoking data (2017)
+def load_chrr_smoking(data_dir='.'):
+    ''' Load in County Health Rankings & Roadmaps Adult Smoking data (2017)
     
     Parameters
     ----------
     data_dir : str; path to the data directory containing 
-               ./state_data/brfss_smoking_STATENAME.XLSX
+               ./state_data/chrr_smoking_STATENAME.XLSX
     
     Returns
     -------
@@ -28,7 +28,7 @@ def load_brfss_smoking(data_dir='.'):
               'West%20Virginia', 'Wisconsin', 'Wyoming', 'District%20of%20Columbia']
     raw_ls = []
     for state in states:
-        raw = pd.read_excel(oj(data_dir, 'state_data', 'brfss_smoking_' + state + '.xlsx'), 
+        raw = pd.read_excel(oj(data_dir, 'state_data', 'chrr_smoking_' + state + '.xlsx'), 
                            sheet_name = 'Ranked Measure Data', 
                            skiprows = 1)
         id_idx = raw.columns.get_loc('FIPS')
@@ -40,6 +40,6 @@ def load_brfss_smoking(data_dir='.'):
     return raw
 
 if __name__ == '__main__':
-    raw = load_brfss_smoking()
-    print('loaded brfss_smoking successfully.')
+    raw = load_chrr_smoking()
+    print('loaded chrr_smoking successfully.')
 
