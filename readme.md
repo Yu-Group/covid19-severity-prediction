@@ -51,7 +51,7 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 3. **Results**
     - pretty decent predictions for number of deaths a few days in the future
 
-# 1 - Appraoch
+# 1 - Approach
 
 - **outcome**: the main thing we predict is the number of deaths (per county)
 - we use many features at the county-level, such as demographics, comorbidity statistics, voting data
