@@ -19,6 +19,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from functools import partial
+import datetime
 
 very_important_vars = ['PopulationDensityperSqMile2010',
 #                        'MedicareEnrollment,AgedTot2017',
@@ -85,6 +86,7 @@ def fit_and_predict(df,
         return naive_autoreg_baselines.make_predictions(test_df,model,best_window)
     
     elif method == 'exponential':
+        print('outcome', outcome, mode, target_day)
         preds = exponential_modeling.exponential_fit(df[outcome].values, 
                                                      mode=mode, 
                                                      target_day=target_day)
@@ -262,7 +264,16 @@ def get_forecasts(df,
 
         
         
-def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False):
+def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None):
+    # load cached preds
+    if cached_dir is not None:
+        # getting current date and time
+        d = datetime.datetime.today()
+        cached_fname = oj(cached_dir, f'{d.month}_{d.day}.pkl')
+        
+        if os.path.exists(cached_fname):
+            return pd.read_pickle(cached_file)
+    
     print('predicting...')
     # df_county = exponential_modeling.estimate_deaths(df_county) # adds key 
     for num_days_in_future in NUM_DAYS_LIST: # 1 is tomorrow
@@ -293,4 +304,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False):
         '''
         
         df_county[output_key] = out
+        
+    if cached_dir is not None:
+        df_county.to_pickle(cached_file)
     return df_county
