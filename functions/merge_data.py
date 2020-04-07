@@ -101,7 +101,9 @@ def merge_county_and_hosp(df_county, df_hospital):
     # filter hospitals
     df = df[~df['countyFIPS'].isna()] # & df['IsAcademicHospital'] & df['Hospital Employees'] > 0]
     df = df.sort_values(by=['tot_deaths', 'Hospital Employees'], ascending=False)
-
+    df = df.drop(columns='Hospital Name')
+    df = df.rename(columns={'Facility Name': 'Hospital Name'})
+    df = df.drop_duplicates('CMS Certification Number', keep=False)
 
     # fraction of employees out of all county hospitals
     df['Frac Hospital Employees of County'] = df['Hospital Employees'] / df['Hospital Employees in County']
