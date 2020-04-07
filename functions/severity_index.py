@@ -20,10 +20,8 @@ meanings = {
     }
 
 def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
-    def apply_manual_thresholds(vals, manual_thresholds = {5: 10,
-                                                           4: 3,
-                                                           3: 2,
-                                                           2: 0.8,
+    def apply_manual_thresholds(vals, manual_thresholds = {3: 6,
+                                                           2: 2,
                                                            1: 0}):
         new_col = vals * 0
         for key in sorted(manual_thresholds.keys()):
@@ -36,7 +34,7 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         '''
         new_col = vals * 0
         new_col[vals < LOW_THRESH] = 1
-        new_col[vals >= LOW_THRESH] = pd.qcut(vals[vals >= LOW_THRESH], 4, labels=False) + 2
+        new_col[vals >= LOW_THRESH] = pd.qcut(vals[vals >= LOW_THRESH], 2, labels=False) + 2
         return new_col.astype(int)
 
     # loop over num day    
