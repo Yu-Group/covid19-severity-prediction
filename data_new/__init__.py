@@ -73,7 +73,7 @@ def load_county(data_dir=".", cached_file="county_data.csv",
             else:
                 raise ValueError("Cached file cannot be found. " + 
                                  "Please set cached = False")
-        
+        cnty["countyFIPS"] = cnty["countyFIPS"].astype(str).str.zfill(5)
     else: 
         # generate county data
         datasets = ["ahrf_health", "cdc_svi", "chrr_smoking", "dhdsp_heart",
@@ -82,23 +82,31 @@ def load_county(data_dir=".", cached_file="county_data.csv",
                     "unacast_mobility", "usdss_diabetes", "jhu_interventions"]
         df_ls = []
         for dataset in datasets:
-            # check if raw data files exist locally
+            # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_smoking":
-                if len(os.listdir(oj(data_dir_raw, dataset, "state_data"))) != 51:
+                os.chdir(oj(data_dir_raw, dataset))
+                if not os.path.exists("state_data"):
                     # download raw data
-                    os.chdir(oj(data_dir_raw, dataset))
-                    os.system("python3 download.py")
+                    os.system("python download.py")
                     print("downloaded " + dataset + " successfully")
-                    os.chdir(orig_dir)
+                elif len(os.listdir("state_data")) != 51:
+                    # download raw data
+                    os.system("python download.py")
+                    print("downloaded " + dataset + " successfully")        
+                os.chdir(orig_dir)
             elif dataset == "unacast_mobility":  # private data
-                if not "unacast_mobility.csv" in os.listdir(oj(data_dir_raw, dataset)):
+                os.chdir(oj(data_dir_raw, dataset))
+                if not "unacast_mobility.csv" in \
+                os.listdir('../../../../../unacast_mobility_data'):
+                    os.chdir(orig_dir)
                     continue
+                os.chdir(orig_dir)
             elif dataset != "jhu_interventions":
                 if not any(fname.startswith(dataset) \
                            for fname in os.listdir(oj(data_dir_raw, dataset))):
                     # download raw data
                     os.chdir(oj(data_dir_raw, dataset))
-                    os.system("python3 download.py")
+                    os.system("python download.py")
                     print("downloaded " + dataset + " successfully")
                     os.chdir(orig_dir)
                 
@@ -108,11 +116,11 @@ def load_county(data_dir=".", cached_file="county_data.csv",
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
             
-        # merge county data
+        # merge county data (countyFIPS, CountyName, StateName, State, lat, lon)
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
         cnty_fips["countyFIPS"] = cnty_fips["countyFIPS"].str.zfill(5)
         cnty_latlong = pd.read_csv(oj(data_dir_raw, "county_ids", "county_latlong.csv"))
-        cnty_latlong = cnty_latlong[["countyFIPS", "lat", "lon"]]
+        cnty_latlong = cnty_latlong[["countyFIPS", "State", "lat", "lon"]]
         cnty_latlong["countyFIPS"] = cnty_latlong["countyFIPS"].astype(str).str.zfill(5)
         cnty = pd.merge(cnty_fips, cnty_latlong, on="countyFIPS", how="left")
         for i in range(0, len(df_ls)):
@@ -128,15 +136,15 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         
         if abridged == True:
             # get shortlist of important variables for abridged data set
-            id_vars = ["countyFIPS", 'CountyName', 'StateName', 'lat', 'lon']
+            id_vars = ["countyFIPS", 'CountyName', 'StateName', 'State', 'lat', 'lon']
             important_vars = id_vars + important_keys(cnty)
             cnty = cnty[important_vars]
-            cnty.to_csv(oj(data_dir, "county_data_abridged.csv"), header=True, index=False)
-            print("saved county_data_abridged.csv successfully")
+            cnty.to_csv(oj(data_dir, cached_abridged_file), header=True, index=False)
+            print("saved " + cached_abridged_file + " successfully")
         else:
             # write full county data to file
-            cnty.to_csv(oj(data_dir, "county_data.csv"), header=True, index=False)
-            print("saved county_data.csv successfully")
+            cnty.to_csv(oj(data_dir, cached_file), header=True, index=False)
+            print("saved " + cached_file + " successfully")
         
     # get covid-19 infections data
     if infections_data == 'usafacts':
