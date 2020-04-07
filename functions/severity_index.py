@@ -28,20 +28,31 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         new_col = vals * 0
         for key in sorted(manual_thresholds.keys()):
             new_col[vals >= manual_thresholds[key]] = key
-        return new_col
+        return new_col.astype(int)
+    
+    def percentiles_with_manual_low(vals, LOW_THRESH=1):
+        '''Everything below LOW_THRESH gets severity 1
+        All other things are split evenly by percentile
+        '''
+        new_col = vals * 0
+        new_col[vals < LOW_THRESH] = 1
+        new_col[vals >= LOW_THRESH] = pd.qcut(vals[vals >= LOW_THRESH], 4, labels=False) + 2
+        return new_col.astype(int)
 
-    # this is number of new predicted deaths
+    # loop over num day    
     for num_days in NUM_DAYS_LIST:
-        df[f'Predicted Deaths Hospital {num_days}-day'] = ((df[f'Predicted Deaths {num_days}-day'] - df['tot_deaths']) * df['Frac Hospital Employees of County']).fillna(0)
-        df[f'Severity Percentile {num_days}-day'] = pd.qcut(df[f'Predicted Deaths Hospital {num_days}-day'], 5, labels=False) + 1
-        df[f'Severity {num_days}-day'] = apply_manual_thresholds(df[f'Predicted Deaths Hospital {num_days}-day']).astype(int)
+        df[f'Predicted New Deaths {num_days}-day'] = df[f'Predicted Deaths {num_days}-day'] - df['tot_deaths']
         
-    df[f'Predicted Deaths Hospital {0}-day'] = (df[f'tot_deaths'] * df['Frac Hospital Employees of County']).fillna(0)
-    df[f'Severity {0}-day'] = apply_manual_thresholds(df[f'Predicted Deaths Hospital {0}-day']).astype(int)
-    #     df[f'Quantile {num_days}-day'] = 
-    k = 2
-    s_hosp = f'Predicted Deaths Hospital {k}-day'
-    s_index = f'Severity {k}-day'
+        # hospital-level deaths
+        df[f'Predicted Deaths Hospital {num_days}-day'] = ((df[f'Predicted Deaths {num_days}-day']) * df['Frac Hospital Employees of County']).fillna(0)
+        df[f'Predicted New Deaths Hospital {num_days}-day'] = (df[f'Predicted New Deaths {num_days}-day'] * df['Frac Hospital Employees of County']).fillna(0)
+        
+        # severity
+        df[f'Severity {num_days}-day'] = percentiles_with_manual_low(df[f'Predicted Deaths Hospital {num_days}-day']) 
+        df[f'Severity Emerging {num_days}-day'] = percentiles_with_manual_low(df[f'Predicted New Deaths Hospital {num_days}-day']) 
+        
+        
+    s_hosp = f'Predicted Deaths Hospital 3-day'
     return df.sort_values(s_hosp, ascending=False).round(2)
 
 def write_to_gsheets(df, ks_output=['Severity 1-day', 'Severity 2-day', 'Severity 3-day', 'Severity 4-day',
@@ -70,5 +81,3 @@ if __name__ == '__main__':
     # print
     d = datetime.datetime.today()
     print(f'success! {d.month}_{d.day}_{d.hour}')
-
-
