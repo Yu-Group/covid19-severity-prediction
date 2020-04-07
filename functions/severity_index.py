@@ -33,10 +33,10 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
     for num_days in NUM_DAYS_LIST:
         df[f'Predicted Deaths Hospital {num_days}-day'] = ((df[f'Predicted Deaths {num_days}-day'] - df['tot_deaths']) * df['Frac Hospital Employees of County']).fillna(0)
         df[f'Severity Percentile {num_days}-day'] = pd.qcut(df[f'Predicted Deaths Hospital {num_days}-day'], 5, labels=False) + 1
-        df[f'Severity {num_days}-day'] = apply_manual_thresholds(df[f'Predicted Deaths Hospital {num_days}-day'])
+        df[f'Severity {num_days}-day'] = apply_manual_thresholds(df[f'Predicted Deaths Hospital {num_days}-day']).astype(int)
         
     df[f'Predicted Deaths Hospital {0}-day'] = (df[f'tot_deaths'] * df['Frac Hospital Employees of County']).fillna(0)
-    df[f'Severity {0}-day'] = apply_manual_thresholds(df[f'Predicted Deaths Hospital {0}-day'])
+    df[f'Severity {0}-day'] = apply_manual_thresholds(df[f'Predicted Deaths Hospital {0}-day']).astype(int)
     #     df[f'Quantile {num_days}-day'] = 
     k = 2
     s_hosp = f'Predicted Deaths Hospital {k}-day'

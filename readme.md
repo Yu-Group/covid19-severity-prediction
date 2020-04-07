@@ -29,7 +29,7 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 ## Related county-level projects
 - [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
 - [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
-- [UChicago visualization team](https://github.com/GeoDaCenter/covid)
+- [UChicago GeoData visualization team](https://github.com/GeoDaCenter/covid)
 
     
 # Overview
