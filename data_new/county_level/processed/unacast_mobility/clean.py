@@ -6,7 +6,7 @@ import os
 
 from ...raw.unacast_mobility.load import load_unacast_mobility
 
-def clean_unacast_mobility(data_dir='../../raw/unacast_mobility/',
+def clean_unacast_mobility(data_dir='../../../../../unacast_mobility_data',
                            out_dir='.'):
     ''' Clean Unacast Social Mobility and Distancing data
     
