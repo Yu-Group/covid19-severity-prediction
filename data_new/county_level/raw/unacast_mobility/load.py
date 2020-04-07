@@ -4,20 +4,26 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-def load_unacast_mobility(data_dir='.'):
-    ''' Load in Unacast Social Mobility and Distancing data
+def load_unacast_mobility(data_dir='../../../../../unacast_mobility_data'):
+    ''' Load in Unacast Social Mobility and Distancing data (automatically updated)
     
     Parameters
     ----------
-    data_dir : str; path to the data directory to write unacast_mobility.csv
+    data_dir : str; path to the data directory to find raw unacast_mobility.csv
     
     Returns
     -------
     data frame
     '''
     
-    # load in data
-    raw = pd.read_csv(oj(data_dir, "unacast_mobility.csv"))
+    orig_dir = os.getcwd()
+    os.chdir(data_dir)
+
+    # refresh and load in data
+    os.system("git pull")
+    raw = pd.read_csv("unacast_mobility.csv")
+    
+    os.chdir(orig_dir)
     
     return raw
 
