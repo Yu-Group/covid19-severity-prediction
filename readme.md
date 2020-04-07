@@ -29,7 +29,7 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 ## Related county-level projects
 - [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
 - [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
-- [UChicago visualization team](https://github.com/GeoDaCenter/covid)
+- [UChicago GeoData visualization team](https://github.com/GeoDaCenter/covid)
 
     
 # Overview
@@ -38,10 +38,12 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 
 1. **Approach** 
     - predict expected deaths/cases at the county-level
+    - we use many features at the county-level, such as demographics, comorbidity statistics, voting data
     - estimate supplies/need based on available data (e.g. number of icu beds, personnel in hospital)
     - filter hospitals and score them according to their expected demand for additional supplies
-2. **Data** 
-    - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data
+    - we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
+2. **Data**
+    - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
     - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
     - limitations
         - currently using proxies for hospitals supplies/demands instead of real measurements
@@ -50,27 +52,8 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 3. **Results**
     - pretty decent predictions for number of deaths a few days in the future
 
-# 1 - Approach
 
-- **outcome**: the main thing we predict is the number of deaths (per county)
-- we use many features at the county-level, such as demographics, comorbidity statistics, voting data
-- we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
-
-# 2 - Data
-
-we have some data at the county-level and some at the hospital-level, which we jointly use to evaluate hospital need
-
-## County-level data
-
-- daily number of confirmed cases + deaths (from usafacts)
-- population density, age distribution, gender distribution, presidential voting data, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions), social distancing data from Unacast, hospital-level data (e.g. # of employees, # of icu beds, occupancy rate), and other demographic and disease mortality data
-
-## Hospital-level data
-- key predictors: icu beds, total staff, location info, ratings, hospital type
-- some of this data is not public so we can't share it all here
-- potentially contact information and more we are still merging in...
-
-# 3 - Results
+# Visualizations
 
 ## Looking at some county-level statistics
 
