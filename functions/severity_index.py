@@ -9,6 +9,7 @@ sys.path.append('..')
 import load_data
 from fit_and_predict import add_preds
 from functions import merge_data
+import datetime
 
 meanings = {
         1: 'Low',
@@ -64,6 +65,10 @@ if __name__ == '__main__':
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
     df = add_severity_index(df, NUM_DAYS_LIST)
     write_to_gsheets(df)
-    print('success!')
+    
+    
+    # print
+    d = datetime.datetime.today()
+    print(f'success! {d.month}_{d.day}_{d.hour}')
 
 
