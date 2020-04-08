@@ -6,7 +6,6 @@ output_notebook()
 import re
 import numpy as np
 from modeling import fit_and_predict
-from functions import severity_index
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.offline import plot
@@ -287,6 +286,7 @@ def add_counties_slider_scatter_traces(fig, df,
                                xaxis='x1', yaxis='y1'),
                     row=i % 3 + 1, col=(i - 1) % 2 + 1
                 )
+                # fig.update_layout(yaxis_type="log")
                 # annotations.append(
                 #     {
                 #         'x' : .05,
@@ -482,7 +482,8 @@ def plot_counties_slider(df,
                          cumulative=True, # not currently used
                          plot_choropleth=False,
                          counties_json=None,
-                         n_past_days=3):
+                         n_past_days=3,
+                         dark=True):
     """
     """
     # TODO: note that df should have all data (preds and lat lon)
@@ -569,6 +570,9 @@ def plot_counties_slider(df,
     fig.update_layout(
         sliders=sliders
     )
+    
+    if dark:
+        fig.layout.template = 'plotly_dark'
 
     plot(fig, filename=filename, config={
         'showLink': False,
