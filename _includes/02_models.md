@@ -12,4 +12,8 @@ Our models show that most counties are experiencing exponential growth that can 
 However, we also find that some counties are starting to experience sub-exponential growth, possibly due to the
 "flattening-the-curve" impacts of interventions such as social distancing and shelter in place orders. 
 
-We also have developed some more models which adjust for demographics / risk factors (see details in the [paper]()).
+We also have developed some more models which adjust for demographics / risk factors (see details in the [paper]()). The plot below shows the accuracies for our 3-day predictions (predicting today from 3 days ago).
+
+<figure class="video_container">
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/predictions.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
+</figure>
