@@ -11,6 +11,9 @@ import plotly.figure_factory as ff
 from plotly.offline import plot
 from plotly.subplots import make_subplots
 import json
+import plotly.express as px
+import plotly
+import pandas as pd
 
 credstr ='rgb(234, 51, 86)'
 cbluestr = 'rgb(57, 138, 242)'
@@ -610,3 +613,37 @@ fig = px.scatter(df, x="tot_deaths", y="Predicted New Deaths 3-day", log_x=True,
                  hover_name="CountyName", hover_data=["CountyName", 'StateName'])
 plotly.offline.plot(fig, filename="results/new_deaths_vs_curr_deaths.html")
 '''
+
+
+def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animated.html"):
+    def flat_list(list_list):
+        l = []
+        for ll in list_list:
+            l += ll.tolist()
+        return l
+
+    N = d.shape[0]
+    NUM_DAYS = len(NUM_DAYS_LIST)
+    dd = pd.concat([d] * NUM_DAYS)
+    dd['Days'] = np.repeat(range(NUM_DAYS), N) + 1
+    dd['Predicted New Deaths'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in range(1, NUM_DAYS + 1)])
+    dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in range(1, NUM_DAYS + 1)])
+    
+    fig = px.scatter(dd, x="Total Deaths Hospital", 
+                 y="Predicted New Deaths", 
+                 animation_frame="Days", 
+                 animation_group="Hospital Name",
+                 color='Severity Index',
+                 size='Hospital Employees',
+                 hover_name="Hospital Name", 
+                 hover_data=["CountyName", 'StateName'],
+                 log_x=True, log_y=True)
+    fig.add_annotation(text='Circle size corresponds to hospital size', 
+                       x=max(dd['Total Deaths Hospital']),
+                       y=max(dd['Predicted New Deaths']))
+    fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,255)',
+                plot_bgcolor='rgba(0,0,0,255)',
+                template='plotly_dark'
+            )
+    plotly.offline.plot(fig, filename=out_name)
