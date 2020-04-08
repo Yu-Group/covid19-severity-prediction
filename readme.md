@@ -1,8 +1,3 @@
----
-layout: null
-title: covid19 severity prediction
----
-
 # Quickstart with the data + models
 
 This section details how to quickly download and get started with the data + models.

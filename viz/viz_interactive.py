@@ -646,4 +646,4 @@ def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animat
                 plot_bgcolor='rgba(0,0,0,255)',
                 template='plotly_dark'
             )
-    plotly.offline.plot(fig, filename=out_name)
+    plotly.offline.plot(fig, filename=out_name, auto_open=False)

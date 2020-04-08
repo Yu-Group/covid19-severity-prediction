@@ -12,11 +12,10 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 sys.path.append(parentdir + '/modeling')
-sys.path.append(parentdir + '/viz')
 import load_data
 from fit_and_predict import add_preds
 from functions import merge_data
-from viz import viz, viz_interactive
+from viz import  viz_interactive
 
 meanings = {
         1: 'Low',
@@ -85,6 +84,7 @@ def df_to_plot(df, NUM_DAYS_LIST):
     return df[ks]
     
 if __name__ == '__main__':
+    print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
     df_hospital = load_data.load_hospital_level(data_dir=oj(parentdir, 'data_hospital_level'))
@@ -101,7 +101,8 @@ if __name__ == '__main__':
         print('failed to write to gsheets!')
         
     d = df_to_plot(df, NUM_DAYS_LIST)
-    viz_interactive.viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animated.html")
+    viz_interactive.viz_index_animated(d, NUM_DAYS_LIST, out_name=oj(parentdir, 'results', 'hospital_index_animated.html'))
+    print('succesfully wrote viz index animated')
 
     
     # print

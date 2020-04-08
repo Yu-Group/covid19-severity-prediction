@@ -8,3 +8,14 @@ REPO_DIR=/accounts/projects/vision/chandan/covid19-severity-prediction
 
 # update slider plot once a day
 0 0 * * * $(which python3) $REPO_DIR/functions/update_slider.py $REPO_DIR/data county_pop_centers.csv >> ~/cron.log
+
+# cache IHME preds
+need to run this script: https://github.com/Yu-Group/covid19-severity-prediction/blob/master/predictions/other_modeling/extract_ihme.py
+
+# cache our model preds
+need to run xiao's script
+
+# update model preds plot (like becca plot in paper)
+this script will be coming soon...
+
+# after running all scripts need to push to git
