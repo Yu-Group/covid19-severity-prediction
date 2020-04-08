@@ -209,7 +209,6 @@ def viz_curves(df, filename='out.html',
                                              'sendData': True,
                                              'responsive': True,
                                              'autosizable': True,
-                                             'showEditInChartStudio': False,
                                              'displaylogo': False
                                             }) 
 #         fig.show()
@@ -572,7 +571,11 @@ def plot_counties_slider(df,
     )
     
     if dark:
-        fig.layout.template = 'plotly_dark'
+        fig.update_layout(
+            paper_bgcolor='rgba(0,0,0,255)',
+            plot_bgcolor='rgba(0,0,0,255)',
+            template='plotly_dark'
+        )
 
     plot(fig, filename=filename, config={
         'showLink': False,
@@ -580,7 +583,6 @@ def plot_counties_slider(df,
         'sendData': True,
         'responsive': True,
         'autosizable': True,
-        'showEditInChartStudio': False,
         'displaylogo': False
     })
 
