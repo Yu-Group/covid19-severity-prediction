@@ -1,0 +1,100 @@
+import copy
+import statsmodels.api as sm
+
+
+class SharedModel:
+	def __init__(self, df, outcome, demographic_variables, auxiliary_time_features, feat_transforms, mode, target_days,
+				 time_series_default_values=None):
+		self.outcome = outcome
+		self.df = copy.deepcopy(df)
+		if time_series_default_values is None:
+			assert auxiliary_time_features == []
+		self.time_series_features = [outcome] + auxiliary_time_features
+		if mode == 'eval_mode':
+			for t in self.time_series_features:
+				self.df[t] = [v[:-target_days[-1]] for v in self.df[t]]
+		self.auxiliary_time_features = auxiliary_time_features
+		self.auxiliary_time_data_dict = {aux_ts: self.df[aux_ts] for aux_ts in self.auxiliary_time_features}
+
+		self.demographics_variables = demographic_variables
+		self.demographic_data_dict = {d: self.df[d] for d in self.demographics_variables}
+
+		self.feat_transforms = feat_transforms
+		self.mode = mode
+		self.target_days = target_days
+		self.outcome = outcome
+		self.outcome_data = list(list(v) for v in self.df[self.outcome])
+
+		self.time_series_default_values = time_series_default_values
+
+		self.time_series_index_dict = {i: self.time_series_features[i] for i in range(len(self.time_series_features))}
+		self.feature_transforms = feat_transforms
+		self.outcome_start_threshold = 3
+		self.scaler = None
+
+		self.X_train = None
+		self.y_train = None
+		self.model = None
+
+		self.predictions = None
+
+	def create_demographic_features(self, county_index):
+		return [d[county_index] for d in self.demographic_data_dict]
+
+	def create_time_series_features(self, county_index, time_index):
+		# Find outcome time series features:
+		outcome_features = self.feature_transforms[self.outcome](self.outcome_data[county_index][time_index])
+		# Find auxiliary time series features:
+		if time_index - self.target_days[-1] < 0:
+			auxiliary_features = [self.default_values[f] for f in self.time_series_features]
+		else:
+			auxiliary_features = [self.feature_transforms[f](f[county_index][time_index - self.target_days[-1]]) for f
+								  in self.auxiliary_time_features]
+		return [outcome_features] + auxiliary_features
+
+	def create_dataset(self):
+		X_train = []
+		y_train = []
+		# For each county in a dataset:
+		for county_index in range(len(self.df)):
+			# For each time period in a dataset:
+			for time_index in range(len(self.outcome_data[county_index])):
+				if self.outcome_data[county_index][time_index] >= self.outcome_start_threshold and time_index > 0:
+					# Compute time series features
+					time_series_features = self.create_time_series_features(county_index, time_index - 1)
+
+					# Compute demographic features (if applicable)
+					demographic_features = self.create_demographic_features(county_index)
+					X_train.append(time_series_features + demographic_features)
+					y_train.append(self.outcome_data[county_index][time_index])
+
+		# Fit and apply scaler if applicable
+		if self.scaler:
+			raise NotImplementedError
+		# Add in bias term post scaling
+		self.X_train = [x + [1] for x in X_train]
+		self.y_train = y_train
+
+	def fit_model(self):
+		assert self.X_train, 'Create training data first'
+		self.model = sm.GLM(self.y_train, self.X_train, family=sm.families.Poisson())
+		self.model = self.model.fit()
+
+	def predict(self):
+		self.predictions = []
+		tmp_df = copy.deepcopy(self.df)
+		tmp_outcomes = copy.deepcopy(self.outcome_data)
+		for county_index in range(len(self.df)):
+			county_predictions = []
+			for i in range(self.target_days[-1]):
+				time_index = len(self.outcome_data[county_index]) - 1
+				time_series_features = self.create_time_series_features(county_index, time_index)
+				demographic_features = self.create_demographic_features(county_index)
+				features = time_series_features + demographic_features + [1]
+				prediction = self.model.predict([features])[0]
+				if i + 1 in self.target_days:
+					county_predictions.append(prediction)
+				self.outcome_data[county_index].append(prediction)
+			self.predictions.append(county_predictions)
+		self.df = tmp_df
+		self.outcome_data = tmp_outcomes
