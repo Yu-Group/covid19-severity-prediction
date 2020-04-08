@@ -1,7 +1,5 @@
 # modeling docs
 
-
-
 The model training and visualization pipeline lives in: `modeling/basic_model_framework.ipynb`
 which will train and visualize the outputs of various models.
 

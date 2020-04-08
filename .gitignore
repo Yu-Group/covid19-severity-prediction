@@ -21,3 +21,4 @@ data_new/county_level/raw/unacast_mobility/download.py
 *.doc
 *.txt
 *.docx
+_site

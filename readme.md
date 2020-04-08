@@ -1,4 +1,7 @@
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+---
+layout: null
+title: covid19 severity prediction
+---
 
 # Quickstart with the data + models
 
@@ -55,38 +58,7 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 
 # Visualizations
 
-## Looking at some county-level statistics
 
-Many of the county-level features we have collected are correlated with the total number of deaths recorded so far at each county (and with each other):
-![](results/correlations_heatmap.png)
-
-## Interactive visualizations of different counties
-
-We can also plot the predicted number of deaths at the county-level:
-<figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-We can visualize these features on interactive maps:
-<figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/ny.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
-<figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-## Hospital-level visualizations
-<figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/hospital_index_animated.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-This covid pandemic severity index is designed to help decide where medical resources should be allocated. It takes on three values (3: High, 2: Medium, 1: Low), indicating the severity of the covid-19 outbreak for a given hospital on a certain day. It is calculated in three steps:
-
-- county-level predictions for number of deaths are modeled
-- county-level predictions are allocated to hospitals within counties proportional the their total number of employees
-- final value is decided by thresholding the number of cumulative predicted deaths for a hospital (=current recorded deaths + predicted future deaths)
 
 
 # Acknowledgements
