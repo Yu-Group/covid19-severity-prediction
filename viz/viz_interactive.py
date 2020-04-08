@@ -621,14 +621,15 @@ def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animat
     N = d.shape[0]
     NUM_DAYS = len(NUM_DAYS_LIST)
     dd = pd.concat([d] * NUM_DAYS)
-    dd['Days in the future'] = np.repeat(range(NUM_DAYS), N) + 1
-    dd['Predicted new deaths at hospital'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in range(1, NUM_DAYS + 1)])
-    dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in range(1, NUM_DAYS + 1)])
+    # days_past = [(datetime.now() + timedelta(days=i)).strftime("%B %d") for i in NUM_DAYS_LIST]
+    dd['Days in the future'] = np.repeat(NUM_DAYS_LIST, N)
+    dd['Predicted new deaths at hospital'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in NUM_DAYS_LIST])
+    dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in NUM_DAYS_LIST])
     today = datetime.today().strftime("%B %d")
     new_key = f'Total Deaths at hospital by {today}'
     dd = dd.rename(columns={'Total Deaths Hospital': new_key})
     fig = px.scatter(dd, x=new_key, 
-                 y="'Predicted new deaths at hospital'", 
+                 y='Predicted new deaths at hospital', 
                  animation_frame="Days in the future", 
                  animation_group="Hospital Name",
                  color='Severity Index',
@@ -636,9 +637,6 @@ def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animat
                  hover_name="Hospital Name", 
                  hover_data=["CountyName", 'StateName'],
                  log_x=True, log_y=True)
-    fig.add_annotation(text='Circle size corresponds to hospital size', 
-                       x=max(dd[new_key]),
-                       y=max(dd['Predicted new deaths at hospital']))
     fig.update_layout(
                 paper_bgcolor='rgba(0,0,0,255)',
                 plot_bgcolor='rgba(0,0,0,255)',
