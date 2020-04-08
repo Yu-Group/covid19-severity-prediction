@@ -29,7 +29,7 @@ if __name__ == "__main__":
         columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
     )
     # create plot
-    plot_counties_slider(df, curves=False, auto_open=False, 
-                         n_past_days=1, 
+    plot_counties_slider(df, auto_open=False,
+                         n_past_days=1,
                          target_days=np.array([1, 2, 3]),
                          filename=oj(parentdir, 'results', 'deaths.html'))
