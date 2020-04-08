@@ -215,9 +215,13 @@ def viz_curves(df, filename='out.html',
         print('plot saved to', filename)
 
 
-def make_counties_slider_subplots(title_text, subplot_titles):
+def make_counties_slider_subplots(title_text, subplot_titles, curves=False):
+    if curves:
+        column_widths = [0.15, .15, 0.7]
+    else:
+        column_widths = [0, 0, 1]
     fig = make_subplots(
-        rows=3, cols=3, column_widths=[0.15, .15, 0.7],
+        rows=3, cols=3, column_widths=column_widths,
         specs=[ # indices of outer list correspond to rows
             [ # indices of inner list to cols
                 {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scattergeo', 'rowspan' : 3}
@@ -417,7 +421,7 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
     return None
 
 
-def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
+def make_counties_slider_sliders(past_days, target_days, plot_choropleth, curves=False):
     sliders = [
         {
             "active": 0,
@@ -435,9 +439,9 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
     # add steps for past days
     for i, day in enumerate(days):
         if plot_choropleth:
-            args = ["visible", [False] * (2*num_days) + [True] * 12]
+            args = ["visible", [False] * (2*num_days) + [curves] * 12]
         else:
-            args = ["visible", [False] * num_days + [True] * 12]
+            args = ["visible", [False] * num_days + [curves] * 12]
         slider_step = {
             # the first falses are the map traces
             # the last 12 trues are the scatter traces
@@ -459,9 +463,9 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
         else:
             day_name = "In " + str(i + 1) + " Days"
         if plot_choropleth:
-            args = ["visible", [False] * (2*num_days) + [True] * 12]
+            args = ["visible", [False] * (2*num_days) + [curves] * 12]
         else:
-            args = ["visible", [False] * num_days + [True] * 12]
+            args = ["visible", [False] * num_days + [curves] * 12]
         slider_step = {
             "args": args,
             "label": day_name,
@@ -482,7 +486,8 @@ def plot_counties_slider(df,
                          plot_choropleth=False,
                          counties_json=None,
                          n_past_days=3,
-                         dark=True):
+                         dark=True,
+                         curves=False):
     """
     """
     # TODO: note that df should have all data (preds and lat lon)
@@ -516,34 +521,39 @@ def plot_counties_slider(df,
     #     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
     # TODO: use new_deaths
-    title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
-    # compute normalized growth rate:
-    # avg(growth = # deaths day i / # deaths day i-1) + cov(time, growth)
-    # and penalizes areas where growth is slowing
-    def compute_growth_factor(x, n_days=4):
-        past_n_days = x[-n_days:]
-        growth_factor = (past_n_days / np.insert(x[-4:-1], 0, 1))[-(n_days-1):]
-        return np.mean(growth_factor) + np.cov(np.arange(3), growth_factor)[0][1]
+    if curves:
+        # compute normalized growth rate:
+        # avg(growth = # deaths day i / # deaths day i-1) + cov(time, growth)
+        # and penalizes areas where growth is slowing
+        def compute_growth_factor(x, n_days=4):
+            past_n_days = x[-n_days:]
+            growth_factor = (past_n_days / np.insert(x[-4:-1], 0, 1))[-(n_days-1):]
+            return np.mean(growth_factor) + np.cov(np.arange(3), growth_factor)[0][1]
 
-    # the emerging_index scales by log(pop_density) * median_age / (# hospitals + 1)
-    df['emerging_index'] = df['deaths'].apply(lambda x: compute_growth_factor(x)) * \
-        (np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] / (df['#Hospitals'] + 1))
+        # the emerging_index scales by log(pop_density) * median_age / (# hospitals + 1)
+        df['emerging_index'] = df['deaths'].apply(lambda x: compute_growth_factor(x)) * \
+            (np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] / (df['#Hospitals'] + 1))
 
-    df_top_6 = df.sort_values('emerging_index', ascending = False)
-    df_top_6 = df_top_6[(df_top_6['tot_deaths'] > 20) & (df_top_6['tot_deaths'] < 50)]
+        df_top_6 = df.sort_values('emerging_index', ascending = False)
+        df_top_6 = df_top_6[(df_top_6['tot_deaths'] > 20) & (df_top_6['tot_deaths'] < 50)]
 
-    top_6_county = df_top_6['CountyName'].take(range(6)).tolist()
-    top_6_state = df_top_6['StateNameAbbreviation'].take(range(6)).tolist()
-    top_6 = [county + ', ' + state for (county, state) in zip(top_6_county, top_6_state)]
-    subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + top_6[4:]
+        top_6_county = df_top_6['CountyName'].take(range(6)).tolist()
+        top_6_state = df_top_6['StateNameAbbreviation'].take(range(6)).tolist()
+        top_6 = [county + ', ' + state for (county, state) in zip(top_6_county, top_6_state)]
+        subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + top_6[4:]
+
+        title = "Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)"
+    else:
+        title = map_title
+        subplot_titles = [""]
+
+    # make main figure
+    fig = make_counties_slider_subplots(title, subplot_titles, curves)
 
     # get names of columns with past 3 days' deaths
     past_days = df.filter(regex='#Deaths_').columns[-n_past_days:]
-
-    # make main figure
-    fig = make_counties_slider_subplots("Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)",
-                                        subplot_titles=subplot_titles)
 
     # make choropleth if plotting
     # want this to happen first so bubbles overlay
@@ -561,15 +571,16 @@ def plot_counties_slider(df,
         # make bubbles visible
         fig.data[n_past_days + target_days.size].visible = True
 
-    # add case and death curves
-    add_counties_slider_scatter_traces(fig, df)
+    if curves:
+        # add case and death curves
+        add_counties_slider_scatter_traces(fig, df)
 
     # add slider to layout
-    sliders = make_counties_slider_sliders(past_days, target_days, plot_choropleth)
+    sliders = make_counties_slider_sliders(past_days, target_days, plot_choropleth, curves)
     fig.update_layout(
         sliders=sliders
     )
-    
+
     if dark:
         fig.update_layout(
             paper_bgcolor='rgba(0,0,0,255)',
