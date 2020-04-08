@@ -8,8 +8,11 @@
 | Data variable     | Description |  Source data set |
 | ---   | --- | --- |
 |**countyFIPS**| state-county FIPS Code | county_fips |
+|**STATEFP**| state FIPS Code | county_popcenters |
+|**COUNTYFP**| county FIPS Code | county_popcenters |
 |**CountyName**| county name | county_fips |
 |**StateName**| state abbreviation | county_fips |
+|**State**| state name | county_latlong |
 
 
 ### Data variables
@@ -19,6 +22,8 @@
 | ---   | --- | --- |
 |**lat**| latitude corresponding to county's geographic center | county_latlong |
 |**lon**| longitude corresponding to county's geographic center | county_latlong |
+|**POP\_LATITUDE**| latitude corresponding to county's population center | county_popcenters |
+|**POP\_LONGITUDE**| longitude corresponding to county's population center | county_popcenters |
 |CensusRegionName| name of census region | ahrf_health |
 |CensusDivisionName| name of census division | ahrf_health |
 |HPSAName| name of the Health Professional Shortage Area (HPSA) name | hpsa_shortage |
@@ -68,6 +73,15 @@
 |**PopFmle75-842010**| county population of females age 75-84 from 2010 census | ahrf_health |
 |**PopMale>842010**| county population of males age > 84 from 2010 census | ahrf_health |
 |**PopFmle>842010**| county population of females age > 84 from 2010 census | ahrf_health |
+|% Uninsured| percentage of population under age 65 without health insurance (2017) | chrr_health |
+|High School Graduation Rate| percentage of ninth-grade cohort that graduates in four years (2016-17) | chrr_health |
+|% Some College| percentage of adults ages 25-44 with some post-secondary education (2014-18) | chrr_health |
+|% Unemployed| percentage of population ages 16 and older unemployed but seeking work (2018) | chrr_health |
+|% Children in Poverty| percentage of people under age 18 in poverty (2018) | chrr_health |
+|Income Ratio| ratio of household income at the 80th percentile to income at the 20th percentile (2014-18) | chrr_health |
+|% Single-Parent Households| percentage of children that live in a household headed by single parent (2014-18) | chrr_health |
+|Social Association Rate| number of membership associations per 10,000 population (2017) | chrr_health |
+|% Severe Housing Problems| percentage of households with at least 1 of 4 housing problems: overcrowding, high housing costs, lack of kitchen facilities, or lack of plumbing facilities (2012-16) | chrr_health |
 
 
 #### Health Resource Availability
@@ -89,15 +103,15 @@
 |HPSAServedPop| estimated total population served by the full-time equivalent (FTE) Health care practitioners within a (HPSA) | hpsa_shortage |
 |HPSAUnderservedPop| estimated underserved population served by the full-time equivalent (FTE) health care practitioners within a HPSA | hpsa_shortage|
 |**HPSAShortage**| the number of full-time equivalent (FTE) practitioners needed in the Health Professional Shortage Area (HPSA) so that it will achieve the population to practitioner target ratio; target ratio is determined by the type (discipline) of the HPSA | hpsa_shortage|
+|Primary Care Physicians Ratio| ratio of population to primary care physicians (2017) | chrr_health |
+|Dentist Ratio| ratio of population to dentists (2018) | chrr_health |
+|Mental Health Provider Ratio| ratio of population to mental health providers (2019) | chrr_health |
 
 
-#### Health Risk Factors
+#### Health Outcomes and Risk Factors
 
 | Data variable     | Description | Source data set |
 | ---   | --- | --- |
-|**Smokers\_Percentage**| estimated percentage of adult smokers in county (2017) | chrr_smoking |
-|SmokersLowCI95| lower limit of 95% confidence interval for adult smoking percentage | chrr_smoking |
-|SmokersHighCI95| upper limit of 95% confidence interval for adult smoking percentage | chrr_smoking |
 |**HeartDiseaseMortality**| estimated mortality rate per 100,000 (all ages, all races/ethnicities, both genders, 2014-2016) from all heart diseases | dhdsp_heart |
 |**StrokeMortality**| estimated mortality rate per 100,000 (all ages, all races/ethnicities, both genders, 2014-2016) from all strokes | dhdsp_stroke |
 |RespMortalityRate1980| estimated age-standardized mortality rates (deaths per 100,000) for both sexes combined for year 1980 | ihme_respiratory |
@@ -164,6 +178,28 @@
 |**3-YrMortalityAge65-74Years2015-17**| mortality rate for population age 65-74, averaged over 2015-17 | ahrf_health |
 |**3-YrMortalityAge75-84Years2015-17**| mortality rate for population age 75-84, averaged over 2015-17 | ahrf_health |
 |**3-YrMortalityAge85+Years2015-17**| mortality rate for population age 85+, averaged over 2015-17 | ahrf_health |
+|Years of Potential Life Lost Rate| years of potential life lost before age 75 per 100,000 population (age-adjusted) (2016-2018) | chrr_health |
+|% Fair or Poor Health| percentage of adults reporting fair or poor health (age-adjusted) (2017) | chrr_health |
+|Average Number of Physically Unhealthy Days| average number of physically unhealthy days reported in past 30 days (age-adjusted) (2017) | chrr_health |
+|Average Number of Mentally Unhealthy Days| average number of mentally unhealthy days reported in past 30 days (age-adjusted) (2017) | chrr_health |
+|% Low Birthweight| percentage of live births with low birthweight (< 2,500 grams) (2012-18) | chrr_health |
+|**Smokers\_Percentage**| estimated percentage of adult smokers in county (2017) | chrr_smoking |
+|% Adults with Obesity| percentage of the adult population (age 20 and older) that reports a body mass index (BMI) greater than or equal to 30 kg/m2 (2016) | chrr_health |
+|Food Environment Index| index of factors that contribute to a healthy food environment, from 0 (worst) to 10 (best) (2015, 2017) | chrr_health |
+|% Physically Inactive| percentage of adults age 20 and over reporting no leisure-time physical activity (2016) | chrr_health |
+|% With Access to Exercise Opportunities| percentage of population with adequate access to locations for physical activity (2010, 2019) | chrr_health |
+|% Excessive Drinking**: percentage of adults reporting binge or heavy drinking (2017) | chrr_health |
+|% Driving Deaths with Alcohol Involvement| percentage of driving deaths with alcohol involvement (2014-18) | chrr_health |
+|Chlamydia Rate| number of newly diagnosed chlamydia cases per 100,000 population (2017) | chrr_health |
+|Teen Birth Rate| number of births per 1,000 female population ages 15-19 (2012-18) | chrr_health |
+|Preventable Hospitalization Rate| rate of hospital stays for ambulatory-care sensitive conditions per 100,000 Medicare enrollees  (2017) | chrr_health |
+|% With Annual Mammogram| percentage of female Medicare enrollees ages 65-74 that received an annual mammography screening (2017) | chrr_health |
+|% Vaccinated| percentage of fee-for-service (FFS) Medicare enrollees that had an annual flu vaccination (2017) | chrr_health |
+|Violent Crime Rate| number of reported violent crime offenses per 100,000 population (2014, 2016) | chrr_health |
+|Injury Death Rate| number of deaths due to injury per 100,000 population (2014-18) | chrr_health |
+|Average Daily PM2.5| average daily density of fine particulate matter in micrograms per cubic meter (PM2.5) (2014) | chrr_health |
+|Presence of Water Violation| indicator of the presence of health-related drinking water violations. 'Yes' indicates the presence of a violation, 'No' indicates no violation (2018) | chrr_health |
+
 		
 
 #### Social Distancing and Mobility (private data)
@@ -179,6 +215,8 @@
 |**entertainment/gym**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |**federal guidelines**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |**foreign travel ban**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
+|% Drive Alone to Work| percentage of the workforce that drives alone to work (2014-18) | chrr_health |
+|% Long Commute - Drives Alone| among workers who commute in their car alone, the percentage that commute more than 30 minutes (2014-18) | chrr_health |
 
 
 #### Miscellaneous
