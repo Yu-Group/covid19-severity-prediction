@@ -37,7 +37,7 @@ An overview of each data set in this corpus is provided below:
         - **khn_icu**: information on number of ICU beds and hospitals per county from Kaiser Health News
 
     - **Health Risk Factors**
-        - **chrr_smoking**: estimated percentage of adult smokers in each county from County Health Rankings & Roadmaps
+        - **chrr_health**: contains estimates of various health outcomes and health behaviors (e.g., percentage of adult smokers) for each county from County Health Rankings & Roadmaps
         - **dhdsp_heart**: cardiovascular disease mortality rates from CDC DHDSP
         - **dhdsp_stroke**: stroke mortality rates from CDC DHDSP
         - **ihme_respiratory**: chronic respiratory disease mortality rates from IHME
