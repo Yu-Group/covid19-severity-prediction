@@ -36,8 +36,8 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
 
 
     fig = px.scatter(d,
-                     x=pred_key, 
-                     y=deaths_key, 
+                     x=deaths_key, 
+                     y=pred_key, 
                  size='PopulationEstimate2018',
                  hover_name="CountyName", 
                  hover_data=["CountyName", 'StateName'],
