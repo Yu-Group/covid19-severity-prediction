@@ -33,4 +33,4 @@ if __name__ == "__main__":
         columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
     )
     # create plot
-    plot_counties_slider(df)
+    plot_counties_slider(df, curves=False, auto_open=False)

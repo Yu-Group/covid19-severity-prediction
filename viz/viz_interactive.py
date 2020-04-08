@@ -490,7 +490,8 @@ def plot_counties_slider(df,
                          counties_json=None,
                          n_past_days=3,
                          dark=True,
-                         curves=False):
+                         curves=True,
+                         auto_open=True):
     """
     """
     # TODO: note that df should have all data (preds and lat lon)
@@ -598,7 +599,7 @@ def plot_counties_slider(df,
         'responsive': True,
         'autosizable': True,
         'displaylogo': False
-    })
+    }, auto_open = False)
 
     
     
