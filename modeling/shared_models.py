@@ -14,7 +14,7 @@ class SharedModel:
 			for t in self.time_series_features:
 				self.df[t] = [v[:-target_days[-1]] for v in self.df[t]]
 		self.auxiliary_time_features = auxiliary_time_features
-		self.auxiliary_time_data_dict = {aux_ts: self.df[aux_ts] for aux_ts in self.auxiliary_time_features}
+		self.auxiliary_time_data_dict = {aux_ts: list(self.df[aux_ts]) for aux_ts in self.auxiliary_time_features}
 
 		self.demographics_variables = demographic_variables
 		self.demographic_data_dict = {d: self.df[d] for d in self.demographics_variables}
@@ -46,10 +46,12 @@ class SharedModel:
 		outcome_features = self.feature_transforms[self.outcome](self.outcome_data[county_index][time_index])
 		# Find auxiliary time series features:
 		if time_index - self.target_days[-1] < 0:
-			auxiliary_features = [self.default_values[f] for f in self.time_series_features]
+			auxiliary_features = [self.default_values[f] for f in self.auxiliary_time_features]
 		else:
-			auxiliary_features = [self.feature_transforms[f](f[county_index][time_index - self.target_days[-1]]) for f
-								  in self.auxiliary_time_features]
+			auxiliary_features = []
+			for f in self.auxiliary_time_features:
+				feat_fn = self.feature_transforms[f]
+				auxiliary_features.append(feat_fn(self.auxiliary_time_data_dict[f][county_index][time_index - self.target_days[-1]]))
 		return [outcome_features] + auxiliary_features
 
 	def create_dataset(self):
@@ -59,7 +61,8 @@ class SharedModel:
 		for county_index in range(len(self.df)):
 			# For each time period in a dataset:
 			for time_index in range(len(self.outcome_data[county_index])):
-				if self.outcome_data[county_index][time_index] >= self.outcome_start_threshold and time_index > 0:
+				if self.outcome_data[county_index][time_index] >=\
+					self.outcome_start_threshold and time_index > 0:
 					# Compute time series features
 					time_series_features = self.create_time_series_features(county_index, time_index - 1)
 
