@@ -5,6 +5,11 @@ import pandas as pd
 import os
 from os.path import join as oj
 import sys
+from math import radians, sin, cos, sqrt, asin
+from sklearn.neighbors import NearestNeighbors
+from .county_level.raw.unacast_mobility.load import load_unacast_mobility
+#from hospital_level.processed.cms_cmi.clean import clean_cms_cmi
+#from hospital_level.processed.cms_hospitalpayment.clean import clean_cms_hospitalpayment
 
 from .county_level.raw.usafacts_infections.load import load_usafacts_infections
 from .county_level.processed.ahrf_health.clean import clean_ahrf_health
@@ -274,3 +279,181 @@ def important_keys(df):
     important_vars = [var for var in important_vars if var in list(df.columns)]
 
     return important_vars
+
+def is_all_data_available(folder, datasets):
+    '''
+    check if all the subfolders in this folder have the necessary data
+
+    Parameters
+    ----------
+    folder : str, the folder to check
+
+    datasets: set or list of strs, the set of required data
+
+    Returns
+    -------
+    is_avail : bool, True or False
+    '''
+    if type(datasets) is list:
+        datasets = set(datasets)
+    elif type(datasets) is not set:
+        raise ValueError("datasets are of wrong type.")
+    for sub_folder in os.walk(folder):
+        folder_name = sub_folder[0]
+        file_name = folder_name.split("/")[-1]
+        if file_name in datasets:
+            datasets = datasets - set([file_name])
+            if file_name + ".csv" not in sub_folder[2]:
+                return False
+
+    return len(datasets) == 0
+
+def load_hospital_level_data(
+        with_private_data=True,
+        load_cached_file=True,
+        data_dir="./",
+        cached_file='hospital_level_data.csv',
+        debug=False,
+    ):
+    '''
+    Get the merged hospital level data
+
+    Parameteres
+    -----------
+    with_private_data : bool, default True
+        Whether to combine the private data not posted on github.
+    
+    load_cached_file : bool, default True
+        Whether to load cached file, if false, will try to create a new file.
+
+    cached_file : str, default "hospital_level_data.csv"
+        The place to store the cached file
+
+    debug : bool, default False
+        Whether to print some logs for debuging.
+
+    Returns
+    -------
+    out : pandas DataFrame
+
+    Side Effects
+    ------------
+    If no cached csv file is available, one csv file will be created.
+    '''
+    hospital_dtype = {
+        "CMS Certification Number":str,
+        "Hospital Name":str,
+        "Hospital Type":str,
+        "Street Address":str,
+        "City":str,
+        "State":str,
+        "Zipcode":str,
+        "Phone Number":str,
+        "Long":np.double,
+        "Lat":np.double,
+        "Trauma Center Level":np.double,
+        "Urban or Rural Designation":str,
+        "ICU Beds":int,
+        "Total Beds":int,
+        "Total Employees":int,
+        "ICU Occupancy Rate":np.double,
+        "Case Mix Index":np.double,
+        "Is Teaching":str,
+        "Website":str,
+    }
+
+    if load_cached_file:
+        if debug:
+            print("try to read from cached_file first.")
+        try:
+            out = pd.read_csv(oj(data_dir, cached_file), index_col=0, dtype=hospital_dtype)
+            return out
+        except FileNotFoundError as e:
+            if debug:
+                print("cached file not found. Try to create a new one.")
+        except Exception as e:
+            print(e)
+            raise
+    if debug:
+        print("Creating a new cached file")
+    required_files = [
+        'hifld_hospital',
+        'cms_cmi',
+        'DH_hospital',
+        'cms_hospitalpayment',
+    ]
+    if with_private_data:
+        required_files.append('sam_hospital')
+    if not is_all_data_available(oj(data_dir, "hospital_level/processed"),required_files):
+        print("Not all the cleaned data is available. Halt.")
+        return
+    if with_private_data:
+        base = pd.read_csv(
+            oj(data_dir, "hospital_level/processed/sam_hospital/sam_hospital.csv"),
+            index_col=0,
+            dtype=hospital_dtype,
+        )
+    else:
+        base = pd.read_csv(
+            oj(data_dir, "hospital_level/processed/DH_hospital/DH_hospital.csv"),
+            index_col=0,
+            dtype=hospital_dtype,
+        )
+    cms_cmi = pd.read_csv(
+        oj(data_dir, "hospital_level/processed/cms_cmi/cms_cmi.csv"),
+        index_col=0,
+        dtype=hospital_dtype,
+    )
+    cms_hospitalpayment = pd.read_csv(
+        oj(data_dir, "hospital_level/processed/cms_hospitalpayment/cms_hospitalpayment.csv"),
+        index_col=0,
+        dtype=hospital_dtype,
+    )
+    # hifld_hospital = pd.read_csv(
+    #     "./hospital_level/processed/hifld_hospital/hifld_hospital.csv",
+    #     index_col=0,
+    #     dtype=hospital_dtype,
+    # )
+    del cms_hospitalpayment['Hospital Name']
+    base = base.merge(cms_cmi, on="CMS Certification Number", how="outer")
+    base = base.merge(cms_hospitalpayment, on="CMS Certification Number", how="outer")
+    # new_columns = set(hifld_hospital.columns) - set(base.columns)
+    # for col in new_columns:
+    #         base[col] = None
+    # for ind in base.index:
+    #     rows = hifld_hospital[hifld_hospital['Zipcode'] == base.loc[ind, 'Zipcode']]
+    #     if len(rows) == 1:
+    #         base.loc[rows.index[0], new_columns] = rows.iloc[0][new_columns]
+    #     elif len(rows) > 1:
+    #         argmin = np.argmin([distance(
+    #             rows.loc[i, 'Lat'],
+    #             base.loc[ind, 'Lat'],
+    #             rows.loc[i, 'Long'],
+    #             base.loc[ind, 'Long']
+    #         ) for i in rows.index])
+    #         matched_index = rows.index[argmin]
+    #         base.loc[matched_index, new_columns] = rows.loc[matched_index, new_columns]
+    base.to_csv(oj(data_dir, cached_file))
+    return base
+
+def distance(lat1, lat2, lon1, lon2): 
+      
+    # The math module contains a function named 
+    # radians which converts from degrees to radians. 
+    lon1 = radians(lon1) 
+    lon2 = radians(lon2) 
+    lat1 = radians(lat1) 
+    lat2 = radians(lat2) 
+       
+    # Haversine formula  
+    dlon = lon2 - lon1  
+    dlat = lat2 - lat1 
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+  
+    c = 2 * asin(sqrt(a))  
+     
+    # Radius of earth in kilometers. Use 3956 for miles 
+    r = 6371
+       
+    # calculate the result 
+    return(c * r) 
