@@ -490,7 +490,8 @@ def plot_counties_slider(df,
                          counties_json=None,
                          n_past_days=3,
                          dark=True,
-                         curves=False):
+                         curves=True,
+                         auto_open=True):
     """
     """
     # TODO: note that df should have all data (preds and lat lon)
@@ -549,8 +550,8 @@ def plot_counties_slider(df,
 
         title = "Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)"
     else:
-        title = map_title
-        subplot_titles = [""]
+        title = ""
+        subplot_titles = ["", "", map_title]
 
     # make main figure
     fig = make_counties_slider_subplots(title, subplot_titles, curves)
@@ -598,7 +599,7 @@ def plot_counties_slider(df,
         'responsive': True,
         'autosizable': True,
         'displaylogo': False
-    })
+    }, auto_open = False)
 
     
     
