@@ -9,7 +9,7 @@ REPO_DIR=/accounts/projects/vision/chandan/covid19-severity-prediction
 $(which python3) $REPO_DIR/functions/update_severity_index.py >> ~/cron.log
 
 # update slider plot once a day
-$(which python3) $REPO_DIR/functions/update_slider.py $REPO_DIR/data county_pop_centers.csv >> ~/cron.log
+$(which python3) $REPO_DIR/functions/update_slider.py >> ~/cron.log
 
 # cache IHME preds
 # need to run this script: https://github.com/Yu-Group/covid19-severity-prediction/blob/master/predictions/other_modeling/extract_ihme.py
