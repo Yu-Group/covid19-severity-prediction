@@ -14,7 +14,7 @@ from .county_level.raw.unacast_mobility.load import load_unacast_mobility
 from .county_level.raw.usafacts_infections.load import load_usafacts_infections
 from .county_level.processed.ahrf_health.clean import clean_ahrf_health
 from .county_level.processed.cdc_svi.clean import clean_cdc_svi
-from .county_level.processed.chrr_smoking.clean import clean_chrr_smoking
+from .county_level.processed.chrr_health.clean import clean_chrr_health
 from .county_level.processed.dhdsp_heart.clean import clean_dhdsp_heart
 from .county_level.processed.dhdsp_stroke.clean import clean_dhdsp_stroke
 from .county_level.processed.hpsa_shortage.clean import clean_hpsa_shortage
@@ -81,14 +81,14 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         cnty["countyFIPS"] = cnty["countyFIPS"].astype(str).str.zfill(5)
     else: 
         # generate county data
-        datasets = ["ahrf_health", "cdc_svi", "chrr_smoking", "dhdsp_heart",
+        datasets = ["ahrf_health", "cdc_svi", "chrr_health", "dhdsp_heart",
                     "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
                     "medicare_chronic", "mit_voting", "nchs_mortality", 
                     "unacast_mobility", "usdss_diabetes", "jhu_interventions"]
         df_ls = []
         for dataset in datasets:
             # check if raw data files exist locally; if not, download raw data
-            if dataset == "chrr_smoking":
+            if dataset == "chrr_health":
                 os.chdir(oj(data_dir_raw, dataset))
                 if not os.path.exists("state_data"):
                     # download raw data
@@ -121,13 +121,21 @@ def load_county(data_dir=".", cached_file="county_data.csv",
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
             
-        # merge county data (countyFIPS, CountyName, StateName, State, lat, lon)
+        # merge county ids data
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
         cnty_fips["countyFIPS"] = cnty_fips["countyFIPS"].str.zfill(5)
         cnty_latlong = pd.read_csv(oj(data_dir_raw, "county_ids", "county_latlong.csv"))
         cnty_latlong = cnty_latlong[["countyFIPS", "State", "lat", "lon"]]
         cnty_latlong["countyFIPS"] = cnty_latlong["countyFIPS"].astype(str).str.zfill(5)
+        cnty_popcenters = pd.read_csv(oj(data_dir_raw, "county_ids", "county_popcenters.csv"))
+        cnty_popcenters = cnty_popcenters[["STATEFP", "COUNTYFP", "LATITUDE", "LONGITUDE"]]
+        cnty_popcenters = cnty_popcenters.rename(columns = {"LATITUDE": "POP_LATITUDE", 
+                                                            "LONGITUDE": "POP_LONGITUDE"})
+        cnty_popcenters["countyFIPS"] = cnty_popcenters["STATEFP"].astype(str).str.zfill(2) + cnty_popcenters["COUNTYFP"].astype(str).str.zfill(3)
         cnty = pd.merge(cnty_fips, cnty_latlong, on="countyFIPS", how="left")
+        cnty = pd.merge(cnty, cnty_popcenters, on="countyFIPS", how="left")
+        
+        # merge county-level data with county ids
         for i in range(0, len(df_ls)):
             df_ls[i] = clean_id(df_ls[i])  # remove potentially duplicate ID columns
             cnty = pd.merge(cnty, df_ls[i], on='countyFIPS', how="left")  # merge data
@@ -141,7 +149,7 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         
         if abridged == True:
             # get shortlist of important variables for abridged data set
-            id_vars = ["countyFIPS", 'CountyName', 'StateName', 'State', 'lat', 'lon']
+            id_vars = ["countyFIPS", "STATEFP", "COUNTYFP", 'CountyName', 'StateName', 'State', 'lat', 'lon', "POP_LATITUDE", "POP_LONGITUDE"]
             important_vars = id_vars + important_keys(cnty)
             cnty = cnty[important_vars]
             cnty.to_csv(oj(data_dir, cached_abridged_file), header=True, index=False)
