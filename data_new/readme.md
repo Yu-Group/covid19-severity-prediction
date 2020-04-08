@@ -51,6 +51,18 @@ An overview of each data set in this corpus is provided below:
         - **mit_voting**: county-level returns for presidential elections from 2000 to 2016 according to official state election data records
 
 
+
+## Quickstart
+To load the county-level data (daily COVID-19 cases/deaths data + other county-level features listed above) from the project root directory:
+```python
+import data
+# unabridged
+df_unabridged = data.load_county(data_dir = "data", cached = False, abridged = False)
+# abridged
+df_abrdiged = data.load_county(data_dir = "data", cached = False, abridged = True)
+```
+
+
 ## Folder Structure 
 In this folder, we collect the useful hospital level data from a variety of sources. The structure of the folder is as the following:
 - raw (contains raw data)
