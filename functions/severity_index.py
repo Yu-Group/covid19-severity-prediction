@@ -38,6 +38,7 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         return new_col.astype(int)
 
     # loop over num day    
+    df['Total Deaths Hospital'] = (df['tot_deaths'] * df['Frac Hospital Employees of County']).fillna(0)
     for num_days in NUM_DAYS_LIST:
         df[f'Predicted New Deaths {num_days}-day'] = df[f'Predicted Deaths {num_days}-day'] - df['tot_deaths']
         
@@ -54,9 +55,9 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
     return df.sort_values(s_hosp, ascending=False).round(2)
 
 def write_to_gsheets(df, ks_output=['Severity 1-day', 'Severity 2-day', 'Severity 3-day', 'Severity 4-day',
-                                    'Severity 5-day', 'Severity 6-day', 'Severity 7-day',
-                                    'Hospital Name',
-                                    'CMS Certification Number', 'countyFIPS', 'CountyName', 'StateName', 'System Affiliation'],
+                                    'Severity 5-day', 'Severity 6-day', 'Severity 7-day', 'Total Deaths Hospital',
+                                    'Hospital Name', 'CMS Certification Number', 'countyFIPS',
+                                    'CountyName', 'StateName', 'System Affiliation'],
                      sheet_name='COVID Severity Index',
                      service_file='../creds.json'):
     print('writing to gsheets...')
@@ -73,6 +74,7 @@ if __name__ == '__main__':
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir='../data') # adds keys like "Predicted Deaths 1-day"
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
     df = add_severity_index(df, NUM_DAYS_LIST)
+    df = df.sort_values('Total Deaths Hospital', ascending=False)
     write_to_gsheets(df)
     
     

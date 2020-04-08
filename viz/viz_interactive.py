@@ -579,3 +579,17 @@ def plot_counties_slider(df,
         'showEditInChartStudio': False,
         'displaylogo': False
     })
+
+    
+    
+'''Interactive plots for counties/hospitals'''
+
+'''
+fig = px.scatter(df, x="tot_deaths", y="Predicted Deaths 3-day", log_x=True, log_y=True,
+                 hover_name="CountyName", hover_data=["CountyName", 'StateName'])
+plotly.offline.plot(fig, filename="results/pred_deaths_vs_curr_deaths.html")
+
+fig = px.scatter(df, x="tot_deaths", y="Predicted New Deaths 3-day", log_x=True, log_y=True,
+                 hover_name="CountyName", hover_data=["CountyName", 'StateName'])
+plotly.offline.plot(fig, filename="results/new_deaths_vs_curr_deaths.html")
+'''

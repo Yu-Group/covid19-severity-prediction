@@ -69,13 +69,24 @@ We can also plot the predicted number of deaths at the county-level:
 
 We can visualize these features on interactive maps:
 <figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/ny.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
 </figure>
 
 We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
 <figure class="video_container" style="text-align: center">
   <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
 </figure>
+
+## Hospital-level visualizations
+<figure class="video_container" style="text-align: center">
+  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/hospital_index_animated.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
+</figure>
+
+This covid pandemic severity index is designed to help decide where medical resources should be allocated. It takes on three values (3: High, 2: Medium, 1: Low), indicating the severity of the covid-19 outbreak for a given hospital on a certain day. It is calculated in three steps:
+
+- county-level predictions for number of deaths are modeled
+- county-level predictions are allocated to hospitals within counties proportional the their total number of employees
+- final value is decided by thresholding the number of cumulative predicted deaths for a hospital (=current recorded deaths + predicted future deaths)
 
 
 # Acknowledgements
