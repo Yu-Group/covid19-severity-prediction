@@ -101,7 +101,7 @@ if __name__ == '__main__':
         print('failed to write to gsheets!')
         
     d = df_to_plot(df, NUM_DAYS_LIST)
-    viz_interactive.viz_index_animated(d, NUM_DAYS_LIST, out_name=oj(parentdir, 'results', 'hospital_index_animated.html'))
+    viz_interactive.viz_index_animated(d, [1, 3, 7], out_name=oj(parentdir, 'results', 'hospital_index_animated.html'))
     print('succesfully wrote viz index animated')
 
     

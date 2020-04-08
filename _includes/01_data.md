@@ -5,8 +5,5 @@
 - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
 - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
 - limitations
-    - currently using proxies for hospitals supplies/demands instead of real measurements
-    - limited data on bridging county-level data with hospital-level data
-    - missing some local data which would be helpful, such as amount of testing and social distancing measures   
     
 <img src="https://yu-group.github.io/covid19-severity-prediction/results/correlations_heatmap.png" style="width:100%;">

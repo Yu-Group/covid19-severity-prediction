@@ -1,5 +1,5 @@
 import sys, os, inspect
-
+from os.path import join as oj
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
@@ -19,7 +19,7 @@ lat_lon_file = sys.argv[2]
 
 if __name__ == "__main__":
     # load in county data
-    df = load_data.load_county_level()
+    df = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
     # add lat and lon to the dataframe
     county_lat_lon = pd.read_csv(
         data_dir + '/' + lat_lon_file,
@@ -33,4 +33,5 @@ if __name__ == "__main__":
         columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
     )
     # create plot
-    plot_counties_slider(df, curves=False, auto_open=False)
+    plot_counties_slider(df, curves=False, auto_open=False, 
+                         n_past_days=0, filename=oj(parentdir, 'results', 'deaths.html'))

@@ -42,17 +42,9 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
     - we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
 2. **Data**
     - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
-    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
-    - limitations
-        - currently using proxies for hospitals supplies/demands instead of real measurements
-        - limited data on bridging county-level data with hospital-level data
-        - missing some local data which would be helpful, such as amount of testing and social distancing measures   
+    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)      
 3. **Results**
     - pretty decent predictions for number of deaths a few days in the future
-
-
-# Visualizations
-
 
 
 
