@@ -16,13 +16,13 @@ $(which python3) $REPO_DIR/functions/update_severity_index.py >> ~/cron.log
 # update slider plot once a day
 $(which python3) $REPO_DIR/functions/update_slider.py >> ~/cron.log
 
+# update model preds plot
+$(which python3) $REPO_DIR/functions/update_modeling_results.py >> ~/cron.log
+
 # cache IHME preds
 # need to run this script: https://github.com/Yu-Group/covid19-severity-prediction/blob/master/predictions/other_modeling/extract_ihme.py
 
 # cache our model preds
 # need to run xiao's script
-
-# update model preds plot (like becca plot in paper)
-# this script will be coming soon...
 
 # after running all scripts need to push to git
