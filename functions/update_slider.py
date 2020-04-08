@@ -15,7 +15,7 @@ import pandas as pd
 data_dir = sys.argv[1]
 lat_lon_file = sys.argv[2]
 
-# usage: python update_slider.py path/to/data county_pop_centers.csv
+# usage: python update_slider.py path/to/data county_pop_centers.csv (2nd arg is assumed to be in the data folder)
 
 if __name__ == "__main__":
     # load in county data

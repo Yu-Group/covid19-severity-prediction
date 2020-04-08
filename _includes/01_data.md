@@ -9,4 +9,4 @@
     - limited data on bridging county-level data with hospital-level data
     - missing some local data which would be helpful, such as amount of testing and social distancing measures   
     
-![](https://yu-group.github.io/covid19-severity-prediction/results/correlations_heatmap.png)
+<img src="https://yu-group.github.io/covid19-severity-prediction/results/correlations_heatmap.png" style="width:100%;">
