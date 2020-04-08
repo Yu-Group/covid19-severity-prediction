@@ -546,8 +546,8 @@ def plot_counties_slider(df,
 
         title = "Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)"
     else:
-        title = map_title
-        subplot_titles = [""]
+        title = ""
+        subplot_titles = ["", "", map_title]
 
     # make main figure
     fig = make_counties_slider_subplots(title, subplot_titles, curves)
