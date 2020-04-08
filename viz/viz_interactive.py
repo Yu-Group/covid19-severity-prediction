@@ -233,14 +233,7 @@ def make_counties_slider_fig(title_text, dark=False):
 
     fig.update_layout(
         dragmode = 'pan',
-        title = {
-            'text' : title_text,
-            'pad' : {'b': 25},
-            'y' : 0.95,
-            'x' : 0.18,
-            'xanchor': 'center',
-            'yanchor': 'bottom'
-        }
+        title = {'text' : title_text}
     )
 
     if dark:
