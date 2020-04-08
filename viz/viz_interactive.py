@@ -6,12 +6,14 @@ output_notebook()
 import re
 import numpy as np
 from modeling import fit_and_predict
-from functions import severity_index
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 from plotly.offline import plot
 from plotly.subplots import make_subplots
 import json
+import plotly.express as px
+import plotly
+import pandas as pd
 
 credstr ='rgb(234, 51, 86)'
 cbluestr = 'rgb(57, 138, 242)'
@@ -210,16 +212,19 @@ def viz_curves(df, filename='out.html',
                                              'sendData': True,
                                              'responsive': True,
                                              'autosizable': True,
-                                             'showEditInChartStudio': False,
                                              'displaylogo': False
                                             }) 
 #         fig.show()
         print('plot saved to', filename)
 
 
-def make_counties_slider_subplots(title_text, subplot_titles):
+def make_counties_slider_subplots(title_text, subplot_titles, curves=False):
+    if curves:
+        column_widths = [0.15, .15, 0.7]
+    else:
+        column_widths = [0, 0, 1]
     fig = make_subplots(
-        rows=3, cols=3, column_widths=[0.15, .15, 0.7],
+        rows=3, cols=3, column_widths=column_widths,
         specs=[ # indices of outer list correspond to rows
             [ # indices of inner list to cols
                 {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scattergeo', 'rowspan' : 3}
@@ -287,6 +292,7 @@ def add_counties_slider_scatter_traces(fig, df,
                                xaxis='x1', yaxis='y1'),
                     row=i % 3 + 1, col=(i - 1) % 2 + 1
                 )
+                # fig.update_layout(yaxis_type="log")
                 # annotations.append(
                 #     {
                 #         'x' : .05,
@@ -418,7 +424,7 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
     return None
 
 
-def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
+def make_counties_slider_sliders(past_days, target_days, plot_choropleth, curves=False):
     sliders = [
         {
             "active": 0,
@@ -436,9 +442,9 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
     # add steps for past days
     for i, day in enumerate(days):
         if plot_choropleth:
-            args = ["visible", [False] * (2*num_days) + [True] * 12]
+            args = ["visible", [False] * (2*num_days) + [curves] * 12]
         else:
-            args = ["visible", [False] * num_days + [True] * 12]
+            args = ["visible", [False] * num_days + [curves] * 12]
         slider_step = {
             # the first falses are the map traces
             # the last 12 trues are the scatter traces
@@ -460,9 +466,9 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
         else:
             day_name = "In " + str(i + 1) + " Days"
         if plot_choropleth:
-            args = ["visible", [False] * (2*num_days) + [True] * 12]
+            args = ["visible", [False] * (2*num_days) + [curves] * 12]
         else:
-            args = ["visible", [False] * num_days + [True] * 12]
+            args = ["visible", [False] * num_days + [curves] * 12]
         slider_step = {
             "args": args,
             "label": day_name,
@@ -482,7 +488,10 @@ def plot_counties_slider(df,
                          cumulative=True, # not currently used
                          plot_choropleth=False,
                          counties_json=None,
-                         n_past_days=3):
+                         n_past_days=3,
+                         dark=True,
+                         curves=True,
+                         auto_open=True):
     """
     """
     # TODO: note that df should have all data (preds and lat lon)
@@ -516,34 +525,39 @@ def plot_counties_slider(df,
     #     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
     # TODO: use new_deaths
-    title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
-    # compute normalized growth rate:
-    # avg(growth = # deaths day i / # deaths day i-1) + cov(time, growth)
-    # and penalizes areas where growth is slowing
-    def compute_growth_factor(x, n_days=4):
-        past_n_days = x[-n_days:]
-        growth_factor = (past_n_days / np.insert(x[-4:-1], 0, 1))[-(n_days-1):]
-        return np.mean(growth_factor) + np.cov(np.arange(3), growth_factor)[0][1]
+    if curves:
+        # compute normalized growth rate:
+        # avg(growth = # deaths day i / # deaths day i-1) + cov(time, growth)
+        # and penalizes areas where growth is slowing
+        def compute_growth_factor(x, n_days=4):
+            past_n_days = x[-n_days:]
+            growth_factor = (past_n_days / np.insert(x[-4:-1], 0, 1))[-(n_days-1):]
+            return np.mean(growth_factor) + np.cov(np.arange(3), growth_factor)[0][1]
 
-    # the emerging_index scales by log(pop_density) * median_age / (# hospitals + 1)
-    df['emerging_index'] = df['deaths'].apply(lambda x: compute_growth_factor(x)) * \
-        (np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] / (df['#Hospitals'] + 1))
+        # the emerging_index scales by log(pop_density) * median_age / (# hospitals + 1)
+        df['emerging_index'] = df['deaths'].apply(lambda x: compute_growth_factor(x)) * \
+            (np.log(df['PopulationDensityperSqMile2010']) * df['MedianAge2010'] / (df['#Hospitals'] + 1))
 
-    df_top_6 = df.sort_values('emerging_index', ascending = False)
-    df_top_6 = df_top_6[(df_top_6['tot_deaths'] > 20) & (df_top_6['tot_deaths'] < 50)]
+        df_top_6 = df.sort_values('emerging_index', ascending = False)
+        df_top_6 = df_top_6[(df_top_6['tot_deaths'] > 20) & (df_top_6['tot_deaths'] < 50)]
 
-    top_6_county = df_top_6['CountyName'].take(range(6)).tolist()
-    top_6_state = df_top_6['StateNameAbbreviation'].take(range(6)).tolist()
-    top_6 = [county + ', ' + state for (county, state) in zip(top_6_county, top_6_state)]
-    subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + top_6[4:]
+        top_6_county = df_top_6['CountyName'].take(range(6)).tolist()
+        top_6_state = df_top_6['StateNameAbbreviation'].take(range(6)).tolist()
+        top_6 = [county + ', ' + state for (county, state) in zip(top_6_county, top_6_state)]
+        subplot_titles = top_6[0:2] + [title_text] + top_6[2:4] + top_6[4:]
+
+        title = "Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)"
+    else:
+        title = ""
+        subplot_titles = ["", "", map_title]
+
+    # make main figure
+    fig = make_counties_slider_subplots(title, subplot_titles, curves)
 
     # get names of columns with past 3 days' deaths
     past_days = df.filter(regex='#Deaths_').columns[-n_past_days:]
-
-    # make main figure
-    fig = make_counties_slider_subplots("Emerging Hotspots (20 to 50 Deaths) <br> Avg. Growth in Death Rate Weighted by<br> log Pop. Density * Median Age / (# Hospitals + 1)",
-                                        subplot_titles=subplot_titles)
 
     # make choropleth if plotting
     # want this to happen first so bubbles overlay
@@ -561,14 +575,22 @@ def plot_counties_slider(df,
         # make bubbles visible
         fig.data[n_past_days + target_days.size].visible = True
 
-    # add case and death curves
-    add_counties_slider_scatter_traces(fig, df)
+    if curves:
+        # add case and death curves
+        add_counties_slider_scatter_traces(fig, df)
 
     # add slider to layout
-    sliders = make_counties_slider_sliders(past_days, target_days, plot_choropleth)
+    sliders = make_counties_slider_sliders(past_days, target_days, plot_choropleth, curves)
     fig.update_layout(
         sliders=sliders
     )
+
+    if dark:
+        fig.update_layout(
+            paper_bgcolor='rgba(0,0,0,255)',
+            plot_bgcolor='rgba(0,0,0,255)',
+            template='plotly_dark'
+        )
 
     plot(fig, filename=filename, config={
         'showLink': False,
@@ -576,6 +598,53 @@ def plot_counties_slider(df,
         'sendData': True,
         'responsive': True,
         'autosizable': True,
-        'showEditInChartStudio': False,
         'displaylogo': False
-    })
+    }, auto_open = False)
+
+    
+    
+'''Interactive plots for counties/hospitals'''
+
+'''
+fig = px.scatter(df, x="tot_deaths", y="Predicted Deaths 3-day", log_x=True, log_y=True,
+                 hover_name="CountyName", hover_data=["CountyName", 'StateName'])
+plotly.offline.plot(fig, filename="results/pred_deaths_vs_curr_deaths.html")
+
+fig = px.scatter(df, x="tot_deaths", y="Predicted New Deaths 3-day", log_x=True, log_y=True,
+                 hover_name="CountyName", hover_data=["CountyName", 'StateName'])
+plotly.offline.plot(fig, filename="results/new_deaths_vs_curr_deaths.html")
+'''
+
+
+def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animated.html"):
+    def flat_list(list_list):
+        l = []
+        for ll in list_list:
+            l += ll.tolist()
+        return l
+
+    N = d.shape[0]
+    NUM_DAYS = len(NUM_DAYS_LIST)
+    dd = pd.concat([d] * NUM_DAYS)
+    dd['Days'] = np.repeat(range(NUM_DAYS), N) + 1
+    dd['Predicted New Deaths'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in range(1, NUM_DAYS + 1)])
+    dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in range(1, NUM_DAYS + 1)])
+    
+    fig = px.scatter(dd, x="Total Deaths Hospital", 
+                 y="Predicted New Deaths", 
+                 animation_frame="Days", 
+                 animation_group="Hospital Name",
+                 color='Severity Index',
+                 size='Hospital Employees',
+                 hover_name="Hospital Name", 
+                 hover_data=["CountyName", 'StateName'],
+                 log_x=True, log_y=True)
+    fig.add_annotation(text='Circle size corresponds to hospital size', 
+                       x=max(dd['Total Deaths Hospital']),
+                       y=max(dd['Predicted New Deaths']))
+    fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,255)',
+                plot_bgcolor='rgba(0,0,0,255)',
+                template='plotly_dark'
+            )
+    plotly.offline.plot(fig, filename=out_name, auto_open=False)
