@@ -1,5 +1,3 @@
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR0IZcUMdTrz6KIw9G1yuzcKHRDUJTS7rQvASzZLKUMi5VFrt18-HptCG6-627VM5McNNNjUirt9fb7/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-
 # Quickstart with the data + models
 
 This section details how to quickly download and get started with the data + models.
@@ -44,38 +42,10 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
     - we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
 2. **Data**
     - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
-    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)    
-    - limitations
-        - currently using proxies for hospitals supplies/demands instead of real measurements
-        - limited data on bridging county-level data with hospital-level data
-        - missing some local data which would be helpful, such as amount of testing and social distancing measures   
+    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)      
 3. **Results**
     - pretty decent predictions for number of deaths a few days in the future
 
-
-# Visualizations
-
-## Looking at some county-level statistics
-
-Many of the county-level features we have collected are correlated with the total number of deaths recorded so far at each county (and with each other):
-![](results/correlations_heatmap.png)
-
-## Interactive visualizations of different counties
-
-We can also plot the predicted number of deaths at the county-level:
-<figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/deaths.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-We can visualize these features on interactive maps:
-<figure class="video_container">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/NY.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
-
-We can plot the outbreak for the counties with the highest number of deaths so far (updated daily):
-<figure class="video_container" style="text-align: center">
-  <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/county_curves.html" frameborder="0" allowfullscreen="true" width="140%" height="800"> </iframe>
-</figure>
 
 
 # Acknowledgements

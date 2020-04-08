@@ -1,6 +1,10 @@
-theme: jekyll-theme-cayman
-plugins:
-  - jekyll-relative-links
-relative_links:
-  enabled: true
-  collections: true
+url: https://yu-group.github.io/covid19-severity-prediction/
+baseurl: ""
+
+# Site Settings
+title: COVID19 Severity Prediction
+description: "COVID19 Severity Prediction"
+keywords: "COVID19"
+
+markdown: kramdown
+exclude: ["Rakefile", "LICENSE", "readme.md"]
