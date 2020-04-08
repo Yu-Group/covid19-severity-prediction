@@ -1,15 +1,20 @@
 import numpy as np
 import pandas as pd
 from os.path import join as oj
+import os
 import pygsheets
 import pandas as pd
 import sys
-sys.path.append('../modeling')
-sys.path.append('..')
+import inspect
+import datetime
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+sys.path.append(parentdir + '/modeling')
 import load_data
 from fit_and_predict import add_preds
 from functions import merge_data
-import datetime
 
 meanings = {
         1: 'Low',
@@ -69,13 +74,13 @@ def write_to_gsheets(df, ks_output=['Severity 1-day', 'Severity 2-day', 'Severit
 
 if __name__ == '__main__':
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
-    df_county = load_data.load_county_level(data_dir='../data')
-    df_hospital = load_data.load_hospital_level(data_dir='../data_hospital_level')
-    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir='../data') # adds keys like "Predicted Deaths 1-day"
+    df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
+    df_hospital = load_data.load_hospital_level(data_dir=oj(parentdir, 'data_hospital_level'))
+    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=oj(parentdir, 'data')) # adds keys like "Predicted Deaths 1-day"
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
     df = add_severity_index(df, NUM_DAYS_LIST)
     df = df.sort_values('Total Deaths Hospital', ascending=False)
-    write_to_gsheets(df)
+    write_to_gsheets(df, service_file=oj(parentdir, 'creds.json'))
     
     
     # print

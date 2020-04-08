@@ -1,8 +1,10 @@
 # list of cron jobs currently being run
 crontab -e to edit
 
-# update severity index every 2 hours
-0 0/2 * * * $(which python3) /accounts/projects/vision/chandan/covid-19-geographic-risk-prediction/functions/update_severity_index.py >> ~/cron.log
+REPO_DIR=/accounts/projects/vision/chandan/covid19-severity-prediction
 
-# update slider plot
-0 0/2 * * * $(which python3) /accounts/projects/vision/chandan/covid-19-geographic-risk-prediction/functions/severity_index.py >> ~/cron.log
+# update severity index every 2 hours
+0 0/2 * * * $(which python3) $REPO_DIR/functions/update_severity_index.py >> ~/cron.log
+
+# update slider plot once a day
+0 0 * * * $(which python3) $REPO_DIR/functions/update_slider.py $REPO_DIR/data county_pop_centers.csv >> ~/cron.log
