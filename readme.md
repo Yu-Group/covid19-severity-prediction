@@ -1,3 +1,22 @@
+# Overview
+
+**Goal**: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.), in collaboration with [response4life](https://response4life.org/)
+
+For daily visualizations, see the [project website](https://yu-group.github.io/covid19-severity-prediction/)
+
+1. **Approach** 
+    - predict expected deaths/cases at the county-level
+    - we use many features at the county-level, such as demographics, comorbidity statistics, voting data
+    - estimate supplies/need based on available data (e.g. number of icu beds, personnel in hospital)
+    - filter hospitals and score them according to their expected demand for additional supplies
+    - we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
+2. **Data**
+    - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
+    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)      
+3. **Results**
+    - pretty decent predictions for number of deaths a few days in the future
+
+
 # Quickstart with the data + models
 
 This section details how to quickly download and get started with the data + models.
@@ -29,30 +48,14 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 - [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
 - [UChicago GeoData visualization team](https://github.com/GeoDaCenter/covid)
 
-    
-# Overview
-
-**Goal**: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.), in collaboration with [response4life](https://response4life.org/)
-
-1. **Approach** 
-    - predict expected deaths/cases at the county-level
-    - we use many features at the county-level, such as demographics, comorbidity statistics, voting data
-    - estimate supplies/need based on available data (e.g. number of icu beds, personnel in hospital)
-    - filter hospitals and score them according to their expected demand for additional supplies
-    - we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
-2. **Data**
-    - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
-    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)      
-3. **Results**
-    - pretty decent predictions for number of deaths a few days in the future
-
 
 
 # Acknowledgements
 
 The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
 
-- **Yu Group team** (alphabetical order): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (student lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
-- Shen Group team (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
-- the response4Life team and volunteers
-- Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Aaron Kornblith, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
+- **[Yu group team](https://www.stat.berkeley.edu/~yugroup/people.html)** (alphabetical order): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (student lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
+- the [response4Life](https://response4life.org/) team and volunteers
+- [Kolak group team](https://makosak.github.io/): Qinyun Lin
+- [Shen Group team](https://shen.ieor.berkeley.edu/) (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
+- Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Valerie Karplus, Aaron Kornblith, Andreas Lange, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
