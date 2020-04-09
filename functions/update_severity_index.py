@@ -92,8 +92,7 @@ def write_to_gsheets_and_api(df, ks_output=['Severity 1-day', 'Severity 2-day', 
                           headers=hed)
     print('api post succeeded?', r.text)
     
-    
-    
+
 
 def df_to_plot(df, NUM_DAYS_LIST):
     ks = ['Total Deaths Hospital', 'Hospital Employees', 'Hospital Name', 'CountyName', 'StateName']

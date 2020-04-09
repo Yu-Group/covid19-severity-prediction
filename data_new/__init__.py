@@ -101,8 +101,11 @@ def load_county(data_dir=".", cached_file="county_data.csv",
                 os.chdir(orig_dir)
             elif dataset == "unacast_mobility":  # private data
                 os.chdir(oj(data_dir_raw, dataset))
-                if not "unacast_mobility.csv" in \
-                os.listdir('../../../../../unacast_mobility_data'):
+                if not os.path.exists("../../../../../unacast_mobility_data"):
+                    os.chdir(orig_dir)
+                    continue
+                elif not "unacast_mobility.csv" in \
+                os.listdir("../../../../../unacast_mobility_data"):
                     os.chdir(orig_dir)
                     continue
                 os.chdir(orig_dir)
