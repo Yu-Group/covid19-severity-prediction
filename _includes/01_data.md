@@ -10,5 +10,5 @@ health risk factors, and social mobility information. At the hospital level, our
 include the location of the hospital, the number of ICU beds, the total number
 of employees, and the hospital type. 
 
-The plot below shows correlations between some of the features we have collected at the county-level:
+The plot below shows correlations between some of the features we have collected at the county-level.
 <img src="https://yu-group.github.io/covid19-severity-prediction/results/correlations_heatmap.png" style="width:100%;">

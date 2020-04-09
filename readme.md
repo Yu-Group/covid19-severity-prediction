@@ -1,20 +1,14 @@
 # Overview
 
-**Goal**: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.), in collaboration with [response4life](https://response4life.org/)
+[Our group](https://www.stat.berkeley.edu/~yugroup/people.html) at UC Berkeley is working to help forecast the severity of the epidemic both for individual counties and individual hospitals. As a byproduct, we have and will continue to produce models, visualizations, and curated datasets (including confirmed cases/deaths, demographics, risk factors, social distancing data) that can be used by other teams in the fight against COVID-19. We are collaborating with [Response4Life](https://response4life.org/), a non-profit organization, whose goal is to blunt the effect of COVID-19 through the production and appropriate distribution of PPE, medical equipment, and medical personnel to healthcare facilities across the United States.
 
 For visualizations (updated daily), see the [project website](https://yu-group.github.io/covid19-severity-prediction/)
 
-1. **Approach** 
-    - predict expected deaths/cases at the county-level
-    - we use many features at the county-level, such as demographics, comorbidity statistics, voting data
-    - estimate supplies/need based on available data (e.g. number of icu beds, personnel in hospital)
-    - filter hospitals and score them according to their expected demand for additional supplies
-    - we use simple models, some which are fit individually to each county, and some fit jointly to the entire country
-2. **Data**
-    - county-level: daily confirmed cases + deaths, demographics, comorbidity statistics, voting data, local gov. action data, population density, risk factors from medicare (e.g. diabetes, respiratory disease, other chronic conditions)
-    - hospital-level: information about hospitals (e.g. number of icu beds, hospital type, location)      
-3. **Results**
-    - pretty decent predictions for number of deaths a few days in the future
+- **Data**: We have compiled and cleaned a large corpus of hospital- and county-level data from a variety of public sources to aid data science efforts to combat COVID-19.
+    - At the hospital level, the data include the location of the hospital, the number of ICU beds, the total number of employees, the hospital type, and contact information
+    - At the county level, our data include socioeconomic factors, social distancing scores, and COVID-19 cases/deaths from USA Facts and NYT, automatically updated every day.
+- **Modeling**: Using this data, we have developed a short-term (3-5 days) forecasting model for mortality at the county level. This model combines a county-specific exponential growth model and a shared exponential growth model through a weighted average, where the weights depend on past prediction accuracy.
+- **Severity index**: The Covid pandemic severity index (CPSI) is designed to help aid the distribution of medical resources to hospitals. It takes on three values (3: High, 2: Medium, 1: Low), indicating the severity of the covid-19 outbreak for a hospital on a certain day. It is calculated in three steps: (1) county-level predictions for number of deaths are modeled (2) county-level predictions are allocated to hospitals within counties proportional the their total number of employees (3) final value is decided by thresholding the number of cumulative predicted deaths for a hospital (=current recorded deaths + predicted future deaths) (see Figure 2)
 
 
 # Quickstart with the data + models
@@ -32,7 +26,6 @@ print(df.shape) # (1212, 7306)
 - note: (non-cumulative) daily cases + deaths are in `data/usafacts/confirmed_cases.csv` and `data/usafacts/deaths.csv` (updated daily)
 - note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is at `data/df_county_level_abridged_cached.csv`
 - for more data details, see [./data/readme.md](./data/readme.md)
-- for an intro to some of the analysis here, visit the [project webpage](https://yu-group.github.io/covid19-severity-prediction/)
 - we are constantly monitoring for new data sources, and updating sources of data as they become available [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/)
 
 ## Prediction
@@ -47,7 +40,6 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 - [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
 - [More aggregated county-level data from Caltech](https://github.com/COVIDmodeling/covid_19_modeling)
 - [UChicago GeoData visualization team](https://github.com/GeoDaCenter/covid)
-
 
 
 # Acknowledgements
