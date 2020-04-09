@@ -1,0 +1,21 @@
+region_name	region_english	2018_death_rate	2018_deaths	2018_population
+Abruzzo	Abruzzo	11.2	14680	1311580
+Valle d'Aosta	Aosta Valley	11.8	1477	125666
+Puglia	Apulia	9.6	38830	4029053
+Basilicata	Basilicata	11.1	6251	562869
+Calabria	Calabria	10.1	19756	1947131
+Campania	Campania	9.3	53740	5801692
+Emilia-Romagna	Emilia-Romagna	11.2	49811	4459477
+Friuli Venezia Giulia	Friuli-Venezia Giulia	11.9	14476	1215220
+Lazio	Lazio	9.7	57289	5879082
+Liguria	Liguria	14.3	22238	1550640
+Lombardia	Lombardy	9.9	99542	10060574
+Marche	Marche	11.3	17175	1525271
+Molise	Molise	12.1	3703	305617
+Piemonte	Piedmont	12.4	53838	4356406
+Sardegna	Sardinia	9.9	16277	1639591
+Sicilia	Sicily	10.4	51983	4999891
+P.A. Trento	Trentino-South Tyrol	8.8	9411	1072276
+Toscana	Tuscany	11.6	43442	3729641
+Umbria	Umbria	11.4	10078	882015
+Veneto	Veneto	10	49136	4905854

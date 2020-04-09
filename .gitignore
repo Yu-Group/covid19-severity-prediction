@@ -22,3 +22,6 @@ data_new/county_level/raw/unacast_mobility/download.py
 *.txt
 *.docx
 _site
+functions/_hidden_preds.csv
+ian_key.env
+**_hidden*
