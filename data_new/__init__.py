@@ -167,11 +167,11 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         
     # merge county data with covid data
     df = pd.merge(cnty, covid, on='countyFIPS', how='left')
-    df = df.sort_values('tot_deaths', ascending=False)
+    #df = df.sort_values('tot_deaths', ascending=False)
     
     # remove NA cases or deaths for prediction models
-    if rm_na == True:
-        df = df.dropna(subset = ['cases', 'deaths'])
+    #if rm_na == True:
+    #    df = df.dropna(subset = ['cases', 'deaths'])
 
     return df
 
