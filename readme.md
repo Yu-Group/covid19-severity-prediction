@@ -2,7 +2,7 @@
 
 **Goal**: prioritizing where to send medical supplies (i.e. ventilators, masks, etc.), in collaboration with [response4life](https://response4life.org/)
 
-For daily visualizations, see the [project website](https://yu-group.github.io/covid19-severity-prediction/)
+For visualizations (updated daily), see the [project website](https://yu-group.github.io/covid19-severity-prediction/)
 
 1. **Approach** 
     - predict expected deaths/cases at the county-level
@@ -52,10 +52,11 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3]) # adds keys like "Predicted Deaths 1
 
 # Acknowledgements
 
-The UC Berkeley Departments of Statistics, EECS and IEOR led by Professor Bin Yu
+The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group members are all alphabetical by last name)
 
-- **[Yu group team](https://www.stat.berkeley.edu/~yugroup/people.html)** (alphabetical order): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (student lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
-- the [response4Life](https://response4life.org/) team and volunteers
-- [Kolak group team](https://makosak.github.io/): Qinyun Lin
-- [Shen Group team](https://shen.ieor.berkeley.edu/) (alphabetical order): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
-- Helpful input from many including (alphabetical order): SriSatish Ambati, Rob Crockett, Marty Elisco, David Jaffe, Valerie Karplus, Aaron Kornblith, Andreas Lange, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
+- **[Yu group team](https://www.stat.berkeley.edu/~yugroup/people.html)** (Data/modeling): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (student lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
+- the [response4Life](https://response4life.org/) team and volunteers (Organization/distribution)
+- [Kolak group team](https://makosak.github.io/) (Geospatial visualization): Qinyun Lin
+- [Medical team](https://emergency.ucsf.edu/people/aaron-kornblith-md) (Advice from a medical perspective): Aaron Kornblith, David Jaffe
+- [Shen Group team](https://shen.ieor.berkeley.edu/) (IEOR): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
+- Helpful input from many including: SriSatish Ambati, Rob Crockett, Marty Elisco, Valerie Karplus, Andreas Lange, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi

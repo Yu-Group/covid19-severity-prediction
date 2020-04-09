@@ -23,6 +23,6 @@ $(which python3) $REPO_DIR/functions/update_modeling_results.py >> ~/cron.log
 $(which python3) $REPO_DIR/modeling/save_all_preds.py >> ~/cron.log
 
 # cache IHME preds
-# need to run this script: https://github.com/Yu-Group/covid19-severity-prediction/blob/master/predictions/other_modeling/extract_ihme.py
+$(which python3) $REPO_DIR/predictions/other_modeling/extract_ihme.py >> ~/cron.log
 
 # after running all scripts need to push to git
