@@ -79,7 +79,7 @@ if __name__ == '__main__':
     
     today = datetime.today().strftime("%B %d")
     for i in range(1, 8):
-        day = (datetime.today() + timedelta(days=i)).strftime("%B %d")
+        day = (datetime.today() + timedelta(days=i - 1)).strftime("%B %d")
         col = [vals[j][i - 1] for j in range(vals.shape[0])]
         df_preds.insert(i + 1, f'Predicted deaths by {day}', col)
     
