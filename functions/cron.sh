@@ -26,3 +26,4 @@ $(which python3) $REPO_DIR/modeling/save_all_preds.py >> ~/cron.log
 $(which python3) $REPO_DIR/predictions/other_modeling/extract_ihme.py >> ~/cron.log
 
 # after running all scripts need to push to git
+$REPO_DIR/data/push_to_git.sh
