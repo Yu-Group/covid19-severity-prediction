@@ -19,10 +19,10 @@ $(which python3) $REPO_DIR/functions/update_slider.py >> ~/cron.log
 # update model preds plot
 $(which python3) $REPO_DIR/functions/update_modeling_results.py >> ~/cron.log
 
+# cache our model preds (in gdoc)
+$(which python3) $REPO_DIR/modeling/save_all_preds.py >> ~/cron.log
+
 # cache IHME preds
 # need to run this script: https://github.com/Yu-Group/covid19-severity-prediction/blob/master/predictions/other_modeling/extract_ihme.py
-
-# cache our model preds
-# need to run xiao's script
 
 # after running all scripts need to push to git
