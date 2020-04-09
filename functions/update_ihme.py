@@ -15,7 +15,7 @@ from os import listdir, path
 # Constants
 MAX_PROJECTION = 10
 URL = 'https://ihmecovid19storage.blob.core.windows.net/latest/ihme-covid19.zip'
-PROCESSED_DIREC = oj(currentdir, 'ihme/')
+PROCESSED_DIREC = oj(currentdir, 'predictions', 'other_modeling', 'ihme/')
 RAW_DIREC = oj(PROCESSED_DIREC, 'raw')
 
 TWO_WEEKS, THREE_WEEKS = 14, 21

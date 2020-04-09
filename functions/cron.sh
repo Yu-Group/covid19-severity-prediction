@@ -23,7 +23,7 @@ $(which python3) $REPO_DIR/functions/update_modeling_results.py >> ~/cron.log
 $(which python3) $REPO_DIR/functions/update_all_preds.py >> ~/cron.log
 
 # cache IHME preds
-$(which python3) $REPO_DIR/predictions/other_modeling/extract_ihme.py >> ~/cron.log
+$(which python3) $REPO_DIR/functions/extract_ihme.py >> ~/cron.log
 
 # after running all scripts need to push to git
 $REPO_DIR/data/push_to_git.sh

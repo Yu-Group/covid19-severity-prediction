@@ -23,7 +23,7 @@ from datetime import datetime, timedelta
 NUM_DAYS_LIST = np.array(range(1, 8))
 import pygsheets
 
-def get_all_preds():
+def get_all_preds(parentdir):
     very_important_vars = ['PopulationDensityperSqMile2010',
     #                        'MedicareEnrollment,AgedTot2017',
                            'PopulationEstimate2018',
@@ -39,7 +39,7 @@ def get_all_preds():
     demographics = {'model_type':'shared_exponential', 'demographic_vars':very_important_vars}
     linear = {'model_type':'linear'}
 
-    df = load_data.load_county_level(data_dir = '../data/')
+    df = load_data.load_county_level(data_dir = oj(parentdir, 'data'))
     max_cases = [max(v) for v in df['cases']]
     df['max_cases'] = max_cases
     df =  df[df['max_cases'] > 0]
@@ -76,7 +76,7 @@ def get_all_preds():
     
 if __name__ == '__main__':
     # get predictions
-    df_preds = get_all_preds()
+    df_preds = get_all_preds(parentdir)
     
     # rewrite pred cols
     best_key = 'predicted_deaths_ensemble_all'
