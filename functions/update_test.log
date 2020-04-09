@@ -1,0 +1,401 @@
+loading data...
+writing to gsheets...
+writing to api
+api post succeeded? {"message": "success"}
+succesfully wrote to gsheets
+writing viz index animated...
+succesfully wrote viz index animated
+success! 4_9_18
+loading data...
+Feature weights
+log(deaths) : 1.0315966338041158
+bias : 1.0956809425525327
+Feature weights
+PopulationDensityperSqMile2010 : 0.006765725389961435
+PopulationEstimate2018 : -0.031134630317063903
+#ICU_beds : 0.037690679232268515
+MedianAge2010 : 0.030220982776620487
+Smokers_Percentage : -0.03417666109419442
+DiabetesPercentage : 0.0019359852562003002
+HeartDiseaseMortality : 0.0471796222607789
+#Hospitals : 0.003946806741608539
+log(deaths) : 1.0310123330105143
+bias : 1.0117810202352209
+Feature weights
+log(deaths) : 0.973938047201689
+bias : 1.0844731464635076
+Feature weights
+log(deaths) : 0.9615442625794232
+bias : 1.0653139363930455
+Feature weights
+log(deaths) : 0.9492258780550434
+bias : 1.0493289000203028
+Feature weights
+log(deaths) : 0.9437424396249326
+bias : 1.0344044783643764
+Feature weights
+log(deaths) : 0.9395583952710963
+bias : 1.027794336957549
+Feature weights
+log(deaths) : 0.931898696084246
+bias : 1.0287444659754543
+Feature weights
+log(deaths) : 0.9040502860031014
+bias : 1.061286216193514
+Feature weights
+PopulationDensityperSqMile2010 : 0.013657612758335318
+PopulationEstimate2018 : -0.06347913747421029
+#ICU_beds : 0.0027710450878407995
+MedianAge2010 : 0.03812039097255698
+Smokers_Percentage : -0.032009344608693945
+DiabetesPercentage : 0.02608463787965293
+HeartDiseaseMortality : 0.0508456539530978
+#Hospitals : 0.07107215545162528
+log(deaths) : 0.9725396952608903
+bias : 0.9594792441680069
+Feature weights
+PopulationDensityperSqMile2010 : 0.020861207043604772
+PopulationEstimate2018 : -0.05969430074905614
+#ICU_beds : -0.006447283593191567
+MedianAge2010 : 0.03983716324227554
+Smokers_Percentage : -0.03417664870266465
+DiabetesPercentage : 0.031336432864182986
+HeartDiseaseMortality : 0.056888048237190396
+#Hospitals : 0.08055897063826271
+log(deaths) : 0.9530647640575939
+bias : 0.9277858057289377
+Feature weights
+PopulationDensityperSqMile2010 : 0.028024182595960057
+PopulationEstimate2018 : -0.03677079020757412
+#ICU_beds : -0.030601008418971495
+MedianAge2010 : 0.043515066569431264
+Smokers_Percentage : -0.030995394423281506
+DiabetesPercentage : 0.034022221666811535
+HeartDiseaseMortality : 0.06340750681899664
+#Hospitals : 0.0857642323453301
+log(deaths) : 0.9326840359741465
+bias : 0.8955344331974863
+Feature weights
+PopulationDensityperSqMile2010 : 0.04101626927384429
+PopulationEstimate2018 : -0.03848141154673954
+#ICU_beds : -0.05770029963755445
+MedianAge2010 : 0.0357610525784138
+Smokers_Percentage : -0.04010307921560025
+DiabetesPercentage : 0.03363789949226596
+HeartDiseaseMortality : 0.06782013141730889
+#Hospitals : 0.1127393993985654
+log(deaths) : 0.9184377185372622
+bias : 0.8930831001063142
+Feature weights
+PopulationDensityperSqMile2010 : 0.057494686874606
+PopulationEstimate2018 : -0.04496314490959195
+#ICU_beds : -0.08997224454896172
+MedianAge2010 : 0.040897136342696525
+Smokers_Percentage : -0.05434970944871605
+DiabetesPercentage : 0.0549047251107926
+HeartDiseaseMortality : 0.06636762021772176
+#Hospitals : 0.15321988149556723
+log(deaths) : 0.9046091381022303
+bias : 0.8691615616293605
+Feature weights
+PopulationDensityperSqMile2010 : 0.0736797776587044
+PopulationEstimate2018 : -0.0636120650926653
+#ICU_beds : -0.12245972554665131
+MedianAge2010 : 0.06385740888926841
+Smokers_Percentage : -0.05968114141654741
+DiabetesPercentage : 0.06815570909731655
+HeartDiseaseMortality : 0.07426135006500005
+#Hospitals : 0.2000815840639797
+log(deaths) : 0.8975426465926656
+bias : 0.8144871945339864
+Feature weights
+PopulationDensityperSqMile2010 : 0.0807452255613621
+PopulationEstimate2018 : -0.11126107947619743
+#ICU_beds : -0.12414867324210876
+MedianAge2010 : 0.08969977468484372
+Smokers_Percentage : -0.09150205827421412
+DiabetesPercentage : 0.11334169979964226
+HeartDiseaseMortality : 0.0734596946363065
+#Hospitals : 0.25346492880891347
+log(deaths) : 0.8729973889875877
+bias : 0.7900167082541782
+--- Model Contributions ---
+{'model_type': 'exponential'}: 0.6366226785536564
+{'model_type': 'shared_exponential'}: 0.18983339525759918
+{'model_type': 'shared_exponential', 'demographic_vars': ['PopulationDensityperSqMile2010', 'PopulationEstimate2018', '#ICU_beds', 'MedianAge2010', 'Smokers_Percentage', 'DiabetesPercentage', 'HeartDiseaseMortality', '#Hospitals']}: 0.17354392618874487
+Feature weights
+log(deaths) : 1.069968859726017
+bias : 1.1327819060039506
+Feature weights
+PopulationDensityperSqMile2010 : 0.0032209936569068454
+PopulationEstimate2018 : -0.04264782386645579
+#ICU_beds : -0.015100754003184128
+MedianAge2010 : 0.026328735874870165
+Smokers_Percentage : 0.0010648831021838703
+DiabetesPercentage : 0.0024217459331302557
+HeartDiseaseMortality : 0.00385989775777937
+Respiratory Mortality : -0.0010306073127988183
+#Hospitals : 0.06025081221433748
+log(deaths) : 1.0947519499415803
+bias : 1.0231924853546577
+Feature weights
+log(deaths) : 1.0315966338041158
+bias : 1.0956809425525327
+Feature weights
+log(deaths) : 1.0094586048702385
+bias : 1.1002204702396552
+Feature weights
+log(deaths) : 0.9907308982626272
+bias : 1.0925327541899237
+Feature weights
+log(deaths) : 0.973938047201689
+bias : 1.0844731464635076
+Feature weights
+log(deaths) : 0.9615442625794232
+bias : 1.0653139363930455
+Feature weights
+log(deaths) : 0.9492258780550434
+bias : 1.0493289000203028
+Feature weights
+log(deaths) : 0.9437424396249326
+bias : 1.0344044783643764
+Feature weights
+PopulationDensityperSqMile2010 : 0.0032497602968248576
+PopulationEstimate2018 : -0.01585164478368131
+#ICU_beds : 0.015757685831429162
+MedianAge2010 : 0.03321702308201425
+Smokers_Percentage : 0.002636073122421661
+DiabetesPercentage : -0.008687715469370702
+HeartDiseaseMortality : 0.028818178416916522
+Respiratory Mortality : -0.02982219977700765
+#Hospitals : 0.012828594097715135
+log(deaths) : 1.0343532307033876
+bias : 1.0142367189718018
+Feature weights
+PopulationDensityperSqMile2010 : 0.0030977039332302884
+PopulationEstimate2018 : -0.021237386664526965
+#ICU_beds : -0.008292292231573696
+MedianAge2010 : 0.0322793751826463
+Smokers_Percentage : 0.01061146731218487
+DiabetesPercentage : -0.0036941900227096887
+HeartDiseaseMortality : 0.0244308975908213
+Respiratory Mortality : -0.033106982305161806
+#Hospitals : 0.04224584035674361
+log(deaths) : 1.011845378679492
+bias : 1.0197245855212838
+Feature weights
+PopulationDensityperSqMile2010 : 0.004338469077540829
+PopulationEstimate2018 : -0.018861477326736077
+#ICU_beds : -0.0019810930988866404
+MedianAge2010 : 0.033471742266795126
+Smokers_Percentage : 0.00878330326087057
+DiabetesPercentage : 0.007510867539746662
+HeartDiseaseMortality : 0.028265399696193808
+Respiratory Mortality : -0.03555784609410879
+#Hospitals : 0.03569115518427568
+log(deaths) : 0.9885088337913172
+bias : 1.00435978053741
+Feature weights
+PopulationDensityperSqMile2010 : 0.010144871637099257
+PopulationEstimate2018 : -0.04924765335310205
+#ICU_beds : -0.02744229310056215
+MedianAge2010 : 0.04248593255608077
+Smokers_Percentage : 0.005967186532425416
+DiabetesPercentage : 0.01830420552411624
+HeartDiseaseMortality : 0.03370096143331044
+Respiratory Mortality : -0.03703252907708581
+#Hospitals : 0.09093055627121306
+log(deaths) : 0.9723388431506257
+bias : 0.9671771132498208
+Feature weights
+PopulationDensityperSqMile2010 : 0.01845676231831523
+PopulationEstimate2018 : -0.0435234472234083
+#ICU_beds : -0.040722103938339034
+MedianAge2010 : 0.045820748057795874
+Smokers_Percentage : 0.0031768865640965415
+DiabetesPercentage : 0.024131111778861288
+HeartDiseaseMortality : 0.04001094062586523
+Respiratory Mortality : -0.03436840663813588
+#Hospitals : 0.10352100697816109
+log(deaths) : 0.952894031989386
+bias : 0.9291335169756212
+Feature weights
+PopulationDensityperSqMile2010 : 0.02734635796927792
+PopulationEstimate2018 : -0.018536645705185862
+#ICU_beds : -0.07038548571619595
+MedianAge2010 : 0.05134290293562073
+Smokers_Percentage : 0.005020069929258929
+DiabetesPercentage : 0.027178141341994904
+HeartDiseaseMortality : 0.047191600672458305
+Respiratory Mortality : -0.029298906682824484
+#Hospitals : 0.11321746233388756
+log(deaths) : 0.9332450078766457
+bias : 0.8866085265785499
+Feature weights
+PopulationDensityperSqMile2010 : 0.037938900296811844
+PopulationEstimate2018 : -0.02354709098452518
+#ICU_beds : -0.09577489353250884
+MedianAge2010 : 0.04396749799325419
+Smokers_Percentage : -0.0014047420762644401
+DiabetesPercentage : 0.030230598058440254
+HeartDiseaseMortality : 0.050196368715183716
+Respiratory Mortality : -0.040168655762543644
+#Hospitals : 0.14309222500018998
+log(deaths) : 0.917089979299452
+bias : 0.892233601613913
+--- Model Contributions ---
+{'model_type': 'linear'}: 0.36421719864264446
+{'model_type': 'exponential'}: 0.36392695728392
+{'model_type': 'shared_exponential', 'demographic_vars': ['PopulationDensityperSqMile2010', 'PopulationEstimate2018', '#ICU_beds', 'MedianAge2010', 'Smokers_Percentage', 'DiabetesPercentage', 'HeartDiseaseMortality', 'Respiratory Mortality', '#Hospitals']}: 0.13904979927619027
+{'model_type': 'shared_exponential'}: 0.13280604479724284
+Feature weights
+log(deaths) : 1.069968859726017
+bias : 1.1327819060039506
+Feature weights
+PopulationDensityperSqMile2010 : 0.0032209936569068454
+PopulationEstimate2018 : -0.04264782386645579
+#ICU_beds : -0.015100754003184128
+MedianAge2010 : 0.026328735874870165
+Smokers_Percentage : 0.0010648831021838703
+DiabetesPercentage : 0.0024217459331302557
+HeartDiseaseMortality : 0.00385989775777937
+Respiratory Mortality : -0.0010306073127988183
+#Hospitals : 0.06025081221433748
+log(deaths) : 1.0947519499415803
+bias : 1.0231924853546577
+Feature weights
+log(deaths) : 1.0315966338041158
+bias : 1.0956809425525327
+Feature weights
+log(deaths) : 1.0094586048702385
+bias : 1.1002204702396552
+Feature weights
+log(deaths) : 0.9907308982626272
+bias : 1.0925327541899237
+Feature weights
+log(deaths) : 0.973938047201689
+bias : 1.0844731464635076
+Feature weights
+log(deaths) : 0.9615442625794232
+bias : 1.0653139363930455
+Feature weights
+log(deaths) : 0.9492258780550434
+bias : 1.0493289000203028
+Feature weights
+log(deaths) : 0.9437424396249326
+bias : 1.0344044783643764
+Feature weights
+PopulationDensityperSqMile2010 : 0.0032497602968248576
+PopulationEstimate2018 : -0.01585164478368131
+#ICU_beds : 0.015757685831429162
+MedianAge2010 : 0.03321702308201425
+Smokers_Percentage : 0.002636073122421661
+DiabetesPercentage : -0.008687715469370702
+HeartDiseaseMortality : 0.028818178416916522
+Respiratory Mortality : -0.02982219977700765
+#Hospitals : 0.012828594097715135
+log(deaths) : 1.0343532307033876
+bias : 1.0142367189718018
+Feature weights
+PopulationDensityperSqMile2010 : 0.0030977039332302884
+PopulationEstimate2018 : -0.021237386664526965
+#ICU_beds : -0.008292292231573696
+MedianAge2010 : 0.0322793751826463
+Smokers_Percentage : 0.01061146731218487
+DiabetesPercentage : -0.0036941900227096887
+HeartDiseaseMortality : 0.0244308975908213
+Respiratory Mortality : -0.033106982305161806
+#Hospitals : 0.04224584035674361
+log(deaths) : 1.011845378679492
+bias : 1.0197245855212838
+Feature weights
+PopulationDensityperSqMile2010 : 0.004338469077540829
+PopulationEstimate2018 : -0.018861477326736077
+#ICU_beds : -0.0019810930988866404
+MedianAge2010 : 0.033471742266795126
+Smokers_Percentage : 0.00878330326087057
+DiabetesPercentage : 0.007510867539746662
+HeartDiseaseMortality : 0.028265399696193808
+Respiratory Mortality : -0.03555784609410879
+#Hospitals : 0.03569115518427568
+log(deaths) : 0.9885088337913172
+bias : 1.00435978053741
+Feature weights
+PopulationDensityperSqMile2010 : 0.010144871637099257
+PopulationEstimate2018 : -0.04924765335310205
+#ICU_beds : -0.02744229310056215
+MedianAge2010 : 0.04248593255608077
+Smokers_Percentage : 0.005967186532425416
+DiabetesPercentage : 0.01830420552411624
+HeartDiseaseMortality : 0.03370096143331044
+Respiratory Mortality : -0.03703252907708581
+#Hospitals : 0.09093055627121306
+log(deaths) : 0.9723388431506257
+bias : 0.9671771132498208
+Feature weights
+PopulationDensityperSqMile2010 : 0.01845676231831523
+PopulationEstimate2018 : -0.0435234472234083
+#ICU_beds : -0.040722103938339034
+MedianAge2010 : 0.045820748057795874
+Smokers_Percentage : 0.0031768865640965415
+DiabetesPercentage : 0.024131111778861288
+HeartDiseaseMortality : 0.04001094062586523
+Respiratory Mortality : -0.03436840663813588
+#Hospitals : 0.10352100697816109
+log(deaths) : 0.952894031989386
+bias : 0.9291335169756212
+Feature weights
+PopulationDensityperSqMile2010 : 0.02734635796927792
+PopulationEstimate2018 : -0.018536645705185862
+#ICU_beds : -0.07038548571619595
+MedianAge2010 : 0.05134290293562073
+Smokers_Percentage : 0.005020069929258929
+DiabetesPercentage : 0.027178141341994904
+HeartDiseaseMortality : 0.047191600672458305
+Respiratory Mortality : -0.029298906682824484
+#Hospitals : 0.11321746233388756
+log(deaths) : 0.9332450078766457
+bias : 0.8866085265785499
+Feature weights
+PopulationDensityperSqMile2010 : 0.037938900296811844
+PopulationEstimate2018 : -0.02354709098452518
+#ICU_beds : -0.09577489353250884
+MedianAge2010 : 0.04396749799325419
+Smokers_Percentage : -0.0014047420762644401
+DiabetesPercentage : 0.030230598058440254
+HeartDiseaseMortality : 0.050196368715183716
+Respiratory Mortality : -0.040168655762543644
+#Hospitals : 0.14309222500018998
+log(deaths) : 0.917089979299452
+bias : 0.892233601613913
+--- Model Contributions ---
+{'model_type': 'linear'}: 0.5860256160943097
+{'model_type': 'shared_exponential', 'demographic_vars': ['PopulationDensityperSqMile2010', 'PopulationEstimate2018', '#ICU_beds', 'MedianAge2010', 'Smokers_Percentage', 'DiabetesPercentage', 'HeartDiseaseMortality', 'Respiratory Mortality', '#Hospitals']}: 0.2117106918096647
+{'model_type': 'shared_exponential'}: 0.20226369209602593
+Feature weights
+log(deaths) : 1.069968859726017
+bias : 1.1327819060039506
+Feature weights
+log(deaths) : 1.0315966338041158
+bias : 1.0956809425525327
+Feature weights
+log(deaths) : 1.0094586048702385
+bias : 1.1002204702396552
+Feature weights
+log(deaths) : 0.9907308982626272
+bias : 1.0925327541899237
+Feature weights
+log(deaths) : 0.973938047201689
+bias : 1.0844731464635076
+Feature weights
+log(deaths) : 0.9615442625794232
+bias : 1.0653139363930455
+Feature weights
+log(deaths) : 0.9492258780550434
+bias : 1.0493289000203028
+Feature weights
+log(deaths) : 0.9437424396249326
+bias : 1.0344044783643764
+--- Model Contributions ---
+{'model_type': 'linear'}: 0.7330514071518004
+{'model_type': 'shared_exponential'}: 0.26694859284821754
