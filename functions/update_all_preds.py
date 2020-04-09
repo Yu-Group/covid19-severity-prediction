@@ -1,9 +1,14 @@
+import os
 import sys
-sys.path.append('../') 
+import inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+sys.path.append(parentdir + '/modeling')
+from os.path import join as oj
 import sklearn
 import copy
 import numpy as np
-
 import scipy as sp
 import pandas as pd
 from functions import merge_data
@@ -85,7 +90,7 @@ if __name__ == '__main__':
     
     
     # write to gsheets
-    service_file='../creds.json'
+    service_file=oj(parentdir, 'creds.json')
     FNAME = 'County-level Predictions'
     gc = pygsheets.authorize(service_file=service_file)
     sh = gc.open(FNAME)

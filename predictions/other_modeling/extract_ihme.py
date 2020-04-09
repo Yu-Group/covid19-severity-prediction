@@ -4,15 +4,20 @@ import numpy as np
 import os
 import pandas as pd
 import zipfile, urllib.request, shutil
-
+import sys
+import inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+from os.path import join as oj
 from datetime import datetime, timedelta
 from os import listdir, path
 
 # Constants
 MAX_PROJECTION = 10
 URL = 'https://ihmecovid19storage.blob.core.windows.net/latest/ihme-covid19.zip'
-RAW_DIREC = 'ihme/raw/'
-PROCESSED_DIREC = 'ihme/'
+PROCESSED_DIREC = oj(currentdir, 'ihme/')
+RAW_DIREC = oj(PROCESSED_DIREC, 'raw')
+
 TWO_WEEKS, THREE_WEEKS = 14, 21
 LOCATION = 'location_name' # keeps changing randomly from location to location_name
 
@@ -23,7 +28,7 @@ def unzip(path_to_zip_file, directory):
 
 # Initialize file name
 now = "".join(str(datetime.now())).replace(" ", "_")
-file_name = RAW_DIREC + now + '.zip'
+file_name = oj(RAW_DIREC, now + '.zip')
 
 # Download zip file
 with urllib.request.urlopen(URL) as response, open(file_name, 'wb') as out_file:
@@ -72,8 +77,8 @@ for i, directory in enumerate(directories):
             latest_direc = directory
             
 # Read main data file
-csvs = find_csvs(RAW_DIREC + latest_direc + '/')
-deaths = pd.read_csv(RAW_DIREC + latest_direc + '/' + csvs[0])
+csvs = find_csvs(oj(RAW_DIREC, latest_direc))
+deaths = pd.read_csv(oj(RAW_DIREC, latest_direc, csvs[0]))
 
 for col in list(deaths.columns):
     if 'location' in col:
@@ -136,4 +141,6 @@ compiled_projections = compiled_projections.rename(columns={"totdea_mean": "cumu
 compiled_projections = compiled_projections.astype({'deaths': 'int32', 'cumul_deaths': 'int32'})
 
 # Save to file
-compiled_projections.to_csv(PROCESSED_DIREC + LATEST_DATE + ".csv", index = None)
+compiled_projections.to_csv(oj(PROCESSED_DIREC, LATEST_DATE + ".csv"), index = None)
+
+print('sucesfully extracted IHME preds!')

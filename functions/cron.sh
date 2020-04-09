@@ -20,7 +20,7 @@ $(which python3) $REPO_DIR/functions/update_slider.py >> ~/cron.log
 $(which python3) $REPO_DIR/functions/update_modeling_results.py >> ~/cron.log
 
 # cache our model preds (in gdoc)
-$(which python3) $REPO_DIR/modeling/save_all_preds.py >> ~/cron.log
+$(which python3) $REPO_DIR/functions/update_all_preds.py >> ~/cron.log
 
 # cache IHME preds
 $(which python3) $REPO_DIR/predictions/other_modeling/extract_ihme.py >> ~/cron.log
