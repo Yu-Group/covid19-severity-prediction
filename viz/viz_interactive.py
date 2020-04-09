@@ -509,64 +509,57 @@ def plot_counties_slider(df,
 """
 Death curve scatter plot grid
 """
-def make_curve_grid_subplot(title_text, subplot_titles):
-    if curves:
-        column_widths = [0.15, .15, 0.7]
-    else:
-        column_widths = [0, 0, 1]
+def make_scatter_plot_grid_subplot(title_text, subplot_titles):
     fig = make_subplots(
-        rows=3, cols=3, column_widths=column_widths,
+        rows=3, cols=3, column_widths=[0.2]*3,
         specs=[ # indices of outer list correspond to rows
             [ # indices of inner list to cols
-                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scattergeo', 'rowspan' : 3}
+                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scatter'}
             ], # row 1
             [
-                {"type" : 'scatter'}, {"type" : 'scatter'}, None # row 2
+                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scatter'}
             ], # row 2
             [
-                {"type" : 'scatter'}, {"type" : 'scatter'}, None # row 2
+                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scatter'}
             ] # row 3
         ],
         subplot_titles=subplot_titles
     )
 
-    fig.update_geos(
-        scope = 'usa',
-        projection=go.layout.geo.Projection(type = 'albers usa'),
-        subunitcolor = "rgb(0, 0, 0)",
-        landcolor = 'rgb(255, 255, 255)'
-    )
-
     fig.update_layout(
+        hovermode = 'x',
         dragmode = 'pan',
         title = {
             'text' : title_text,
-            'pad' : {'b': 25},
-            'y' : 0.95,
-            'x' : 0.18,
-            'xanchor': 'center',
-            'yanchor': 'bottom'
+            # 'pad' : {'b': 25},
+            # 'y' : 0.95,
+            # 'x' : 0.18,
+            # 'xanchor': 'center',
+            # 'yanchor': 'bottom'
         }
     )
 
     return fig
 
 
-def add_counties_slider_scatter_traces(fig, df,
-                                       key_toggle='CountyName',
-                                       keys_curves=['deaths', 'cases'],
-                                       decimal_places=0,
-                                       expl_dict=None, interval_dicts=None,
-                                       point_id=None, show_stds=False, ):
+def add_scatter_traces_to_grid(fig, df,
+                               key_toggle='CountyName',
+                               keys_curves=['deaths', 'cases'],
+                               decimal_places=0,
+                               expl_dict=None, interval_dicts=None,
+                               point_id=None, show_stds=False,
+                               annotation_text=None,
+                               annotation_x=None,
+                               annotation_y=None):
         '''
-        Plot the top 6 counties with the most deaths.
+        Add first 9 rows as scatter plot traces to a 3x3 grid.
         '''
         color_strings = [credstr, cbluestr]
 
         # scatter plots
-        num_traces_per_plot = len(keys_curves)
-        # for i in range(df.shape[0]):
-        for i in range(6):
+        annotations = []
+
+        for i in range(9):
             row = df.iloc[i]
             key = row[key_toggle]
 
@@ -574,30 +567,106 @@ def add_counties_slider_scatter_traces(fig, df,
                 curve = row[key_curve]
                 x = np.arange(curve.size)
                 fig.add_trace(
-                    go.Scatter(x=x,
-                               y=curve,
-                               showlegend=False,
-                               visible=True,
-                               name=key_curve,
-                               line=dict(color=color_strings[j], width=4),
-                               xaxis='x1', yaxis='y1'),
-                    row=i % 3 + 1, col=(i - 1) % 2 + 1
+                    go.Scatter(
+                        x=x,
+                        y=curve,
+                        showlegend=False,
+                        visible=True,
+                        name=key_curve,
+                        line=dict(color=color_strings[j], width=4)
+                    ),
+                    row=i // 3 + 1, col=i % 3 + 1
                 )
-                # fig.update_layout(yaxis_type="log")
-                # annotations.append(
-                #     {
-                #         'x' : .05,
-                #         'y' : 0,
-                #         'text' : key + ' County, ' + row['StateNameAbbreviation'],
-                #         'visible' : i==0
-                #     }
-                # )
-
-                # fig.layout['hovermode'] = annotations
+            if annotation_text is not None:
+                if i==0:
+                    xref='x'
+                    yref='y'
+                else:
+                    xref='x'+str(i+1)
+                    yref='y'+str(i+1)
+                fig.add_annotation(
+                        x=annotation_x[i],
+                        y=annotation_y[i],
+                        text=annotation_text[i],
+                        xref=xref,
+                        yref=yref,
+                        showarrow=True,
+                        arrowhead=7,
+                        visible=True
+                )
 
         return None
-    
-    
+
+
+def plot_emerging_hotspots_grid(df,
+                                target_days=[1,2,3],
+                                n_days_past=3,
+                                order_by='emerging_index',
+                                filename='results/emerging_hotspots.html',
+                                auto_open=True):
+    """
+    Plot observations and predictions for the first nine rows of df in a grid.
+    """
+    d = df.sort_values(order_by, ascending=False)
+
+    counties = d['CountyName'].take(range(9)).tolist()
+    states = d['StateNameAbbreviation'].take(range(9)).tolist()
+    subplot_titles = [county + ', ' + state + ' (Hotspot Rank: ' +  str(rank + 1) + ')' for
+                      (county, state, rank) in zip(counties, states, range(9))]
+
+
+    # get col names of past obs, plus one more as the baseline
+    past_cols = d.filter(regex='#Deaths_').columns[-(n_days_past):].tolist()
+    # get col names of predictions
+    pred_cols = [f'Predicted Deaths {day}-day' for day in target_days]
+
+    past_days = list(map(lambda x: x.replace('#Deaths_', ''), past_cols))
+
+    title = "Emerging Hotspots"
+
+    d['deaths'] = d[past_cols + pred_cols].values.tolist()
+    d['deaths'] = d['deaths'].apply(lambda x: np.around(np.array(x)))
+
+    fig = make_scatter_plot_grid_subplot(title, subplot_titles)
+
+    add_scatter_traces_to_grid(
+        fig, d, keys_curves=['deaths'],
+        annotation_text = ['Predictions Begin'] * 9,
+        annotation_x = [n_days_past] * 9,
+        annotation_y = d['deaths'].take(range(9)).apply(lambda x: x[n_days_past]).tolist()
+    )
+
+    # add more annotations
+    annotation_y = d['deaths'].take(range(9)).apply(lambda x: x[n_days_past-1]).tolist()
+    for i in range(9):
+        if i==0:
+            xref='x'
+            yref='y'
+        else:
+            xref='x'+str(i+1)
+            yref='y'+str(i+1)
+        fig.add_annotation(
+                x=n_days_past-1,
+                y=annotation_y[i],
+                text=past_days[-1],
+                xref=xref,
+                yref=yref,
+                showarrow=True,
+                arrowhead=7,
+                visible=True
+        )
+
+    plot(fig, filename=filename, config={
+        'showLink': False,
+        'showSendToCloud': False,
+        'sendData': True,
+        'responsive': True,
+        'autosizable': True,
+        'displaylogo': False
+    }, auto_open = auto_open)
+
+
+
 '''Interactive plots for counties/hospitals'''
 
 '''
