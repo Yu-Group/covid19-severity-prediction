@@ -76,7 +76,6 @@ def fit_and_predict(df,
     test_df
         returns dataframe with added column
     """
-        
     assert mode == 'predict_future' or mode == 'eval_mode', 'unknown mode'
     if output_key is None:
         output_key = f'predicted_{outcome}_{method}_{target_day[-1]}'
@@ -112,7 +111,7 @@ def fit_and_predict(df,
     
     elif method == 'shared_exponential':
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
-        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(df,mode,outcome=outcome,demographic_vars=demographic_vars,target_day=target_day)
+        cur_day_predictions = exponential_modeling.fit_and_predict_shared_exponential(df,mode,outcome=outcome,demographic_vars=demographic_vars,target_day=target_day, verbose=verbose)
         #if len(demographic_vars) > 0:
         #    output_key += '_demographics'
         # import IPython
@@ -135,7 +134,7 @@ def fit_and_predict_ensemble(df,
                              methods: list=[exponential, shared_exponential, demographics],
                              mode: str='predict_future', 
                              output_key: str=None,
-                             verbose: bool=True):
+                             verbose: bool=False):
     
     """
     Function for ensemble prediction

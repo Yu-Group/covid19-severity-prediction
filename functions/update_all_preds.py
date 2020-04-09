@@ -24,6 +24,7 @@ NUM_DAYS_LIST = np.array(range(1, 8))
 import pygsheets
 
 def get_all_preds(parentdir):
+    print('getting all preds...')
     very_important_vars = ['PopulationDensityperSqMile2010',
     #                        'MedicareEnrollment,AgedTot2017',
                            'PopulationEstimate2018',
