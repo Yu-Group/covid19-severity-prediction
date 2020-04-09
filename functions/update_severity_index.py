@@ -84,10 +84,9 @@ def write_to_gsheets_and_api(df, ks_output=['Severity 1-day', 'Severity 2-day', 
     print('writing to api')
     with open(api_file, 'r') as f:
         auth_token = f.read()
-    print(auth_token)
     hed = {'Authorization': 'Bearer ' + auth_token}
     url = 'https://api-r4l-ventilator-prediction.herokuapp.com/berkeley/severity/auto-upload'
-    d.to_pickle(csv)
+    d.to_csv(csv)
     with open(csv, 'rb') as f:
         r = requests.post(url, files={'file': ('myfile.csv', f, 'text/csv', {'Expires': '0'})}, 
                           headers=hed)
@@ -117,16 +116,11 @@ if __name__ == '__main__':
     df = df.sort_values('Total Deaths Hospital', ascending=False)
     
     write_to_gsheets_and_api(df, service_file=oj(parentdir, 'creds.json'),
-                         api_file=oj(parentdir, 'ian_key.env'))
-    
-    try:
-        write_to_gsheets_and_api(df, service_file=oj(parentdir, 'creds.json'),
-                         api_file=oj(parentdir, 'ian_key.env', csv=oj(currentdir, '_hidden_preds.csv')))
-        print('succesfully wrote to gsheets')
-    except:
-        print('failed to write to gsheets!')
+                             api_file=oj(parentdir, 'ian_key.env'))
+    print('succesfully wrote to gsheets')
         
     d = df_to_plot(df, NUM_DAYS_LIST)
+    print('writing viz index animated...')
     viz_interactive.viz_index_animated(d, [1, 3, 5], out_name=oj(parentdir, 'results', 'hospital_index_animated.html'))
     print('succesfully wrote viz index animated')
 
