@@ -695,7 +695,7 @@ def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animat
     dd['Predicted new deaths at hospital'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in NUM_DAYS_LIST])
     dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in NUM_DAYS_LIST])
     today = datetime.today().strftime("%B %d")
-    new_key = f'Total Deaths at hospital by {today}'
+    new_key = f'Total (estimated) deaths at hospital by {today}'
     dd = dd.rename(columns={'Total Deaths Hospital': new_key})
     fig = px.scatter(dd, x=new_key, 
                  y='Predicted new deaths at hospital', 
