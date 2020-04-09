@@ -22,6 +22,8 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from functools import partial
 import datetime
+from shared_models import SharedModel
+from collections import defaultdict 
 
 very_important_vars = ['PopulationDensityperSqMile2010',
 #                        'MedicareEnrollment,AgedTot2017',
@@ -122,6 +124,23 @@ def fit_and_predict(df,
     
     elif method == 'ensemble':
         print('please use fit_and_predict_ensemble instead')
+
+    elif method == 'advanced_shared_model':
+        feat_transforms = defaultdict(lambda y: [lambda x: x]) 
+        feat_transforms['deaths'] = [lambda x: np.log(x+1)]
+        feat_transforms['cases'] =  [lambda x: np.log(x+1)]
+        feat_transforms['neighbor_deaths'] =  [lambda x: np.log(x+1)]
+        feat_transforms['neighbor_cases'] =  [lambda x: np.log(x+1)]
+        default_values = defaultdict(lambda: 0) 
+        aux_feats = ['cases','neighbor_deaths','neighbor_cases']
+        shared_model = SharedModel(df=df,outcome=outcome,demographic_variables=[],mode=mode,target_days=target_day, feat_transforms=feat_transforms,auxiliary_time_features=aux_feats,time_series_default_values=default_values,scale=True)
+        shared_model.create_dataset()
+        shared_model.fit_model()
+        shared_model.predict()
+
+        df[output_key] = shared_model.predictions
+        return df
+
         
         
     else:
