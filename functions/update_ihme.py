@@ -45,11 +45,11 @@ def find_csvs( path_to_dir, suffix=".csv" ):
 def find_date(frame):
     # Find latest date for historical data
     dates = np.unique(frame[DATE])
-    states = np.unique(frame[LOCATION])
     for date in dates[::-1]:
         delta = datetime.strptime(latest_date, '%Y-%m-%d') - datetime.strptime(date, '%Y-%m-%d')
         if abs(delta.days) <= 7:
             sub = frame.loc[frame[DATE] == date]
+            sub = sub.loc[sub[LOCATION] == 'United States of America'].reset_index()
             current_date = True
             for i in range(sub.shape[0]):
                 
