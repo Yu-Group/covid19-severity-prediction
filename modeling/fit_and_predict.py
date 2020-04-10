@@ -286,6 +286,16 @@ def get_forecasts(df,
         
         
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None):
+    '''Adds predictions for the current best model
+    Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
+    '''
+    
+    # select the best model
+    advanced_model = {'model_type':'advanced_shared_model'}
+    linear = {'model_type':'linear'}
+    BEST_MODEL = [advanced_model, linear]
+    
+    
     # load cached preds
     if cached_dir is not None:
         # getting current date and time
@@ -296,20 +306,16 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             return pd.read_pickle(cached_fname)
     
     print('predicting...')
-    # df_county = exponential_modeling.estimate_deaths(df_county) # adds key 
     for num_days_in_future in NUM_DAYS_LIST: # 1 is tomorrow
         output_key = f'Predicted Deaths {num_days_in_future}-day'    
         df_county = fit_and_predict_ensemble(df_county, 
-                                    # method='ensemble', 
+                                    methods=BEST_MODEL,
                                     outcome='deaths',
                                     mode='predict_future',
                                     target_day=np.array([num_days_in_future]),
                                     output_key=output_key,
                                     verbose=verbose)
-
-        # extract out vals from list
-        if verbose:
-            print(df_county.keys())
+        
         vals = df_county[output_key].values
         out = []
         for i in range(vals.shape[0]):
@@ -317,13 +323,6 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                 out.append(0)
             else:
                 out.append(vals[i][0])
-        
-        '''
-        # set everything below 0.1 to 0.1
-        out = np.array(out)
-        out[out < 0.1] = 0.1
-        '''
-        
         df_county[output_key] = out
         
     if cached_dir is not None:
