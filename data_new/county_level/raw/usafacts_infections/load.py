@@ -50,7 +50,7 @@ def load_usafacts_infections(data_dir = "./"):
     df = pd.merge(cases, deaths, how='left', on='countyFIPS')
     df = df.fillna(0)
 
-    df.to_csv("usafacts_infections.csv") 
+    df.to_csv(oj(data_dir, "usafacts_infections.csv"), header=True, index=False)
     return df
 
 if __name__ == '__main__':
