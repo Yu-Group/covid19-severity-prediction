@@ -38,6 +38,7 @@ very_important_vars = ['PopulationDensityperSqMile2010',
 exponential = {'model_type':'exponential'}
 shared_exponential = {'model_type':'shared_exponential'}
 demographics = {'model_type':'shared_exponential', 'demographic_vars':very_important_vars}
+linear = {'model_type':'linear'}
 
 
 def fit_and_predict(df, 
@@ -150,7 +151,7 @@ def fit_and_predict(df,
 def fit_and_predict_ensemble(df, 
                              target_day: np.ndarray=np.array([1]),
                              outcome: str='deaths', 
-                             methods: list=[exponential, shared_exponential, demographics],
+                             methods: list=[shared_exponential, linear],
                              mode: str='predict_future', 
                              output_key: str=None,
                              verbose: bool=False):
