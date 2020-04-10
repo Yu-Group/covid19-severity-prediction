@@ -267,6 +267,10 @@ def leave_t_day_out(df, t):
     for i in range(len(df)):
         df2['deaths'].values[i] = df2['deaths'].values[i][:-t]
         df2['cases'].values[i] = df2['cases'].values[i][:-t]
+        if 'neighbor_deaths' in df2.columns:
+            df2['neighbor_deaths'].values[i] = df2['neighbor_deaths'].values[i][:-t]
+            df2['neighbor_cases'].values[i] = df2['neighbor_cases'].values[i][:-t]
+
     return df2
 
 def create_shared_simple_dataset(train_df, outcome='deaths',days_to_subtract=0):
