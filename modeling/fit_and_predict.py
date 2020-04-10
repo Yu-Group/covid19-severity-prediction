@@ -126,6 +126,38 @@ def fit_and_predict(df,
         print('please use fit_and_predict_ensemble instead')
 
     elif method == 'advanced_shared_model':
+        if 'neighbor_deaths' not in df.columns:
+            neighboring_counties_df = pd.read_csv('../data_new/county_level/raw/county_ids/county_adjacency2010.csv')
+            county_neighbor_deaths = []
+            county_neighbor_cases = []
+            county_fips = list(df['countyFIPS'])
+            for fips in county_fips:
+
+
+                neighboring_counties = list(neighboring_counties_df.loc[neighboring_counties_df['fipscounty'] == fips ]['fipsneighbor'])
+                neighboring_county_deaths = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['deaths'])
+                neighboring_county_cases = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['cases'])
+                
+                sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
+                for deaths in neighboring_county_deaths:
+                    sum_neighboring_county_deaths += deaths
+                sum_neighboring_county_cases = np.zeros(len(neighboring_county_deaths[0]))
+                for cases in neighboring_county_cases:
+                    sum_neighboring_county_cases += cases
+                county_neighbor_deaths.append(sum_neighboring_county_deaths)
+                county_neighbor_cases.append(sum_neighboring_county_cases)
+
+
+                    
+            df['neighbor_deaths'] = county_neighbor_deaths
+            df['neighbor_cases'] = county_neighbor_cases
+
+    
+    
+    
+
+
+
         feat_transforms = defaultdict(lambda y: [lambda x: x]) 
         feat_transforms['deaths'] = [lambda x: np.log(x+1)]
         feat_transforms['cases'] =  [lambda x: np.log(x+1)]
