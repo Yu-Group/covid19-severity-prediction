@@ -24,7 +24,7 @@ $(which python3) $REPO_DIR/functions/update_modeling_results.py >> $LOG_FILE
 $(which python3) $REPO_DIR/functions/update_all_preds.py >> $LOG_FILE
 
 # cache IHME preds
-$(which python3) $REPO_DIR/functions/extract_ihme.py >> $LOG_FILE
+$(which python3) $REPO_DIR/functions/update_ihme.py >> $LOG_FILE
 
 # after running all scripts need to push to git
 $REPO_DIR/data/push_to_git.sh
