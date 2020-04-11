@@ -31,7 +31,7 @@ print(df.shape)
 - output from running the daily tests is stored [here](./functions/update_test.log)
 
 ## Prediction
-- To get deaths predictions of the naive exponential growth model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
+- To get deaths predictions for our current best-performing model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
 
 ```python
 from modeling.fit_and_predict import add_preds

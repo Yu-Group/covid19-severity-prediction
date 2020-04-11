@@ -24,6 +24,13 @@ from functools import partial
 import datetime
 from shared_models import SharedModel
 from collections import defaultdict 
+import inspect
+import sys
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+
 
 very_important_vars = ['PopulationDensityperSqMile2010',
 #                        'MedicareEnrollment,AgedTot2017',
@@ -127,7 +134,7 @@ def fit_and_predict(df,
 
     elif method == 'advanced_shared_model':
         if 'neighbor_deaths' not in df.columns:
-            neighboring_counties_df = pd.read_csv('../data_new/county_level/raw/county_ids/county_adjacency2010.csv')
+            neighboring_counties_df = pd.read_csv(oj(parentdir, 'data_new/county_level/raw/county_ids/county_adjacency2010.csv'))
             county_neighbor_deaths = []
             county_neighbor_cases = []
             county_fips = list(df['countyFIPS'])
