@@ -4,7 +4,7 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-def load_unacast_mobility(data_dir='../../../../../unacast_mobility_data'):
+def load_unacast_mobility(data_dir='../../../../../covid-19-private-data'):
     ''' Load in Unacast Social Mobility and Distancing data (automatically updated)
     
     Parameters

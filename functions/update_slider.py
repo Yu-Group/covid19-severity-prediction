@@ -23,7 +23,7 @@ if __name__ == "__main__":
     )
     county_lat_lon['fips'] = (county_lat_lon['STATEFP'] + county_lat_lon['COUNTYFP']).astype(np.int64)
     # add predictions
-    df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3], cached_dir=data_dir)
+    df = add_preds(df, NUM_DAYS_LIST=[1, 2, 3, 4, 5], cached_dir=data_dir)
     # join lat / lon to df
     df = df.join(county_lat_lon.set_index('fips'), on='countyFIPS', how='left').rename(
         columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
@@ -31,5 +31,5 @@ if __name__ == "__main__":
     # create plot
     plot_counties_slider(df, auto_open=False,
                          n_past_days=1,
-                         target_days=np.array([1, 2, 3]),
+                         target_days=np.array([1, 2, 3, 4, 5]),
                          filename=oj(parentdir, 'results', 'deaths.html'))

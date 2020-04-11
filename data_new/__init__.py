@@ -47,9 +47,9 @@ def load_county(data_dir=".", cached_file="county_data.csv",
     
     infections_data : string; source for daily cases/deaths counts from
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
-    
+                      
     rm_na : logical; whether or not to remove counties with NA cases or deaths
-    
+        
     Returns
     -------
     data frame with abridged or full county-level data set
@@ -80,13 +80,17 @@ def load_county(data_dir=".", cached_file="county_data.csv",
                                  "Please set cached = False")
         cnty["countyFIPS"] = cnty["countyFIPS"].astype(str).str.zfill(5)
     else: 
-        # generate county data
-        datasets = ["ahrf_health", "cdc_svi", "chrr_health", "dhdsp_heart",
-                    "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
-                    "medicare_chronic", "mit_voting", "nchs_mortality", 
-                    "unacast_mobility", "usdss_diabetes", "jhu_interventions"]
+        ## ADD PUBLIC DATASETS HERE
+        public_datasets = ["ahrf_health", "cdc_svi", "chrr_health", "dhdsp_heart",
+                           "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
+                           "medicare_chronic", "mit_voting", "nchs_mortality", 
+                           "usdss_diabetes", "jhu_interventions"]
+        ## ADD PRIVATE DATASETS HERE
+        private_datasets = ["unacast_mobility"]
+        
+        # load in and clean county-level datasets
         df_ls = []
-        for dataset in datasets:
+        for dataset in public_datasets + private_datasets:
             # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_health":
                 os.chdir(oj(data_dir_raw, dataset))
@@ -99,13 +103,10 @@ def load_county(data_dir=".", cached_file="county_data.csv",
                     os.system("python download.py")
                     print("downloaded " + dataset + " successfully")        
                 os.chdir(orig_dir)
-            elif dataset == "unacast_mobility":  # private data
+            elif dataset in private_datasets:
                 os.chdir(oj(data_dir_raw, dataset))
-                if not os.path.exists("../../../../../unacast_mobility_data"):
-                    os.chdir(orig_dir)
-                    continue
-                elif not "unacast_mobility.csv" in \
-                os.listdir("../../../../../unacast_mobility_data"):
+                if not os.path.exists("../../../../../covid-19-private-data"):
+                    # skip loading and cleaning
                     os.chdir(orig_dir)
                     continue
                 os.chdir(orig_dir)
@@ -169,12 +170,10 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         raise ValueError('infections_data = "nytimes" not yet implemented')
         
     # merge county data with covid data
-    df = pd.merge(cnty, covid, on='countyFIPS', how='left')
-    #df = df.sort_values('tot_deaths', ascending=False)
-    
-    # remove NA cases or deaths for prediction models
-    #if rm_na == True:
-    #    df = df.dropna(subset = ['cases', 'deaths'])
+    if rm_na == True:
+        df = pd.merge(cnty, covid, on='countyFIPS', how='right')
+    else:
+        df = pd.merge(cnty, covid, on='countyFIPS', how='left')
 
     return df
 
@@ -275,10 +274,9 @@ def important_keys(df):
     political = ['dem_to_rep_ratio']
     
     # social mobility data
-    social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
     social_dist_daily = [var for var in list(df.columns) if "daily_distance_diff" in var]
     interventions = ['stay at home', '>50 gatherings', '>500 gatherings', 'public schools', 'restaurant dine-in', 'entertainment/gym', 'federal guidelines', 'foreign travel ban']
-    social =  social_dist + social_dist_daily + interventions
+    social = social_dist_daily + interventions
     
     # resource shortages/social vulnerability
     vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
@@ -290,6 +288,7 @@ def important_keys(df):
     important_vars = [var for var in important_vars if var in list(df.columns)]
 
     return important_vars
+
 
 def is_all_data_available(folder, datasets):
     '''
@@ -318,6 +317,7 @@ def is_all_data_available(folder, datasets):
                 return False
 
     return len(datasets) == 0
+
 
 def load_hospital_level_data(
         with_private_data=True,
