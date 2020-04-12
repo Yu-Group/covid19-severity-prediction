@@ -120,7 +120,7 @@ if __name__ == '__main__':
         
     d = df_to_plot(df, NUM_DAYS_LIST)
     print('writing viz index animated...')
-    viz_interactive.viz_index_animated(d, [1, 3, 5], out_name=oj(parentdir, 'results', 'hospital_index_animated.html'))
+    viz_interactive.viz_index_animated(d, [2, 5], out_name=oj(parentdir, 'results', 'hospital_index_animated.html'))
     print('succesfully wrote viz index animated')
 
     
