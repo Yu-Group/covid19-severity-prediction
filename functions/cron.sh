@@ -5,6 +5,8 @@
 
 REPO_DIR=/home/ubuntu/uploader
 LOG_FILE=$REPO_DIR/functions/update_test.log
+PATH=/home/ubuntu/anaconda3/bin/:$PATH
+export PATH
 rm $LOG_FILE
 
 # update usafacts and nytimes date
