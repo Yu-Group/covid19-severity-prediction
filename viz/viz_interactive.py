@@ -848,7 +848,13 @@ plotly.offline.plot(fig, filename="results/new_deaths_vs_curr_deaths.html")
 '''
 
 
-def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animated.html"):
+def viz_index_animated(d, NUM_DAYS_LIST, by_size=False,
+                       out_name="results/hospital_index_animated.html"):
+    '''
+    by_size: bool
+        If False, make the plot of new deaths vs current deaths
+        If true, make the plot of tot deaths vs hosp size
+    '''
     def flat_list(list_list):
         l = []
         for ll in list_list:
@@ -861,12 +867,23 @@ def viz_index_animated(d, NUM_DAYS_LIST, out_name="results/hospital_index_animat
     # days_past = [(datetime.now() + timedelta(days=i)).strftime("%B %d") for i in NUM_DAYS_LIST]
     dd['Days in the future'] = np.repeat(NUM_DAYS_LIST, N)
     dd['Predicted new deaths at hospital'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in NUM_DAYS_LIST])
+    dd['Predicted (cumulative) deaths at hospital'] = flat_list([d[f"Predicted Deaths Hospital {i}-day"].values for i in NUM_DAYS_LIST])
     dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in NUM_DAYS_LIST])
     today = datetime.today().strftime("%B %d")
-    new_key = f'Total (estimated) deaths at hospital by {today}'
-    dd = dd.rename(columns={'Total Deaths Hospital': new_key})
-    fig = px.scatter(dd, x=new_key, 
-                 y='Predicted new deaths at hospital', 
+    todays_deaths_key = f'Total (estimated) deaths at hospital by {today}'
+    dd = dd.rename(columns={'Total Deaths Hospital': todays_deaths_key})
+    
+    # decide x and y keys
+    if not by_size:
+        x_key = todays_deaths_key
+        y_key = 'Predicted new deaths at hospital'
+    else:
+        x_key = 'Hospital Employees'
+        y_key = 'Predicted (cumulative) deaths at hospital'
+    
+    # make plot
+    fig = px.scatter(dd, x=x_key, 
+                 y=y_key, 
                  animation_frame="Days in the future", 
                  animation_group="Hospital Name",
                  color='Severity Index',

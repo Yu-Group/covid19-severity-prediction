@@ -16,11 +16,11 @@ $REPO_DIR/data/usafacts/update_data.sh
 # update severity index gsheet + index viz
 $(which python3) $REPO_DIR/functions/update_severity_index.py >> $LOG_FILE
 
-# update slider plot once a day
-$(which python3) $REPO_DIR/functions/update_slider.py >> $LOG_FILE
+# update map slider plot once a day
+$(which python3) $REPO_DIR/functions/update_map_with_slider.py >> $LOG_FILE
 
 # update model preds plot
-$(which python3) $REPO_DIR/functions/update_modeling_results.py >> $LOG_FILE
+$(which python3) $REPO_DIR/functions/update_predictions_plot.py >> $LOG_FILE
 
 # cache our model preds (in gdoc)
 $(which python3) $REPO_DIR/functions/update_county_preds.py >> $LOG_FILE

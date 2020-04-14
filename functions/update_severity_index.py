@@ -100,6 +100,7 @@ def df_to_plot(df, NUM_DAYS_LIST):
     for i in NUM_DAYS_LIST:
         ks.append(f'Severity {i}-day')
         ks.append(f'Predicted New Deaths Hospital {i}-day')
+        ks.append(f'Predicted Deaths Hospital {i}-day')
         ks.append(f'Severity Index {i}-day')
         df[f'Severity Index {i}-day'] = [remap[x] for x in df[f'Severity {i}-day']]
     return df[ks]

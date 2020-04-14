@@ -23,7 +23,9 @@ import load_data
 df = load_data.load_county_level(data_dir='/path/to/data')
 print(df.shape) 
 ```
+
 - for more data details, see [./data/readme.md](./data/readme.md)
+- see also the [county_quickstart notebook](county_quickstart.ipynb)
 - note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is at `data/df_county_level_abridged_cached.csv`
 - we are constantly monitoring and adding new data sources (+ relevant data news [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/))
 - output from running the daily updates is stored [here](./functions/update_test.log)
@@ -39,7 +41,7 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 3, 5]) # adds keys like "Predicted Deaths 1
 
 ## Related county-level projects
 - [County-level data summaries from JHU](https://github.com/JieYingWu/COVID-19_US_County-level_Summaries)
-- [UChicago GeoData visualization team](https://github.com/GeoDaCenter/covid)
+- [UChicago GeoData visualization team](https://geodacenter.github.io/covid/about)
 
 
 # Acknowledgements
