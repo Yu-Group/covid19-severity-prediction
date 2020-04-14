@@ -53,4 +53,4 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 - [Kolak group team](https://geodacenter.github.io/covid/about) (Geospatial visualization): Qinyun Lin
 - [Medical team](https://emergency.ucsf.edu/people/aaron-kornblith-md) (Advice from a medical perspective): Roger Chaufournier, Aaron Kornblith, David Jaffe
 - [Shen Group team](https://shen.ieor.berkeley.edu/) (IEOR): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
-- Helpful input from many including: SriSatish Ambati, Rob Crockett, Marty Elisco, Valerie Karplus, Andreas Lange, Samuel Scarpino, Suzanne Tamang, Tarek Zohdi
+- Helpful input from many including: SriSatish Ambati, Rob Crockett, Tina Elassia-Rad, Marty Elisco, Nick Jewell, Valerie Isham, Valerie Karplus, Andreas Lange, Ying Lu, Samuel Scarpino, Jas Sekhon, Phillip Stark, Jacob Steinhardt, Suzanne Tamang, Brian Yandell, Tarek Zohdi
