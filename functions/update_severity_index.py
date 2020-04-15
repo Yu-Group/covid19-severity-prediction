@@ -57,6 +57,9 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         df[f'Severity {num_days}-day'] = percentiles_with_manual_low(df[f'Predicted Deaths Hospital {num_days}-day']) 
         df[f'Severity Emerging {num_days}-day'] = percentiles_with_manual_low(df[f'Predicted New Deaths Hospital {num_days}-day']) 
         
+        # surge
+        df[f'Surge {num_days}-day'] = (2 * df[f'Predicted Deaths Hospital {num_days}-day'] - df['ICU Beds']) / df['ICU Beds']
+        
         
     s_hosp = f'Predicted Deaths Hospital 3-day'
     return df.sort_values(s_hosp, ascending=False).round(2)
@@ -95,10 +98,11 @@ def write_to_gsheets_and_api(df, ks_output=['Severity 1-day', 'Severity 2-day', 
 
 
 def df_to_plot(df, NUM_DAYS_LIST):
-    ks = ['Total Deaths Hospital', 'Hospital Employees', 'Hospital Name', 'CountyName', 'StateName']
+    ks = ['Total Deaths Hospital', 'Hospital Employees', 'Hospital Name', 'CountyName', 'StateName', 'ICU Beds']
     remap = {1: 'Low', 2: 'Medium', 3: 'High'}
     for i in NUM_DAYS_LIST:
         ks.append(f'Severity {i}-day')
+        ks.append(f'Surge {i}-day')
         ks.append(f'Predicted New Deaths Hospital {i}-day')
         ks.append(f'Predicted Deaths Hospital {i}-day')
         ks.append(f'Severity Index {i}-day')

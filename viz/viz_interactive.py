@@ -139,6 +139,9 @@ plotly.offline.plot(fig, filename="results/new_deaths_vs_curr_deaths.html")
 
 
 def viz_index_animated(d, NUM_DAYS_LIST, by_size=False,
+                       x_key='Total Deaths Hospital', # Hospital Employees
+                       y_key='Predicted new deaths at hospital', # 'Predicted (cumulative) deaths at hospital'
+                       hue='Severity Index', # 'Surge Index'
                        out_name="results/hospital_index_animated.html"):
     '''
     by_size: bool
@@ -159,24 +162,21 @@ def viz_index_animated(d, NUM_DAYS_LIST, by_size=False,
     dd['Predicted new deaths at hospital'] = flat_list([d[f"Predicted New Deaths Hospital {i}-day"].values for i in NUM_DAYS_LIST])
     dd['Predicted (cumulative) deaths at hospital'] = flat_list([d[f"Predicted Deaths Hospital {i}-day"].values for i in NUM_DAYS_LIST])
     dd['Severity Index'] = flat_list([d[f"Severity Index {i}-day"].values for i in NUM_DAYS_LIST])
+    dd['Surge Index'] = flat_list([d[f"Surge {i}-day"].values for i in NUM_DAYS_LIST])
     today = datetime.today().strftime("%B %d")
     todays_deaths_key = f'Total (estimated) deaths at hospital by {today}'
     dd = dd.rename(columns={'Total Deaths Hospital': todays_deaths_key})
     
     # decide x and y keys
-    if not by_size:
+    if x_key == 'Total Deaths Hospital':
         x_key = todays_deaths_key
-        y_key = 'Predicted new deaths at hospital'
-    else:
-        x_key = 'Hospital Employees'
-        y_key = 'Predicted (cumulative) deaths at hospital'
     
     # make plot
     fig = px.scatter(dd, x=x_key, 
                  y=y_key, 
                  animation_frame="Days in the future", 
                  animation_group="Hospital Name",
-                 color='Severity Index',
+                 color=hue,
                  size='Hospital Employees',
                  hover_name="Hospital Name", 
                  hover_data=["CountyName", 'StateName'],
