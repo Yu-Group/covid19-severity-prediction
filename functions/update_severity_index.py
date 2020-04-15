@@ -63,7 +63,7 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         df[f'Severity Emerging {num_days}-day'] = percentiles_with_manual_low(df[f'Predicted New Deaths Hospital {num_days}-day']) 
         
         # surge
-        df[f'Surge {num_days}-day'] = (2 * df[f'Predicted Deaths Hospital {num_days}-day'] - df['ICU Beds']) / df['ICU Beds']
+        df[f'Surge {num_days}-day'] = (2 * df[f'Predicted Deaths Hospital {num_days}-day'] - df['ICU Beds'])
         
         
     s_hosp = f'Predicted Deaths Hospital 3-day'
@@ -112,7 +112,7 @@ def df_to_plot(df, NUM_DAYS_LIST):
         ks.append(f'Predicted Deaths Hospital {i}-day')
         ks.append(f'Severity Index {i}-day')
         df[f'Severity Index {i}-day'] = [remap[x] for x in df[f'Severity {i}-day']]
-    ks += ['Surge County 3-day']
+    ks += ['Surge County 3-day', 'tot_deaths'] # county keys
     return df[ks]
     
 if __name__ == '__main__':
