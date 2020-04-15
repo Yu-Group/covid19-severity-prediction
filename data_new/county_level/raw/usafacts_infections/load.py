@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 from os.path import join as oj
-
+from datetime import datetime
 
 def load_usafacts_infections(data_dir = "./"):
     ''' Load in USA Facts daily COVID-19 cases and deaths data
@@ -17,7 +17,7 @@ def load_usafacts_infections(data_dir = "./"):
     -------
     data frame
     '''
-    
+    pretty_date = lambda x: datetime.strftime(datetime.strptime(x, '%m/%d/%y'), '%m-%d-%Y')
     usafacts_data_cases = oj(data_dir, 'confirmed_cases.csv')
     usafacts_data_deaths = oj(data_dir, 'deaths.csv')
   
@@ -34,11 +34,11 @@ def load_usafacts_infections(data_dir = "./"):
         if not 'county' in col.lower() and not 'state' in col.lower():
             deaths[col] = deaths[col].astype(float).astype(int)
     # rename column names
-    cases = cases.rename(columns={k: '#Cases_' + k for k in cases.keys()
+    cases = cases.rename(columns={k: '#Cases_' + pretty_date(k) for k in cases.keys()
                                   if not 'county' in k.lower()
                                   and not 'state' in k.lower()})
 
-    deaths = deaths.rename(columns={k: '#Deaths_' + k for k in deaths.keys()
+    deaths = deaths.rename(columns={k: '#Deaths_' + pretty_date(k) for k in deaths.keys()
                                     if not 'county' in k.lower()
                                     and not 'state' in k.lower()})
 
@@ -50,7 +50,6 @@ def load_usafacts_infections(data_dir = "./"):
     df = pd.merge(cases, deaths, how='left', on='countyFIPS')
     df = df.fillna(0)
 
-    df.to_csv(oj(data_dir, "usafacts_infections.csv"), header=True, index=False)
     return df
 
 if __name__ == '__main__':
