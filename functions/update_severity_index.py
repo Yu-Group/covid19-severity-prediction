@@ -43,6 +43,11 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         new_col[vals < LOW_THRESH] = 1
         new_col[vals >= LOW_THRESH] = pd.qcut(vals[vals >= LOW_THRESH], 2, labels=False) + 2
         return new_col.astype(int)
+    
+    
+    # county-level stuff (#ICU_beds is county-level)
+    df['Surge County 3-day'] = (2 * df['Predicted Deaths 3-day'] - df['#ICU_beds']) / df['#ICU_beds']
+    
 
     # loop over num day    
     df['Total Deaths Hospital'] = (df['tot_deaths'] * df['Frac Hospital Employees of County']).fillna(0)
@@ -107,6 +112,7 @@ def df_to_plot(df, NUM_DAYS_LIST):
         ks.append(f'Predicted Deaths Hospital {i}-day')
         ks.append(f'Severity Index {i}-day')
         df[f'Severity Index {i}-day'] = [remap[x] for x in df[f'Severity {i}-day']]
+    ks += ['Surge County 3-day']
     return df[ks]
     
 if __name__ == '__main__':

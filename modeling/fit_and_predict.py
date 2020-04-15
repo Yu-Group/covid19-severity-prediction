@@ -26,6 +26,7 @@ from shared_models import SharedModel
 from collections import defaultdict 
 import inspect
 import sys
+from tqdm import tqdm
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -346,7 +347,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             return pd.read_pickle(cached_fname)
     
     print('predicting...')
-    for num_days_in_future in NUM_DAYS_LIST: # 1 is tomorrow
+    for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
         output_key = f'Predicted Deaths {num_days_in_future}-day'    
         df_county = fit_and_predict_ensemble(df_county, 
                                     methods=BEST_MODEL,
