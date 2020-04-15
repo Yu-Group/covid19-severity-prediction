@@ -7,8 +7,7 @@ sys.path.append(parentdir + '/modeling')
 # sys.path.append(parentdir + '/viz')
 
 from fit_and_predict import add_preds
-from viz import viz_interactive
-# from viz_interactive import plot_counties_slider, plot_hospital_severity_slider
+from viz import viz_map
 import update_severity_index as severity_index
 import load_data
 import merge_data
@@ -33,7 +32,7 @@ if __name__ == "__main__":
         columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
     )
     # create county-level predictions plot
-    viz_interactive.plot_counties_slider(df_county, auto_open=False,
+    viz_map.plot_counties_slider(df_county, auto_open=False,
                          n_past_days=1,
                          target_days=np.array(NUM_DAYS_LIST),
                          filename=oj(parentdir, 'results', 'deaths.html'))
@@ -47,7 +46,7 @@ if __name__ == "__main__":
     counties_json = json.load(open(oj(parentdir, 'data', 'geojson-counties-fips.json'), "r"))
 
     # create hospital-level severity index plot
-    viz_interactive.plot_hospital_severity_slider(
+    viz_map.plot_hospital_severity_slider(
         df, target_days=np.array(NUM_DAYS_LIST),
         df_county=df_county, counties_json=counties_json, dark=True,
         auto_open=False, filename=oj(parentdir, 'results', 'severity_map.html')
