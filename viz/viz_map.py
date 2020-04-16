@@ -602,7 +602,7 @@ def add_hopsital_severity_index_scatter_traces(fig, df, target_days, plot_chorop
                 '<b># Deaths Predicted in County</b>: ' + preds.astype(str) + '<br>' + \
                 df_s['text_county'].tolist()
             bubble_trace = make_bubble_trace(
-                lat, lon, text, size=(s+1)*3, color=colors[s], name=str(s+1)
+                lat, lon, text, size=s+7, color=colors[s], name=str(s+1)
             )
             fig.add_trace(bubble_trace)
 
