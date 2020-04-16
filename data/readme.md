@@ -1,35 +1,80 @@
-# full data sources
+## Overview of all the data sets
 
-Only need to download these if you want to rerun the scraping / preprocessing pipeline.
+The Yu group at UC Berkeley Statistics and EECS compiled and cleaned a large
+corpus of hospital- and county-level data from a variety of public sources to
+aid data science efforts to combat COVID-19. At the hospital level, our data
+include the location of the hospital, the number of ICU beds, the total number
+of employees, and the hospital type. At the county level, our data include
+COVID-19 cases/deaths from USA Facts and NYT, automatically updated every day,
+along with demographic information, health resource availability, COVID-19
+health risk factors, and social mobility information. An overview of each data
+set in this corpus is provided in this file.
 
-## from google drive
-- **[hrsa data](https://data.hrsa.gov/data/download)**: get df_renamed.pkl from [here](https://drive.google.com/open?id=1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and put into proper directory: `data/hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl`
-    - provides demographics, income estimates, some mortality rates, hospital numbers, and more (all per county)
-- **[voting data](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VOQCHQ)**: download `county_voting_processed.pkl` from [here](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and put into proper directory `data/voting/county_voting_processed.pkl`
-    - ratio of votes in each county of democrat : republican in 2016 election
-- **[diabetes data](https://gis.cdc.gov/grasp/diabetes/DiabetesAtlas.html#)**: DiabetesAtlasCountyData.csv from [here](https://drive.google.com/open?id=1dfV8kEzVtMVzJKRyHVam9gsGq-WnvyHm) and put into proper directory: data/diabetes/DiabetesAtlasCountyData.csv
-    - diagnosed diabetes percentage (age-adjusted) per county (from 2016)
-- **[respiratory disease data](http://ghdx.healthdata.org/record/ihme-data/united-states-chronic-respiratory-disease-mortality-rates-county-1980-2014)**: `IHME_USA_COUNTY_RESP_DISEASE_MORTALITY_1980_2014_NATIONAL_Y2017M09D26.XLSX` from [here](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and place at `data/respiratory_disease/`
-    - age-standardized mortality rate by county from chronic respiratory diseases (deaths per 100,000 in 2014)
-- **[icu beds data](https://khn.org/news/as-coronavirus-spreads-widely-millions-of-older-americans-live-in-counties-with-no-icu-beds/)**: download `icu_county.csv` from [here](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and put into proper directory `data/icu/icu_county.pkl`
-    - number of icu beds per county
-- **[heart disease data](https://nccd.cdc.gov/DHDSPAtlas/?state=County)**: heart_disease_mortality_data.csv from [here](https://drive.google.com/open?id=1glMZ7l6UxYTjBUvvFNV7Hu8QXC-j5q3C) and put into proper directory: `data/cardiovascular_disease/heart_disease_mortality_data.csv`
-	- heart disease death rate per 100,000, all ages, all races/ethnicities, both genders, 2014-2016
-- **[stroke data](https://nccd.cdc.gov/DHDSPAtlas/?state=County)**: stroke_mortality_data.csv from [here](https://drive.google.com/open?id=1ozVEjSGaQcRfJYnicKvEimKpAD3umI7o) and put into proper directory: `data/cardiovascular_disease/stroke_mortality_data.csv`
-	- stroke death rate per 100,000, all ages, all races/ethnicities, both genders, 2014-2016
-- **[mortality data](https://wonder.cdc.gov/cmf-icd10.html)**: Compressed Mortality, 2012-2016.txt from [here](https://drive.google.com/open?id=1xdscgVTtM30WuR3YUYVTdgC4IbTwdFZ_) and put into proper directory: `data/mortality/Compressed Mortality, 2012-2016.txt`; mortality rates (per year and per county) are also available by age group
-- **countyFIPS**: in `data_hospital_level/processed/02_county_FIPS.csv.`
-    - county identifier
+We prepared this data to support emergency medical supply distribution efforts
+through short-term (days) prediction of COVID-19 deaths (and cases) at the
+county level. We are using the predictions and hospital data to arrive at a
+covid Pandemic Severity Index (c-PSI) for each hospital. This project is in
+partnership with [response4life.org](http://response4life.org). We will be
+adding more relevant data sets as they are found.
+
+An overview of each data set in this corpus is provided below:
+
+- **Hospital Level Data**
+    - **cms_cmi**: Case Mix Index for hospitals from CMS 
+    - **cms_hospitalpayment**: Teaching Hospital info from CMS
+    - **DH_hospital**: US Hospital info from Definitive Healthcare
+    - **hifld_hospital**: Hospital info from homeland infrastructue foundation level data
+
+- **County Level Data**
+    - **COVID-19 Cases/Deaths Data**
+        - **nytimes_infections**: COVID-19-related death/case counts per day per county from NYT
+        - **usafacts_infections**: COVID-19-related death/case counts per day per county from USA Facts
+
+    - **Demographics and Health Resource Availability**
+        - **ahrf_health**: contains county-level information on health facilities, health professions, measures of resource scarcity, health status, economic activity, health training programs, and socioeconomic and environmental characteristics from Area Health Resources Files
+        - **cdc_svi**: Social Vulnerability Index for counties from CDC
+        - **hpsa_shortage**: information on areas with shortages of primary care, as designated by the Health Resources & Services Administration (HRSA)
+        - **khn_icu**: information on number of ICU beds and hospitals per county from Kaiser Health News
+
+    - **Health Risk Factors**
+        - **chrr_health**: contains estimates of various health outcomes and health behaviors (e.g., percentage of adult smokers) for each county from County Health Rankings & Roadmaps
+        - **dhdsp_heart**: cardiovascular disease mortality rates from CDC DHDSP
+        - **dhdsp_stroke**: stroke mortality rates from CDC DHDSP
+        - **ihme_respiratory**: chronic respiratory disease mortality rates from IHME
+        - **medicare_chronic**: Medicare claims data for 21 chronic conditions
+        - **nchs_mortality**: overall mortality rates for each county from National Center for Health Statistics
+        - **usdss_diabetes**: diagnosed diabetes in each county from CDC USDSS
+        - **kinsa_ili**: measures of anomalous influenza-like illness incidence (ILI) outbreaks in real-time using Kinsa’s county-level illness signals, developed from real-time geospatial thermometer data (private data)
+
+    - **Social Distancing and Mobility/Miscellaneous**
+        - **unacast_mobility**: county-level estimates of the change in mobility from pre-COVID-19 baseline from Unacast (private data)
+        - **streetlight_vmt**: estimates of total vehicle miles travelled (VMT) by residents of each county, each day; provided by Streetlight Data (private data)
+        - **jhu_interventions**: contains the dates that counties (or states governing them) took measures to mitigate the spread by restricting gatherings (e.g., travel bans, stay at home orders)
+        - **mit_voting**: county-level returns for presidential elections from 2000 to 2016 according to official state election data records
 
 
-## through scripts
-- **confirmed COVID-19 cases + deaths - [usafacts data](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/) (updated daily)**: using script at `data/usafacts/download_usafacts_data.sh`
-- **[medicare data](https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Chronic-Conditions/CC_Main)**: using script at `data/medicare/download_medicare_data.sh`
-	- prevalence and Medicare utilization and spending for 21 chronic conditions based upon CMS administrative enrollment and claims data
-- **[tobacco use data](https://www.countyhealthrankings.org/explore-health-rankings/measures-data-sources/county-health-rankings-model/health-factors/health-behaviors/tobacco-use/adult-smoking)**: using script at `data/tobacco/download_tobacco_use_data.sh`
-	- percentage of adults who are current smokers, estimated from survey by Behavioral Risk Factor Surveillance System (BRFSS)
 
-## hospital-level data
-- [list of academic hospitals](https://www.cms.gov/OpenPayments/Downloads/2020-Reporting-Cycle-Teaching-Hospital-List-PDF-.pdf)
-- **private hospital-level data**: available in slack channel, rename to `04_hospital_level_info_merged_website.csv` put into `data_hospital_level/processed/04_hospital_level_info_merged_website.csv`
-    - also can download some of the datasets using the scripts in the data_hospital_level directory
+## Quickstart
+To load the county-level data (daily COVID-19 cases/deaths data + other county-level features listed above) from the project root directory:
+```python
+import data
+# unabridged
+df_unabridged = data.load_county(data_dir = "data", cached = False, abridged = False)
+# abridged
+df_abrdiged = data.load_county(data_dir = "data", cached = False, abridged = True)
+```
+
+
+## Folder Structure 
+In this folder, we collect the useful hospital level data from a variety of sources. The structure of the folder is as the following:
+- raw (contains raw data)
+    - [datasource]_[shortname]/
+        - load.py (a script that loads the data)
+        - download.py (a script that downloads the data)
+        - raw data
+        - Readme.md (metadata for the raw data)
+- processed (contains the processed data)
+    - [datasource]_[shortname]/
+        - clean.py (a script that cleans the data)
+        - cleaned data
+        - Readme.md (metadata for the cleaned data)
