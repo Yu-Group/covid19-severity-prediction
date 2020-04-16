@@ -580,19 +580,23 @@ def add_hopsital_severity_index_scatter_traces(fig, df, target_days, plot_chorop
         )
         return bubble_trace
 
-    colors = ['blue', 'yellow', 'red']
+    # colors = ["#2d3a9a", "#DEC34B", "#9e0521"]
+    colors = ["#6E8E96", "#D3787D", "#AC3931"]
 
     # add predictions
     for i in range(target_days.size):
         for s in range(3):
             severity_col = f'Severity {i+1}-day'
+            surge_col = f'Surge {i+1}-day'
             pred_col = f'Predicted Deaths {i+1}-day'
             df_s = df[df[severity_col] == s+1]
             values = df_s[severity_col]
+            surge = df_s[surge_col]
             preds = df_s[pred_col]
             lat = df_s['Latitude']
             lon = df_s['Longitude']
             text = '<b>COVID-19 Pandemic Severity Index (CPSI)</b>: ' + values.astype(str) + '<br>' + \
+                '<b>Surge Index (SUI)</b>: ' + surge.astype(str) + '<br>' + \
                 df_s['text_hospital'].tolist() + '<br>' \
                 '------ <br>' + \
                 '<b># Deaths Predicted in County</b>: ' + preds.astype(str) + '<br>' + \
@@ -647,7 +651,7 @@ def make_severity_index_sliders(target_days, plot_choropleth):
 
 def plot_hospital_severity_slider(df, # merged hospital and county, with severity
                                   target_days=np.array([1, 2, 3, 4, 5]),
-                                  filename="results/severity_map.html",
+                                  filename="severity_map.html",
                                   cumulative=True, # not currently used
                                   plot_choropleth=True,
                                   df_county = None,
