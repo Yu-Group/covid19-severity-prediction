@@ -7,11 +7,11 @@ from os.path import join as oj
 import sys
 from math import radians, sin, cos, sqrt, asin
 from sklearn.neighbors import NearestNeighbors
-from .county_level.raw.unacast_mobility.load import load_unacast_mobility
 #from hospital_level.processed.cms_cmi.clean import clean_cms_cmi
 #from hospital_level.processed.cms_hospitalpayment.clean import clean_cms_hospitalpayment
 
-from .county_level.raw.usafacts_infections.load import load_usafacts_infections
+from .county_level.processed.usafacts_infections.clean import clean_usafacts_infections
+from .county_level.processed.nytimes_infections.clean import clean_nytimes_infections
 from .county_level.processed.ahrf_health.clean import clean_ahrf_health
 from .county_level.processed.cdc_svi.clean import clean_cdc_svi
 from .county_level.processed.chrr_health.clean import clean_chrr_health
@@ -26,6 +26,8 @@ from .county_level.processed.nchs_mortality.clean import clean_nchs_mortality
 from .county_level.processed.unacast_mobility.clean import clean_unacast_mobility
 from .county_level.processed.usdss_diabetes.clean import clean_usdss_diabetes
 from .county_level.processed.jhu_interventions.clean import clean_jhu_interventions
+from .county_level.processed.kinsa_ili.clean import clean_kinsa_ili
+from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 
 
 def load_county(data_dir=".", cached_file="county_data.csv", 
@@ -86,7 +88,7 @@ def load_county(data_dir=".", cached_file="county_data.csv",
                            "medicare_chronic", "mit_voting", "nchs_mortality", 
                            "usdss_diabetes", "jhu_interventions"]
         ## ADD PRIVATE DATASETS HERE
-        private_datasets = ["unacast_mobility"]
+        private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt"]
         
         # load in and clean county-level datasets
         df_ls = []
@@ -165,10 +167,30 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         
     # get covid-19 infections data
     if infections_data == 'usafacts':
-        covid = load_usafacts_infections(oj(data_dir_raw, "usafacts_infections"))
+        os.chdir(oj(data_dir_raw, "usafacts_infections"))
+        os.system("python download.py")
+        print("downloaded usafacts_infections successfully")
+        os.chdir(orig_dir)
+        covid = clean_usafacts_infections(oj(data_dir_raw, "usafacts_infections"), 
+                                          oj(data_dir_clean, "usafacts_infections"))
     elif infections_data == 'nytimes':
-        raise ValueError('infections_data = "nytimes" not yet implemented')
-        
+        os.chdir(oj(data_dir_raw, "nytimes_infections"))
+        os.system("python download.py")
+        print("downloaded nytimes_infections successfully")
+        os.chdir(orig_dir)
+        covid = clean_nytimes_infections(oj(data_dir_raw, "nytimes_infections"), 
+                                         oj(data_dir_clean, "nytimes_infections"))
+    
+    # add time-series keys
+    deaths_keys = [k for k in covid.keys() if '#Deaths' in k]
+    cases_keys = [k for k in covid.keys() if '#Cases' in k]
+    deaths = covid[deaths_keys].values
+    cases = covid[cases_keys].values
+    covid['deaths'] = [deaths[i] for i in range(deaths.shape[0])]
+    covid['cases'] = [cases[i] for i in range(cases.shape[0])]
+    covid['tot_deaths'] = deaths[:, -1]
+    covid['tot_cases'] = cases[:, -1]
+    
     # merge county data with covid data
     if rm_na == True:
         df = pd.merge(cnty, covid, on='countyFIPS', how='right')
