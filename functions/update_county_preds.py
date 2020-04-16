@@ -42,7 +42,7 @@ if __name__ == '__main__':
         'Predicted Deaths by ' + (datetime.today() + timedelta(days=i)).strftime("%B %d")
         for i in NUM_DAYS_LIST
     }
-    df_county = df_county.rename(columns=remap).sort_values(by=k_surge, ascending=False)
+    df_county = df_county.rename(columns=remap).sort_values(by=k_surge, ascending=False).round(decimals=1)
         
     # write to gsheets
     service_file=oj(parentdir, 'creds.json')
