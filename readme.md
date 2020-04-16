@@ -1,6 +1,6 @@
 # Overview
 
-[Our group](https://www.stat.berkeley.edu/~yugroup/people.html) at UC Berkeley is working to help forecast the severity of the epidemic both for individual counties and individual hospitals. As a byproduct, we have and will continue to produce models, visualizations, and curated datasets (including confirmed cases/deaths, demographics, risk factors, social distancing data) that can be used by other teams in the fight against COVID-19. We are collaborating with [Response4Life](https://response4life.org/), a non-profit organization, whose goal is to blunt the effect of COVID-19 through the production and appropriate distribution of PPE, medical equipment, and medical personnel to healthcare facilities across the United States. Paper link: ["Curating a COVID-19 data repository and forecasting
+[Our group](https://www.stat.berkeley.edu/~yugroup/people.html) at UC Berkeley is working to help forecast the severity of the epidemic both for individual counties and individual hospitals. As a byproduct, we have and will continue to produce models, visualizations, and curated datasets (including confirmed cases/deaths, demographics, risk factors, social distancing data) that can be used by other teams in the fight against COVID-19. We are collaborating with [Response4Life](https://response4life.org/), a non-profit organization, whose goal is to blunt the effect of COVID-19 through the production and appropriate distribution of PPE, medical equipment, and medical personnel to healthcare facilities across the United States. Paper link: [Curating a COVID-19 data repository and forecasting
 county-level death counts in the United States](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf).
 
 - **[Visualizations](http://covidseverity.com/)** (updated daily): see [county-level map](http://covidseverity.com/results/deaths.html) + [hospital-level map](http://covidseverity.com/results/severity_map.html)
@@ -48,7 +48,7 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 3, 5]) # adds keys like "Predicted Deaths 1
 
 # Acknowledgements
 
-To reference, please cite the paper: ["Curating a COVID-19 data repository and forecasting
+To reference, please cite the paper: [Curating a COVID-19 data repository and forecasting
 county-level death counts in the United States](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf) 
 
 The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group members are all alphabetical by last name)
