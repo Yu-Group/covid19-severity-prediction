@@ -44,9 +44,11 @@ An overview of each data set in this corpus is provided below:
         - **medicare_chronic**: Medicare claims data for 21 chronic conditions
         - **nchs_mortality**: overall mortality rates for each county from National Center for Health Statistics
         - **usdss_diabetes**: diagnosed diabetes in each county from CDC USDSS
+        - **kinsa_ili**: measures of anomalous influenza-like illness incidence (ILI) outbreaks in real-time using Kinsa’s county-level illness signals, developed from real-time geospatial thermometer data (private data)
 
     - **Social Distancing and Mobility/Miscellaneous**
         - **unacast_mobility**: county-level estimates of the change in mobility from pre-COVID-19 baseline from Unacast (private data)
+        - **streetlight_vmt**: estimates of total vehicle miles travelled (VMT) by residents of each county, each day; provided by Streetlight Data (private data)
         - **jhu_interventions**: contains the dates that counties (or states governing them) took measures to mitigate the spread by restricting gatherings (e.g., travel bans, stay at home orders)
         - **mit_voting**: county-level returns for presidential elections from 2000 to 2016 according to official state election data records
 

@@ -199,6 +199,12 @@
 |Injury Death Rate| number of deaths due to injury per 100,000 population (2014-18) | chrr_health |
 |Average Daily PM2.5| average daily density of fine particulate matter in micrograms per cubic meter (PM2.5) (2014) | chrr_health |
 |Presence of Water Violation| indicator of the presence of health-related drinking water violations. 'Yes' indicates the presence of a violation, 'No' indicates no violation (2018) | chrr_health |
+|observed_ili%Y-%m-%d| daily ILI incidence in the specified region on the specified date; from Kinsa thermometers | kinsa_ili |
+|atypical_ili%Y-%m-%d| will contain the observed ILI from Kinsa if it is atypical; otherwise is null | kinsa_ili |
+|anomaly_diff%Y-%m-%d| measure of how much atypical illness is present from Kinsa | kinsa_ili |
+|forecast_expected%Y-%m-%d| where illness is expected to be based on time of year in given county from Kinsa | kinsa_ili |
+|forecast_lower%Y-%m-%d| lower bound for expected forecast from Kinsa | kinsa_ili |
+|forecast_upper%Y-%m-%d| upper bound for expected forecast | kinsa_ili |
 
 		
 
@@ -207,6 +213,8 @@
 | ---   | --- | --- |
 |**daily\_distance\_diff%Y-%m-%d**| change of average distance traveled on %Y-%m-%d from baseline (avg. distance traveled for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
 |**daily\_visitation\_diff%Y-%m-%d**| change of visits to non-essential retail and services on %Y-%m-%d from baseline (avg. visits for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
+|VMT_per_capita%Y-%m-%d| total vehicle miles travelled by residents of county per capita on given date from Streetlight | streetlight_vmt |
+|VMT_percent_change%Y-%m-%d| percent change in VMT on given date compared to VMT baseline from Streetlight | streetlight_vmt |
 |**stay at home**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |**>50 gatherings**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |**>500 gatherings**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
