@@ -17,3 +17,4 @@ We also have developed some more models which adjust for demographics / risk fac
 <figure class="video_container">
   <iframe src="https://yu-group.github.io/covid19-severity-prediction/results/predictions.html" frameborder="0" allowfullscreen="true" width="100%" height="650px"> </iframe>
 </figure>
+
