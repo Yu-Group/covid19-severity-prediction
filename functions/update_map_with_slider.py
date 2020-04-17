@@ -9,6 +9,7 @@ sys.path.append(parentdir + '/modeling')
 from fit_and_predict import add_preds
 from viz import viz_map
 import update_severity_index as severity_index
+import data
 import load_data
 import merge_data
 import numpy as np
@@ -17,13 +18,14 @@ import pandas as pd
 if __name__ == "__main__":
     data_dir = oj(parentdir, 'data')
     # load in county data
-    df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
+    # if this is the first time, use cached=False
+    df_county = data.load_county_data(data_dir=oj(parentdir, 'data'))
     # add lat and lon to the dataframe
     county_lat_lon = pd.read_csv(
         oj(parentdir, 'data/county_level/raw/county_ids/county_popcenters.csv'),
         dtype={'STATEFP': str, 'COUNTYFP': str}
     )
-    county_lat_lon['fips'] = (county_lat_lon['STATEFP'] + county_lat_lon['COUNTYFP'])#.astype(np.int64)
+    county_lat_lon['fips'] = (county_lat_lon['STATEFP'] + county_lat_lon['COUNTYFP'])
     # add predictions
     NUM_DAYS_LIST = [1, 2, 3, 4, 5]
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=data_dir)

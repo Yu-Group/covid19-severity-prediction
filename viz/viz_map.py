@@ -14,7 +14,7 @@ import json
 import plotly.express as px
 import plotly
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 credstr ='rgb(234, 51, 86)'
 cbluestr = 'rgb(57, 138, 242)'
@@ -271,6 +271,10 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
     days = list(map(lambda x: x.replace('#Deaths_', ''), past_days))
     num_days = len(days) + target_days.size
 
+    latest_date = datetime.strptime(days[-1], '%m-%d-%Y').date()
+    time_deltas = [timedelta(days = int(day)) for day in target_days]
+    slider_days = [(latest_date + time_delta).isoformat() for time_delta in time_deltas]
+
     # add steps for past days
     for i, day in enumerate(days):
         if plot_choropleth:
@@ -291,12 +295,7 @@ def make_counties_slider_sliders(past_days, target_days, plot_choropleth):
 
     # add steps for predicted days
     for i in range(target_days.size):
-        if i == 0:
-            day_name = "Today"
-        elif i == 1:
-            day_name = "Tomorrow"
-        else:
-            day_name = "In " + str(i) + " Days"
+        day_name = slider_days[i]
         if plot_choropleth:
             args = ["visible", [False] * (2*num_days)]
         else:
@@ -609,7 +608,7 @@ def add_hopsital_severity_index_scatter_traces(fig, df, target_days, plot_chorop
     return None
 
 
-def make_severity_index_sliders(target_days, plot_choropleth):
+def make_severity_index_sliders(target_days, plot_choropleth, latest_date):
     sliders = [
         {
             "active": 0,
@@ -624,14 +623,13 @@ def make_severity_index_sliders(target_days, plot_choropleth):
     # days = list(map(lambda x: x.replace('#Deaths_', ''), past_days))
     num_days = target_days.size
 
+    latest_date = datetime.strptime(latest_date, '%m-%d-%Y').date()
+    time_deltas = [timedelta(days = int(day)) for day in target_days]
+    slider_days = [(latest_date + time_delta).isoformat() for time_delta in time_deltas]
+
     # add steps for predicted days
     for i in range(target_days.size):
-        if i == 0:
-            day_name = "Today"
-        elif i == 1:
-            day_name = "Tomorrow"
-        else:
-            day_name = "In " + str(i) + " Days"
+        day_name = slider_days[i]
         if plot_choropleth:
             args = ["visible", [False] * (4*num_days)]
         else:
@@ -719,7 +717,8 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         fig.data[3*target_days.size].visible = True
 
     # add slider to layout
-    sliders = make_severity_index_sliders(target_days, plot_choropleth)
+    latest_date = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+    sliders = make_severity_index_sliders(target_days, plot_choropleth, latest_date)
     fig.update_layout(
         sliders=sliders
     )
