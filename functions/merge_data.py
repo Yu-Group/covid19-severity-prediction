@@ -89,7 +89,8 @@ def merge_data(ahrf_data,
 
 def merge_county_and_hosp(df_county, df_hospital):
     outcomes = ['tot_cases', 'tot_deaths']
-    df_hospital['countyFIPS'] = df_hospital['countyFIPS'].astype(str).str.zfill(5)
+    df_hospital = df_hospital.loc[~df_hospital.countyFIPS.isna()]
+    df_hospital['countyFIPS'] = df_hospital['countyFIPS'].astype(int).astype(str).str.zfill(5)
     df = df_hospital.merge(df_county, how='left', on='countyFIPS')
     df[outcomes] = df[outcomes].fillna(0)
 
