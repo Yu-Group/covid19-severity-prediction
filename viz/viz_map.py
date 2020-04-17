@@ -164,7 +164,7 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
     # add past days
     for col in past_days:
         values = df[col]
-        fips = df['SecondaryEntityOfFile']
+        fips = df['countyFIPS']
 
         # TODO: add new deaths
 
@@ -180,7 +180,7 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
         #)
         pred_col = f'Predicted Deaths {i+1}-day'
         values = df[pred_col]
-        fips = df['SecondaryEntityOfFile']
+        fips = df['countyFIPS']
 
         choropleth_trace = make_choropleth_trace(values, fips)
         fig.add_trace(choropleth_trace)
@@ -219,7 +219,7 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
     # add past days
     for col in past_days:
         values = df[col]
-        fips = df['SecondaryEntityOfFile']
+        fips = df['countyFIPS']
         lat = df['lat']
         lon = df['lon']
         text = '<b>Actual # of Deaths</b>: ' + values.round().astype(str) + '<br>' + \
@@ -241,7 +241,7 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
 
         pred_col = f'Predicted Deaths {i+1}-day'
         values = df[pred_col].round()
-        fips = df['SecondaryEntityOfFile']
+        fips = df['countyFIPS']
         lat = df['lat']
         lon = df['lon']
         text = '<b>Deaths Predicted</b>: ' + values.round().astype(str) + '<br>' + \
@@ -329,12 +329,12 @@ def plot_counties_slider(df,
         assert counties_json is not None, 'counties_json must be included for plotting choropleth'
     # TODO: note that df should have all data (preds and lat lon)
     # TODO: add previous days
-    fips = df['SecondaryEntityOfFile'].tolist()
+    fips = df['countyFIPS'].tolist()
     tot_deaths = df['tot_deaths']
 
     d = df
     d['text'] = 'State: ' + d['StateName'] + \
-        ' (' + d['StateNameAbbreviation'] + ')' + '<br>' + \
+        ' (' + d['StateName'] + ')' + '<br>' + \
         'County: ' + d['CountyName'] + '<br>' + \
         'Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
         '# Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
@@ -501,7 +501,7 @@ def plot_emerging_hotspots_grid(df,
     d = df.sort_values(order_by, ascending=False)
 
     counties = d['CountyName'].take(range(9)).tolist()
-    states = d['StateNameAbbreviation'].take(range(9)).tolist()
+    states = d['StateName'].take(range(9)).tolist()
     subplot_titles = [county + ', ' + state + ' (Hotspot Rank: ' +  str(rank + 1) + ')' for
                       (county, state, rank) in zip(counties, states, range(9))]
 
@@ -665,7 +665,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         assert df_county is not None, 'df_county must be included for plotting county predictions'
     # TODO: note that df should have all data (preds and lat lon)
     # TODO: add previous days
-    fips = df['SecondaryEntityOfFile'].tolist()
+    fips = df['countyFIPS'].tolist()
     tot_deaths = df['tot_deaths']
 
     d = df
@@ -681,7 +681,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
         'Estimated # Deaths in Hospital (As Of Yesterday): ' + d['Total Deaths Hospital'].astype(str)
     d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
-        'State: ' + d['StateName'] + ' (' + d['StateNameAbbreviation'] + ')' + '<br>' + \
+        'State: ' + d['StateName'] + ' (' + d['StateName'] + ')' + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
         'County # Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
         'County # Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \

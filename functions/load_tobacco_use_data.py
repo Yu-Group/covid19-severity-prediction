@@ -12,7 +12,7 @@ def loadTobaccoData():
               'West%20Virginia', 'Wisconsin', 'Wyoming', 'District%20of%20Columbia']
     data_ls = []
     for state in states:
-        filepath = "./data/tobacco/smoking_data_" + state + ".xlsx"
+        filepath = "./data_old/tobacco/smoking_data_" + state + ".xlsx"
         orig_data = pd.read_excel(filepath,
                                   sheet_name = "Ranked Measure Data", 
                                   skiprows = 1)

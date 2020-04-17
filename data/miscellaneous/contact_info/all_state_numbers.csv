@@ -1,0 +1,3416 @@
+,state,public_health,phone_number
+0,AL,Autauga County Health Department,13343613743
+1,AL,Baldwin County Health Department,12519376935
+2,AL,Barbour County Health Department,13346874808
+3,AL,Bibb County Health Department,12059269702
+4,AL,Blount County Health Department,12052742120
+5,AL,Bullock County Health Department,13347383030
+6,AL,Butler County Health Department,13343823154
+7,AL,Calhoun County Health Department,12562377523
+8,AL,Chambers County Health Department,13347560758
+9,AL,Cherokee County Health Department,12569273132
+10,AL,"301 Health Center DrClanton, AL 35045-2349",12057551287
+11,AL,Choctaw County Health Department,12054594026
+12,AL,Clarke County Health Department,12512754177
+13,AL,Clay County Health Department,12563966421
+14,AL,Cleburne County Health Department,12564632296
+15,AL,Coffee County Health Department,13343479574
+16,AL,Colbert County Health Department,12563831231
+17,AL,Conecuh County Health Department,12515781952
+18,AL,Coosa County Health Department,12563774364
+19,AL,Covington Health Department,13342221175
+20,AL,Crenshaw County Health Department,13343352471
+21,AL,Cullman County Health Department,12567341030
+22,AL,Dale County Health Department,13345662860
+23,AL,Dallas County Health Department,13348722323
+24,AL,DeKalb County Health Department,12568451931
+25,AL,East Central District - Alabama Public Health,13342936400
+26,AL,Elmore County Health Department,13345671171
+27,AL,Escambia County Health Department,12518675765
+28,AL,Etowah County Health Department,12565476311
+29,AL,Fayette County Health Department,12059325260
+30,AL,Franklin County Health Department,12563322700
+31,AL,Geneva County Health Department,13346842256
+32,AL,Greene County Health Department,12053729361
+33,AL,Hale County Health Department,13346243018
+34,AL,Henry County Health Department,13345852660
+35,AL,Houston County Health Department,13346782800
+36,AL,Jackson County Health Department,12562594161
+37,AL,Jefferson County Department of Health/Alabama Public Health Jefferson District,12059339110
+38,AL,Lamar County Health Department,12056959195
+39,AL,Lauderdale County Health Department,12567647453
+40,AL,Lawrence County Health Department,12569741141
+41,AL,Lee County Health Department,13347455765
+42,AL,Limestone County Health Department,12562323200
+43,AL,Lowndes County Health Department,13345482564
+44,AL,Macon County Health Department,13347271800
+45,AL,Madison County Health Department,12565393711
+46,AL,Marengo County Health Department,13342954205
+47,AL,Marion County Health Department,12059213118
+48,AL,Marshall County Health Department,12565823174
+49,AL,Mobile County Health Department/Mobile County Health District,12516908827
+50,AL,Monroe County Health Department,12515752980
+51,AL,Montgomery County Health Department,13342936400
+52,AL,Morgan County Health Department,12563537021
+53,AL,Northeastern District - Alabama Public Health,12565476311
+54,AL,Northern District - Alabama Public Health,12563402113
+55,AL,Perry County Health Department,13346836153
+56,AL,Pickens County Health Department,12053678157
+57,AL,Pike County Health Department,13345662860
+58,AL,Randolph County Health Department,13348638981
+59,AL,Russell County Health Department,13342970251
+60,AL,Shelby County Department of Health,12056642470
+61,AL,Southeastern District - Alabama Public Health,13347929070
+62,AL,Southwestern District - Alabama Public Health,12519471645
+63,AL,St. Clair County Health Department,12053383357
+64,AL,Sumter County Health Department,12056527972
+65,AL,Talladega County Health Department,12563622593
+66,AL,Tallapoosa County Health Department,12563290531
+67,AL,Tuscaloosa County Health Department,12055626900
+68,AL,Walker County Health Department,12052219775
+69,AL,Washington County Health Department,12518472257
+70,AL,West Central District - Alabama Public Health,12055544500
+71,AL,Wilcox County Health Department,13346824515
+72,AL,Winston County Health Department,12054892101
+73,AK,Anchorage Health Department ,19073436718
+74,AK,Cordova Public Health Center South Central Region,19074244547
+75,AK,Craig Public Health Center,19078263433
+76,AK,Delta Junction Public Health Center,19078954292
+77,AK,Dillingham Public Health Center,19078425981
+78,AK,Fairbanks Regional Public Health Center Interior Region,19074521776
+79,AK,Fort Yukon Public Health Center,19076622460
+80,AK,Galena Public Health Center - Frontier Region,19074521776
+81,AK,Haines Public Health Center,19077663300
+82,AK,Homer Public Health Center,19072358857
+83,AK,Juneau Public Health Center,19074653353
+84,AK,Kenai Public Health Center,19073353400
+85,AK,Ketchikan Public Health Center,19072254350
+86,AK,Kodiak Public Health Center,19074863319
+87,AK,Matanuska-Susitna (Mat-Su) Public Health Center,19073526600
+88,AK,North Slope Borough Health and Social Services Agency,19078520366
+89,AK,Petersburg Public Health Center,19077724611
+90,AK,Seward Public Health Center,19072245567
+91,AK,Tok Public Health Center,19078834101
+92,AK,Valdez Public Health Center,19078354612
+93,AK,Wrangell Public Health Center,19078743615
+94,AZ,Apache County Health Department,19283377525
+95,AZ,Cochise Health and Social Services,15204329400
+96,AZ,Coconino County Public Health Services District,19286797272
+97,AZ,Gila County Health Department,19284253189
+98,AZ,Graham County Health Department,19284280110
+99,AZ,Greenlee County Health Department,19288652601
+100,AZ,La Paz County Health Department,19286691100
+101,AZ,Maricopa County Department of Public Health,16025066900
+102,AZ,Mohave County Department of Public Health,192875307744313
+103,AZ,Navajo County Public Health Services District,19285244750
+104,AZ,Pima County Health Department,15207247770
+105,AZ,Pinal County Health Department,18669600633
+106,AZ,Santa Cruz County Health Department,15203757900
+107,AZ,United Community Health Center,15204075600
+108,AZ,Yavapai County Community Health Services,19287713122
+109,AZ,Yuma County Public Health Services District,192831745501729
+110,AR,Arkansas County Health Unit - Stuttgart,18709462934
+111,AR,Ashley County Health Unit - Crossett,18703642115
+112,AR,Baxter County Health Unit,18704253072
+113,AR,Benton County Health Unit - Bentonville,14799861300
+114,AR,Boone County Health Department,18707435244267
+115,AR,Bradley County Health Unit,18702268440
+116,AR,Calhoun County Health Unit,18707982808
+117,AR,Carroll County Health Unit,18704232923
+118,AR,Chicot County Health Unit - Lake Village,18702652236
+119,AR,Clark County Health Unit,18702464471
+120,AR,Clay County Health Unit - Piggott,18705983390
+121,AR,Cleburne County Health Unit,15013627581
+122,AR,Cleveland County Health Unit,18703256311
+123,AR,Columbia County Health Unit,18702353798
+124,AR,Conway County Health Unit,15013544652
+125,AR,Craighead County Health Unit,18709334585
+126,AR,Crawford County Health Unit,14794746391
+127,AR,Crittenden County Health Unit - West Memphis,18707354334
+128,AR,Cross County Health Unit,18702382101
+129,AR,Dallas County Health Unit,18703527197
+130,AR,Desha County Health Unit - McGehee,18702223910
+131,AR,Drew County Health Unit,18703676234
+132,AR,Faulkner County Health Unit,15014504941
+133,AR,Franklin County Health Unit,14796672555
+134,AR,Fulton County Health Unit,18708953300
+135,AR,Garland County Health Unit,15016243394
+136,AR,Grant County Health Unit,18709423157
+137,AR,Greene County Health Unit,18702367782
+138,AR,Hempstead County Health Unit,18707772191
+139,AR,Hot Spring County Health Unit,15013326972
+140,AR,Howard County Health Unit,18708452208
+141,AR,Independence County Health Unit,18707938847
+142,AR,Izard County Health Unit,18703687790
+143,AR,Jackson County Health Unit,18705238968
+144,AR,Jefferson County Health Unit,18705352142
+145,AR,Johnson County Health Unit,14797542949
+146,AR,Lafayette County Health Unit,18709215744
+147,AR,Lawrence County Health Unit,18708863201
+148,AR,Lee County Health Unit,18702952400
+149,AR,Lincoln County Health Unit,18706285121
+150,AR,Little River County Health Unit,18708983831
+151,AR,Logan County Health Unit - Paris,14799636126
+152,AR,Lonoke County Health Unit - Lonoke,15016762268
+153,AR,Madison County Health Unit,14797382612
+154,AR,Marion County Health Unit,18704494259
+155,AR,Miller County Health Unit,18707732108
+156,AR,Mississippi County Health Unit - Blytheville,18707637064
+157,AR,Monroe County Health Unit,18707341461
+158,AR,Montgomery County Health Unit,18708672331
+159,AR,Nevada County Health Unit,18708872004
+160,AR,Newton County Health Unit,18704462216
+161,AR,Ouachita County Health Unit,18708367395
+162,AR,Perry County Health Unit,15018895156
+163,AR,Phillips County Health Unit,18705729028
+164,AR,Pike County Health Unit,18702853154
+165,AR,Poinsett County Health Unit - Harrisburg,18705784480
+166,AR,Polk County Health Unit,14793942707
+167,AR,Pope County Health Unit,14799686004
+168,AR,Prairie County Health Unit,18702564430
+169,AR,Pulaski County  Health Unit - Jacksonville,15019827477
+170,AR,Pulaski County Health Unit - North Little Rock,15017918551
+171,AR,Pulaski County Health Unit - Southwest Little Rock,15015659311
+172,AR,Pulaski Health Unit - Central Little Rock,15012803100
+173,AR,Randolph County Health Unit,18708925239
+174,AR,Saline County Health Unit,15013035650
+175,AR,Scott County Health Unit,14796372165
+176,AR,Searcy County Health Unit,18704483374
+177,AR,Sebastian County Health Unit,147945286002123
+178,AR,Sevier County Health Unit,18706422535
+179,AR,Sharp County Health Unit,18709947364
+180,AR,St. Francis County Health Unit - Forrest City,18706331340
+181,AR,Stone County Health Unit,18702693308
+182,AR,Union County Health Unit,18708635101
+183,AR,Van Buren County Health Unit,15017452432
+184,AR,Washington County Health Unit,14795218181
+185,AR,White County Health Unit - Searcy,15012686102
+186,AR,Woodruff County Health Unit,18703475061
+187,AR,Yell County Health Unit - Dardanelle,14792293509
+188,CA,Alameda County Public Health Department,15102678000
+189,CA,Alpine County Health and Human Services,15306942135249
+190,CA,"Amador County, Health and Human Services Agency",12092236407
+191,CA,Berkeley City Public Health Department,15109815308
+192,CA,Butte County Department of Public Health,15305524000
+193,CA,Calaveras County Public Health Department,12097546460
+194,CA,City of Pasadena Public Health Department,16267446046
+195,CA,Colusa County Public health,15304580380
+196,CA,Contra Costa Health Services,19259572679
+197,CA,County of San Diego HHS and Public Health Services,16195424181
+198,CA,Del Norte County Public Health,17074643191
+199,CA,El Dorado County Public Health Division,15306216100
+200,CA,Fresno County Department of Public Health,15596003200
+201,CA,Glenn County Health Department,15309346588
+202,CA,Humboldt County Department of Health and Human Services,17072682121
+203,CA,Imperial County Health Department,14422651339
+204,CA,Inyo County Health Department,17608737868
+205,CA,Kern County Health Department,16618380301
+206,CA,Kings County Health Department,15598522625
+207,CA,Lake County Department of Health Services,17072631090
+208,CA,Lassen County Department of Health and Social Services,15302518183
+209,CA,Long Beach City Department of Health and Human Services,15625704016
+210,CA,Los Angeles County Department of Public Health,18003396993
+211,CA,Madera County Public Health,15596757893
+212,CA,Marin County Health and Human Services,14154734163
+213,CA,Mariposa County Health Department,12099663689
+214,CA,Mendocino County Dept of Public Health,17074722777
+215,CA,Merced County Department of Public Health,12093811203
+216,CA,Modoc County Public Health Department,15302337052
+217,CA,Mono County Health Department,15306942235249
+218,CA,Monterey County Health Department,18317554585
+219,CA,Napa County Health and Human Services Agency,17072534566
+220,CA,Nevada County Public Health Department,15302651732
+221,CA,Orange County Health Care Agency/Public Health,18005648448
+222,CA,Placer County Public Health Division,15308897183
+223,CA,Plumas County Public Health Agency,15302836342
+224,CA,Riverside County Department of Health,19513585416
+225,CA,Sacramento Department of Health Services,19168755881
+226,CA,San Benito County Public Health Services,18316375367
+227,CA,San Bernardino County Department of Public Health,19093876218
+228,CA,San Diego Department of Environmental Health,18585056671
+229,CA,San Francisco Department of Public Health,14155542830
+230,CA,San Joaquin County Public  Health Services,12094683413
+231,CA,San Luis Obispo County Health Department,18057815500
+232,CA,San Mateo County Health Service Department,16505732519
+233,CA,Santa Barbara County Public Health Department,18056515102
+234,CA,Santa Clara County Department of Environment Health,14089183400
+235,CA,Santa Clara County Public Health Department,14087923798
+236,CA,Santa Cruz County Health Services Agency,18314544310
+237,CA,Shasta County Public Health,15302255591
+238,CA,Sierra County Health Department,15309936700
+239,CA,Siskiyou County Public Health Department,15308412140
+240,CA,Solano County Health and Social Services Dept. - Public Health,17077848600
+241,CA,Sonoma County Department of Health Services,17075654418
+242,CA,Stanislaus County Public Health Department,12095588804
+243,CA,Sutter County Health Department,15308227215
+244,CA,Tehama County Health Services Agency,153052784913175
+245,CA,Trinity County Health and Human Services,15306431305
+246,CA,Tulare County Health and Human Services,15596248481
+247,CA,Tuolumne County Health Department,12095337401
+248,CA,Ventura County Health Department,18059815101
+249,CA,Vernon City Health Department,13235838811
+250,CA,Yolo County Health Department,17075656680
+251,CA,Yuba County Health Department,15307496385
+252,CO,Alamosa County Public Health Department,17195896639
+253,CO,Baca County Public Health,17195236621
+254,CO,Bent County Public Health Agency,17194560517
+255,CO,Boulder County Public Health,13034411100
+256,CO,Broomfield Public Health and Environment,17208872200
+257,CO,Chaffee County Public Health Department,17195394510
+258,CO,Cheyenne County Public Health Agency,17197675616
+259,CO,Clear Creek County Public and Environmental Health Department,13036792335
+260,CO,Conejos County Public Health and Nursing Service,17192744307
+261,CO,Costilla County Public Health Agency,17196723332
+262,CO,Crowley County Public Health Agency,17193833040
+263,CO,Custer County Public Health Agency,17197833369
+264,CO,Delta County Health Department,19708742165
+265,CO,Denver Department of Public Health and Environment,17208655365
+266,CO,Denver Public Health Department,13036028723
+267,CO,Dolores County Public Health Agency,19706772387
+268,CO,Eagle County Public Health Agency,19703288840
+269,CO,El Paso County Public Health,17195783199
+270,CO,Elbert County Health and Human Services,13036213144
+271,CO,Fremont County Department of Public Health and Environment,17192767450
+272,CO,Garfield County Public Health Nursing Service,19706656373
+273,CO,Gilpin County Public Health,13032715701
+274,CO,Grand County Public Health,19707253288
+275,CO,Gunnison County Department of Health and Human Services,19706417940
+276,CO,Jackson County Public Health Agency,19707238572
+277,CO,Jefferson County Public Health Department,13032715701
+278,CO,Kiowa County Public Health Agency,17194385782
+279,CO,Kit Carson County Health and Human Services,17193467158
+280,CO,Lake County Public Health Department,17194862413
+281,CO,Larimer County Department of Health and Environment,19704986711
+282,CO,Las Animas-Huerfano Counties District Health Department,17198462213
+283,CO,Lincoln County Department of Public Health,17197432526
+284,CO,Mesa County Health Department,19702486974
+285,CO,Montezuma County Health Department,19705653056
+286,CO,Montrose County Public Health,19702525032
+287,CO,Northeast Colorado Health Department,19705223741
+288,CO,Otero County Department of Health,17193833040
+289,CO,Ouray County Public Health Agency,19703254670
+290,CO,Park County Public Health Agency,17198364161
+291,CO,Pitkin County Public Health Agency,19709205070
+292,CO,Prowers County Public Health and Environment,17193368721
+293,CO,Pueblo Department of Public Health & Environment,17195834300
+294,CO,Rio Blanco County Public Health Nursing Service,19708789526
+295,CO,Rio Grande County Public Health Agency,17196573352
+296,CO,Routt County Public Health Agency,19708705319
+297,CO,Saguache County Public Health Nursing Service,17196552533
+298,CO,San Juan Basin Health Department,19702475702
+299,CO,San Juan County Public Health Agency,19703870242
+300,CO,San Miguel County Department of Health and Environment,19703695422
+301,CO,Silver Thread Public Health District,19709440321
+302,CO,Summit County Public Health ,19706689161
+303,CO,Teller County Public Health Department,17196876416
+304,CO,Tri-County Health Department,13032209200
+305,CO,Weld County Health Department of Public Health and Environment,19703046420
+306,CT,Bethel Health Department,12037948539
+307,CT,Bridgeport Department of Health & Social Services,12035767680
+308,CT,Bristol-Burlington Health District,18605847682
+309,CT,Brookfield Town Health Department,12037757315
+310,CT,Central Connecticut Health District,18607212828
+311,CT,Chatham Health District,18603650884
+312,CT,Chesprocott Health District,12032722761
+313,CT,Chester Health Department,18605260013206
+314,CT,City of Stamford Department of Health,12039774698
+315,CT,Connecticut River Area Health District,18606613300
+316,CT,Cromwell Health Department,18606323426
+317,CT,Danbury Health and Human Services,12037974625
+318,CT,Darien Health Department,12036567320
+319,CT,Durham Health Department,18603498253
+320,CT,East Hartford Department of Health & Social Services,18602917324
+321,CT,East Shore District Department Department of Health,12034814233
+322,CT,Eastern Highlands Health District,18604293325
+323,CT,Easton Health Department,12032686291
+324,CT,Essex Health Department,18607674340
+325,CT,Fairfield Health Department,12032563020
+326,CT,Farmington Valley Health District,18603522333
+327,CT,Franklin Health Department,18603880893
+328,CT,Glastonbury Health Department,18605377214
+329,CT,Greenwich Department of Health,12036227836
+330,CT,Guilford Health Department,12034538118
+331,CT,Haddam Health Department,18603458531
+332,CT,Hartford Health and Human Services Department,18607574700
+333,CT,Killingworth Health Department,18606631765223
+334,CT,Lebanon Health Department,18606426088
+335,CT,Ledge Light Health District,18604484882
+336,CT,Madison Health Department,12032455681
+337,CT,Manchester Health Department,18606473173
+338,CT,Meriden Department of Health and Human Services,12036304221
+339,CT,Middlefield Health Department,18603497123
+340,CT,Middletown Health Department,18606384960
+341,CT,Milford Health Department,12037833285
+342,CT,Monroe Health Department,18606658587
+343,CT,Naugatuck Valley Health District,12038813255
+344,CT,New Britain Health Department,18608263464
+345,CT,New Canaan Health Department,12035943018
+346,CT,New Fairfield Health Department,12033125640
+347,CT,New Haven Health Department,12039466978
+348,CT,New Milford Department of Health,18603556035
+349,CT,Newtown Health District,12032704291
+350,CT,North Central Health District,18607450383
+351,CT,North Stonington Health Office,18605991871
+352,CT,Northeast District Department of Health,18607747350
+353,CT,Norwalk Health Department,12038547868
+354,CT,Orange Health Department,12038912122
+355,CT,Plainville-Southington Regional Health District,18602766275
+356,CT,Pomperaug Health District,12032649616
+357,CT,Preston Health Department,18603767060
+358,CT,Quinnipiack Valley Health District,12032484528
+359,CT,Redding Health Department,12039382559
+360,CT,Ridgefield Health Department,12034312746
+361,CT,Salem Health Department,18608593873
+362,CT,Sharon Health Department,18603556035
+363,CT,Sherman Health Department,12033125640
+364,CT,Somers Health Department,18607638216
+365,CT,South Windsor Health Department,18603376263
+366,CT,Stratford Health Department,12033854090
+367,CT,Torrington Area Health District,18604890436
+368,CT,Trumbull Health Department,12034521032
+369,CT,Uncas Health District,18608231189
+370,CT,Wallingford Health Department,12032942065
+371,CT,Washington Health Department,18603556035
+372,CT,Waterbury Health Department,12039466999
+373,CT,West Hartford-Bloomfield Health District,18605617900
+374,CT,West Haven Health Department,12039373660
+375,CT,Westbrook Health Department,18603999869
+376,CT,Westport-Weston Health District,12032279571244
+377,CT,Wilton Health Department,12032168384
+378,CT,Windsor Health Department,18605493398
+379,DE,"Delaware Department of Health, Northern Health Services",13029958632
+380,DE,Delaware Health and Social Services Division of Public Health ,13028565355
+381,FL,Alachua County Health Department,13523347900
+382,FL,Baker County Public Health Department,19042596291
+383,FL,Bay County Health Department,18508724455
+384,FL,Bradford County Health Department,19049647732131
+385,FL,Calhoun County Public Health Department,18506745645
+386,FL,Citrus County Health Department,13525270068
+387,FL,Clay County Health Department,19045292800
+388,FL,Columbia County Public Health Department,13867581037
+389,FL,DeSoto County Health Department,18639934601118
+390,FL,Dixie County Health Department,13524981360
+391,FL,Escambia County Health Department,18505956555
+392,FL,Flagler County Health Department,138643773502231
+393,FL,Florida Department of Health in Brevard County ,13214547112
+394,FL,Florida Department of Health in Broward County,19544674811
+395,FL,Florida Department of Health in Charlotte County,19416391181
+396,FL,Florida Department of Health in Collier County,12392528200
+397,FL,Florida Department of Health in Duval County,19042531000
+398,FL,Florida Department of Health in Gadsden County,18508757200342
+399,FL,Florida Department of Health in Hillsborough County,18133078000
+400,FL,Florida Department of Health in Jefferson County,18503420170
+401,FL,Florida Department of Health in Lee County ,12394616150
+402,FL,Florida Department of Health in Madison County,18509735000
+403,FL,Florida Department of Health in Manatee County,194174807471200
+404,FL,Florida Department of Health in Miami-Dade County,13053242400
+405,FL,Florida Department of Health in Okaloosa County,18508339245
+406,FL,Florida Department of Health in Osceola County,140734320002020
+407,FL,Florida Department of Health in Polk County,18635782101
+408,FL,Florida Department of Health in Seminole County,14076653200
+409,FL,Florida Department of Health in St. Johns County,19042093250
+410,FL,Florida Department of Health in Volusia County,13862740799
+411,FL,Franklin County Health Department,18507056104
+412,FL,Gilchrist County Health Department,135246331202000
+413,FL,Glades County Health Department,18639460707
+414,FL,Gulf County Health Department,18502271276103
+415,FL,Hamilton County Health Department,13867921414
+416,FL,Hardee County Health Department,18635782101128
+417,FL,Hendry County Health Department,18636744041
+418,FL,Hernando County Health Department,1352540680082114
+419,FL,Highlands County Health Department,18633866040238
+420,FL,Holmes County Health Department,185054785000970
+421,FL,Indian River County Health Department,17727947450
+422,FL,Jackson County Health Department,18505262412101
+423,FL,Lafayette County Health Department,13862941321
+424,FL,Lake County Health Department,135258964242261
+425,FL,Leon County Health Department,18506068150
+426,FL,Levy County Health Department,13524865300
+427,FL,Liberty County Health Department,18506432415
+428,FL,Marion County Health Department,135262901372104
+429,FL,Martin County Health Department,177222140002123
+430,FL,Monroe County Health Department,13052937500
+431,FL,Nassau County Health Department,19048756100
+432,FL,Okeechobee County Health Department,18634625819
+433,FL,Orange County Health Department,140785814001164
+434,FL,Palm Beach County Health Department,15618404500
+435,FL,Pasco County Health Department,17278615250101
+436,FL,Pinellas County Health Department,17278246900
+437,FL,Putnam County Health Department,138632632003254
+438,FL,Santa Rosa County Health Department,18509835200
+439,FL,Sarasota County Health Department,19418612950
+440,FL,St. Lucie County Health Department,17728734924
+441,FL,Sumter County Health Department,13525693138
+442,FL,Suwannee County Health Department,13863622708222
+443,FL,Taylor County Health Department,18505845087142
+444,FL,Union County Health Department,13864963211
+445,FL,Wakulla County Health Department,18509260400
+446,FL,Walton County Health Department,18508928040
+447,FL,Washington County Health Department,18506386240
+448,GA,Appling County Health Department,19123674601
+449,GA,Atkinson County Health Department,18554734374
+450,GA,Bacon County Health Department,19126324712
+451,GA,Baker County Health Department,12294304599
+452,GA,Baldwin County Health Department,14784454274
+453,GA,Banks County Health Department,17066772296
+454,GA,Barrow County Health Department,17703073011
+455,GA,Bartow County Health Department,17703821920
+456,GA,Ben Hill County Health Department,12293335290
+457,GA,Berrien County Health Department,12296865411
+458,GA,Bleckley County Health Department,14789346590
+459,GA,Brantley County Health Department,19124626165
+460,GA,Brooks County Health Department,12292637585
+461,GA,Bryan County Health Department,19126534331
+462,GA,Bulloch County Health Department,19122856002
+463,GA,Burke County Health Department,17065543456
+464,GA,Butts County Health Department,17705042230
+465,GA,Calhoun County Health Department,12998492515
+466,GA,Camden County Health Department,19127294554
+467,GA,Candler County Health Department,19126856002
+468,GA,Carroll County Health Department,17708366667
+469,GA,Catoosa County Health Department,17069352366
+470,GA,Charlton County Health Department,19122856002
+471,GA,Chatham County Health Department,19123562441
+472,GA,Chattahoochee County Health Department,17069893663
+473,GA,Chattooga County Health Department,17068573471
+474,GA,Cherokee County Health Department,17703457371
+475,GA,Clarke County Health Department,17063896921
+476,GA,Clay County Health Department,12297682355
+477,GA,Clinch County Health Department,19124872199
+478,GA,Cobb & Douglas Public Health ,17705142300
+479,GA,Cobb County Board of Health,17705142300
+480,GA,Coffee County Health Department,18554734374
+481,GA,Colquitt County Health Department,12298917100
+482,GA,Columbia County Health Department,17065412869
+483,GA,Cook County Health Department,12298965709
+484,GA,Coweta County Health Department,17706830497
+485,GA,Crawford County Health Department,14788363167
+486,GA,Crisp County Health Department,12292762680
+487,GA,Dade County Health Department,17066574213
+488,GA,Dawson County Health Department,17062652611
+489,GA,Decatur County Health Department,12292483055
+490,GA,"District 1, Unit 2: North Georgia Health District",17062722342
+491,GA,District 10: Northeast Health District,17065832870
+492,GA,District 2: North Health District,17705355743
+493,GA,"District 3, Unit 2: Fulton County Board of Health",14046131205
+494,GA,"District 3, Unit 3: Clayton County Health District",16786107199
+495,GA,"District 3, Unit 4:  East Metro Health District",17703394283
+496,GA,"District 3, Unit 5: DeKalb Health District",14042943700
+497,GA,District 4: LaGrange Health District,17062987727
+498,GA,District 6: East Central Health District,17066674250
+499,GA,District 7 - West Central Health District,17063216108
+500,GA,"District 8, Unit 1: South Health District",12293335290
+501,GA,"District 8, Unit 2, Southwest Health District",12294304127
+502,GA,"District 9, Unit 1: Coastal Health District",19126445210
+503,GA,"District 9, Unit 2: Southeast Health District",19122856002
+504,GA,Dodge County Health Department,14783745576
+505,GA,Dooly County Health Department,12292684725
+506,GA,Dougherty County Health Department,12294306200
+507,GA,Douglas County Board of Health,17705142300
+508,GA,Early County Health Department,12297233707
+509,GA,Echols County Health Department,12295595103
+510,GA,Effingham County Health Department,19127546484
+511,GA,Elbert County Health Department,17062833775
+512,GA,Emanuel County Health Department,14782377501
+513,GA,Evans County Health Department,19127392088
+514,GA,Fannin County Health Center,17066323023
+515,GA,Fayette County Health Department,1770.305.5416
+516,GA,Floyd County Health Department,17062956704
+517,GA,Forsyth County Health Department,17707816900
+518,GA,Franklin County Health Department,17063845575
+519,GA,Gilmer County Health Department,17066354363
+520,GA,Glascock County Health Department,17065982061
+521,GA,Glynn County Health Department,19122643961
+522,GA,Gordon County Health Department,17066241444
+523,GA,Grady County Health Department,12293772992
+524,GA,Greene County Health Department,17064537561
+525,GA,"Gwinnett, Newton & Rockdale County Health Departments",17703394283
+526,GA,Habersham County Health Department,17067787156
+527,GA,Hall County Health Department,17705315600
+528,GA,Hancock County Health Department,17064446616
+529,GA,Haralson Community Health Services,17706468193
+530,GA,Harris County Health Department,17066285037
+531,GA,Hart County Health Department,17063765117
+532,GA,Heard County Health Department,17066753456
+533,GA,Henry County Health Department,17702886136
+534,GA,Houston County Health Department,14782182020
+535,GA,Irwin County Health Department,12294685003
+536,GA,Jackson County Health Department,17063671825
+537,GA,Jasper County Health Department,17064686850
+538,GA,Jeff Davis County Health Department,19123752425
+539,GA,Jefferson County Board of Health,14786253716
+540,GA,Jenkins County Health Department,14789822811
+541,GA,Johnson County Health Department,14788643542
+542,GA,Jones County Health Department,14789863164
+543,GA,Lamar County Health Department,17703581483
+544,GA,Lanier County Health Department,12294823294
+545,GA,Laurens County Health Department,14782756545
+546,GA,Lee County Health Department,12297593014
+547,GA,Liberty County Health Department,19128762173
+548,GA,Lincoln County Health Department,17063593154
+549,GA,Long County Health Department,19125452107
+550,GA,Lowndes County Health Department,12293335257
+551,GA,Lumpkin County Health Department,17068672727
+552,GA,Macon County Health Department,14784728121
+553,GA,Macon-Bibb County Health Department,14787450411
+554,GA,Madison County Health Department,17067952131
+555,GA,Marion County Health Department,12296495664
+556,GA,McDuffie County Health Department,17065951740
+557,GA,McIntosh County Health Department,19128325473
+558,GA,Meriwether County Health Department,17066724974
+559,GA,Miller County Health Department,12297583344
+560,GA,Mitchell County Health Department,12293362055
+561,GA,Monroe County Health Department,14789925083
+562,GA,Montgomery County Health Department,19125834602
+563,GA,Morgan County Health Department,17067521266
+564,GA,Murray County Health Department,17066954585
+565,GA,Muscogee County Health Department,17063216300
+566,GA,Newton County Health Department,17707869086
+567,GA,Oconee County Health Department,17067693983
+568,GA,Oglethorpe County Health Department,17067438181
+569,GA,Paulding County Health Department,17704437881
+570,GA,Peach County Health Department,14788256939
+571,GA,"60 Health WayJasper, GA 30143-1912",17062532821
+572,GA,Pierce County Health Department,19124492032
+573,GA,Pike County Health Department,17705678972
+574,GA,Polk County Health Department,17707492270
+575,GA,Pulaski County Health Department,14787831361
+576,GA,Putnam County Health Department,17064858591
+577,GA,Quitman County Health Department,12293343697
+578,GA,Rabun County Health Department,17062120289
+579,GA,Randolph County Health Department,12297322414
+580,GA,Richmond County Health Department,17067215800
+581,GA,Rockdale County Health Department,17707854345
+582,GA,Schley County Health Department,12299372208
+583,GA,Screven County Health Department,19125642182
+584,GA,Seminole County Health Department,12295242577
+585,GA,Spalding County Health Department,17704674230
+586,GA,Stephens County Health Department,17062824507
+587,GA,Stewart County Health Department,12298384859
+588,GA,Sumter County Health Department,12299243637
+589,GA,Talbot County Health Department,17066658561
+590,GA,Taliaferro County Health Department,17064562316
+591,GA,Tattnall County Health Department,19125577850
+592,GA,Taylor County Health Department,14788625628
+593,GA,Telfair County Health Department,12298687404
+594,GA,Terrell County Health Department,12299952188
+595,GA,Thomas County Health Department,12292264241
+596,GA,Tift County Health Department,12293868373
+597,GA,Toombs County Health Department,19125268109
+598,GA,Towns County Health Department,17068962265
+599,GA,Treutlen County Health Department,14782756545
+600,GA,Troup County Health Department,17068454085
+601,GA,Turner County Health Department,12295674357
+602,GA,Twiggs County Health Department,14789453351
+603,GA,Union County Health Department,17067456292
+604,GA,Upson County Health Department,17068454035
+605,GA,Walker County Health Department,17066385577
+606,GA,Walton County Health Department,17702074125
+607,GA,Ware County Health Department,19122831875
+608,GA,Warren County Health Department,17066674250
+609,GA,Washington County Health Department,14785533210
+610,GA,Wayne County Health Department,19124272042
+611,GA,Webster County Health Department,12298283225
+612,GA,Wheeler County Health Department,19125687161
+613,GA,White County Health Department,17068652191
+614,GA,Whitfield County Health Department,17062799600
+615,GA,Wilcox County Health Department,12293652310
+616,GA,Wilkes County Health Department,17066782622
+617,GA,Wilkinson County Health Department,14789462226
+618,GA,Worth County Health Department,12297772150
+619,HI,Hawaii District Health Office,18089746006
+620,HI,Honolulu Department of Health,18085864412
+621,HI,Kalawao District Health Office,18085676924
+622,HI,Kauai District Health Office,18082413614
+623,HI,Maui District Health Office,18089848200
+624,ID,Central District Health  (Region 4),12083278501
+625,ID,Eastern Idaho Public Health District (Region 7),12085333163
+626,ID,North Central District Health Department (Region  2),120879931001344
+627,ID,Panhandle Health District (Region 1),12084155102
+628,ID,South Central Public Health District (PHD 5),12087375902200
+629,ID,Southeastern Idaho Public Health,12082339080
+630,ID,Southwest District Health Department (Region 3),12084555300
+631,IL,Adams County Health Department,12172228440108
+632,IL,Berwyn Township Public Health District,17087886600
+633,IL,Bond County Health Department,16186641442
+634,IL,Boone County Department of Public Health,18155478591
+635,IL,Brown County Health Department,12177732714
+636,IL,Bureau County Health Department,1815872509113
+637,IL,Bureau Putnam & Marshall County Health Department,18158725091232
+638,IL,Calhoun County Health Department,16185762428
+639,IL,Carroll County Health Department,18152448855
+640,IL,Cass County Health Department,12174523057
+641,IL,Champaign-Urbana Public Health District,12175315369
+642,IL,Chicago Department of Public Health,13127479872
+643,IL,Chicago Regional Office/Illinois Department of Health,13127933377
+644,IL,Christian County Health Department,12178244113
+645,IL,Clark County Health Department,12173824207
+646,IL,Clay County Health Department,16186624406
+647,IL,Clinton County Health Department,16185942723
+648,IL,Coles County Health Department,12173480530235
+649,IL,Cook County Department of Public Health,17086334000
+650,IL,Crawford County Health Department,16185448798
+651,IL,Cumberland County Health Department,12178493211
+652,IL,DeKalb County Health Department,18157586673
+653,IL,DeWitt-Piatt Bi County Health Department,12179353427
+654,IL,Douglas County Health Department,12172534137
+655,IL,DuPage County Health Department,163068274007401
+656,IL,East Side Health District,16182718722
+657,IL,Edgar County Public Health Department,12174652212
+658,IL,Effingham County Health Department,12173429237
+659,IL,Egyptian Health Department,16182733326
+660,IL,Evanston Health and Human Services,18478662951
+661,IL,Fayette County Health Department,16182831044
+662,IL,Ford County Public Health Department,12173799281
+663,IL,Franklin-Williamson Bi-County Health Department,16189938111
+664,IL,Fulton County Health Department,13096471134
+665,IL,Greene County Health Department,12179426961
+666,IL,Grundy County Health Department,18159413113
+667,IL,Hamilton County Health Department,16186433522
+668,IL,Hancock County Health Department,12173572171
+669,IL,Henderson County Health Department,13096272812
+670,IL,Iroquois County Health Department,18154322483
+671,IL,"415 Health Department RDMurphysboro, IL 62966-6108",16186843143
+672,IL,Jasper County Health Department,16187834436
+673,IL,Jefferson County Health Department,16182447134
+674,IL,Jersey County Health Department,16184989565
+675,IL,Jo Daviess County Health Department,18157770263
+676,IL,Kane County Health Department,16304443077
+677,IL,Kankakee County Health Department,18158029390
+678,IL,Kendall County Health Department,16305539100
+679,IL,Knox County Health Department,13093442224
+680,IL,LaSalle County Health Department,18154333366
+681,IL,Lawrence County Health Department,16189433302
+682,IL,Lee County Health Department,18152843371
+683,IL,Livingston County Health Department,18158447174228
+684,IL,Logan County Department of Public Health,12177352317
+685,IL,Macon County Health Department,121742369881101
+686,IL,Macoupin County Public Health Department,12178543223
+687,IL,Madison County Health Department,16186928954
+688,IL,Marion County Health Department,16185483878
+689,IL,Mason County Health Department,13095432201
+690,IL,McDonough County Health Department,13098379951
+691,IL,McHenry County Department of Health,18153344510
+692,IL,McLean County Health Department,13098885450
+693,IL,Menard County Health Department,12176323283
+694,IL,Mercer County Health Department,13095823759
+695,IL,Monroe County Health Department,16189393871
+696,IL,Montgomery County Health Department,12175322001
+697,IL,Morgan County Health Department,12172455111
+698,IL,Moultrie County Health Department,12177284114
+699,IL,Oak Park Department of Public Health,17083585480
+700,IL,Ogle County Health Department,18157327330247
+701,IL,Park Forest Health Department,17087481118
+702,IL,Peoria City/County Health Department,13096796000
+703,IL,Peoria Regional Office/Illinois Department of Public Health,13096935360
+704,IL,Perry County Health Department,16183575371
+705,IL,Pike County Health Department,12172854407
+706,IL,Putnam County Health Department,18158725091213
+707,IL,Randolph County Health Department,16188265007
+708,IL,Rock Island County Health Department,13097931955
+709,IL,Rockford Regional Office/Illinois Department of Public Health,18159877511
+710,IL,Sangamon County Health Department,12175353100
+711,IL,Schuyler County Health Department,12173226775
+712,IL,Scott County Health Department,12177428203
+713,IL,Shelby County Health Department,12177749555
+714,IL,Skokie Health Department,18479338252
+715,IL,Southern Seven Health Department,16186342297
+716,IL,St. Clair County Health Department,161823377694455
+717,IL,Stark County Health Department,13098520197
+718,IL,Stephenson County Health Department,18152358271
+719,IL,Stickney Public Health District,17084249200
+720,IL,Tazewell County Health Department,13099255511
+721,IL,Vermilion County Health Department,12174312662
+722,IL,Wabash County Health Department,16182633873
+723,IL,Warren County Health Department,13097341314
+724,IL,Washington County Health Department,16183273644
+725,IL,Wayne County Health Department,16186433522
+726,IL,West Chicago Regional Office/Illinois Dept. of Public Health,16302936800
+727,IL,Whiteside County Health Department,181562622301283
+728,IL,Will County Health Department,18157408480
+729,IL,Wilmette Health Department,18478537507
+730,IL,Winnebago County Health Department,18157204000
+731,IL,Woodford County Health Department,13094673064
+732,IN,Adams County Health Department,12607245326
+733,IN,Allen County Health Department,12604497578
+734,IN,Bartholomew County Health Department,18123791550
+735,IN,Benton County Health Department,17655834415
+736,IN,Blackford County Health Department,17653484317
+737,IN,Boone County Health Department,17654823942
+738,IN,Brown County Health Department,18129882255
+739,IN,Carroll County Health Department,17655643420
+740,IN,Cass County Health Department,15747537760
+741,IN,Clark County Health Department,18122827521
+742,IN,Clay County Health Department,18124489021
+743,IN,Clinton County Health Department,17656596385
+744,IN,Crawford County Health Department,16185448798
+745,IN,Daviess County Health Department,18122548666
+746,IN,DeKalb County Health Department,12609252220
+747,IN,Dearborn County Health Department,18125378826
+748,IN,Decatur County Department of Health,18126638301
+749,IN,Delaware County Health Department,17657477721
+750,IN,Dubois County Health Department,18124817050
+751,IN,East Chicago City Health Department,12193918467
+752,IN,Elkhart County Health Department,15745232283
+753,IN,Fayette County Health Department,17658254013
+754,IN,Floyd County Health Department,18129484726
+755,IN,Fountain-Warren County Health Department,17657623035
+756,IN,Franklin County Health Department,17656474322
+757,IN,Fulton County Health Department,15742232881
+758,IN,Gary City Health Department,12198825565
+759,IN,Gibson County Health Department,18123853831
+760,IN,Grant County Health Department,17656688871
+761,IN,Greene County Health Department,18123844496
+762,IN,Hamilton County Health Department,13177768500
+763,IN,Hancock County Health Department,13174771125
+764,IN,Harrison County Health Department,18127383237
+765,IN,Hendricks County Health Department,13177459214
+766,IN,Henry County Health Department,17655217059
+767,IN,Howard County Health Department,17654562403
+768,IN,Huntington County Health Department,12603584831
+769,IN,Jackson County Health Department,18125226474222
+770,IN,Jasper County Health Department,12198664917
+771,IN,Jay County Health Center,12607268080
+772,IN,Jefferson County Health Department,18122731942
+773,IN,Jennings County Health Department,18123523024
+774,IN,Johnson County Health Department,13177363770
+775,IN,Knox County Health Department,18128828080
+776,IN,Kosciusko County Health Department,15743722353
+777,IN,LaGrange County Health Department,12604994182
+778,IN,LaPorte County Health Department,121932668082200
+779,IN,Lake County Health Department,12197553655
+780,IN,Lawrence County Health Department,18122753234
+781,IN,Madison County Health Department,17656419523
+782,IN,Marion County Public Health Department,13172212301
+783,IN,Marshall County Health Department,15749358565
+784,IN,Martin County Health Department,18122473303
+785,IN,Miami County Health Department,17654723901
+786,IN,Monroe County Health Department,18123492543
+787,IN,Montgomery County Health Department,17653646440
+788,IN,Morgan County Health Department,17653426621
+789,IN,Newton County Health Department,12192852052
+790,IN,Noble County Health Department,12606362191
+791,IN,Ohio County Health Department,18124382551
+792,IN,Orange County Health Department,18127237112
+793,IN,Owen County Health Department,18128295045
+794,IN,Parke County Health Department,17655694071
+795,IN,Perry County Health Department,18125472746
+796,IN,Pike County Health Department,18123548797
+797,IN,Porter County Health Department,12194653525
+798,IN,Posey County Health Department,18128381330
+799,IN,Pulaski County Health Department,15749466080
+800,IN,Putnam County Health Department,17656535210
+801,IN,Randolph County Health Department,17655841155
+802,IN,Ripley County Health Department,18126895751
+803,IN,Rush County Health Department,17656795484
+804,IN,Scott County Health Department,18127528455
+805,IN,Shelby County Health Department,13173926470
+806,IN,Spencer County Health Department,18126494441
+807,IN,St. Joseph County Health Department,15742359750
+808,IN,Starke County Health Department,15747729137
+809,IN,Steuben County Health Department,126066810001500
+810,IN,Sullivan County Health Department,18122680224
+811,IN,Switzerland County Health Department,18124273220
+812,IN,Tippecanoe County Health Department,17654239221
+813,IN,Tipton County Health Department,17656758741
+814,IN,Union County Health Department,1765458539322
+815,IN,Vanderburgh County Health Department,18124355684
+816,IN,Vermillion County Health Department,17658323622
+817,IN,Vigo County Health Department,18124623428
+818,IN,Wabash County Health Department,12605630661
+819,IN,Warrick County Health Department,18128976105
+820,IN,Washington County Health Department,18128835603
+821,IN,Wayne County Health Department,17659739245
+822,IN,Wells County Health Department,12608246489
+823,IN,White County Health Department,15745838254
+824,IN,Whitley County Health Department,12602483121
+825,IA,Adams County/Alegent Health Family Home Care,16413226283
+826,IA,Appanoose County Public Health Nursing Service,16414374332
+827,IA,Audubon County Public Health Nursing Service,17125632226
+828,IA,Benton County / Virginia Gay Hospital Home Health Agency,13194726360
+829,IA,Black Hawk County Health Department,13192912413
+830,IA,Bremer County Health Department,13193520082
+831,IA,Buchanan County Public Health,13193320860
+832,IA,Buena Vista County Public Health and Home Care,17127492548
+833,IA,Butler County Public Health,13192672934
+834,IA,Calhoun County Public Health ,17122978323
+835,IA,Carroll County / St. Anthony Home Health Agency,17127945279
+836,IA,Cass County Health System,17122437475
+837,IA,Cedar County Public Health Nursing Service,15638862226
+838,IA,Central Iowa Healthcare/Marshall County Public Health,16417546353
+839,IA,Cerro Gordo County Public Health Department,16414219300
+840,IA,Cherokee County Home Choice/Hospice/Public Health,17122252129
+841,IA,Chickasaw County Public Health,16413944053
+842,IA,City of Dubuque Health Services Department,15635894181
+843,IA,City of Ottumwa Health Department,16416830650
+844,IA,Clarke County Public Health Department,16413423724
+845,IA,Clay County / Spencer Hospital Public Health,17122646380
+846,IA,Council Bluffs City Health Department,17123284666
+847,IA,Crawford County Home Health and Hospice Agency,17122633303
+848,IA,Dallas County Health Department ,15159933750
+849,IA,Davis County Hospital Home and Community Health,16416643629
+850,IA,Decatur County Public Health and Home Care,16414466518
+851,IA,Delaware County Public  Health,15639277551
+852,IA,Des Moines County Public Health,13197538215
+853,IA,Dickinson County / Lakes Regional Healthcare,17123362682
+854,IA,Dubuque County Health Department,15635577396
+855,IA,Emmet County Public Health,17123622490
+856,IA,Floyd County Public Health/Home Health Care,16412576111
+857,IA,Floyd Valley Community Health Service ,17125463335
+858,IA,Franklin County Public Health Nursing Service,16414565820
+859,IA,Fremont County Public Health/Southwest Iowa Home Health Services,17123742685
+860,IA,Greene County Medical Center Public Health,15153863228
+861,IA,Grundy County Public Health,13198246312
+862,IA,Guthrie County Public Health Nursing Service,16417473972
+863,IA,Hamilton County Public Health,15158329565
+864,IA,Hancock County Public Health Services,16419233676
+865,IA,Harrison County Public Health,17126442220
+866,IA,Henry County Public Health/Health Center,13193856724
+867,IA,Howard County / Regional Health Service of Howard County,15635472989
+868,IA,Ida County / Horn Memorial Hospital Community Health Services,17123647311
+869,IA,Iowa County Health Department,13197416422
+870,IA,Jackson County Regional Health Center,15636524048
+871,IA,Jefferson County Public Health,16414725929
+872,IA,Johnson County Public Health,13193566040
+873,IA,Jones County / Community Health of Jones County,13193697990
+874,IA,Keokuk County Public Health,16416223575
+875,IA,Kossuth County Regional Health Center/Community Health,15152954430
+876,IA,Lee County Health Department,13193725225
+877,IA,Linn County Public Health Department,13198926000
+878,IA,Louisa County Public Health,13195233981
+879,IA,Lucas County Public Health Nursing Service,16417744312
+880,IA,Lyon County Health Services,17124728200
+881,IA,Madison County Public Health,15154629051
+882,IA,Mahaska County Partnership Community Health,16416733257
+883,IA,Marion County Public Health Department,16418282238
+884,IA,Mills County Public Health Department,17125279699
+885,IA,Mitchell County Home Health Care,16418323500
+886,IA,Monona County Public Health ,17124331773
+887,IA,Monroe County Public Health,16419327191
+888,IA,Montgomery County Public Health Nursing Service,17126234893
+889,IA,Muscatine County/Unity Health Care,15632639134
+890,IA,O'Brien County Public Health,17129570105
+891,IA,Osceola County Health Service,17127544611
+892,IA,Page County Public Health Service,17128501211
+893,IA,Palo Alto County Community Health Service,17128525512
+894,IA,Pocahontas County Nursing and Health Service,17133354142
+895,IA,Polk County Health Department,15152863759
+896,IA,Pottawattamie County Public Health,17123283990
+897,IA,Ringgold County Public Health Nursing Agency,16414640691
+898,IA,Sac County Public Health Nursing,17126624785
+899,IA,Scott County Health Department,15633268618
+900,IA,Shelby County/Myrtue Memorial Hospital Home and Public Health,17127554308
+901,IA,Sioux County/Community Health Partners,17127372971
+902,IA,Tama County Public Health and Home Care,16414844788
+903,IA,Taylor County Public Health Agency,17125233405
+904,IA,Trinity Muscatine Public Health,15632630122
+905,IA,Van Buren County Public Health Nursing Service,13192933431
+906,IA,Wapello County Public Health,16416825434
+907,IA,Warren County Health Services,15159611074
+908,IA,Washington County Public Health and Home Care,13196537758
+909,IA,Wayne County Public Health,16418721167
+910,IA,Webster County Public Health Agency,15155734107
+911,IA,Winnebago County Public Health Nursing Service,16415854763
+912,IA,Winneshiek County Public Health Nursing Service,15633824662
+913,IA,Woodbury County/Siouxland District Health Department,17122796119
+914,IA,Worth County Public Health,16413241741
+915,IA,Wright County Public Health Nursing Service/Hospice for Wright County,15155323461
+916,KS,Allen SEK Multi-County Health Department,16203652191
+917,KS,Anderson SEK-Multi County Health Department,17854486559
+918,KS,Barber County Health Department,16208863294
+919,KS,Barton County Health Department,16207931902
+920,KS,Bourbon SEK-Multi County Health Department,16202234464
+921,KS,Brown NEK Multi-County Health Department,17857427192
+922,KS,Butler County Health Department,13163213400
+923,KS,Chase County Health Department,16202736377
+924,KS,Chautauqua Health Department,16207255850
+925,KS,Cherokee County Health Department,16204293087
+926,KS,Cheyenne County Health Department,17853322381
+927,KS,City-Cowley County Health Department,16202211430
+928,KS,Clark County Health Department,16206352624
+929,KS,Clay County Health Department,17856323193
+930,KS,Cloud County Health Department,17852438140
+931,KS,Coffey County Health Department,162036486311258
+932,KS,Comanche County Health Department,16205822431
+933,KS,Crawford County Health Department,16202315411
+934,KS,Decatur Health Department,17854758118
+935,KS,Dickinson County Health Department,17852634179
+936,KS,Doniphan County Health Department,17859853591
+937,KS,Edwards County Health Department,16206593102
+938,KS,Elk County Health Department,16203742277
+939,KS,Ellis County Health Department,17856289440
+940,KS,Ellsworth County Health Department,17854724488
+941,KS,Finney County Health Department,16202723600
+942,KS,Flint Hills Community Health Center,16203424864
+943,KS,Ford County Health Department,16202274545
+944,KS,Franklin County Health Department,17852293530
+945,KS,Geary County Health Department,17857625788
+946,KS,Gove County Health Department,17859382335
+947,KS,Graham County Health Department,17854213326
+948,KS,Grant County Health Department,16203561545
+949,KS,Gray County Health Department,16208552424
+950,KS,Greeley County Health Department,16203764256
+951,KS,Greenwood County Health Department,16205836632
+952,KS,Hamilton County Health Department,16203847875
+953,KS,Harper County Health Department and Home Health Agency,16208425132
+954,KS,Harvey County Health Department,13162831637
+955,KS,Haskell County Health Department,16206758191
+956,KS,Hodgeman County Health Department,16203578736
+957,KS,Jackson NEK-Multi County Health Department,17853642670
+958,KS,Jefferson County Health Department,17854030025
+959,KS,Jewell County Health Department,17853784060
+960,KS,Johnson County Department of Health & Environment,19138261200
+961,KS,Kearny County Health Department,16203556342
+962,KS,Kingman County Health Department,16205323722
+963,KS,Kiowa County Health Department,16207232136
+964,KS,Labette County Health Department,16204214350
+965,KS,Lane County Health Department,16203972809
+966,KS,Lawrence-Douglas County Health Department,17858433060
+967,KS,Leavenworth County Health Department,19132502000
+968,KS,Lincoln County Health Department,17855244406
+969,KS,Linn County Health Department,19133526640
+970,KS,Logan County Health Department,17856714502
+971,KS,Marion County Health Department,16203822550
+972,KS,Marshall County Health Department,17855623485
+973,KS,McPherson County Health Department,16202411753
+974,KS,Meade County Health Department,16208738745
+975,KS,Miami County Health Department,19132942431
+976,KS,Mitchell County Health Department,17857385175
+977,KS,Montgomery County Health Department,16202514210
+978,KS,Morris County Health Department,16207675175
+979,KS,Morton County Health Department,16206972612
+980,KS,Nemaha County Community Health Services,17852842288
+981,KS,Neosho County Health Department,16204315770
+982,KS,Ness County Health Department,17857983388
+983,KS,Norton County Health Department,17858775745
+984,KS,Osage County Health Department,17858283117
+985,KS,Osborne County Health Department,17853462412
+986,KS,Ottawa County Health Department/Hospice,17853922822
+987,KS,Pawnee County Health Department,16202856963
+988,KS,Phillips County Health Department,17855436850
+989,KS,Pottawatomie County Health Department,17854573719
+990,KS,Pratt County Health Department,16206724135
+991,KS,Rawlins County Health Department,17856263968
+992,KS,Reno County Health Department,16206942900
+993,KS,Republic County Health Department,17855275671
+994,KS,Rice County Health Department,16202572171
+995,KS,Riley County-Manhattan Health Department,17857764779243
+996,KS,Rooks County Health Department,17854257352
+997,KS,Rush County Health Department,17852223427
+998,KS,Russell County Health Department,17854836433
+999,KS,Salina-Saline County Health Department,17858266600
+1000,KS,Scott County Health Department,16208725774
+1001,KS,Sedgwick County Health Department,13166607444
+1002,KS,Seward County Health Department,16206263309
+1003,KS,Shawnee County Health Department,17852515610
+1004,KS,Sheridan County Public Health Department,17856752101
+1005,KS,Sherman County Health Department,17858994888
+1006,KS,Smith County Health Department,17852826656
+1007,KS,Stafford County Health Department,16205493504
+1008,KS,Stanton County Health Department,16204926443
+1009,KS,Stevens County Health Department,16205447177
+1010,KS,Sumner County Health Department,16203262774
+1011,KS,Sumner County Planning-Zoning-Environmental Health,16203262207
+1012,KS,Thomas County Health Department,17854604596
+1013,KS,Trego County Health Department,17857436348
+1014,KS,Unified Government of Wyandotte County Public Health Department,19135736736
+1015,KS,Wabaunsee County Health Department,17857652425
+1016,KS,Wallace County Health Department,17858524272
+1017,KS,Washington County Health Department,17853252600
+1018,KS,West Central Public Health Initiative,17856720099
+1019,KS,Wichita County Health Department,16203752289
+1020,KS,Wilson County Health Department,16203784455
+1021,KS,Woodson SEK-Multi County Health Department,16206252484
+1022,KY,Allen County Health Department,12702374423
+1023,KY,Anderson County Health Department,15028394551
+1024,KY,Ashland-Boyd County Health Department,16063299444
+1025,KY,Barren County Health Department,12706518321
+1026,KY,Barren River District Health Department,12707818039
+1027,KY,Bell County Health Department,16063377046
+1028,KY,Bourbon County Health Department,18599876242
+1029,KY,Bowling Green - Warren County Health Department,12707812490
+1030,KY,Boyle County Health Department,18592362053
+1031,KY,Bracken County Health Department,16067352157
+1032,KY,Breathitt County Health Department,16066665274
+1033,KY,Breckinridge County Health Department,12707565121
+1034,KY,Breckinridge County Home Health,12707565461
+1035,KY,Buffalo Trace District Health Department,16065649447
+1036,KY,Bullitt County Health Department,15025432415
+1037,KY,Butler County Health Department,12705263221
+1038,KY,Caldwell County Health Department,12703656571
+1039,KY,Calloway County Health Department,12707533381
+1040,KY,Campbell County Health Center,18594311704
+1041,KY,Carter County Health Department,16064745100
+1042,KY,Christian County Health Department,12708874160
+1043,KY,Clark County Health Department,18597444482
+1044,KY,Crittenden County Health Department,12709655215
+1045,KY,Cumberland Valley District Health Department,16065985564
+1046,KY,Edmonson County Health Department,12705972194
+1047,KY,Estill County Health Department,16067235181
+1048,KY,Fleming County Health Department,16068456511
+1049,KY,Floyd County Health Department,16068862788
+1050,KY,Franklin County Health Department,15025644269
+1051,KY,Garrard County Health Department,18597922153
+1052,KY,Gateway District Health Department,16066746396
+1053,KY,Graves County Health Department,12702473553
+1054,KY,Grayson County Health Department,12702593141
+1055,KY,Green River District Health Department,12706867747
+1056,KY,Greenup County Health Department,16064739838
+1057,KY,Hart County Health Department,12705242511
+1058,KY,Hopkins County Health Department,12708215242
+1059,KY,Jessamine County Health Department,18598854149
+1060,KY,Johnson County Health Department,16067892590
+1061,KY,Kenton Health Center,18594313345
+1062,KY,Kentucky River District Health Department,16064392361
+1063,KY,Knox County Health Department,16065463486
+1064,KY,Lake Cumberland District Health Department,16066784761
+1065,KY,Laurel County Health Department,16068645187
+1066,KY,Lawrence County Health Department,16066384389
+1067,KY,Lee County Health Center,16064642492
+1068,KY,Lewis County Health Department,16067962632
+1069,KY,Lexington-Fayette County Health Department,18592522371
+1070,KY,"44 Health WayStanford, KY 40484",16063653106
+1071,KY,Lincoln Trail District Health Department,12707691601
+1072,KY,Little Sandy District Health Department,16064744115
+1073,KY,Livingston County Health Department,12709282193
+1074,KY,Logan County Health Department,12707268341
+1075,KY,Louisville Metro Department of Public Health and Wellness,15025746530
+1076,KY,Lyon County Health Department,12703889763
+1077,KY,Madison County Health Department,18596264241
+1078,KY,Marshall County Health Department,12705271496
+1079,KY,Martin County Health Department,16062987752
+1080,KY,Meade County Health Department,12704223988
+1081,KY,Mercer County Health Department,18597344522
+1082,KY,Metcalfe County Health Department,12704323214
+1083,KY,Monroe County Health Department,12704876782
+1084,KY,Montgomery County Health Department,18594983808
+1085,KY,Muhlenberg County Health Department,12707543200
+1086,KY,North Central District Health Department,15026331243
+1087,KY,Northern Kentucky Independent District Health Department,18593414151
+1088,KY,Oldham County Health Department,15022223516
+1089,KY,Pennyrile District Health Department,12703889747
+1090,KY,Perry County Health Center,16064362196
+1091,KY,Pike County Health Department,16064375500
+1092,KY,Powell County Health Department,16066634360
+1093,KY,Purchase District Health Department,12704449625
+1094,KY,Simpson County Health Department,12705868261
+1095,KY,Three Rivers District Health Department,15024843412
+1096,KY,Todd County Health Department,12702652362
+1097,KY,Trigg County Health Department,12705228121
+1098,KY,Wedco District Health Department,18592348750
+1099,KY,Whitley County Health Department,16065493380
+1100,KY,Woodford County Health Department,18598734541119
+1101,LA,Acadia Parish Health Unit,13377887507
+1102,LA,Allen Parish Health Unit,13376394186
+1103,LA,Ascension Parish Health Unit,12254742004
+1104,LA,Assumption Parish Health Unit,19853696031
+1105,LA,Avoyelles Parish Health Unit,13182534528
+1106,LA,Beauregard Parish Health Unit,13374634486
+1107,LA,Bienville Parish Health Unit,13182632125
+1108,LA,Bossier Parish Health Unit,13187417314
+1109,LA,Caddo Parish Health Unit,13186765222
+1110,LA,Calcasieu Parish Health Unit,13374786020
+1111,LA,Caldwell Parish Health Unit,13186492393
+1112,LA,Cameron Parish Health Unit,13377755368
+1113,LA,Catahoula Parish Health Unit,13183398352
+1114,LA,City of New Orleans Department of Health,15046582500
+1115,LA,Claiborne Parish Health Unit,13189276127
+1116,LA,Concordia Parish Health Unit,13187578632
+1117,LA,Desoto Parish Health Unit,13188720472
+1118,LA,East Baton Rouge Parish Health Unit,12252424928
+1119,LA,East Carroll Parish Health Unit,13185592012
+1120,LA,East Feliciana Parish Health Unit,12256838551
+1121,LA,Evangeline Parish Health Unit,13373631135
+1122,LA,Franklin Parish Health Unit,13184352143
+1123,LA,Grant Parish Health Unit,13186273133
+1124,LA,Iberia Parish Health Unit,13373730021
+1125,LA,Iberville Parish Health Unit,12256879021
+1126,LA,Jackson Parish Health Unit,13182596601
+1127,LA,Jefferson Davis Parish Health Unit,13378242193
+1128,LA,Jefferson Parish Health Unit,15048385100
+1129,LA,Lafayette Parish Health Unit,13372625616
+1130,LA,Lafourche Parish Health Unit,19854470921
+1131,LA,Lasalle Parish Health Unit,13189924842
+1132,LA,Lincoln Parish Health Unit,13182514120
+1133,LA,Livingston Parish Health Unit,12256867017
+1134,LA,Madison Parish Health Unit,13185743311
+1135,LA,Morehouse Parish Health Unit,13182830806
+1136,LA,Natchitoches Parish Health Unit,13183573132
+1137,LA,Ouachita Parish Health Unit,13183617281
+1138,LA,Plaquemines Parish Health Department,15043943510
+1139,LA,Pointe Coupee Parish Health Unit,12256387320
+1140,LA,Rapides Parish Health Unit,131848752827
+1141,LA,Red River Parish Health Unit,13189324087
+1142,LA,Region 3 (Office of Public Health),19854470916332
+1143,LA,Region 6 Office of Public Health - (Central Regional Office),13184875262
+1144,LA,Richland Parish Health Unit,13187284441
+1145,LA,Sabine Parish Health Unit,13182564105
+1146,LA,St. Bernard Parish Health Unit,15042787410
+1147,LA,St. Charles Parish Community Health Center,19857855800
+1148,LA,St. Helena Parish Health Unit,12252226178
+1149,LA,"29170 Health Unit StVacherie, LA 70090-4221",12252652181
+1150,LA,St. John Parish Health Unit,19855362172
+1151,LA,St. Landry Parish Health Unit,13379480220
+1152,LA,St. Martin Parish Health Unit,13373943097
+1153,LA,St. Mary Parish Health Unit,19853802441
+1154,LA,St. Tammany Parish Health Unit,19858936296
+1155,LA,Tangipahoa Parish Health Unit,19857482020
+1156,LA,Tensas Parish Health Unit,13187663515
+1157,LA,Terrebonne Parish Health Unit,19858573601
+1158,LA,Union Parish Health Unit,13183683156
+1159,LA,Vermilion Parish Health Unit,13378931443
+1160,LA,Vernon Parish Health Unit,13372386410
+1161,LA,Washington Parish Health Unit,19858395646
+1162,LA,Webster Parish Health Unit,13183713044
+1163,LA,West Baton Rouge Parish Health Unit,12253427525
+1164,LA,West Carroll Parish Health Unit,13184289361
+1165,LA,West Feliciana Parish Health Unit,12256353644
+1166,LA,Winn Parish Health Unit,13186282148
+1167,ME,Bangor City Health Department,12079924550
+1168,ME,City of Portland Public Health Division,12077568054
+1169,ME,Cumberland District Public Health/MCDC,12074850541
+1170,ME,Downeast District Public Health,12072552017
+1171,ME,Midcoast District Public Health \ MCDC,12075964278
+1172,ME,Penquis District Public Health Unit,12075614421
+1173,ME,Western District Public Health\MCDC,12077954302
+1174,ME,York District Public Health\MCDC,12074904625
+1175,MD,Allegany County Health Department,13017595012
+1176,MD,Anne Arundel County Department of Health,14102227376
+1177,MD,Baltimore City Health Department,14103964387
+1178,MD,Baltimore County Department of Health,14108872243
+1179,MD,Calvert County Health Department,14105355400306
+1180,MD,Caroline County Health Department,14104798030
+1181,MD,Carroll County Health Department,14108764972
+1182,MD,Cecil County Health Department,14432453885
+1183,MD,Charles County Health Department,13016096901
+1184,MD,Dorchester County Health Department,14109018124
+1185,MD,Frederick County Health Department,13016003104
+1186,MD,Garrett County Health Department,13013347715
+1187,MD,Harford County Health Department,14108771025
+1188,MD,Howard County Health Department,14103136363
+1189,MD,Kent County Health Department,14107781350
+1190,MD,Montgomery County Department of Health and Human Services,12407771603
+1191,MD,Prince George's County Health Department,13018837844
+1192,MD,Queen Anne's County Health Department,141075807204406
+1193,MD,Somerset County Health Department,14435231700
+1194,MD,St. Mary's County Health Department,13014754317
+1195,MD,Talbot County Health Department,14108195608
+1196,MD,Washington County Health Department,12403133260
+1197,MD,Wicomico County Health Department,14108604592
+1198,MD,Worcester County Health Department,141063211001209
+1199,MA,Abington Board of Health,17819822119
+1200,MA,Acton Health Department,19789296632
+1201,MA,Acushnet Health Department,15089980275
+1202,MA,Adams Board of Health,14137438330
+1203,MA,Agawam Health Department,14137860400207
+1204,MA,Alford Board of Health,14135284536
+1205,MA,Amesbury Health Department,19783888133
+1206,MA,Amherst Health Department,14132593077
+1207,MA,Andover Health Division,19784906671
+1208,MA,Aquinnah Board of Health,15086452307
+1209,MA,Arlington Board of Health,17813163170
+1210,MA,Ashburn Board of Health,19788274100117
+1211,MA,Ashby Board of Health,1978386242419
+1212,MA,Ashland Board of Health,1508881010061
+1213,MA,Athol Board of Health,19782497934
+1214,MA,Attleboro Health Department,150822322223242
+1215,MA,Auburn Health Department,15088327703
+1216,MA,Avon Board of Health,15085880414
+1217,MA,Ayer Board of Health,19787728213
+1218,MA,Barnstable County Health/Environmental Department,15083756613
+1219,MA,Barnstable Town Health Department,15088624644
+1220,MA,Barre Board of Health/Health Department,19783555002
+1221,MA,Becket Board of Health,1413623893422
+1222,MA,Bedford Board of Health,17812756507
+1223,MA,Bellingham Board of Health,15086572860
+1224,MA,Belmont Health Department,16179932720
+1225,MA,Beltchertown Board of Health,14133230406
+1226,MA,Berkley Health Department,15088227828
+1227,MA,Berlin Board of Health,19788380214
+1228,MA,Bernardston Board of Health ,14136485237
+1229,MA,Billerica Health Department,19786710931
+1230,MA,Blackstone Board of Health,15088831500
+1231,MA,Blandford Board of Health,14136482782
+1232,MA,Bolton Board of Health,19787792297
+1233,MA,Boston Public Health Commission,16175345395
+1234,MA,Bourne Health Department,15087590615
+1235,MA,Boxborough Board of Health,19782631116115
+1236,MA,Boxford Health Department,19788876000172
+1237,MA,Boylston Board of Health,15088696828
+1238,MA,Braintree Board of Health,17817948090
+1239,MA,Brewster Health Department,15088963701120
+1240,MA,Bridgewater Board of Health,15086970903
+1241,MA,Brimfield Health Department,17742304266
+1242,MA,Brockton Health Department,15085807175
+1243,MA,Brookfield Health Department,1508867293022
+1244,MA,Brookline Department of Public Health,16177302300
+1245,MA,Buckland Health Department,14136256330
+1246,MA,Burlington Board of Health,17812701955
+1247,MA,Cambridge Public Health Department,16176653810
+1248,MA,Canton Board of Health,17818215021
+1249,MA,Carlisle Health Department,19783690283
+1250,MA,Carver Health Department,15088663420
+1251,MA,Charlemont Board of Health,14133394891
+1252,MA,Charlton Board of Health,15082482210
+1253,MA,Chatham Board of Health,15089455165
+1254,MA,Chelmsford Board of Health,19782505241
+1255,MA,Chelsea Department of Health and Human Services,16174664090
+1256,MA,Cheshire Board of Health,141374316907
+1257,MA,Chester Health Department,14133547712
+1258,MA,Chesterfield Board of Health,14132964771
+1259,MA,Chicopee Health Department,14135941665
+1260,MA,Chilmark Board of Health,15086452105
+1261,MA,City of Beverly Health Department,19789218591
+1262,MA,City of Lowell Health Department,19786741050
+1263,MA,"City of Worcester, Division of Public Health",15087998531
+1264,MA,Clarksburg Board of Health,14136637940
+1265,MA,Clinton Board of Health,19783654116
+1266,MA,Cohasset Board of Health,17813834116
+1267,MA,Colrain Board of Health,14136243454
+1268,MA,Concord Board of Health,19783183275
+1269,MA,Conway Board of Health,14133694235
+1270,MA,Cummington Health Department,14136345757
+1271,MA,Dalton Health Department,1413684611120
+1272,MA,Danvers Board of Health,197877700013022
+1273,MA,Dartmouth Board of Health,15089101804
+1274,MA,Dedham Board of Health,17817519220
+1275,MA,Deerfield Health Department,14136651400110
+1276,MA,Dighton Health Department,15086695182
+1277,MA,Douglas Board of Health,15084764000
+1278,MA,Dover Board of Health,15087850032
+1279,MA,Dracut Health Department,19784538162
+1280,MA,Dudley Board of Health,15089498017
+1281,MA,Dunstable Board of Health,19786494514229
+1282,MA,Duxbury Board of Health,17819341100
+1283,MA,East Bridgewater Board of Health,15083781612
+1284,MA,East Brookfield Health Department,15088676769307
+1285,MA,East Longmeadow Health Department,141352554001105
+1286,MA,Eastern Franklin County Health District,14135493710
+1287,MA,Eastham Board of Health,15082405907229
+1288,MA,Easthampton Health Department,14135291430
+1289,MA,Easton Board of Health,15082300620
+1290,MA,Edgartown Board of Health,15086276120
+1291,MA,Egremont Health Department,1413528018222
+1292,MA,Erving Board of Health,14134222800
+1293,MA,Essex Board of Health,19787687614
+1294,MA,Everett Health Department,16173942255
+1295,MA,Fairhaven Board of Health,15089794022
+1296,MA,Fall River Health Department,15083242410
+1297,MA,Falmouth Health Department,15084957485
+1298,MA,Fitchburg Health Department,15087998482
+1299,MA,Florida Health Department,14136646685
+1300,MA,Foothills Health District,14132688404
+1301,MA,Foxborough Health Department,15085431207
+1302,MA,Framingham Health Department,15085325470
+1303,MA,Franklin Board of Health,15085204905
+1304,MA,Freetown Health Department,15086442202
+1305,MA,Gardner Health Department/Board of Health,19786304013
+1306,MA,Georgetown Board of Health,19783525720
+1307,MA,Gill Board of Health,14138639347
+1308,MA,Gloucester Health Department,19782819771
+1309,MA,Goshen Board of Health,14132688236110
+1310,MA,Gosnold Health Department,15089907408
+1311,MA,Grafton Board Health Department,150883953351119
+1312,MA,Granby Board of Health,14134679886
+1313,MA,Granville Health Department,14133578585
+1314,MA,Great Barrington Health Department,14135280680
+1315,MA,Greenfield Health Department,141377214042100
+1316,MA,Groton Township Board of Health,19784481120
+1317,MA,Groveland Health Department,19785567200
+1318,MA,Hadley Board of Health,14135867274
+1319,MA,Halifax Board of Health,17812936768
+1320,MA,Hamilton Health Department,19784685579
+1321,MA,Hampden Health Department,14135662152
+1322,MA,Hancock Health Department,14137385326
+1323,MA,Hanover Board of Health,17818264611
+1324,MA,Hanson Health Department/Board of Health,17812933138
+1325,MA,Hardwick Board of Health,14134776702108
+1326,MA,Harvard Township Board of Health,19784564106
+1327,MA,Harwich Health Department,15084307509
+1328,MA,Hatfield Health Department,14132479211
+1329,MA,Haverhill Health and Inspectional Services,19783742325
+1330,MA,Hawley Board of Health,14133395518
+1331,MA,Heath Health Department,14133374934
+1332,MA,Hingham Health Department,17817411466
+1333,MA,Hinsdale Board of Health,14136552311
+1334,MA,Holbrook Board of Health,17817673030
+1335,MA,Holden Board of Health,15082105542
+1336,MA,Holland Board of Health,14132457108112
+1337,MA,Holliston Board of Health,15084290605
+1338,MA,Holyoke Health Department,14133225595
+1339,MA,Hopedale Board of Health,15086342202222
+1340,MA,Hopkinton Health Department,15084979725
+1341,MA,Hubbardston Health Department,19789281404
+1342,MA,Hudson Board of Health,19785622020
+1343,MA,Hull Board of Health,17819252000
+1344,MA,Huntington Health Department,14136673511
+1345,MA,Ipswich Board of Health,197835666064
+1346,MA,Kingston Health Department,17815850503
+1347,MA,Lakeville Board of Health,15089463473
+1348,MA,Lancaster Board of Health,19783684000
+1349,MA,Lanesborough Health Department,1413442116728
+1350,MA,Lawrence Health Department,19786203260
+1351,MA,Leicester Health Department,15088927008
+1352,MA,Leominster Health Department,19785347533249
+1353,MA,Leverett Health Department,141354810222
+1354,MA,Lexington Board of Health,17816984503237
+1355,MA,Leyden Board of Health,14137744111
+1356,MA,Lincoln Health Department,17812562613
+1357,MA,Littleton Township Board of Health,19789522313
+1358,MA,Longmeadow Board of Health,14135654140
+1359,MA,Ludlow Board of Health,141358356001271
+1360,MA,Lunenburg Board of Health,19785824135
+1361,MA,Lynn Health Department,178159840006828
+1362,MA,Lynnfield Board of Health,17813349480
+1363,MA,Malden Board of Health,17813977043
+1364,MA,Manchester-by-the-Sea Board of Health,19785267385
+1365,MA,Mansfield Board of Health,15082617366
+1366,MA,Marblehead Health Department,17816310212
+1367,MA,Marion Township Health Department,15087483530
+1368,MA,Marlborough Health Department,15084603751
+1369,MA,Marshfield Health Department,17818345558
+1370,MA,Mashpee Health Department,15085391426555
+1371,MA,Massachusetts Department of Public Health,16179836800
+1372,MA,Mattapoisett Health Department,150875841008
+1373,MA,Maynard Board of Health,19788971002
+1374,MA,Medfield Board of Health,15083598505604
+1375,MA,Medford Department of Public Health,17813932560
+1376,MA,Medway Board of Health,15085333206
+1377,MA,Melrose Health Department,17819794130
+1378,MA,Mendon Board of Health,15086342656
+1379,MA,Merrimac Board of Health,19783464066
+1380,MA,Methuen Health Department,19789838655
+1381,MA,Middleborough Health Department,15089462408
+1382,MA,Middlefield Health Department,14136238966
+1383,MA,Middleton Board of Health,19787741869
+1384,MA,Milford Board of Health,15086342315
+1385,MA,Millbury Health Department,15088654721
+1386,MA,Millis Board of Health,15083767042
+1387,MA,Millville Board of Health,15088835041
+1388,MA,Milton Health Department,16178984886
+1389,MA,Monroe Board of Health,14134245272
+1390,MA,Monson Board of Health,14132674107
+1391,MA,Montague Health Department,14138633200205
+1392,MA,Monterey Board of Health,14132435540
+1393,MA,Montgomery Health Department,14138623386
+1394,MA,Mount Washington Health Department,14135282839
+1395,MA,Nahant Board of Health,17815810088
+1396,MA,Nantucket Health Department,15083257587x7020
+1397,MA,Nashoba Associated Boards of Health,19787723335
+1398,MA,Natick Board of Health,15086476460
+1399,MA,Needham Health Department,17814557500
+1400,MA,New Ashford Health Department,14134585485
+1401,MA,New Bedford Health Department,15089916199
+1402,MA,New Braintree Health Department,15088672071
+1403,MA,New Marlborough Board of Health,14132298469
+1404,MA,New Salem Health Department,19785449673
+1405,MA,Newbury Board of Health,19784650862316
+1406,MA,Newburyport Health Department,19784654410
+1407,MA,Newton Health Department,16177961420
+1408,MA,Norfolk Health Department,15085287747
+1409,MA,North Adams Health Department,14136623020
+1410,MA,North Andover Board of Health,19786889540
+1411,MA,North Attleboro Health Department,15086990103
+1412,MA,North Brookfield Health Department,15088670201
+1413,MA,North Reading Board of Health,19783575242
+1414,MA,Northampton Board of Health,14135871214
+1415,MA,Northborough Health Department,15083935009
+1416,MA,Northbridge Health Department,15082343272
+1417,MA,Northfield Board of Health,1413498290117
+1418,MA,Norton Health Department,15082850263
+1419,MA,Norwell Health Department,17816598016
+1420,MA,Norwood Board of Health,17817621240
+1421,MA,Oak Bluffs Board of Health,15086933554
+1422,MA,Oakham Board of Health,15088825549320
+1423,MA,Orange Board of Health,19785441107
+1424,MA,Orleans Health Department,15082403700450
+1425,MA,Otis Health Department,14132690101
+1426,MA,Oxford Board of Health,15089876045
+1427,MA,Palmer Health Department,14132832606
+1428,MA,Paxton Health Department,15087532803
+1429,MA,Pelham Board of Health,14132537129
+1430,MA,Pembroke Board of Health,17812932718
+1431,MA,Pepperell Health Department,19784330328
+1432,MA,Peru Health Department,17136558312
+1433,MA,Petersham Health Department,19787240057
+1434,MA,Phillipston Board of Health,19782491735
+1435,MA,Pittsfield Health Department,14134999411
+1436,MA,Plainfield Board of Health,14136340321
+1437,MA,Plainville Health Department,1508695301016
+1438,MA,Plymouth Health Department,15087471620119
+1439,MA,Plympton Board of Health,17815857000
+1440,MA,Princeton Health Department,19784642100
+1441,MA,Quabbin Health District,14139679615
+1442,MA,Quincy Health Department,16173761272
+1443,MA,Randolph Health Department,17819610924
+1444,MA,Raynham Health Department,15088242766
+1445,MA,Reading Health Department,17819426653
+1446,MA,Rehoboth Health Department,15082523099
+1447,MA,Revere Health Department,17812868176
+1448,MA,Richmond Health Department,14136983355
+1449,MA,Rochester Township Board of Health,15087635421
+1450,MA,Rockland Board of Health,15087635421
+1451,MA,Rockport Health Department,19785463701
+1452,MA,Rowe Board of Health,1413339552016
+1453,MA,Rowley Health Department,19789482231
+1454,MA,Royalston Board Health Department,19782493617
+1455,MA,Russell Health Department,14138624791
+1456,MA,Rutland Board of Health,15088864102
+1457,MA,Salem Board of Health,19787411800
+1458,MA,Salisbury Health Department,19784623430
+1459,MA,Sandisfield Health Department,14132584712
+1460,MA,Sandwich Health Department,15088884200
+1461,MA,Saugus Health Department,17812314115
+1462,MA,Savoy Health Department,14137434290
+1463,MA,Scituate Health Department,17815458725
+1464,MA,Seekonk Health Department,15083362950
+1465,MA,Sharon Health Department,178178415001206
+1466,MA,Sheffield Health Department,14132292335157
+1467,MA,Shelburne Board of Health,14136250300
+1468,MA,Sherborn Health Department,15086517852
+1469,MA,Shirley Township Board of Health,19784252600260
+1470,MA,Shrewsbury Health Department,15088418512
+1471,MA,Shutesbury Board of Health,14132592122
+1472,MA,Somerset Board of Health,15086462804
+1473,MA,Somerville Health and Human Services Department,161762566004310
+1474,MA,South Hadley Health Department,14135385013
+1475,MA,Southampton Health Department,14135291003
+1476,MA,Southborough Health Department,15084813013
+1477,MA,Southbridge Health Department,15087645412
+1478,MA,Southwick Board of Health,14135691212
+1479,MA,Spencer Board of Health,15088857541
+1480,MA,Springfield Department of Health and Human Services,14137876456
+1481,MA,Sterling Board of Health,197842281112305
+1482,MA,Stockbridge Board of Health,14132435540
+1483,MA,Stoneham Health Department,17812792621
+1484,MA,Stoughton Health Department and Visiting Nurses Association,17813447011
+1485,MA,Stow Health Department,19788974592
+1486,MA,Sturbridge Health Department,15083472504
+1487,MA,Sudbury Health Department,19784405479
+1488,MA,Sunderland Board of Health,14136651441
+1489,MA,Sutton Health Department,15088658724
+1490,MA,Swampscott Health Department,17815968864
+1491,MA,Swansea Board of Health,15083246704
+1492,MA,Taunton Board of Health,15088211400
+1493,MA,Templeton Health Department,19788942771
+1494,MA,Tewksbury Board of Health,19786404470231
+1495,MA,Tisbury Board of Health,15086964290
+1496,MA,Tolland Health Department,14132584794
+1497,MA,Topsfield Board of Health,19788871520
+1498,MA,Town of Provincetown Board of Health,15084877000
+1499,MA,Townsend Board of Health,19785971713
+1500,MA,Tri-Town Health District,14132435540
+1501,MA,Truro Health Department,1508349700432
+1502,MA,Tyngsborough Board of Health,19786492300118
+1503,MA,Tyringham Board of Health,14132431749
+1504,MA,Upton Health Department,15085296813
+1505,MA,Uxbridge Health Department,15082788600
+1506,MA,Wakefield Health Department,17812466375
+1507,MA,Wales Health Department,14132457571105
+1508,MA,Walpole Health Department,15086607321
+1509,MA,Waltham Department of Health,17813143305
+1510,MA,Ware Board of Health,14139679615
+1511,MA,Wareham Health Department,150829131003197
+1512,MA,Warren Health Department,14134365708112
+1513,MA,Warwick Board of Health,19785446315
+1514,MA,Washington Health Department,14136232247
+1515,MA,Watertown Health Department,16179726446
+1516,MA,Wayland Health Department,15083583617
+1517,MA,Webster Health Department,150894938004002
+1518,MA,Wellesley Health Department,17812350135
+1519,MA,Wellfleet Health Department,15083490308
+1520,MA,Wendell Health Department,19785443395
+1521,MA,Wenham Health Department,19784685522
+1522,MA,West Boylston Board of Health,15088354710
+1523,MA,West Bridgewater Health Department,15088941209
+1524,MA,West Brookfield Health Department,15088671421310
+1525,MA,West Newbury Board of Health,19783631100119
+1526,MA,West Springfield Health Department,14132633206
+1527,MA,West Stockbridge Board of Health,14132320300314
+1528,MA,West Tisbury Board of Health,15086960105
+1529,MA,Westborough Health Department,15083663045
+1530,MA,Westfield Health Department,14135726210
+1531,MA,Westford Board of Health,19786925509
+1532,MA,Westhampton Health Department,14135279791
+1533,MA,Westminster Board of Health,19788747409
+1534,MA,Weston Health Department,17818937320332
+1535,MA,Westport Health Department,15086361015
+1536,MA,Westwood Board of Health/Health Department,17813201026
+1537,MA,Weymouth Health Department,17813405008
+1538,MA,Whitman Health Department,17816189755
+1539,MA,Wilbraham Board of Health,14135962800
+1540,MA,Williamstown Board of Health,14134589344
+1541,MA,Wilmington Board of Health,19786584298
+1542,MA,Winchendon Health Department,197829735375
+1543,MA,Winchester Board of Health,17817217121
+1544,MA,Windsor Health Department,14134545161
+1545,MA,Winthrop Health Department,16178461740
+1546,MA,Woburn Board of Health,17818975922
+1547,MA,Worthington Health Department,14132385593
+1548,MA,Wrentham Board of Health,15083845480
+1549,MA,Yarmouth Health Department,15083982231241
+1550,MI,Allegan County Health Department,12696735411
+1551,MI,"1033 Healthcare DrCharlotte, MI 48813-1058",15175412602
+1552,MI,Bay County Health Department,19898954009
+1553,MI,Benzie-Leelanau District Health Department,12312560208
+1554,MI,Berrien County Health Department,12699275600
+1555,MI,Branch-Hillsdale-St. Joseph Community Health Agency,15172799561
+1556,MI,Calhoun County Health Department,12699696380
+1557,MI,Central Michigan District Health Department,198977359211421
+1558,MI,Chippewa County Health Department,19066353634
+1559,MI,Dearborn Health Department,15172841055
+1560,MI,Detroit Department of Health,13138764000
+1561,MI,Dickinson-Iron District Health Department,19062659913
+1562,MI,District Health Department #2,19893455020
+1563,MI,District Health Department 10,12318763839
+1564,MI,District Health Department 4,19893587957
+1565,MI,Genesee County Health Department,18102573588
+1566,MI,Grand Traverse County Health Department,12319956100
+1567,MI,Health Department of Northwest Michigan,12315477627
+1568,MI,Huron County Health Department,19896738117
+1569,MI,Ingham County Health Department,15178874475
+1570,MI,Ionia County Health Department,16165275341
+1571,MI,Jackson County Health Department,15177884420
+1572,MI,Kalamazoo County Health and Community Services,12693735200
+1573,MI,Kent County Health Department,16166327100
+1574,MI,LMAS District Health Department,19062935107
+1575,MI,Lapeer County Health Department,18102455581
+1576,MI,Lenawee County Health Department,15172645205
+1577,MI,Livingston County Department of Public Health,15175469850
+1578,MI,Macomb County Health Department,15894695510
+1579,MI,Marquette County Health Department,19064759977
+1580,MI,Mid-Michigan District Health Department,19898313614
+1581,MI,Midland County Department of Public Health,19898376574
+1582,MI,Monroe County Health Department,17342407800
+1583,MI,Oakland County Health Division,12488581410
+1584,MI,Ottawa County Health Department,16163965266
+1585,MI,Public Health Delta-Menominee Counties,19067894111
+1586,MI,Public Health Muskegon County ,12317246246
+1587,MI,Saginaw County Department of Public Health,19897583800
+1588,MI,Sanilac County Health Department,18106484098
+1589,MI,Shiawassee County Health Department,19897432484
+1590,MI,St. Clair County Health Department,18109875309
+1591,MI,Tuscola County Health Department,19896738117
+1592,MI,Van Buren/Cass District Health Department,12696213143
+1593,MI,Washtenaw County Public Health Department,17345446700
+1594,MI,Wayne County Health Department,13132240810
+1595,MI,Western U.P. District Health Department,19064827382
+1596,MN,Aitkin County Health and Human Services,12189273744
+1597,MN,Anoka County Community Health and Environmental Service Department,17633244200
+1598,MN,Beltrami County Public Health Nursing Service,12183338100
+1599,MN,Blue Earth County Public Health Nursing Service,15073044319
+1600,MN,Brown County Public Health,15072336820
+1601,MN,Brown-Nicollet Community Health Services,15079344140
+1602,MN,Carlton-Cook-Lake-St. Louis Community Health Board,12187339895
+1603,MN,Carver County Public Health,19523611320
+1604,MN,Cass County Health Services,12185471340
+1605,MN,Chisago County Health and Human Service Departments,16512135321
+1606,MN,City of Bloomington Division of Public Health,19525638905
+1607,MN,Clay County Public Health Department,12182997186
+1608,MN,Countryside Public Health,13208434546
+1609,MN,Crow Wing County Health Services,12188241080
+1610,MN,Dakota County Public Health Department,16515546103
+1611,MN,Des Moines Valley Health and Human Services,15078472366
+1612,MN,Dodge County Public Health,15078350656
+1613,MN,Edina Health Department,19528260466
+1614,MN,Fillmore County Public Health,15077653898
+1615,MN,Freeborn County Public Health,15073775100
+1616,MN,Goodhue County Health and Human Services,16513856115
+1617,MN,Hennepin County Public Health,16123483045
+1618,MN,Horizon Public Health,13207636018
+1619,MN,Houston County Public Health,15077255810
+1620,MN,Inter-County Public Health Nursing,12186810876
+1621,MN,Isanti County Public Health Services,17636894071
+1622,MN,Itasca County Health and Human Services,12183272941
+1623,MN,Kanabec County Public Health,13206796330
+1624,MN,Kandiyohi County Public Health,13202317860
+1625,MN,Kittson Memorial Healthcare Center,12188433662
+1626,MN,Koochiching County Public Health & Human Services,12182837070
+1627,MN,Le Sueur County Public Health ,15073578247
+1628,MN,LifeCare Public Health,12184633211
+1629,MN,McLeod County Public Health Nursing Service,13208643185
+1630,MN,Meeker County Public Health Department,13206935370
+1631,MN,Meeker-McLeod-Sibley Community Health Services Board,15077663531
+1632,MN,Mille Lacs County Public Health,13209838318
+1633,MN,Minneapolis Health Department  ,16126732301
+1634,MN,Morrison County Public Health,13206326664
+1635,MN,Morrison-Todd-Wadena Community Health Board,13207324439
+1636,MN,Mower County Health and Human Services,15074379770
+1637,MN,Nicollet County Public Health Nursing Service,15079347270
+1638,MN,Nobles Community Health Service,15072955272
+1639,MN,Norman/Mahnomen Public Health,12187845425
+1640,MN,North Country Community Health Board,12186946581
+1641,MN,North Valley Public Health,12187455154
+1642,MN,Olmsted County Public Health Services,15073287500
+1643,MN,Otter Tail County Public Health,12189988320
+1644,MN,Pine County Public Health,13202164109
+1645,MN,Polk County Public Health,12182813385
+1646,MN,Quin County Board of Health,12188747845
+1647,MN,Renville County Public Health,132052325703723
+1648,MN,Rice County Community Health Service,15073326111
+1649,MN,Scott County Public Health,19524968520
+1650,MN,Sherburne County HHS/Public Health Unit,17632412750
+1651,MN,Sibley County Public Health,15072374035
+1652,MN,Southwest Health and Human Services,15078293662
+1653,MN,St. Joseph's Area Health Services,12182375471
+1654,MN,St. Paul - Ramsey County Public Health,16512662400
+1655,MN,Stearns County Public Health Division,13206566000
+1656,MN,Steele Community Health Services/Public Health Nursing,15074447665
+1657,MN,Todd County Health & Human Services - Public Health,13207324500
+1658,MN,Wabasha Community Health Service,16515655200
+1659,MN,Waseca County Public Health Services,15078350685
+1660,MN,Washington County Department of Public Health and Environment,16514306655
+1661,MN,Watonwan County Community Health Services,15073753294
+1662,MN,Wilkin County Public Health,12186437122
+1663,MN,Winona Community Health Services Agency,15074576400
+1664,MN,Wright County Health & Human Services,17636827400
+1665,MS,Adams County Health Department,16014454601
+1666,MS,Alcorn County Health Department,16622876121
+1667,MS,Amite County Health Department,16016578351
+1668,MS,Attala County Health Department,16628892351
+1669,MS,Benton County Health Department,16622246442
+1670,MS,Bolivar County Health Department,16628438305
+1671,MS,Calhoun County Health Department,16624123260
+1672,MS,Carroll County Health Department,16622379224
+1673,MS,Chickasaw County Health Department,16624563737
+1674,MS,Choctaw County Health Department,16622856213
+1675,MS,Claiborne County Health Department,16019812304
+1676,MS,Clarke County Health Department,16017762149
+1677,MS,Clay County Health Department,16624944514
+1678,MS,Coahoma County Health Department,16626248316
+1679,MS,Copiah County Health Department,16019812304
+1680,MS,Covington County Health Department,16017654291
+1681,MS,DeSoto County Health Department,16624299814
+1682,MS,Forrest County Health Department,16015830291
+1683,MS,Franklin County Health Department,16013845871
+1684,MS,George County Health Department,16019474217
+1685,MS,Greene County Health Department,16013942389
+1686,MS,Grenada County Health Department,16622263711
+1687,MS,Hancock County Health Department,12284674510
+1688,MS,Harrison County Health Department,12288631036
+1689,MS,Hinds County Health Department,16019812304
+1690,MS,Holmes County Health Department,16628343142
+1691,MS,Humphreys County Health Department,16622471861
+1692,MS,Itawamba County Health Department,16628623710
+1693,MS,Jackson County Health Department,12287621117
+1694,MS,Jasper County Health Department,16017642419
+1695,MS,Jefferson County Health Department,16017863061
+1696,MS,Jefferson Davis County Health Department,16017925135
+1697,MS,Jones County Health Department,16014263258
+1698,MS,Kemper County Health Department,16017435865
+1699,MS,Lafayette County Health Department,16622345231
+1700,MS,Lamar County Health Department,16017941055
+1701,MS,Lauderdale County Health Department,16016932451
+1702,MS,Lawrence County Health Department,16015872561
+1703,MS,Leake County Health Department,16012673072
+1704,MS,Lee County Health Department,16628419096
+1705,MS,Leflore County Health Department,16624530284
+1706,MS,Lincoln County Health Department,16018333314
+1707,MS,Lowndes County Health Department,16623286091
+1708,MS,Madison County Health Department,16019812304
+1709,MS,Marion County Health Department,16017362676
+1710,MS,Marshall County Health Department,16622524621
+1711,MS,Monroe County Health Department,16623698132
+1712,MS,Montgomery County Health Department,16622833655
+1713,MS,Neshoba County Health Department,16016564371
+1714,MS,Newton County Health Department,16016352337
+1715,MS,Noxubee County Health Department,16627264451
+1716,MS,Oktibbeha County Health Department,16623234565
+1717,MS,Panola County Health Department,16625634616
+1718,MS,Pearl River County Health Department,16017986212
+1719,MS,Perry County Health Department,16019643288
+1720,MS,Pike County Health Department,16016841030
+1721,MS,Pontotoc County Health Department,16624891241
+1722,MS,Prentiss County Health Department,16627283518
+1723,MS,Public Health District 1 - Northwest/Mississippi Department of Health,16625635603
+1724,MS,Public Health District 2 - Northeast/Mississippi Department of Health,16628419015
+1725,MS,Public Health District 3 - Delta/Hills / Mississippi Department of Health,16624534563
+1726,MS,Public Health District 4 - Tombigbee/Mississippi Department of Health,16623237313
+1727,MS,Public Health District 5 - West Central/Mississippi Department of Health,16019812304
+1728,MS,Public Health District 6 - East Central/Mississippi Department of Health,16014823171
+1729,MS,Public Health District 7 - Southwest/Mississippi Department of Health,16016849411
+1730,MS,Public Health District 8 - Southeast/Mississippi Department of Health,16015446766
+1731,MS,Public Health District 9 - Coastal/Plains / Mississippi Department of Health,12288315151
+1732,MS,Quitman County Health Department,16623262861
+1733,MS,Rankin County Health Department,16018252141
+1734,MS,Scott County Health Department,16014694941
+1735,MS,Sharkey/Issaquena County Health Department,16019812304
+1736,MS,Simpson County Health Department,16019812304
+1737,MS,Smith County Health Department,16017824472
+1738,MS,Stone County Health Department,16019285293
+1739,MS,Sunflower County Health Department,16628874951
+1740,MS,Tallahatchie County Health Department,16626473404
+1741,MS,Tate County Health Department,16625624428
+1742,MS,Tippah County Health Department,16628373215
+1743,MS,Tishomingo County Health Department,16624236100
+1744,MS,Tunica County Health Department,16623632166
+1745,MS,Union County Health Department,16625341926
+1746,MS,Walthall County Health Department,16018764924
+1747,MS,Warren County Health Department,16019812304
+1748,MS,Washington County Health Department,16623328177
+1749,MS,Wayne County Health Department,16017352351
+1750,MS,Webster County Health Department,16622583761
+1751,MS,Wilkinson County Health Department,16018884202
+1752,MS,Winston County Health Department,16017738087
+1753,MS,Yalobusha County Health Department,16624731424
+1754,MS,Yazoo County Health Department,16019812304
+1755,MO,Adair County Health Department/Home Health Agency,16606658491
+1756,MO,Andrew County Health Department,18163243139
+1757,MO,Atchison County Health Department,16607364121
+1758,MO,Audrain County Health Department,15735811332
+1759,MO,Barry County Health Department,14178472114
+1760,MO,Barton County Health Department,14176823363
+1761,MO,Bates County Health Center,16606796108
+1762,MO,Benton County Health Department,16604382876
+1763,MO,Bollinger County Health Department,15732382817101
+1764,MO,Butler County Health Department,15737858478
+1765,MO,Caldwell County Health Department,18165862311
+1766,MO,Callaway County Health Department,15736426881
+1767,MO,Camden County Health Department,15733465479
+1768,MO,Cameron Area Health Office/Missouri Department of Health,18166322107
+1769,MO,Cape Girardeau County Public Health Center,15733357846122
+1770,MO,Carroll County Health Department,16605423247
+1771,MO,"1611 Health Center RoadVan Buren, MO 63965-0070",15733234413
+1772,MO,Cass County Health Department,18163808425
+1773,MO,Cedar County Health Department,14178765477
+1774,MO,Christian County Health Department,14175817285
+1775,MO,City of St. Joseph Health Department,18162714636
+1776,MO,City of St. Louis Department of Health,1314/6125100
+1777,MO,Clark County Health Department,16607272356
+1778,MO,Clay County Public Health Center,181659542001002
+1779,MO,Clinton County Health Department,18165392144
+1780,MO,Cole County Health Department,157363621813103
+1781,MO,Columbia Area Health Office,15738829861
+1782,MO,Columbia/Boone County Health Department,15738747355
+1783,MO,Cooper County Public Health Center,16608822626
+1784,MO,Crawford County Nursing Service/Health Department,15737752555
+1785,MO,Dade County Health Department,14176372345
+1786,MO,Dallas County Health Department,14173452332
+1787,MO,Daviess County Health Department,16606632414
+1788,MO,Dent County Health Center,15737293106225
+1789,MO,Douglas County Health Department,14176834174
+1790,MO,Dunklin County Health Department,15738889008
+1791,MO,Eastern District Health Office/Missouri Department of Health,13148772800
+1792,MO,Franklin County Department of Health,16365837300
+1793,MO,Gasconade County Health Department,15734863129
+1794,MO,Grundy County Health Department,16603594196
+1795,MO,Harrison County Health Department,16604256324
+1796,MO,Henry County Health Center,16608858193
+1797,MO,Hickory County Health Department,14177452138
+1798,MO,Holt County Health Department,16604462909
+1799,MO,Howard County Health Department,16602483100
+1800,MO,Howell County Health Department,14172567078
+1801,MO,Iron County Health Department,15735467121
+1802,MO,Jackson County Health Department,18164046415
+1803,MO,Jasper County Health Department,1417/3583111
+1804,MO,Jefferson County Health Department,16367973737
+1805,MO,Johnson County Community Health Services,16607476121
+1806,MO,Joplin City Health Department,14176236122
+1807,MO,Kansas City Health Department,1816/5136008
+1808,MO,Knox County Health Department,16603973396
+1809,MO,Laclede County Health Department,14175322135
+1810,MO,Lafayette County Health Department,16602594371
+1811,MO,Lawrence County Health Department,14174662201
+1812,MO,Lewis County Home Health Agency,15737675312
+1813,MO,"5 Health Department DrTroy, MO 63379-4551",16365286117
+1814,MO,Linn County Health Center,16602587251
+1815,MO,Livingston County Health Center,16606465506
+1816,MO,Macon County Health Department,16603954711
+1817,MO,Madison County Health Department,15737832747
+1818,MO,Marion County Health Department and Home Health Agency,15732211166
+1819,MO,McDonald County Health Department,14172234351
+1820,MO,Mercer County Health Department,16607483630
+1821,MO,Miller County Health Department,15733692359
+1822,MO,Mississippi County Health Department,15736832191
+1823,MO,Moniteau County Health Center,15737963412
+1824,MO,Monroe County Health Department,16603274259
+1825,MO,Montgomery County Health Department,15735642495
+1826,MO,Morgan County Health Department,15733785438236
+1827,MO,New Madrid County Health Department,15737485541
+1828,MO,Newton County Health Department,141745137431025
+1829,MO,Nodaway County Health Department,16605622755
+1830,MO,Northeastern District Health Office/Missouri Department of Health,16603853125
+1831,MO,Northwestern District Health Office/Missouri Dept. of Health,18163505400
+1832,MO,Oregon County Health Department,14177787450
+1833,MO,Osage County Health Department,15738973103313
+1834,MO,Ozark County Health Center,14176793334
+1835,MO,Pemiscot County Health Department,1573/3591656
+1836,MO,Perry County Health Department,15735476564222
+1837,MO,Pettis County Health Center,16608271130
+1838,MO,Phelps/Maries County Health Department,1573/4586010
+1839,MO,"1 Healthcare PLBowling Green, MO 63334-3602",1573/3242111
+1840,MO,Platte County Health Department,18168582412
+1841,MO,Polk County Health Center,14173267250
+1842,MO,Pulaski County Health Department,15737362217249
+1843,MO,Ralls County Health Department and Home Health Agency,15739857121
+1844,MO,Randolph County Health Department,16602636643218
+1845,MO,Ray County Health Department,18167765413
+1846,MO,Reynolds County Health Center,15736482498
+1847,MO,Ripley County Public Health Center,15739962181
+1848,MO,Saline County Health Department,16608863434
+1849,MO,Schuyler County Health Department,16604573721
+1850,MO,Scotland County Health Department,16604657275
+1851,MO,Scott County Health Department,15734714044
+1852,MO,Shannon County Health Department,15732263914
+1853,MO,Shelby County Health Department,15736332353
+1854,MO,Southeastern District Health Office/Missouri Dept. of Health,15738409720
+1855,MO,Southwestern District Health Office/Missouri Dept. of Health,14178956900
+1856,MO,Springfield-Greene County Health Department,14178641658
+1857,MO,St. Charles County Health Department,16369497400
+1858,MO,St. Clair County Health Department,14176468332
+1859,MO,St. Francois County Health Center,15734311947125
+1860,MO,St. Louis County Department of Health,13146150600
+1861,MO,Ste. Genevieve County Health Department,15738837411
+1862,MO,Stoddard County Public Health Center,15735684593203
+1863,MO,Stone County Health Department,14173576134
+1864,MO,Sullivan County Health Department,16602654141
+1865,MO,Taney County Health Department,1417/5464725
+1866,MO,Texas County Health Department,14179674131
+1867,MO,Tri-County Health Department,16607832707
+1868,MO,Vernon County Health Department,14176677418
+1869,MO,Warren County Health Department,16364567474
+1870,MO,Washington County Health Department,15734382164
+1871,MO,Wayne County Health Center,15732243218
+1872,MO,Webster County Health Unit,14178592532204
+1873,MO,Wright County Health Department,14177417791
+1874,MT,Anaconda City/Deer Lodge County Health Department,14065637863
+1875,MT,Beaverhead County Public Health Department,14066834771
+1876,MT,Big Horn County Health Department,14066655539
+1877,MT,Blaine County Health Department,14063572345
+1878,MT,Broadwater County Board of Health,14062669270
+1879,MT,Butte-Silver Bow Health Department,14064975020
+1880,MT,Carbon County Health Department,14064469941
+1881,MT,Carter County Health Department,14067758738
+1882,MT,Cascade City-County Health Department,14067919260
+1883,MT,Central Montana Health District Public Health,14065353983
+1884,MT,Chouteau County Health Department,14066223771
+1885,MT,Custer County Public Health,14068748706
+1886,MT,Daniels County Health Department,14067835560
+1887,MT,Dawson County Health Department,14063454113
+1888,MT,Fallon County Health Department,14067782824
+1889,MT,Flathead City-County Health Department,14067518103
+1890,MT,Gallatin City-County Health Department,14065823100
+1891,MT,Garfield County Health Department,14065572050
+1892,MT,Glacier County Health Department,14068735885
+1893,MT,Granite County Health Department,14065315442
+1894,MT,Hill County Health Department,14062655481292
+1895,MT,Jefferson County Health Department,14062254231
+1896,MT,Lake County Health Department,14068837291
+1897,MT,Lewis and Clark City-County Health Department,14064578910
+1898,MT,Liberty County Health Department,14067595181
+1899,MT,Lincoln County Health Department,14062932660
+1900,MT,Madison County Public Health ,14068434295
+1901,MT,McCone County Health Department,14064852444
+1902,MT,Meagher County Health Department,14065473234
+1903,MT,Mineral County Health Department,14068223564
+1904,MT,Missoula City-County Health Department,14062583882
+1905,MT,Park County Health Department,14062224140
+1906,MT,Phillips County Health Department,14066542521
+1907,MT,Pondera County Health Department,14062713247
+1908,MT,Powder River Public Health,14064362297
+1909,MT,Powell County Health Department,14068462420
+1910,MT,Prairie County Health Department,14066352020
+1911,MT,Ravalli County Public Health Nursing Department,14063756670
+1912,MT,Richland County Health Department,14064332207
+1913,MT,RiverStone Health,14062473200
+1914,MT,Roosevelt County Health Department,14066536223
+1915,MT,Rosebud County Health Department,14063462156
+1916,MT,Sanders County Health Department,14068276925
+1917,MT,Sheridan County Health Department,14067651501
+1918,MT,Stillwater County Health Department - Columbus Clinic,14063225316202
+1919,MT,Sweet Grass County Health Department,14069325449
+1920,MT,Teton County Health Department,14064662562
+1921,MT,Toole County Health Department,14064245169
+1922,MT,Treasure County Health Department,14063425886
+1923,MT,Valley County Health Department,14062286263
+1924,MT,Wibaux County Health Department,14067962485
+1925,NE,Central District Health Department,1308385517525
+1926,NE,Dakota County Health Department,14029872161
+1927,NE,Douglas County Health Department,14024447471
+1928,NE,East Central District Health Department,14025639656.
+1929,NE,Elkhorn Logan Valley Health Department,14025292233
+1930,NE,Four Corners Health Department,14023622621
+1931,NE,Lincoln-Lancaster County Health Department,1402441800071
+1932,NE,Loup Basin Public Health Department,13083465795
+1933,NE,Midtown Health Center,14023701072
+1934,NE,North Central District Health Department (NCDHD),14023362406
+1935,NE,Northeast Nebraska Public Health Department,14023752200
+1936,NE,Panhandle Public Health District,13084873600
+1937,NE,Public Health Solutions District Health Department,14028263880
+1938,NE,Sarpy/Cass Health Department,14023394334206
+1939,NE,South Heartland District Health Department,14024626211
+1940,NE,Southeast District Health Department,14022743993
+1941,NE,Southwest Nebraska Public Health Department,13083454223
+1942,NE,Three Rivers District Health Department,1402727539611
+1943,NE,Two Rivers Public Health Department,13089954778
+1944,NE,West Central District Health Department,13086961201
+1945,NV,Carson City Health and Human Services,17752837704
+1946,NV,Churchill County Health Center,17754234434
+1947,NV,Mineral County Public Health Nurses Office,17759453657
+1948,NV,Southern Nevada Health District,17027591000
+1949,NV,Washoe County Health District,17753282400
+1950,NH,Acworth Health Department,16038356879
+1951,NH,Albany Health Department,16034476038
+1952,NH,Alexandria Health Department,16037448243
+1953,NH,Allenstown Health Department,16034854276
+1954,NH,Alstead Health Department,16038352986
+1955,NH,Alton Health Department,16038750107
+1956,NH,Amherst Health Department,16036736041
+1957,NH,Andover Health Department,16037355332
+1958,NH,Antrim Health Department,16035886785
+1959,NH,Ashland Health Department,16039687364
+1960,NH,Atkinson Health Department,16033625266
+1961,NH,Auburn Health Department,16034830516
+1962,NH,Barnstead Health Department,16032694071
+1963,NH,Barrington Health Department,16036645183
+1964,NH,Bartlett Health Department,16033562950
+1965,NH,Bath City Health Department,16037472454
+1966,NH,Bedford Health Department,16034723838
+1967,NH,Belmont Health Department,16032678302
+1968,NH,Bennington Health Department,16035882189
+1969,NH,Benton Health Department,16037876541
+1970,NH,Berlin Health Department,16037521272
+1971,NH,Bethlehem Health Department,16038693351
+1972,NH,Boscawen Health Department,16037539188
+1973,NH,Bow Health Department,1603.223.3960524
+1974,NH,Bradford Health Department,16039385900
+1975,NH,Brentwood Health Department,1603642640010
+1976,NH,Bridgewater Health Department,16037445055
+1977,NH,Bristol Health Department,16037443354
+1978,NH,Brookfield Health Department,16035223688
+1979,NH,Brookline Health Department,16036738855212
+1980,NH,Campton Health Department,16032546605
+1981,NH,Canaan Health Department,16035234501
+1982,NH,Candia Health Department,16034831015
+1983,NH,Canterbury Health Department,16037839955
+1984,NH,Carroll Health Department,16038465754
+1985,NH,Center Harbor Health Department,16032534561
+1986,NH,Charlestown Health Department,16038264400
+1987,NH,Chatham Health Department,16036942043
+1988,NH,Chester Health Department,16038874979
+1989,NH,Chesterfield Health Department,16033634624
+1990,NH,Chichester Health Department,16037985350
+1991,NH,Claremont Health Department,16035427005
+1992,NH,Clarksville Health Department,16032467751
+1993,NH,Colebrook Health Department,160323740704142
+1994,NH,Columbia Health Department,16032375255
+1995,NH,Concord Health Department,16032303639
+1996,NH,Conway Health Department,16034473811
+1997,NH,Cornish Health Department,16036755611
+1998,NH,Croydon Health Department,16037634359
+1999,NH,Dalton Health Department,16038372092
+2000,NH,Danbury Health Department,16037683313
+2001,NH,Danville Health Department,16033828253
+2002,NH,Deerfield Health Department,16034638811
+2003,NH,Deering Health Department,16034643248
+2004,NH,Derry Health Department,16038455519
+2005,NH,Dorchester Health Department,16035237119
+2006,NH,Dover Health Department,16035166038
+2007,NH,Dublin Health Department,16035638544
+2008,NH,Dummer Health Department,16034492006
+2009,NH,Dunbarton Health Department,16037743541
+2010,NH,Durham Health Department,16038688064
+2011,NH,East Kingston Health Department,16036428406
+2012,NH,Easton Health Department,16038238017
+2013,NH,Eaton Health Department,16034472840
+2014,NH,Effingham Health Department,16035397770
+2015,NH,Ellsworth Health Department,16037263551
+2016,NH,Enfield Health Department,16036325026
+2017,NH,Epping Health Department,16036795441
+2018,NH,Epsom Health Department,16037369002
+2019,NH,Errol Health Department,16034823351
+2020,NH,Exeter Health Department,16037736131
+2021,NH,Farmington Health Department,16037552208
+2022,NH,Fitzwilliam Health Department,16035857723
+2023,NH,Francestown Health Department,16035473449
+2024,NH,Franconia Health Department,16038237752
+2025,NH,Franklin Health Department,16039345680
+2026,NH,Freedom Health Department,16035396323
+2027,NH,Fremont Health Department,16038952226
+2028,NH,Gilford Health Department,16035274727
+2029,NH,Gilmanton Health Department,16032676700
+2030,NH,Gilsum Health Department,16033570320
+2031,NH,Goffstown Health Department,16036693068
+2032,NH,Gorham Health Department,16034662549
+2033,NH,Goshen Health Department,16038635080
+2034,NH,Grafton Health Department,16035237700
+2035,NH,Grantham Health Department,16038636021
+2036,NH,Greenfield Health Department,16035473442
+2037,NH,Greenland Health Department,16034317111
+2038,NH,Greenville Health Department,16038782084
+2039,NH,Groton Health Department,16037449190
+2040,NH,Hampstead Health Department,16033294100100
+2041,NH,Hampton Health Department,16039265911
+2042,NH,Hancock Health Department,16035254441
+2043,NH,Hanover Health Department,16036505000
+2044,NH,Harrisville Health Department,16038273431
+2045,NH,Haverhill Health Department,16037876800
+2046,NH,Health and Safety Council of Strafford County,16033350168
+2047,NH,Hebron Health Department,16037442631
+2048,NH,Henniker Health Department,16034283221
+2049,NH,Hill Health Department,16039341094
+2050,NH,Hillsborough Health Department,16036211478
+2051,NH,Hinsdale Health Department,16033365710
+2052,NH,Holderness Health Department,16039682145
+2053,NH,Hollis Health Department,16034652780
+2054,NH,Hooksett Health Department,16034858472
+2055,NH,Hopkinton Health Department,16037462892
+2056,NH,Hudson Health Department,16038866005
+2057,NH,Jackson Health Department,16033834223
+2058,NH,Jaffrey Health Department,16035327445
+2059,NH,Jefferson Health Department,16035864553
+2060,NH,Keene Health Department,16033525440
+2061,NH,Kensington Health Department,16037725423101
+2062,NH,Kingston Health Department,16036423342106
+2063,NH,Laconia Health Department,16035271264
+2064,NH,Lancaster Health Department,16037883391
+2065,NH,Landaff Health Department,16038386220
+2066,NH,Langdon Health Department,16038352389
+2067,NH,Lebanon Health Department,16034481524
+2068,NH,Lee Health Department,16036596783
+2069,NH,Lempster Health Department,16038632698
+2070,NH,Lincoln Health Department,16037452757
+2071,NH,Lisbon Health Department,16038386376
+2072,NH,Litchfield Health Department,16034244592
+2073,NH,Littleton Health Department,1603444399612
+2074,NH,Londonderry Health Department,16034321100115
+2075,NH,Loudon Health Department,16037984541
+2076,NH,Lyman Health Department,16038385900
+2077,NH,Lyme Health Department,16037954639
+2078,NH,Lyndeborough Health Department,16036545955
+2079,NH,Madbury Health Department,16037425131
+2080,NH,Madison Health Department,16033674332
+2081,NH,Manchester Health Department,16036246466
+2082,NH,Marlborough Health Department,16038763751
+2083,NH,Marlow Health Department,16034463426
+2084,NH,Mason Health Department,16038782070
+2085,NH,Meredith Health Department,16036774218
+2086,NH,Merrimack Health Department,16034242331
+2087,NH,Middleton Health Department,16037551083
+2088,NH,Milan Health Department,16034492484
+2089,NH,Milford Health Department,16036737964
+2090,NH,Milton Health Department,16036524501
+2091,NH,Monroe Health Department,16036382644
+2092,NH,Mont Vernon Health Department,16036736080
+2093,NH,Moultonborough Health Department,16034762347
+2094,NH,Nashua Division of Public Health and Community Services,16035894546
+2095,NH,Nelson Health Department,16038470047
+2096,NH,New Boston Health Department,16034875504108
+2097,NH,New Castle Health Department,16034316710
+2098,NH,New Durham Health Department,16038592091
+2099,NH,New Hampton Health Department,16037443559
+2100,NH,New Ipswich Health Department,16038782772
+2101,NH,New London Health Department,16035264761
+2102,NH,Newbury Health Department,16037634940
+2103,NH,Newfields Health Department,16037725070
+2104,NH,Newington Health Department,16034367640
+2105,NH,Newmarket Health Department,16036598501
+2106,NH,Newport Health Department,16038631416
+2107,NH,Newton Health Department,16034988028
+2108,NH,North Country Health Consortium,16035759074702
+2109,NH,North Hampton Health Department,16039608650
+2110,NH,Northfield Health Department,16038480409
+2111,NH,Northumberland Health Department,16036361450
+2112,NH,Northwood Health Department,16039425586
+2113,NH,Nottingham Health Department,16036795022
+2114,NH,Orange Health Department,16035237908
+2115,NH,Orford Health Department,16033534889
+2116,NH,Ossipee Health Department,16035394181
+2117,NH,Pelham Health Department,16036358233
+2118,NH,Pembroke Health Department,16034854747
+2119,NH,Peterborough Health Department,16039248000
+2120,NH,Piermont Health Department,16032382239
+2121,NH,Pittsburg Health Department,16035386697
+2122,NH,Pittsfield Health Department,16034356773
+2123,NH,Plainfield Health Department,16034693201
+2124,NH,Plaistow Health Department,1603382249421
+2125,NH,Plymouth Health Department,16035361731
+2126,NH,Portsmouth Health Department,16036107273
+2127,NH,Randolph Health Department,16034665711
+2128,NH,Raymond Health Department,16038954735116
+2129,NH,Richmond Health Department,16032394232
+2130,NH,Rindge Health Department,16038995181100
+2131,NH,Rochester Code Enforcement and Health Department,16033323508
+2132,NH,Rollinsford Health Department,16037422510
+2133,NH,Roxbury Health Department,16033523700
+2134,NH,Rumney Health Department,16037869511
+2135,NH,Rye Health Department,16039645523
+2136,NH,Salem Health Department,16038902050
+2137,NH,Salisbury Health Department,16036482473
+2138,NH,Sanbornton Health Department,16032868303
+2139,NH,Sandown Health Department,16038873646
+2140,NH,Sandwich Health Department,16032847701
+2141,NH,Seabrook Health Department,16034743871
+2142,NH,Sharon Health Department,16039249250
+2143,NH,Shelburne Health Department,16034662262
+2144,NH,Somersworth Health Department,16036929522
+2145,NH,South Hampton Health Department,16033947696
+2146,NH,Springfield Health Department,16037634805
+2147,NH,Stark Health Department,16036362106
+2148,NH,Stewartstown Health Department,16032463321
+2149,NH,Stoddard Health Department,16034463326
+2150,NH,Strafford Health Department,16036642192
+2151,NH,Stratford Health Department,16039225533
+2152,NH,Stratham Health Department,16037727391
+2153,NH,Sugar Hill Health Department,16038238468
+2154,NH,Sullivan Health Department,16038473316
+2155,NH,Sunapee Health Department,16037632212
+2156,NH,Surry Health Department,16033523075
+2157,NH,Sutton Health Department,16035264928
+2158,NH,Swanzey Health Department,16033527411
+2159,NH,Tamworth Health Department,16033237525
+2160,NH,Temple Health Department,16038782536
+2161,NH,Thornton Health Department,16037264232
+2162,NH,Tilton Health Department,16032864521
+2163,NH,Troy Health Department,16032427722
+2164,NH,Tuftonboro Health Department,1603539453915
+2165,NH,Unity Health Department,16035433102
+2166,NH,Wakefield Health Department,16035226205
+2167,NH,Walpole Health Department,16037563672
+2168,NH,Warner Health Department,16034562298
+2169,NH,Warren Health Department,16037645780
+2170,NH,Washington Health Department,16034953661
+2171,NH,Waterville Valley Health Department,16032368809
+2172,NH,Weare Health Department,16035292572
+2173,NH,Webster Health Department,16036482272
+2174,NH,Wentworth Health Department,16037649955
+2175,NH,Westmoreland Health Department,16033994471
+2176,NH,Whitefield Health Department,16038372551
+2177,NH,Wilmot Health Department,16035264802
+2178,NH,Wilton Health Department,16036549451
+2179,NH,Winchester Health Department,16032394951
+2180,NH,Windham Health Department,16034323806
+2181,NH,Windsor Health Department,16034783293
+2182,NH,Wolfeboro Health Department,16035698161
+2183,NH,Woodstock Health Department,16037458752
+2184,NJ,Atlantic City Health Department,16093475663
+2185,NJ,Atlantic County Division of Public Health,16096455935
+2186,NJ,Bayonne Health Department,12018586112
+2187,NJ,Bergen County Department of Health Services,12016342601
+2188,NJ,Bergenfield Health Department,120138740555
+2189,NJ,Bernards Township Health Department,19082043067
+2190,NJ,Bloomfield Health Department,19736804026
+2191,NJ,Branchburg Township Health Department,19085261300183
+2192,NJ,Bridgewater Township Division of Health,19087256300
+2193,NJ,Burlington County Health Department,16092655548
+2194,NJ,Camden County Department of Health & Human Services,18563746037
+2195,NJ,Cape May County Health Department,16094651187
+2196,NJ,City of Clifton Health and Human Resources,19783655603
+2197,NJ,City of Englewood Department of Health,12015683450
+2198,NJ,City of Newark Department of Health & Human Services,19737335310
+2199,NJ,City of Trenton Department of Health,16099893242106
+2200,NJ,City of Vineland Health Department,18567944000
+2201,NJ,Clark Health Department,17324288405
+2202,NJ,Clifton Health Department,19734705758
+2203,NJ,Closter Boro Board of Health,120178406003
+2204,NJ,Colts Neck Township Health Department,17324625470109
+2205,NJ,County of Sussex Department of Health and Human Services,197357903701243
+2206,NJ,Cranford Board of Health,19087097240
+2207,NJ,Cumberland County Department of Health,185632776021109
+2208,NJ,Denville Township Health Department,19736258300261
+2209,NJ,Dover Health Department,19733662200
+2210,NJ,East Hanover Township Health Department,19734283035
+2211,NJ,East Orange Health Department,19732665480
+2212,NJ,Edison Department of Health and Human Resources,17322487290
+2213,NJ,Elizabeth Department of Health and Human Services,19088204060
+2214,NJ,Elmwood Park Department of Health,12017961457
+2215,NJ,Essex County Health Department,19734979401
+2216,NJ,Essex Regional Health Commission,19732512059
+2217,NJ,Ewing Township Health Department,160988329007691
+2218,NJ,Fair Lawn Health Department,12017945330
+2219,NJ,Fort Lee Department of Health,120159235001510
+2220,NJ,Freehold Township Health Department,17322942060
+2221,NJ,Gloucester County Department of Health,18562184131
+2222,NJ,Hackensack Department of Health,12016463965
+2223,NJ,Hamilton Township Department of Health,16098903820
+2224,NJ,Hanover Township Health Department,19734282485
+2225,NJ,Harrison Health Department,19732682441
+2226,NJ,Hillsborough Township Board of Health,19083695652
+2227,NJ,Hoboken Health Department,12014202375
+2228,NJ,Hopatcong Board of Health,19737701200
+2229,NJ,Hopewell Township Health Department,16097370120
+2230,NJ,Hudson Regional Health Commission,12012231133
+2231,NJ,Hunterdon County Health Department,19087881351
+2232,NJ,Irvington Health Department,19733996645
+2233,NJ,Jefferson Township Health Department,19736630700
+2234,NJ,Jersey City Division of Health,12015475545
+2235,NJ,Kearny Health Department,12019970600
+2236,NJ,Lawrence Township Health Department,16098447090
+2237,NJ,Lincoln Park Health Department,19732702036
+2238,NJ,Linden Board of Health,19084748409
+2239,NJ,Little Falls Health Department,19732560170
+2240,NJ,Livingston Health Department,19735357961
+2241,NJ,Long Beach Island Health Department,16094921212
+2242,NJ,Long Branch Department of Health,17325715665
+2243,NJ,Madison Boro Board of Health,19735933079
+2244,NJ,Manalapan Township Board of Health,17324468345
+2245,NJ,Mercer County Division of Public Health,16099245176
+2246,NJ,Mid-Bergen Regional Health Commission,12015996290
+2247,NJ,Middle-Brook Regional Health Commission,17329685151
+2248,NJ,Middlesex County Public Health Department,17327453121
+2249,NJ,Monmouth County Health Department,17324317456
+2250,NJ,Monmouth County Regional Health Commission,17324939520
+2251,NJ,Montclair Department of Health and Human Services,19735094970
+2252,NJ,Montgomery Township Health Department,19083598211245
+2253,NJ,Montville Township Health Department,19733313316
+2254,NJ,Morris County Office of Health Management,19736315485
+2255,NJ,Morristown Division of Health,19732961975
+2256,NJ,Mount Olive Township Health Department,197369109007330
+2257,NJ,North Bergen Health Department,12013922084
+2258,NJ,North West Bergen Regional Health Commission,12014457217
+2259,NJ,Ocean County Health Department,17323419700
+2260,NJ,Palisades Park Health Department,12015854106
+2261,NJ,Paramus Board of Health,12012652100755
+2262,NJ,Parsippany Health Department,19732637160
+2263,NJ,Passaic County Health Department,19738814396
+2264,NJ,Paterson Department of Health,19733211277
+2265,NJ,Pequannock Township Board of Health,19738355700
+2266,NJ,Plainfield Health Department,19087533092
+2267,NJ,Princeton Regional Health Commission,16094977608
+2268,NJ,Rahway Health Department,17328272099
+2269,NJ,Randolph Township Board of Health,19739897050
+2270,NJ,Ridgefield Health Department,12019436062
+2271,NJ,Ringwood Health Department,19739627079
+2272,NJ,Rockaway Township Division of Health,19739832848
+2273,NJ,Roxbury Township Health Department,19734482028
+2274,NJ,Salem County Health Department,185693575108609
+2275,NJ,Somerset County Health Department,19082317155
+2276,NJ,South Brunswick Township Health Department,173232940007237
+2277,NJ,South Orange Health Department,197337877152020
+2278,NJ,Teaneck Department of Health and Human Services,120183716001053
+2279,NJ,Township of Maplewood Health Department,19737628120
+2280,NJ,Township of Union Department of Health,19088518507
+2281,NJ,Township of Washington Local Health Agency,12016668512
+2282,NJ,Union County Office of Health Management,19085185625
+2283,NJ,Warren County Health Department,19084757960
+2284,NJ,Washington Township Health Department,19088763650
+2285,NJ,Wayne Health Department,19736941800
+2286,NJ,West Caldwell Health Department,19732262303
+2287,NJ,West Milford Health Department,19737282720
+2288,NJ,West New York Health Department,12012955070
+2289,NJ,West Orange Health Department,19733254124
+2290,NJ,West Windsor Health Department,16099368400
+2291,NJ,Westfield Regional Health Department,190878940704073
+2292,NJ,Westwood Board of Health,12016647100
+2293,NJ,Woodbridge Township Department of Health and Human Services,173285506005026
+2294,NM,Albuquerque City Environmental Health Department,15057682600
+2295,NM,Bernalillo County - North Valley Public Health Office,15058975700
+2296,NM,Bernalillo County - Northeast Heights Public Health Office,15053324850
+2297,NM,Bernalillo County - Southeast Public Health Office,15058418928
+2298,NM,Bernalillo County - Southwest Public Health Office,15058737478
+2299,NM,Bernalillo County - Stanford Public Health Office,15058414100
+2300,NM,Bernalillo County Environmental Health Department,15053140310
+2301,NM,Catron County Public Health Office,15055336432
+2302,NM,Chaves County - Dexter Public Health Office,15057345582
+2303,NM,Chaves County - Roswell Health Office,15056246050
+2304,NM,Cibola County Public Health Office,15052854601
+2305,NM,Colfax County Public Health Office,15054453601
+2306,NM,Curry County Public Health Office,15057635583
+2307,NM,De Baca County Public Health Office,15053552362
+2308,NM,Dona Ana County - Anthony Public Health Office,15058825858
+2309,NM,Dona Ana County - Chaparral Public Health Office,15053552362
+2310,NM,Dona Ana County - Dona Ana Village Public Health Office,15053552362
+2311,NM,Dona Ana County - East Mesa Public Health Office,15053552362
+2312,NM,Dona Ana County - Hatch Public Health Office,15052675213
+2313,NM,Dona Ana County - Las Cruces Central Public Health Office,15055285000
+2314,NM,Dona Ana County - Las Cruces West Public Health Office,15055237202
+2315,NM,Dona Ana County - Sunland Park Public Health Office,15055892543
+2316,NM,Eddy County - Carlsbad Public Health Office,15058854191
+2317,NM,Grant County Public Health Office,15055385318
+2318,NM,Guadalupe County Public Health Office,15054723211
+2319,NM,Harding County Public Health Office,15056732251
+2320,NM,Hidalgo County Public Health Office,15055429391
+2321,NM,Lea County - Hobbs Public Health Office,15053972463
+2322,NM,Lea County - Lovington Public Health Office,15053962853
+2323,NM,Lincoln County Health Office,15052583252
+2324,NM,Los Alamos County Public Health Office,15056624038
+2325,NM,Luna County Public Health Office,15055462771
+2326,NM,McKinley County - Crown Point Healthcare Facility,15057866424
+2327,NM,McKinley County Public Health Office,15057224391
+2328,NM,Mora County Public Health Office,15053872748
+2329,NM,"New Mexico Department of Health, Northern Region",15058272389
+2330,NM,"New Mexico Department of Health, Southern Region",15755285001
+2331,NM,Otero County - Holloman Public Health Office,15055727369
+2332,NM,Otero County - Tularosa Public Health Office,15055853019
+2333,NM,Otero County Public Health Office,15054379340
+2334,NM,Rio Arriba County Health Commons,15057532794
+2335,NM,Rio Arriba North Public Health Office,15055887215
+2336,NM,Roosevelt County Public Health Office,15053564453
+2337,NM,San Juan County - Bloomfield Public Health Office,15056340229
+2338,NM,San Juan County Public Health Office,15053274461
+2339,NM,San Miguel County Public Health Office,15054259368
+2340,NM,Sandoval Commons Public Health Office,15058672291
+2341,NM,Sandoval County - Cuba Public Health Office,15052893718
+2342,NM,Santa Fe County Health Office,15054762600
+2343,NM,Sierra County Public Health Office,15058942716
+2344,NM,Socorro County Health Office,15758350971
+2345,NM,Taos County Public Health Office,15057582073
+2346,NM,Torrance County - Moriarty Public Health Office,15058326782
+2347,NM,Torrance County Public Health Office,15053842351
+2348,NM,Union County Public Health Office,15053748393
+2349,NM,Valencia County - Belen Public Health Office,15058610835
+2350,NM,Valencia County - Los Lunas Public Health Office,15058415315
+2351,NY,Albany County Department of Health,15184474695
+2352,NY,Allegany County Health Department,15852689250
+2353,NY,Broome County Health Department,16077782802
+2354,NY,Cattaraugus County Health Department,17167013419
+2355,NY,Cayuga County Department of Health and Human Services,13152531560
+2356,NY,Chautauqua County Health Department,17167534590
+2357,NY,Chemung County Health Department,16077372868
+2358,NY,Chenango County Public Health,16073371650
+2359,NY,Clinton County Department of Public Health,15185654840
+2360,NY,Columbia County Department of Health,15188283358
+2361,NY,Cortland County Health Department,16077535135
+2362,NY,Delaware County Public Health Services,16078325154
+2363,NY,Dutchess County Department of Behavioral and Community Health,18454863432
+2364,NY,Erie County Department of Health,17168586976
+2365,NY,Essex County Public Health Department,15188733515
+2366,NY,Franklin County Public Health Services,15184811710
+2367,NY,Fulton County Public Health Department,15187365720
+2368,NY,Genesee County Health Department,158534425805555
+2369,NY,Greene County Public Health Department,15187193630
+2370,NY,Hamilton County Public Health Nursing Service,15186486497
+2371,NY,Herkimer County Public Health Nursing Service,13158671176
+2372,NY,Jefferson County Public Health Service,13157863710
+2373,NY,Lewis County Public Health Agency,13153765453
+2374,NY,Livingston County Department of Health,15852437270
+2375,NY,Madison County Health Department,13153662361
+2376,NY,Monroe County Department of Public Health,15857532989
+2377,NY,Montgomery County Public Health,15188533531
+2378,NY,Nassau County Department of Health,15162279500
+2379,NY,New York City Department of Health and Mental Hygiene,13473964131
+2380,NY,Niagara County Health Department,17164397435
+2381,NY,Oneida County Health Department,13157985220
+2382,NY,Onondaga County Health Department,13154353155
+2383,NY,Ontario County Public Health,15853964343
+2384,NY,Orange County Department of Health,18452912332
+2385,NY,Orleans County Health Department,15855893250
+2386,NY,Oswego County Health Department,13153493540
+2387,NY,Otsego County Department of Health,16075474230
+2388,NY,Putnam County Health Department,18458081390
+2389,NY,Rensselaer County Health Department,15182702626
+2390,NY,Rockland County Department of Health,18453642512
+2391,NY,Saratoga County Public Health Nursing Services,151858474608333
+2392,NY,Schenectady County Public Health Services,15183862810
+2393,NY,Schoharie County Health Department,15182958365
+2394,NY,Schuyler County Public Health,16075358140
+2395,NY,Seneca County Health Department,13155391925
+2396,NY,St. Lawrence County Health Department,13153862325
+2397,NY,Steuben County Public Health ,16076642438
+2398,NY,Suffolk County Department of Health Services,16318540100
+2399,NY,Sullivan County Public Health Services,184529259102179
+2400,NY,Tioga County Health Department,16076878630
+2401,NY,Tompkins County Health Department,16072746674
+2402,NY,Ulster County Health Department,18453403009
+2403,NY,Warren County Health Services,15187616580
+2404,NY,Washington County Public Health Department,15187462400
+2405,NY,Wayne County Public Health Service,13159465749
+2406,NY,Westchester County Health Department,19148647292
+2407,NY,Wyoming County Health Department,15857868890
+2408,NY,Yates County Public Health Department,131553651605195
+2409,NC,Alamance County Health Department,13365135514
+2410,NC,Albemarle Regional Health Services,12526826118
+2411,NC,Alexander County Health Department,"182863297046,then1"
+2412,NC,Anson County Health Department,17046945188
+2413,NC,Appalachian District Health Department (AppHealthCare),18282644995
+2414,NC,Beaufort County Health Department,12529461902
+2415,NC,Bladen County Health Department,19108626900
+2416,NC,Brunswick County Health Department,19102532250
+2417,NC,Buncombe County Health Department,18282505211
+2418,NC,Burke County Health Department,18287649160
+2419,NC,Cabarrus Health Alliance,17049201000
+2420,NC,Caldwell County Health Department,18284268400
+2421,NC,Carteret County Health Department,12527288550
+2422,NC,Caswell County Health Department,13366944129157
+2423,NC,Catawba County Health Department,18286955801
+2424,NC,Chatham County Public Health Department,19195428215
+2425,NC,Cherokee County Health Department,18288377486
+2426,NC,Clay County Health Department,18283898052
+2427,NC,Cleveland County Health Department,17044845100
+2428,NC,Columbus County Health Department,191064066157016
+2429,NC,Craven County Health Department,12526364960
+2430,NC,Cumberland County Health Department,19104333600
+2431,NC,Dare County Health Department,12524755093
+2432,NC,Davidson County Health Department,13362422349
+2433,NC,Davie County Health Department,13367518700
+2434,NC,Duplin County Health Department,19102962130
+2435,NC,Durham County Health Department,19195607650
+2436,NC,Edgecombe County Health Department,12526417531
+2437,NC,Forsyth County Department of Public Health,13367033100
+2438,NC,Franklin County Health Department,19194968110
+2439,NC,Gaston County Department of Health and Human Services,17048535260
+2440,NC,Graham County Health Department,18284797900
+2441,NC,Granville Vance District Health Department,19196143447
+2442,NC,Greene County Health Department,12527478183
+2443,NC,Guilford County Department of Public Health,13366413288
+2444,NC,Halifax County Department of Health,12525835021
+2445,NC,Harnett County Health Department,19108937550
+2446,NC,Haywood County Health Department,18284526675
+2447,NC,Henderson County Department of Public Health,18286924223234
+2448,NC,Hoke County Health Center,19108753717
+2449,NC,Hyde County Health Department,12529264387
+2450,NC,Iredell County Health Department,17048785300
+2451,NC,Jackson County Department of Public Health,18285868994
+2452,NC,Johnston County Health Department,19199895200
+2453,NC,Jones County Health Department,12524489111
+2454,NC,Lee County Health Department,191971846405388
+2455,NC,Lenoir County Health Department,12525264200
+2456,NC,Lincoln County Health Department,17047353001
+2457,NC,Macon County Public Health Center,18283492081
+2458,NC,Madison County Health Department,18286499078
+2459,NC,Mecklenburg County Health Department,19803149020
+2460,NC,Montgomery County Health Department,19105721393
+2461,NC,Moore County Health Department,19109473300
+2462,NC,Nash County Health Department,12524599819
+2463,NC,New Hanover County Health Department,19107986500
+2464,NC,Northampton County Health Department,12525345841
+2465,NC,Onslow County Health Department,19109893983
+2466,NC,Orange County Health Department,191924524112412
+2467,NC,Pamlico County Health Department,12527455111
+2468,NC,Pender County Health Department,19102591230
+2469,NC,Person County Health Department,13365972204
+2470,NC,Pitt County Public Health Center,12529022300
+2471,NC,Polk County Health Department,18288948271
+2472,NC,Randolph County Health Department,13363186217
+2473,NC,Richmond County Health Department,19109978365
+2474,NC,Robeson County Health Department,19106713404
+2475,NC,Rockingham County Health Department,13363428143
+2476,NC,Rowan County Health Department,17042168777
+2477,NC,Sampson County Health Department,19105921131
+2478,NC,Scotland County Health Department,19102772440
+2479,NC,Stanly County Health Department,17049863000
+2480,NC,Stokes Family Health Center,13365932400
+2481,NC,Surry County Health and Nutrition Center,13364018411
+2482,NC,Swain County Health Department,18284883198
+2483,NC,Transylvania County Health Department,18288843135228
+2484,NC,Union County Health Department,17042964800
+2485,NC,Warren County Health Department,12522571185
+2486,NC,Wayne County Health Department,19197311302
+2487,NC,Wilkes County Health Department,13366517464
+2488,NC,Wilson County Department of Pubic Health,125229154706276
+2489,NC,Yadkin County Health Department,13366794203
+2490,ND,Bismarck-Burleigh Public Health,17013551540
+2491,ND,Cavalier County Health District,17012562402
+2492,ND,Central Valley Health District,17012528130
+2493,ND,City-County Health District,17018458542
+2494,ND,Custer District Health Unit,17016673370
+2495,ND,Dickey County Health District,17013494348
+2496,ND,Emmons County Public Health,17012544027
+2497,ND,Fargo/Cass Public Health,17012411360
+2498,ND,First District Health Unit,17018521376
+2499,ND,Foster County Community Health Department,17016523087
+2500,ND,Grand Forks Public Health Department,17017878100
+2501,ND,Kidder County District Health Unit,17014752582
+2502,ND,LaMoure County Public Health Department,17018835356
+2503,ND,Lake Region District Health Unit,17016627035
+2504,ND,McIntosh District Health Unit,17012883957
+2505,ND,Nelson-Griggs District Health Unit,17013225624
+2506,ND,Pembina County Health Department,17012654248
+2507,ND,Ransom County Public Health,17016836151
+2508,ND,Richland County Health Department,17016427735
+2509,ND,Rolette County Public Health District,17014775646
+2510,ND,Sargent County District Health Unit,17017243725
+2511,ND,Southwestern District Health Unit,17014830171
+2512,ND,Steele County Public Health Department,17015242060
+2513,ND,Towner County Public Health District,17019684353
+2514,ND,Traill District Health Unit,17016364434
+2515,ND,Upper Missouri District Health Unit,17017746400
+2516,ND,Walsh County Health District,17013525139
+2517,ND,Wells County District Health Unit,17015473756
+2518,OH,Adams County Health District,19375445547
+2519,OH,Allen County Health Department,14192284457
+2520,OH,Alliance City Health Department,13308217373
+2521,OH,Ashland County Health Department,14192824226
+2522,OH,Ashtabula City Health District,14409927123
+2523,OH,Ashtabula County Health District,14405766010
+2524,OH,Athens County Health Department,17405924431
+2525,OH,Auglaize County Health District,14197383410104
+2526,OH,Belmont County Health Department,17406951202
+2527,OH,Belpre City Health Department,17404237592
+2528,OH,Brown County Health Department,19373786892
+2529,OH,Butler County Health Department,15138631770
+2530,OH,Cambridge-Guernsey County Health District,17404393577
+2531,OH,Canton City Public Health,13304893231
+2532,OH,Carroll County Health District,13306274866
+2533,OH,Champaign County Health District,19374841605
+2534,OH,Cincinnati Health Department,15133577280
+2535,OH,City of Findlay Health District,14194247105
+2536,OH,City of Girard Health District,13305456048
+2537,OH,City of Hamilton Health Department,15137857080
+2538,OH,Clark County Combined Health District,19373905600291
+2539,OH,Clermont County General Health District,15137327499
+2540,OH,Cleveland City Department of Public Health,12166642300
+2541,OH,Clinton County Health District,19373827221
+2542,OH,Columbiana County Health District,13304240272
+2543,OH,Columbus Public Health,16146457417
+2544,OH,Conneaut City Health District,14405933087
+2545,OH,Coshocton City Health Department,17406221426
+2546,OH,Coshocton County Health Department,17406221736112
+2547,OH,Crawford County General Health District,14195625871
+2548,OH,Cuyahoga County Board of Health,12162012001
+2549,OH,Darke County Health District,19375484196
+2550,OH,Defiance County General Health District,14197843818
+2551,OH,Delaware General Health District,17403681700
+2552,OH,District Board of Health Mahoning County,13302702855144
+2553,OH,East Liverpool City Health District,13303857400
+2554,OH,Erie County Health Department,14196265623
+2555,OH,Fairfield County Health District,17406534489
+2556,OH,Fayette County Health Department,17403355910
+2557,OH,Franklin County Health District,16145254722
+2558,OH,Fulton County Health Department,14193370915
+2559,OH,Galion City Health Department,14194681075
+2560,OH,Gallia County Health District,17404412018
+2561,OH,Geauga County Health District,14402791900
+2562,OH,Greene County Combined Health District,19373745630
+2563,OH,Hamilton County General Health District,15139467800
+2564,OH,Hancock County Health Department,14194247869
+2565,OH,Harrison County Health Department,17409422616
+2566,OH,Henry County Health Department,14195995545
+2567,OH,Highland County Health District,19373931941
+2568,OH,Hocking County Health Department,17403853030
+2569,OH,Holmes County Health District,13306745035
+2570,OH,Huron County Public Health,14196681652
+2571,OH,Jackson County Health Department,17402865094224
+2572,OH,Jefferson County Health Department,17402838530
+2573,OH,Kent City Health District,13306788109
+2574,OH,Kenton-Hardin County Health District,14196736230
+2575,OH,Knox County Health Department,17403922200
+2576,OH,Lake County General Health District,14403502543
+2577,OH,Lawrence County Health District,17405323962
+2578,OH,Licking County Health District,17403496535
+2579,OH,Logan County Health District,19375929040
+2580,OH,Lorain County Health District,14403226367
+2581,OH,Madison County Public Health,17408523065
+2582,OH,Marietta/Belpre City Health Department,17403730611
+2583,OH,Marion Public Health ,17403876520
+2584,OH,Massillon City Health District,13308301711
+2585,OH,Medina County Health District,13307239511
+2586,OH,Meigs County Health Department,17409926626
+2587,OH,Mercer County Health District,14195863251
+2588,OH,Miami County Public Health ,19375733521
+2589,OH,Middletown City Health District,15134251818
+2590,OH,Monroe County Health Department,17404721677
+2591,OH,Morgan County Health District,17409624572
+2592,OH,Morrow County Health Department,14199471545
+2593,OH,New Philadelphia City Health Department,133036444911208
+2594,OH,Noble County Health Department,17407324958
+2595,OH,Norwood City Health District,15134584600
+2596,OH,Oakwood City Health District,19372980402
+2597,OH,Ottawa County Health Department,14197346800
+2598,OH,Paulding County Health District,14193993921
+2599,OH,Perry County Health Department,17403425179
+2600,OH,Pickaway County Health District,17404779667
+2601,OH,Pike County Health District,17409477721
+2602,OH,Piqua City Health District,19377782060
+2603,OH,Portage County Health District,13302969919
+2604,OH,Portsmouth City Health District,17403535153
+2605,OH,Preble County Public Health,19374720087
+2606,OH,Public Health-Dayton and Montgomery County,19372254397
+2607,OH,Putnam County Health Department,14195235608223
+2608,OH,Richland Public Health,14197744500
+2609,OH,Ross County Health District,17407799652
+2610,OH,Salem City Health District,13303321618
+2611,OH,Sandusky County Health District,14193346377
+2612,OH,Scioto County Health District,17403558358
+2613,OH,Seneca County General Health District,14194473691
+2614,OH,Sharonville City Health District,15135631722
+2615,OH,Shelby City Health Department,14193425226
+2616,OH,Sidney-Shelby County Health Department,19374987249
+2617,OH,Southwest Ohio Public Health,15135158594
+2618,OH,Springdale City Health District,15133465725
+2619,OH,St. Bernard City Health District,15132427709
+2620,OH,Stark County Combined General Health District,13304939904
+2621,OH,Struthers City Health Department,13307552181
+2622,OH,Summit County Public Health ,13309234891
+2623,OH,Toledo-Lucas County Health Department,14192134100
+2624,OH,Trumbull County Health Department,13306757805
+2625,OH,Tuscarawas County Health District,13303434928
+2626,OH,Union County Health Department,193764520352045
+2627,OH,Union County Health District,19376422053
+2628,OH,Van Wert County Health District,14192380808
+2629,OH,Vinton County Health Department,17405965233
+2630,OH,Warren City Health District,13308412612
+2631,OH,Warren County Combined Health District,15136951228
+2632,OH,Washington County Health Department,17403742782
+2633,OH,Wayne County Health District,12162649590
+2634,OH,Williams County Health District,14194853141
+2635,OH,Wood County Health District,141935284023257
+2636,OH,Wyandot County Public Health,14192943852
+2637,OH,Youngstown City Health District,13307433333
+2638,OH,Zanesville-Muskingum County Health Department,17404549741
+2639,OK,Adair County Health Department,19186967292
+2640,OK,Atoka County Health Department,14058892116
+2641,OK,Beaver County Health Department,15806253693
+2642,OK,Beckham County Health Department,15802251173
+2643,OK,Blaine County Health Department,15806237974
+2644,OK,Bryan County Health Department,15809244285
+2645,OK,Caddo County Health Department,14052472507
+2646,OK,Canadian County Health Department,14052620042
+2647,OK,Carter County Health Department,15802239705
+2648,OK,Cherokee County Health Department,19184568826
+2649,OK,Choctaw County Health Department,15803268821
+2650,OK,Cimarron County Health Department,15085467419
+2651,OK,Cleveland County Health Department,14053214048
+2652,OK,Coal County Health Department,15809272367
+2653,OK,Comanche County Health Department,15802485890
+2654,OK,Cotton County Health Department,15808756121
+2655,OK,Craig County Health Department,19182567531
+2656,OK,Creek County Health Department,19182245531
+2657,OK,Custer County Health Department,15803232100
+2658,OK,Delaware County Health Department,19182534511
+2659,OK,Garfield County Health Department,15802330650
+2660,OK,Garvin County Health Department,14052387346
+2661,OK,Grady County Health Department,14052242022
+2662,OK,Grant County Health Department,15803952906
+2663,OK,Greer County Health Department,15807825531
+2664,OK,Harmon County Health Department,15806883348
+2665,OK,Harper County Health Department,15809212029
+2666,OK,Haskell County Health Department,19189673304
+2667,OK,Jackson County Health Department,15804827308
+2668,OK,Jefferson County Health Department,15802282313
+2669,OK,Johnston County Health Department,15803712470
+2670,OK,Kay County Health Department,15807621641
+2671,OK,Kingfisher County Health Department,14053753008
+2672,OK,Kiowa County Health Department,15807263316
+2673,OK,Latimer County Health Department,19184655673
+2674,OK,LeFlore County Health Department,19186478601
+2675,OK,Lincoln County Health Department,14052582640
+2676,OK,Logan County Health Department,14052823485
+2677,OK,Love County Health Department,15802762531
+2678,OK,Major County Health Department,15802273362
+2679,OK,Marshall County Health Department,15807953705
+2680,OK,Mayes County Health Department,19188254224
+2681,OK,McClain County Health Department,14055276541
+2682,OK,McCurtain County Health Department,15802866628
+2683,OK,McIntosh County Health Department,19186897774
+2684,OK,Murray County Health Department,15806224056
+2685,OK,Muskogee County Health Department,19186830321
+2686,OK,Noble County Health Department,15803362257
+2687,OK,Okfuskee County Health Department,19186231800
+2688,OK,Oklahoma City-County Health Department,14054254455
+2689,OK,Okmulgee County Health Department,19187561883
+2690,OK,Osage County Health Department,19182873740
+2691,OK,Ottawa County Health Department,19185402481
+2692,OK,Pawnee County Health Department,19187623643
+2693,OK,Payne County Health Department,14053728200
+2694,OK,Pittsburg County Health Department,19184231267
+2695,OK,Pontotoc County Health Department,15803321891
+2696,OK,Pottawatomie County Health Department,14052732157
+2697,OK,Pushmataha County Health Department,15802986624
+2698,OK,Rogers County Health Department,19183413166
+2699,OK,Seminole County Health Department,14052575401
+2700,OK,Sequoyah County Health Department,19187756189
+2701,OK,Stephens County Health Department,15802520270
+2702,OK,Texas County Health Department,15803388544
+2703,OK,Tillman County Health Department,15803352163
+2704,OK,Tulsa City-County Health Department,19185954404
+2705,OK,Wagoner County Health Department,19184853022
+2706,OK,Washington County Health Department,19183353005
+2707,OK,Woods County Health Department,15803273192
+2708,OK,Woodward County Health Department,15802566416
+2709,OR,Baker County Health Department,15415238211
+2710,OR,Benton County Health Department,15417666835
+2711,OR,Clackamas County Public Health Division,15035050214
+2712,OR,Clatsop County Department of Public Health,150332585001912
+2713,OR,Columbia County Department of Public Health ,15033977247
+2714,OR,Coos Health & Wellness,15412666774510
+2715,OR,Crook County Health Department,15414163986
+2716,OR,Curry County Health and Human Services,15412473300
+2717,OR,Deschutes County Health Department,15413227400
+2718,OR,Douglas County Health and Social Services,15414403500
+2719,OR,Grant County Health Office,15416769161
+2720,OR,Harney County Health Department,15415732271
+2721,OR,Hood River County Health Department,15413876884
+2722,OR,Jackson County Health and Human Services,15417748209
+2723,OR,Jefferson County Health Department,15414754456
+2724,OR,Josephine County Public Health Department,15414745325
+2725,OR,Klamath County Department of Public Health,15418828846
+2726,OR,Lake County Public Health Department,15419476045
+2727,OR,Lane County Public Health Department,15416824035
+2728,OR,Lincoln County Health and Human Services,15412654112
+2729,OR,Linn County Health Department,15419673888
+2730,OR,Malheur County Health Department,15418897279120
+2731,OR,Marion County Health Department,15035885357
+2732,OR,Morrow County Health Department,15416765421
+2733,OR,Multnomah County Health Department,1503.988.3674
+2734,OR,North Central Public Health District,15415062600
+2735,OR,Polk County Public Health,15036238175
+2736,OR,Tillamook County Health Department,15038423900
+2737,OR,Umatilla County Public Health Department,15412785432
+2738,OR,Union County Health Department,15419628800
+2739,OR,Wallowa County Health Department,15414264848
+2740,OR,Washington County Department of Health and Human Services,15038464745
+2741,OR,Wheeler County Health Department,15417632725
+2742,OR,Yamhill County Health and Human Services/Public Health,15034347525
+2743,PA,Adams County State Health Center,17173342112
+2744,PA,Allegheny County Health Department,14126872243
+2745,PA,Allentown City Bureau of Health,16104377760
+2746,PA,Armstrong County State Health Center,17245432700
+2747,PA,Beaver County State Health Center,17247741385
+2748,PA,Bedford County State Health Center,18146232001
+2749,PA,Berks County Community Health Project - Berks Visiting Nurse Association,16103780481168
+2750,PA,Bethlehem Health Bureau,16108657083
+2751,PA,Blair County State Health Center,18149467300
+2752,PA,Bradford County State Health Center,15702652194
+2753,PA,Bucks County Department of Health,12153453318
+2754,PA,Cambria County State Health Center,18142483120
+2755,PA,Carbon County State Health Center,15703256106
+2756,PA,Centre County State Health Center,18148650932
+2757,PA,Chester County Health Department,16103446225
+2758,PA,City of Harrisburg Health Department,17172556553
+2759,PA,Clarion County State Health Center,18142262170
+2760,PA,Clearfield County State Health Center,18147650542
+2761,PA,Clinton County State Health Center,15708932437
+2762,PA,Columbia County State Health Center,15703874258
+2763,PA,Crawford County State Health Center,18143326947
+2764,PA,Cumberland County State Health Center,17172435151
+2765,PA,Dauphin County State Health Center,17173461470
+2766,PA,Delaware County State Health Center,16104473250
+2767,PA,Elk County State Health Center,18148345351
+2768,PA,Erie County Department of Health,18144516701
+2769,PA,Fayette County State Health Center,17244397400
+2770,PA,Forest County State Health Center,18147553564
+2771,PA,Franklin County State Health Center,17172634143
+2772,PA,Fulton County State Health Center,17174855137
+2773,PA,Greene County State Health Center,17246273168
+2774,PA,Huntingdon County State Health Center,18146271251
+2775,PA,Indiana County State Health Center,17243572995
+2776,PA,Jefferson County State Health Center,18149386630
+2777,PA,Juniata County State Health Center,17175274185
+2778,PA,Lackawanna County State Health Center,15709634567
+2779,PA,Lancaster County State Health Center,17172997597
+2780,PA,Lawrence County State Health Center,17246563088
+2781,PA,Lebanon County State Health Center,17172722044
+2782,PA,Lehigh County State Health Center,16108216770
+2783,PA,Luzerne County State Health Center,15708262071
+2784,PA,Lycoming County State Health Center,15703273440
+2785,PA,McKean County State Health Center,18143680426
+2786,PA,Mercer County State Health Center,17246624000
+2787,PA,Mifflin County State Health Center,17172421452
+2788,PA,Monroe County State Health Center,15704243020
+2789,PA,Montgomery County Department of Health,16102785117
+2790,PA,Montour County State Health Center,15702757092
+2791,PA,Northampton County Board of Health,16102506729
+2792,PA,Northampton County State Health Center,16102501825
+2793,PA,Northumberland County State Health Center,15709885513
+2794,PA,Perry County State Health Center,17175672011
+2795,PA,Philadelphia Department of Public Health,12156869009
+2796,PA,Pike County State Health Center,15702966512
+2797,PA,Potter County State Health Center,18142743626
+2798,PA,Schuylkill County State Health Center,15706213112
+2799,PA,Snyder County State Health Center,15708375915
+2800,PA,Somerset County State Health Center,18144457981
+2801,PA,Susquehanna County State Health Center,15702783889
+2802,PA,Tioga County State Health Center,15707242911
+2803,PA,Union County State Health Center,15705231124
+2804,PA,Venango County State Health Center,18146770672
+2805,PA,Warren County State Health Center,18147233566
+2806,PA,Washington County State Health Center,17242234540
+2807,PA,Wayne County State Health Center,15702537141
+2808,PA,Westmoreland County State Health Center,17248325315
+2809,PA,Wilkes-Barre City Health Department,15702084268
+2810,PA,Wyoming County State Health Center,15708362981
+2811,PA,York City Bureau of Health,17178547724
+2812,PA,York County State Health Center,17177714505
+2813,SC,Lowcountry Regional Public Health - SC DHEC,18439530038
+2814,SC,Midlands Regional Public Health - SC DHEC,18035762980
+2815,SC,Pee Dee Regional Public Health - SC DHEC,18436614830
+2816,SC,Upstate Regional Public Health - SC DHEC,18642824138
+2817,SD,Brown County Community Health Center,16056262649
+2818,SD,Buffalo County Office (Indian Health Service Clinic),16052451520
+2819,SD,Edmunds County Public Health Services,16052856419
+2820,SD,Hand County Public Health Services,16058532147
+2821,SD,Hutchinson County Public Health Services,16059252118
+2822,SD,Lake County Health Department,16052565309
+2823,SD,Lawrence County - Spearfish Community Health Clinic,16056426915
+2824,SD,McPherson County Public Health Services,16052842661
+2825,SD,Meade County - Faith Community Health Services,16059672150
+2826,SD,Mellette County Health Clinic,16052593121
+2827,SD,Moody County Public Health Services,16059973779
+2828,SD,Oglala Lakota County Public Health Service Hospital,16058673048
+2829,SD,Perkins County - Lemmon Community Health Services,16053745962
+2830,SD,Sioux Falls City Health Department,16057733907
+2831,SD,Tripp County Public Health Services,16058427166
+2832,SD,Turner County Public Health Services,160532651613051
+2833,SD,Walworth County Public Health Services,16058458127
+2834,TN,Anderson County Health Department,18654258820
+2835,TN,Bedford County Health Department,19316843426
+2836,TN,Benton County Health Department,17315844944
+2837,TN,Bledsoe County Health Department,14234472149
+2838,TN,Blount County Health Department,18659834582
+2839,TN,Bradley County Health Department,14237287020105
+2840,TN,Campbell County Health Department,14235628351
+2841,TN,Cannon County Health Department,16155634243
+2842,TN,Carroll County Health Department,17319861990
+2843,TN,Carter County Health Department,14235432521
+2844,TN,Chattanooga-Hamilton County Health Department,14232098000
+2845,TN,Cheatham County Health Department,16157924318
+2846,TN,Chester County Health Department,17319897108
+2847,TN,Claiborne County Health Department,14236264291
+2848,TN,Clay County Health Department,19312432651
+2849,TN,Cocke County Health Department,14236238733
+2850,TN,Coffee County Health Department,19317235134
+2851,TN,Crockett County Health Center,17316962505
+2852,TN,Cumberland County Health Department,19314846196
+2853,TN,Decatur County Health Department,17318522461
+2854,TN,Dekalb County Health Department,16155977599
+2855,TN,Dickson County Health Department,16154462839
+2856,TN,Dyer County Health Department,17312857311
+2857,TN,"East Region, Tennessee Department of Health",18655495251
+2858,TN,Fayette County Health Department,19014655243
+2859,TN,Fentress County Health Department,19318799936
+2860,TN,Franklin County Health Department,19319673826
+2861,TN,Gibson County Health Department,17318557601
+2862,TN,Giles County Health Department,19313635506
+2863,TN,Grainger County Health Department,18658285247
+2864,TN,Greene County Health Department,14237981749
+2865,TN,Grundy County Health Department,19316923641
+2866,TN,Hamblen County Health Department,14233181542
+2867,TN,Hancock County Health Department,14237332228
+2868,TN,Hardeman County Health Department,17316585291
+2869,TN,Hardin County Health Department,17319252557
+2870,TN,Hawkins County Health Department,14232727641
+2871,TN,Hawkins County Health Department / Church Hill Office,14233575341
+2872,TN,Haywood County Health Department,17317720463
+2873,TN,Henderson County Health Department,17319688148
+2874,TN,Henry County Health Department,17316424025
+2875,TN,Hickman County Health Department,19317293516
+2876,TN,Houston County Health Department,19312893463
+2877,TN,Humphreys County Health Department,19312962231
+2878,TN,Jackson - Madison County Health Department,17314233020
+2879,TN,Jackson County Health Department,19312680218
+2880,TN,Jefferson County Health Department,18653973930
+2881,TN,Johnson County Health Department,14233575341
+2882,TN,Knox County Health Department,18652155000
+2883,TN,Lake County Health Department,17312539954
+2884,TN,Lauderdale County Health Department,17316359711
+2885,TN,Lawrence County Health Department,19317629406
+2886,TN,Lewis County Health District,19317962204
+2887,TN,Lincoln County Health Department,19314333231
+2888,TN,Loudon County Health Department,18654582514
+2889,TN,Macon County Health Department,16156662142
+2890,TN,Marion County Health Department,14239422238
+2891,TN,Marshall County Health Department,19313591551
+2892,TN,Maury County Health Department,19315601120
+2893,TN,McMinn County Health Department,14237457431
+2894,TN,McNairy County Health Department,17316453474
+2895,TN,Meigs County Health Department,14233345185
+2896,TN,Metro Public Health Department,16153405622
+2897,TN,"Mid-Cumberland Region, Tennessee Department of Health",16156507030
+2898,TN,Monroe County Health Department,14234423993
+2899,TN,Montgomery County Health Department,19316485747
+2900,TN,Montgomery County Health Department,19316487210
+2901,TN,Moore County Health Department,19317594251
+2902,TN,Morgan County Health Department,14233466272
+2903,TN,"Northeast Region, Tennessee Department of Health",14239794624
+2904,TN,Obion County Health Department,17318858722
+2905,TN,Overton County Health Department,19318236260
+2906,TN,Perry County Health Department,19315892138
+2907,TN,Pickett County Health Department,19318643178
+2908,TN,Polk County Department of Health,14233384533
+2909,TN,Polk-Benton County Health Department,14233384533
+2910,TN,Putnam County Health Department,19315282531
+2911,TN,Rhea County Health Department,14237757819
+2912,TN,Roane County Health Department,18653541220
+2913,TN,Robertson County Health Department,16153840208
+2914,TN,Rutherford County Health Department,16158987785
+2915,TN,Scott County Health Department,14236632445
+2916,TN,Sequatchie County Health Department,14239493619
+2917,TN,Sevier County Health Department,18656378733
+2918,TN,Shelby County Health Department,19012229080
+2919,TN,Smith County Health Department,16157350242
+2920,TN,"South Central Region, Tennessee Department of Health",19314908337128
+2921,TN,"Southeast Region, Tennessee Department of Health",14236345891
+2922,TN,Stewart County Health Department,19312325329
+2923,TN,Sullivan County Regional Health Department,14232792792
+2924,TN,Sumner County Health Department,16152061100
+2925,TN,Tipton County Health Department,19014760235
+2926,TN,Trousdale County Health Department,16153742112
+2927,TN,Unicoi County Health Department,14237439103
+2928,TN,Union County Health Department,18659923867
+2929,TN,"Upper Cumberland Region, Tennessee Department of Health",19315287531
+2930,TN,Van Buren County Health Department,19319462643
+2931,TN,Warren County Health Department,19314738468
+2932,TN,Washington County Health Department,14239757327
+2933,TN,Wayne County Health Department,19317223292
+2934,TN,Weakley County Health Department,17313642258
+2935,TN,"West Region, Tennessee Department of Health",17314216701
+2936,TN,White County Health Department,19318362201
+2937,TN,Williamson County Health Department,16157941258
+2938,TN,Wilson County Health Department,16154445325
+2939,TX,Abilene-Taylor County Public Health District,13256925600
+2940,TX,Addison City Health Department,19724502821
+2941,TX,Andrews County Health Department,14325241434
+2942,TX,Angelina County/Cities Health District,19366330602
+2943,TX,Austin Public Health,151297250101
+2944,TX,Beaumont City Health Department,14098324000
+2945,TX,Bee County Health Department,13613582241
+2946,TX,Bell County Public Health District,12547734457
+2947,TX,Brazoria County Health Department,19798641484
+2948,TX,Brazos County Health Department,19793614440
+2949,TX,Brownsville Health Department,19565486123
+2950,TX,Brownwood-Brown County Health Department,13256460554
+2951,TX,Burleson City Environmental Health Department,18174269842
+2952,TX,Cameron County Health Department,19562473685
+2953,TX,Carrollton City Health Department,19724663060
+2954,TX,Cass County Health Department,19037567051
+2955,TX,Chambers County Health Department,14092672730
+2956,TX,Cherokee County Health Department,19035866191
+2957,TX,City of Amarillo Department of Public Health,18063786300
+2958,TX,City of Baytown Health Department,12814205384
+2959,TX,City of El Paso Department of Public Health,19152120200
+2960,TX,City of Garland Health Department,19722053460
+2961,TX,City of Longview Health Department,19032371285
+2962,TX,City of South Padre Island Health Department,19567613226
+2963,TX,City of the Colony Health Department,19726243151
+2964,TX,Collin County Health Department,19725485500
+2965,TX,Comal County Health Department,1830.221.1100612
+2966,TX,Coppell City Health Department,19724625110
+2967,TX,Corpus Christi-Nueces County Health Department,13618267200
+2968,TX,Corsicana-Navarro County Public Health Department,19038746731
+2969,TX,Cuero-Dewitt County Health Department,13612753461
+2970,TX,Dallas County Health and Human Services,12148192101
+2971,TX,DeSoto City Health Department,19722309606
+2972,TX,Denton County Health Department,19403492900
+2973,TX,Duncanville City Health Department,19727804963
+2974,TX,Ector County Health Department,14324984141
+2975,TX,Ennis City Health Department,19728751234
+2976,TX,Falfurrias City Health Department,13613252140
+2977,TX,Farmers Branch City Health Department,19729192537
+2978,TX,Fort Bend County Health Department,12812383233
+2979,TX,Frisco City Health Department,19722925304
+2980,TX,Gainesville City Health Department,19406656397
+2981,TX,Galveston County Health District,14099387221
+2982,TX,Graham City Health Department,19405493352
+2983,TX,Grayson County Health Department,19038930131
+2984,TX,Greenville-Hunt County Health Department,19034084140
+2985,TX,Gregg County Health Department,19032372620
+2986,TX,Hardin County Health Department,14092465188
+2987,TX,Harlingen City Health Department,19562165220
+2988,TX,Harris County Public Health (HCPH),17134396000
+2989,TX,Hays County Health Department,15123935520
+2990,TX,Health Department of Gainseville,19406685454
+2991,TX,Hedwig Village Health Department,17134656009
+2992,TX,Hidalgo County Health Department,19563836221
+2993,TX,Hood County Health Department,18175793288
+2994,TX,Houston Health Department,18323935001
+2995,TX,Irving Public Health and Environmental Services,19727212514
+2996,TX,Jasper-Newton County Public Health District,14093846829
+2997,TX,Jefferson County Public Health Department,14098358530
+2998,TX,Kaufman County Health Department,19729324331
+2999,TX,Kingsville City-Kleberg County Health Unit,13615923324
+3000,TX,Lake Dallas Health Department,19404972226124
+3001,TX,Lampasas County Health Department,15125564177
+3002,TX,Laredo City Health Department,195679549004921
+3003,TX,Live Oak County Health Department,15124492733
+3004,TX,Lockhart City Health Department,18308752606
+3005,TX,Lubbock City Health Department,18067752933
+3006,TX,Luling City Health Department,18308752481
+3007,TX,Marshall-Harrison County Health District,19039388338
+3008,TX,McAllen Health Department,19569727040
+3009,TX,McCulloch County Health Department,13255970733
+3010,TX,Medina County Health Department,18307416191
+3011,TX,Mesquite City Health Department,19722168138
+3012,TX,Midland County Health Department,14326817645
+3013,TX,Milam County Health Department,12546977039
+3014,TX,Mineral Wells City Health Department,19403287719
+3015,TX,Montgomery County Public Health Department,19365231103
+3016,TX,North Richland Hills Health Department,18175816650
+3017,TX,Northeast Texas Public Health District,19035350036
+3018,TX,Orange County Health Department,14098836119
+3019,TX,Paris-Lamar County Health Department,19037854561
+3020,TX,Parker County Health Department,18175986174
+3021,TX,Pasadena Health Department,17134755529
+3022,TX,Pecos County Health Department,14323365355
+3023,TX,Plainview-Hale County Health Department,18062961359
+3024,TX,Plano Environmental Health Department,19729417143
+3025,TX,Port Arthur City Health Department,14099838800
+3026,TX,Public Health/Sheppard Air Force Base,19406766378
+3027,TX,Richardson Health Department,19727744080
+3028,TX,Rowlett City Health Department,19724126284
+3029,TX,San Angelo-Tom Green County Health Department,13256574493
+3030,TX,San Antonio Metropolitan Health District,12102078731
+3031,TX,San Patricio County Department of Public Health,13615873530
+3032,TX,Scurry County Health Unit,13255733508
+3033,TX,South Plains Public Health District,18066372164
+3034,TX,Sweetwater-Nolan County Health Department,13252355463
+3035,TX,Tarrant County Public Health Department,18173215305
+3036,TX,Texarkana-Bowie County Health Department,19037983250
+3037,TX,Texas Department of Health Public Health Region 1 - Lubbock,18067443577
+3038,TX,Texas Department of Health/Region 11 - Harlingen,19564230130
+3039,TX,Texas Department of Health/Region 7 - Temple,12547786744
+3040,TX,Texas Department of Health/Region 8 - San Antonio,12109492000
+3041,TX,Texas Department of Health/Regions 2 and 3 - Arlington,18172644500
+3042,TX,Texas Department of Health/Regions 4 and 5 North - Tyler,19035953585
+3043,TX,Texas Department of Health/Regions 6 and 5 - Houston,17137673000
+3044,TX,Texas Department of Health/Regions 9 and 10 - El Palso,19158347675
+3045,TX,Town of Flower Mound Health Department,19728746340
+3046,TX,Uvalde County Health Department,18302781705
+3047,TX,Victoria City-County Health Department,13615786281
+3048,TX,Waco-McLennan County Public Health District,12547505450
+3049,TX,Ward County Health ,14329436482
+3050,TX,Waxahachie City Health Department,19729377330150
+3051,TX,Weatherford City Health Department,18175984149
+3052,TX,Wichita Falls-Wichita County Public Health District,19407617800
+3053,TX,Williamson County and Cities Health District,15129433600
+3054,TX,Wilson County Public Health and Safety,18303938503
+3055,TX,Wood County Health Department,19037635406
+3056,UT,Bear River Health Department,14357926500
+3057,UT,Central Utah Public Health Department,14358965451
+3058,UT,Davis County Department of Health,18015255000
+3059,UT,Salt Lake County Health Department,13854684100
+3060,UT,San Juan Public Health,14353590038
+3061,UT,Southeast Utah Health Department,14356373671
+3062,UT,Southwest Utah Public Health Department,14359862540
+3063,UT,Summit County Health Department,14353331582
+3064,UT,Tooele County Health Department,14352772300
+3065,UT,Tri-County Health Department,14352471177
+3066,UT,Utah County Health Department,18018517016
+3067,UT,Wasatch County Health Department,14356542700
+3068,UT,Weber-Morgan Health Department,18013997100
+3069,VT,Barre Vermont Department of Health,18024760161
+3070,VT,Bennington Vermont Department of Health,18024476406
+3071,VT,Brattleboro Vermont Department of Health,18022572880
+3072,VT,Burlington Vermont Department of Health,18029510061
+3073,VT,Middlebury Vermont Department of Health,18023884644
+3074,VT,Morrisville Vermont Department of Health,18028880603
+3075,VT,Newport Vermont Department of Health,18023346707
+3076,VT,Rutland Vermont Department of Health,18027865811
+3077,VT,Springfield District Vermont Department of Health,18022890600
+3078,VT,St. Albans Vermont Department of Health,18025247971
+3079,VT,St. Johnsbury Vermont Department of Health,18027485151
+3080,VT,White River Junction Vermont Department of Health,18022958830
+3081,VA,Accomack County Health Department,17577875880
+3082,VA,Albemarle/Charlottesville Health Department,14349726219
+3083,VA,Alexandria Health Department/Alexandria Health District,17037464996
+3084,VA,Alleghany County / Covington Health Department,15409622173
+3085,VA,Alleghany Health District,15404738240
+3086,VA,Amelia County Health Department,18045612711
+3087,VA,Amherst County Health Department,14349469408
+3088,VA,Appomattox County Health Department,14343522313
+3089,VA,"Arlington County Department of Human Services, Public Health Division",17032281200
+3090,VA,Arlington Health District,17032285580
+3091,VA,Augusta-Staunton Health Department,15403327830
+3092,VA,Bath County Health Department,15408397246
+3093,VA,Bedford County Health Department,15405867952
+3094,VA,Bland County Health Department,12766883642
+3095,VA,Botetourt County Health Department,15404738240
+3096,VA,Bristol City Health Department,12766427335
+3097,VA,Brunswick County Health Department,14348482525
+3098,VA,Buchanan County Health Department,12769354591
+3099,VA,Buckingham County Health Department,14349694244
+3100,VA,Buena Vista City Health Department,15402612149
+3101,VA,Campbell County Health Department,14345929550
+3102,VA,Caroline County Health Department,18046335465
+3103,VA,Carroll County Health Department,12767303180
+3104,VA,Central Shenandoah Health District,15403327830341
+3105,VA,Central Virginia Health District,14345775900
+3106,VA,Charles City County Health Department,18048292490
+3107,VA,Charlotte County Health Department,14345425251
+3108,VA,Chesapeake Health District,17573828627
+3109,VA,Chesterfield Health District,18047514385
+3110,VA,Chickahominy Health District,18043654313
+3111,VA,Clarke County Health Department,15409551033
+3112,VA,Clifton Forge City Health Department,15408624131
+3113,VA,Colonial Heights City Health Department,18045209380
+3114,VA,Craig County Health Department,15408645136
+3115,VA,Crater Health District,18048631652
+3116,VA,Culpeper County Health Department,15408297350
+3117,VA,Cumberland County Health Department,18044924661
+3118,VA,Cumberland Plateau Health District,12768897621
+3119,VA,Danville City Health Department,14347995190
+3120,VA,Dickenson County Health Department,12769264979
+3121,VA,Dinwiddie County Health Department,18044693771
+3122,VA,Eastern Shore Health District,17577875880
+3123,VA,Essex County Health Department,18044433396
+3124,VA,Fairfax County Health Department,17032462479
+3125,VA,Fauquier County Health Department,15403476400
+3126,VA,Floyd County Health Department,15407452142
+3127,VA,Fluvanna County Health Department,14345911960
+3128,VA,Franklin City Health Department,17575626109
+3129,VA,Franklin County Health Department,15404840292
+3130,VA,Frederick County/Winchester Health Department,15407223470
+3131,VA,Fredericksburg City Health Department,15408994142
+3132,VA,Galax City Health Department,12762366127
+3133,VA,Giles County Health Department,15402353135
+3134,VA,Gloucester County Health Department,18046932445
+3135,VA,Goochland County Health Department,18045565343
+3136,VA,Grayson County Health Department,12767732961
+3137,VA,Greene County Health Department,14349852262
+3138,VA,Greensville/Emporia Health Department,14343484235
+3139,VA,Halifax County Health Department,14344764863
+3140,VA,Hampton City Health District,17573153781
+3141,VA,Hanover County Health Department,18043654313
+3142,VA,Henrico Health District,18045014651
+3143,VA,Henry/Martinsville Health Department,12766382311
+3144,VA,Highland County Health Department,15404682270
+3145,VA,Hopewell City Health Department,18044581297
+3146,VA,Isle of Wight County Health Department,17573574177
+3147,VA,King George County Health Department,15408994797
+3148,VA,King William County Health Department,18047694988
+3149,VA,King and Queen County Health Department,18047856154
+3150,VA,Lancaster County Health Department,18044625197
+3151,VA,Lee County Health Department,12763462011
+3152,VA,Lenowisco Health District,12763288000
+3153,VA,Lord Fairfax Health District,15407713433
+3154,VA,Loudoun County Health District,17037770234
+3155,VA,Louisa County Health Department,15409673703
+3156,VA,Lunenburg County Health Department,14346962346
+3157,VA,Lynchburg City Health Department,14349476785
+3158,VA,Madison County Health Department,15409485481
+3159,VA,Mathews County Health Department,18047257131
+3160,VA,Mecklenburg County Health Department,14347669822
+3161,VA,Middlesex County Health Department,18047582381
+3162,VA,Montgomery County Health Department,15405853300
+3163,VA,Mount Rogers Health District,12767817450
+3164,VA,Nelson County Health Department,14342638315
+3165,VA,New Kent County Health Department,18049669640
+3166,VA,New River Health District,15403817100156
+3167,VA,Newport News City Health Department,17575947305
+3168,VA,Norfolk City Health District,17576832796
+3169,VA,Northampton County Health Department,17574426228
+3170,VA,Northumberland County Health Department,18045803731
+3171,VA,Nottoway County Health Department,14346457595
+3172,VA,Orange County Health Department,15406721291
+3173,VA,Page County Health Department,15407436528
+3174,VA,Patrick County Health Department,12766943188
+3175,VA,Peninsula Health District,17575947305
+3176,VA,Petersburg City Health Department,18048631652
+3177,VA,Piedmont Health District,18048631652
+3178,VA,Pittsylvania County Health Department,14344327232
+3179,VA,Pittsylvania/Danville Health District,14347995190
+3180,VA,Portsmouth Health District,17573938585
+3181,VA,Powhatan County Health Department,18045985680
+3182,VA,Prince Edward County Health Department,14343928187
+3183,VA,Prince George County Health Department,18047332630
+3184,VA,Prince William Health District,17037926301
+3185,VA,Pulaski County Health Department,15409945030
+3186,VA,Radford City Health Department,15402678255
+3187,VA,Rappahannock Area Health District,15408994797
+3188,VA,Rappahannock County Health Department,15406753516
+3189,VA,Rappahannock/Rapidan Health District,15403476400
+3190,VA,Richmond County Health Department,18043334043
+3191,VA,Richmond Henrico Health Department,18042053500
+3192,VA,Roanoke City Health District,15402835050
+3193,VA,Roanoke County/Salem Health Department,15403875530
+3194,VA,Roanoke County/Vinton Health Department,15408577800
+3195,VA,Rockbridge/Lexington Health Department,15404633185
+3196,VA,Rockingham/Harrisonburg Health Department,15405745100
+3197,VA,Russell County Health Department,12768897621
+3198,VA,Scott County Health Department,12763861312
+3199,VA,Shenandoah County Health Department,15404593733
+3200,VA,Smyth County Health Department,12767817460
+3201,VA,South Hampton County Health Department,17576533040
+3202,VA,Southside Health District,14347669857
+3203,VA,Spotsylvania County Health Department,15405077400
+3204,VA,Stafford County Health Department,15406593101
+3205,VA,Suffolk City Health Department,17575144700
+3206,VA,Surry County Health Department,17572943185
+3207,VA,Sussex County Health Department,14342468611
+3208,VA,Tazewell County Health Department,12769885585
+3209,VA,Thomas Jefferson Health District,14349726209
+3210,VA,Three Rivers Health District,1804758238117
+3211,VA,Virginia Beach Department of Public Health,17575182672
+3212,VA,Warren County Health Department,15406353159
+3213,VA,Washington County Health Department,12766765604
+3214,VA,Waynesboro City Health Department,15409490137
+3215,VA,West Piedmont Health District,14344775949
+3216,VA,Western Tidewater Health District,17575144700
+3217,VA,Westmoreland County Health Department,18044931124
+3218,VA,Williamsburg City Health Department,17572534813
+3219,VA,Wise/Norton Health Department,12763288000
+3220,VA,Wythe County Health Department,12762285507
+3221,VA,York/Denbigh Health Department,17578862810
+3222,WA,Adams County Health Department,15094884074
+3223,WA,Asotin County Health District,15097583344
+3224,WA,Benton-Franklin Health District,15099432614
+3225,WA,Chelan-Douglas Health District,15098866480
+3226,WA,Clallam County Health and Human Services,13604172329
+3227,WA,Clark County Board of Health,136039722324310
+3228,WA,Clark County Public Health,13603978477
+3229,WA,Columbia County Public Health Department,15093823048
+3230,WA,Cowlitz County Health & Human Services,13604145599
+3231,WA,Garfield County Health District,15098433412
+3232,WA,Grant County Health District,15097667960
+3233,WA,Grays Harbor County Public Health and Social Services,13605328631
+3234,WA,Island County Health Department,13606797350
+3235,WA,Jefferson County Public Health,13603859400
+3236,WA,Kitsap Public Health District,13603375237
+3237,WA,Kittitas County Health Department,15099627515
+3238,WA,Klickitat County Health Department,15097734565
+3239,WA,Lewis County Public Health & Social Services,13607401223
+3240,WA,Lincoln County Health Department,15097252501
+3241,WA,Mason County Department of Health & Human Services ,13604279670
+3242,WA,Northeast Tri-County Health District,15096841301
+3243,WA,Okanogan County Public Health,15094227158
+3244,WA,Pacific County Public Health and Human Services Department,13608759343
+3245,WA,Public Health - Seattle and King County,12062964600
+3246,WA,San Juan County Health and Community Services,13603707517
+3247,WA,Skagit County Public Health,13604161500
+3248,WA,Skamania County Health Department,15094273881
+3249,WA,Snohomish Health District,14253398687
+3250,WA,Spokane Regional Health District,15093241500
+3251,WA,Tacoma-Pierce County Health Department,12537987377
+3252,WA,Thurston County Public Health and Social Services Department,13608672502
+3253,WA,Wahkiakum County Health Department,13607956207
+3254,WA,Walla Walla County Health Department,15095242650
+3255,WA,Whatcom County Health Department,13607786000
+3256,WA,Whitman County Department of Health,15093976280
+3257,WA,Yakima County Health District,15092496666
+3258,WV,Barbour County Health Department,13044571670
+3259,WV,Beckley-Raleigh County Health Department,13042528531
+3260,WV,Berkeley-Morgan County Board of Health,13042635131
+3261,WV,Boone County Health Department,13043697967
+3262,WV,Braxton County Health Department,13047652851
+3263,WV,Brooke County Health Department,13047373665
+3264,WV,Cabell-Huntington Health Department,13043488050
+3265,WV,Clay County Health Department,13045874269
+3266,WV,Doddridge County Health Department,13048731531
+3267,WV,Fayette County Health Department,13045741617
+3268,WV,Gilmer County Health Department,13044627351
+3269,WV,Grafton-Taylor County Health Department,13042651288
+3270,WV,Grant County Health Department,13042574922
+3271,WV,Greenbrier County Health Department,13046451787
+3272,WV,Hampshire County Health Department,13044969640
+3273,WV,Hancock County Health Department,13045643343
+3274,WV,Hardy County Health Department,13045306355
+3275,WV,Harrison-Clarksburg Health Department,13046239308
+3276,WV,Jackson County Health Department,13043722634
+3277,WV,Jefferson County Health Department,13047288416
+3278,WV,Kanawha-Charleston Health Department,13043486494
+3279,WV,Lewis County Health Department,13042698218
+3280,WV,Lincoln County Health Department,13048243330
+3281,WV,Logan County Health Department,13047928630
+3282,WV,Marion County Health Department,13043663360
+3283,WV,Marshall County Health Department,13048457840
+3284,WV,Mason County Health Department,13046753050
+3285,WV,McDowell County Health Department,13044482174
+3286,WV,Mercer County Health Department,13043248367
+3287,WV,Mid-Ohio Valley Health Department,13044857374
+3288,WV,Mineral County Health Department,13047881321
+3289,WV,Mingo County Health Department,13042353570
+3290,WV,Monongalia County Health Department,13045985100
+3291,WV,Monroe County Health Department,13047723064
+3292,WV,Morgan County Health Department,13042581513
+3293,WV,Nicholas County Health Department,13048725329
+3294,WV,Pendleton County Health Department,13043587565
+3295,WV,Pocahontas County Health Department,13047994154
+3296,WV,Preston County Health Department,13043290096
+3297,WV,Putnam County Health Department,13047572541
+3298,WV,Randolph-Elkins Health Department,13046360396
+3299,WV,Summers County Health Department,13044663388
+3300,WV,Tucker County Health Department,13044783572
+3301,WV,Upshur-Buckhannon Health Department,13044722810
+3302,WV,Wayne County Health Department,13042726761
+3303,WV,Webster County Health Department,13048475483
+3304,WV,Wetzel-Tyler County Health Department,13043372001
+3305,WV,Wheeling-Ohio County Health Department,13042343682
+3306,WV,Wyoming County Health Department,13047327941
+3307,WI,Adams County Health & Human Services Department ,16083394513
+3308,WI,Appleton City Health Department,19208326429
+3309,WI,Ashland County Health Department,17156827004
+3310,WI,Barron County Health and Human Services Department,17155376109
+3311,WI,Bayfield County Health Department,17153736109
+3312,WI,Brown County Health Department,19204486404
+3313,WI,Buffalo County Department of Health and Human Services,16086854412
+3314,WI,Burnett County Department of Health and Human Services,17153497600
+3315,WI,Calumet County Health Department,19208491432
+3316,WI,Central Racine County Health Department,12628984463
+3317,WI,Chippewa County Department of Public Health,17157267900
+3318,WI,Clark County Health Department,17157435105
+3319,WI,Columbia County Health Department,16087429227
+3320,WI,Crawford County Health and Human Services,16083260229
+3321,WI,Cudahy Health Department,14147692239
+3322,WI,De Pere Department of Public Health,19203394054
+3323,WI,Dodge County Human Services and Health Department,19203863670
+3324,WI,Door County Department of Health and Human Services,17157327670
+3325,WI,Douglas County Health and Human Services,17153951304
+3326,WI,Dunn County Health Department,17152322388
+3327,WI,Eau Claire City-County Health Department,17158394718
+3328,WI,Florence County Health Department,17155284837
+3329,WI,Fond du Lac County Health Department,19209293085
+3330,WI,Forest County Health Department,17154783371
+3331,WI,Franklin Health Department,14144259101
+3332,WI,Grant County Health Department,16087236416
+3333,WI,Green County Health Department,16083289390
+3334,WI,Green Lake County Human Services - Health Unit,19202944070
+3335,WI,Greenfield Health Department,14143295275
+3336,WI,Hales Corners Health Department,14145296155
+3337,WI,Iowa County Health Department,16089352810
+3338,WI,Iron County Health Department,17155612191
+3339,WI,Jackson County Public Health Department,17152844301272
+3340,WI,Jefferson County Health Department,19206747275
+3341,WI,Juneau County Health Department,16088479373
+3342,WI,Kenosha County Division of Health,12626056700
+3343,WI,Kewaunee County Public Health Office,19203887160
+3344,WI,La Crosse County Health Department,16087859872
+3345,WI,Lafayette County Health Department,16087764895
+3346,WI,Langlade County Health Department,17156276250
+3347,WI,Lincoln County Health Department,17155360307
+3348,WI,Manitowoc County Health Department,19206834155
+3349,WI,Marathon County Health Department,17152611903
+3350,WI,Marinette County Health and Human Services Department,17157327700
+3351,WI,Marquette County Health Department,16082973135
+3352,WI,Menasha Health Department,19209673520
+3353,WI,Milwaukee City Health Department,14142863521
+3354,WI,Monroe County Health Agency,16082698666
+3355,WI,North Shore Health Department,14143712981
+3356,WI,Oak Creek Health Department,14147667950
+3357,WI,Oconto County Health and Human Services,19208347033
+3358,WI,Oneida County Health Department,17153696111
+3359,WI,"Outagamie County DHHS, Public Health Division",19208325100
+3360,WI,Pepin County Health Department,17156725961
+3361,WI,Pierce County Public Health Department,17152736782
+3362,WI,Polk County Health Department,17154859212
+3363,WI,Portage County Health and Human Services,17153455350
+3364,WI,Price County Health Department,17153392158
+3365,WI,Public Health - Madison and Dane County,16082664821
+3366,WI,Racine City Health Department,12626369495
+3367,WI,Richland County Health Department,1608647882129
+3368,WI,Rock County Health Department - North Office,16087575442
+3369,WI,Rusk County Department of Health & Human Services,17155322299
+3370,WI,Sauk County Health Department,16083554300
+3371,WI,Sawyer County Health and Human Services,17156383423
+3372,WI,Shawano-Menominee Counties Health Department,17155264808
+3373,WI,Sheboygan County Division of Public Health,19204594382
+3374,WI,South Milwaukee Health Department,14147688055
+3375,WI,St. Croix County Dept. of Human and Health Services - Public Health,17152468263
+3376,WI,St. Francis Health Department,14144812300133
+3377,WI,Taylor County Health Department,17157481410
+3378,WI,Trempealeau County Public Health Department,17155382311226
+3379,WI,Vernon County Health Department,16086375251
+3380,WI,Vilas County Public Health Department,17154793659
+3381,WI,Village of Greendale Health Department,14144232110
+3382,WI,Walworth County Department of Health & Human Services Division of Public Health,12627413200
+3383,WI,Washburn County Health,17156354400
+3384,WI,Washington Ozaukee Public Health Department,12622848188
+3385,WI,Watertown Department of Public Health,19202628090
+3386,WI,Waukesha County Public Health Division,12628968430
+3387,WI,Waupaca County Health Services Division,17152586389
+3388,WI,Waushara County Health Department,19207876590
+3389,WI,Wauwatosa Health Department,14144798936
+3390,WI,West Allis Health Department,14143028600
+3391,WI,Winnebago County Health Department,19202323000
+3392,WI,Wood County Health Department,17154218911
+3393,WY,Albany County Public Health Nursing,13077212561
+3394,WY,Big Horn County Public Health Nursing Service,18016237371
+3395,WY,Campbell County Health Department,13076820400
+3396,WY,Carbon County Public Health Nursing,13073213034
+3397,WY,Cheyenne-Laramie County Health Department,13076334063
+3398,WY,City of Casper-Natrona County Health Department,13075779722
+3399,WY,Converse County Public Health ,13073582536
+3400,WY,Crook County Public Health Nursing Service,13072831142
+3401,WY,Fremont County Public Health Nursing,13078566979
+3402,WY,Goshen County Public Health Nursing Service,13075324131
+3403,WY,Hot Springs County Public Health Nursing Service,13078642146
+3404,WY,Johnson County Health Department,13076842564
+3405,WY,Lincoln County Health Department,13078774496
+3406,WY,Niobrara County Public Health Nurse Services,13073342609
+3407,WY,Park County Public Health Nursing,13075875545
+3408,WY,Platte County Public Health Nursing Service,13073223861
+3409,WY,Sheridan County Public Health,13076752650
+3410,WY,Sublette County Public Health Nursing Service,13073672403
+3411,WY,Teton County Public Health,13077336401
+3412,WY,Uinta County Public Health Nursing,13077898290
+3413,WY,Washakie County Public Health Nursing,13073473278
+3414,WY,Weston County Public Health Nursing,13077464775106
