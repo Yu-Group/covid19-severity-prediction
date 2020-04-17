@@ -10,8 +10,6 @@ from sklearn.neighbors import NearestNeighbors
 #from hospital_level.processed.cms_cmi.clean import clean_cms_cmi
 #from hospital_level.processed.cms_hospitalpayment.clean import clean_cms_hospitalpayment
 
-from .county_level.processed.usafacts_infections.clean import clean_usafacts_infections
-from .county_level.processed.nytimes_infections.clean import clean_nytimes_infections
 from .county_level.processed.ahrf_health.clean import clean_ahrf_health
 from .county_level.processed.cdc_svi.clean import clean_cdc_svi
 from .county_level.processed.chrr_health.clean import clean_chrr_health
@@ -30,9 +28,9 @@ from .county_level.processed.kinsa_ili.clean import clean_kinsa_ili
 from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 
 
-def load_county(data_dir=".", cached_file="county_data.csv", 
-                cached_abridged_file="county_data_abridged.csv",
-                cached=True, abridged=True, infections_data="usafacts", rm_na=True):
+def load_county_data(data_dir=".", cached_file="county_data.csv", 
+                     cached_abridged_file="county_data_abridged.csv",
+                     cached=True, abridged=True, infections_data="usafacts", rm_na=True):
     '''  Load in merged county data set
     
     Parameters
@@ -167,19 +165,9 @@ def load_county(data_dir=".", cached_file="county_data.csv",
         
     # get covid-19 infections data
     if infections_data == 'usafacts':
-        os.chdir(oj(data_dir_raw, "usafacts_infections"))
-        os.system("python download.py")
-        print("downloaded usafacts_infections successfully")
-        os.chdir(orig_dir)
-        covid = clean_usafacts_infections(oj(data_dir_raw, "usafacts_infections"), 
-                                          oj(data_dir_clean, "usafacts_infections"))
+        covid = pd.read_csv(oj(data_dir_clean, "usafacts_infections", "usafacts_infections.csv"))
     elif infections_data == 'nytimes':
-        os.chdir(oj(data_dir_raw, "nytimes_infections"))
-        os.system("python download.py")
-        print("downloaded nytimes_infections successfully")
-        os.chdir(orig_dir)
-        covid = clean_nytimes_infections(oj(data_dir_raw, "nytimes_infections"), 
-                                         oj(data_dir_clean, "nytimes_infections"))
+        covid = pd.read_csv(oj(data_dir_clean, "nytimes_infections", "nytimes_infections.csv"))
     
     # add time-series keys
     deaths_keys = [k for k in covid.keys() if '#Deaths' in k]
@@ -190,12 +178,14 @@ def load_county(data_dir=".", cached_file="county_data.csv",
     covid['cases'] = [cases[i] for i in range(cases.shape[0])]
     covid['tot_deaths'] = deaths[:, -1]
     covid['tot_cases'] = cases[:, -1]
+    covid["countyFIPS"] = covid["countyFIPS"].astype(str).str.zfill(5)
     
     # merge county data with covid data
     if rm_na == True:
         df = pd.merge(cnty, covid, on='countyFIPS', how='right')
     else:
         df = pd.merge(cnty, covid, on='countyFIPS', how='left')
+    print("loaded and merged COVID-19 cases/deaths data successfully")
 
     return df
 
@@ -341,7 +331,7 @@ def is_all_data_available(folder, datasets):
     return len(datasets) == 0
 
 
-def load_hospital_level_data(
+def load_hospital_data(
         with_private_data=True,
         load_cached_file=True,
         data_dir="./",

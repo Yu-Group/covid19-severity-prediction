@@ -59,9 +59,9 @@ To load the county-level data (daily COVID-19 cases/deaths data + other county-l
 ```python
 import data
 # unabridged
-df_unabridged = data.load_county(data_dir = "data", cached = False, abridged = False)
+df_unabridged = data.load_county_data(data_dir = "data", cached = False, abridged = False)
 # abridged
-df_abrdiged = data.load_county(data_dir = "data", cached = False, abridged = True)
+df_abrdiged = data.load_county_data(data_dir = "data", cached = False, abridged = True)
 ```
 
 
