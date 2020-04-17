@@ -31,7 +31,7 @@ from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
                      cached_abridged_file="county_data_abridged.csv",
                      cached=True, abridged=True, infections_data="usafacts", 
-                     with_private_data=True, rm_na=True):
+                     with_private_data=True):
     '''  Load in merged county data set
     
     Parameters
@@ -50,8 +50,6 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
                       
     with_private_data : logical; whether or not to load in private data (if available)
-                      
-    rm_na : logical; whether or not to remove counties with NA cases or deaths
         
     Returns
     -------
@@ -189,10 +187,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     covid["countyFIPS"] = covid["countyFIPS"].astype(str).str.zfill(5)
     
     # merge county data with covid data
-    if rm_na == True:
-        df = pd.merge(cnty, covid, on='countyFIPS', how='right')
-    else:
-        df = pd.merge(cnty, covid, on='countyFIPS', how='left')
+    df = pd.merge(cnty, covid, on='countyFIPS', how='inner')
     print("loaded and merged COVID-19 cases/deaths data successfully")
 
     return df
@@ -436,12 +431,10 @@ def load_hospital_data(
         )
     cms_cmi = pd.read_csv(
         oj(data_dir, "hospital_level/processed/cms_cmi/cms_cmi.csv"),
-        index_col=0,
         dtype=hospital_dtype,
     )
     cms_hospitalpayment = pd.read_csv(
         oj(data_dir, "hospital_level/processed/cms_hospitalpayment/cms_hospitalpayment.csv"),
-        index_col=0,
         dtype=hospital_dtype,
     )
     # hifld_hospital = pd.read_csv(
