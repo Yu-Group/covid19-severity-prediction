@@ -137,16 +137,19 @@ def fit_and_predict(df,
         if 'neighbor_deaths' not in df.columns:
             neighboring_counties_df = pd.read_csv(oj(parentdir, 'data/county_level/raw/county_ids/county_adjacency2010.csv'))
             neighboring_counties_df['fipscounty'] = neighboring_counties_df['fipscounty'].astype(str).str.zfill(5)
+            neighboring_counties_df['fipsneighbor'] = neighboring_counties_df['fipsneighbor'].astype(str).str.zfill(5)
+
+            df_subset = df[df['countyFIPS'].isin(list(neighboring_counties_df['fipscounty']))]
             county_neighbor_deaths = []
             county_neighbor_cases = []
+
             county_fips = list(df['countyFIPS'])
             for fips in county_fips:
-
 
                 neighboring_counties = list(neighboring_counties_df.loc[neighboring_counties_df['fipscounty'] == fips ]['fipsneighbor'])
                 neighboring_county_deaths = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['deaths'])
                 neighboring_county_cases = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['cases'])
-                
+
                 sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
                 for deaths in neighboring_county_deaths:
                     sum_neighboring_county_deaths += deaths
