@@ -1,3 +1,5 @@
+# see the data folder for the more updated data sources
+
 # full data sources
 
 Only need to download these if you want to rerun the scraping / preprocessing pipeline.

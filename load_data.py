@@ -28,8 +28,8 @@ def load_county_level(data_dir='data'):
 
 
 def load_hospital_level(data_dir='data_hospital_level',
-                        merged_hospital_level_info='processed/04_hospital_level_info_merged_with_website.csv',
-                        fips_info='processed/02_county_FIPS.csv'):
+                        merged_hospital_level_info='processed/hospital_info_private.csv',
+                        fips_info='processed/county_FIPS.csv'):
     '''
     Params
     ------
