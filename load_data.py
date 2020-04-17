@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 import re
 from functions import preprocess
 from functions import load_usafacts_data
-
+import data
 
 def load_county_level(
         data_dir='data',
@@ -33,7 +33,7 @@ def load_county_level(
     cached_file
         path to the cached file (within the data directory)
     '''
-    df_covid = load_usafacts_data.load_daily_data(dir_mod=data_dir)
+    #df_covid = load_usafacts_data.load_daily_data(data_dir=data_dir)
     
     cached_file = oj(data_dir, cached_file)
     cached_file_abridged = oj(data_dir, cached_file_abridged)
@@ -45,6 +45,10 @@ def load_county_level(
     stroke_data = oj(data_dir, stroke_data)
     unacast = oj(data_dir, unacast)
 
+    # try adding the data
+    df = data.load_county_data(data_dir=data_dir, cached=True)
+    #df = pd.merge(df, df_covid, on="countyFIPS")
+    return df.sort_values("tot_deaths", ascending=False)
     # look for cached file in data_dir
     if os.path.exists(cached_file):
         df = pd.read_pickle(cached_file)
