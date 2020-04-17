@@ -30,7 +30,8 @@ from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
                      cached_abridged_file="county_data_abridged.csv",
-                     cached=True, abridged=True, infections_data="usafacts", rm_na=True):
+                     cached=True, abridged=True, infections_data="usafacts", 
+                     with_private_data=True, rm_na=True):
     '''  Load in merged county data set
     
     Parameters
@@ -47,6 +48,8 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     
     infections_data : string; source for daily cases/deaths counts from
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
+                      
+    with_private_data : logical; whether or not to load in private data (if available)
                       
     rm_na : logical; whether or not to remove counties with NA cases or deaths
         
@@ -88,9 +91,14 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         ## ADD PRIVATE DATASETS HERE
         private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt"]
         
+        if with_private_data == True:
+            datasets = public_datasets + private_datasets
+        else:
+            datasets = public_datasets
+        
         # load in and clean county-level datasets
         df_ls = []
-        for dataset in public_datasets + private_datasets:
+        for dataset in datasets:
             # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_health":
                 os.chdir(oj(data_dir_raw, dataset))
@@ -251,13 +259,17 @@ def add_features(df):
 
 
 def important_keys(df):
+    # geographic variables
+    geography = ['CensusRegionName', 'CensusDivisionName',
+                 'Rural-UrbanContinuumCode2013']
+    
     # demographic variables
     demographics = ['PopulationEstimate2018',
                     'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
                     'PopulationEstimate65+2017',
                     'PopulationDensityperSqMile2010',
                     'CensusPopulation2010',
-                    'MedianAge2010',
+                    'MedianAge2010'
                     #'MedianAge,Male2010', 'MedianAge,Female2010',
                    ]
 
@@ -294,7 +306,7 @@ def important_keys(df):
     vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
 
     # get list of important variables
-    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social
+    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social
     
     # keep variables that are in df
     important_vars = [var for var in important_vars if var in list(df.columns)]
