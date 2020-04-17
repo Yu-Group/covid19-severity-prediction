@@ -23,7 +23,7 @@ import plotly
 def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
     today = datetime.today().strftime("%B %d")
     day_past = (datetime.now() - timedelta(days=num_days_in_past)).strftime("%B %d")
-
+    df_county = df_county[df_county['tot_deaths'] >= 1]
 
     pred_key = f'Predicted deaths by {today}\n(predicted on {day_past})'
     deaths_key = f'Actual deaths by {today}'
@@ -62,7 +62,7 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
 if __name__ == '__main__':
     print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
-    df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
+    df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data')).fillna(0)
 
 
     num_days_in_past = 3
