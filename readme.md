@@ -18,8 +18,7 @@ county-level death counts in the United States".
 # Quickstart with the data + models
 
 ## Data
-1. download the processed data (as a pickled dataframe `df_county_level_cached.pkl`) from [this folder](https://drive.google.com/drive/u/2/folders/1OfeUn8RcOfkibgjtuuVt2z9ZtzC_4Eq5) and place into the `data` directory
-2. Can now load/merge the data:
+Can load and merge the (abridged) data via:
 ```python
 import load_data
 df = load_data.load_county_level(data_dir='/path/to/data')
@@ -28,7 +27,7 @@ print(df.shape)
 
 - for more data details, see [./data/readme.md](./data/readme.md)
 - see also the [county_quickstart notebook](county_quickstart.ipynb)
-- note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is at `data/df_county_level_abridged_cached.csv`
+- note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is saved at `data/county_data_abridged.csv`
 - we are constantly monitoring and adding new data sources (+ relevant data news [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/))
 - output from running the daily updates is stored [here](./functions/update_test.log)
 
