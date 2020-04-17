@@ -18,9 +18,9 @@ $(which python3) download.py >> $LOG_FILE
 cd $REPO_DIR/data/county_level/processed/nytimes_infections
 $(which python3) clean.py >> $LOG_FILE
 
-cd $REPO_DIR/data/raw/usafacts_infections
+cd $REPO_DIR/data/county_level/raw/usafacts_infections
 $(which python3) download.py >> $LOG_FILE
-cd $REPO_DIR/data/processed/usafacts_infections
+cd $REPO_DIR/data/county_level/processed/usafacts_infections
 $(which python3) clean.py >> $LOG_FILE
 
 # push to git
