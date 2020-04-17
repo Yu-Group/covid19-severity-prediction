@@ -369,3 +369,32 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     if cached_dir is not None:
         df_county.to_pickle(cached_fname)
     return df_county
+
+
+def tune_hyperparams(df,target_day,outcome,output_key,method_hyperparam_dict,error_fn,num_iters):
+
+    def fit_model_with_random_params(df,i):
+        output_key = 'hyperparams_i'
+        methods = []
+        for method_name in method_hyperparam_dict:
+            method_dict = {}
+            method_dict['model_type'] = method_name
+            method_hyperparam_choices = method_hyperparam_dict[method_name]
+            for param_name in method_hyperparam_choices:
+                method_dict[param_name] = random.choice(method_hyperparam_choices[param_name])
+            methods.append(method_dict)
+        fit_and_predict_ensemble(df=df, target_day=target_day, outcome=outcome, methods=methods, 
+                                 mode='eval_mode', output_key=output_key)
+
+        score = error_fn(df[output_key],df['outcome'])
+        return params, score
+
+    results = Counter()
+    for i in range(num_iters):
+        params, score = fit_model_with_random_params(copy.deepcopy(df),i)
+        results[params] = -1*score
+
+    best_param, value = results.most_common()
+
+
+    return best_param, -1*value
