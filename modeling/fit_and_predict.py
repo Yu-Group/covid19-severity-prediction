@@ -140,6 +140,7 @@ def fit_and_predict(df,
             neighboring_counties_df['fipsneighbor'] = neighboring_counties_df['fipsneighbor'].astype(str).str.zfill(5)
 
             df_subset = df[df['countyFIPS'].isin(list(neighboring_counties_df['fipscounty']))]
+            df['countyFIPS'] = df['countyFIPS'].astype(str).str.zfill(5)
             county_neighbor_deaths = []
             county_neighbor_cases = []
 
