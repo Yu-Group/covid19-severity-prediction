@@ -354,25 +354,27 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
         if os.path.exists(cached_fname):
             return pd.read_pickle(cached_fname)
     
-    print('predicting...')
-    for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
-        output_key = f'Predicted Deaths {num_days_in_future}-day'    
-        df_county = fit_and_predict_ensemble(df_county, 
-                                    methods=BEST_MODEL,
-                                    outcome='deaths',
-                                    mode='predict_future',
-                                    target_day=np.array([num_days_in_future]),
-                                    output_key=output_key,
-                                    verbose=verbose)
-        
-        vals = df_county[output_key].values
-        out = []
-        for i in range(vals.shape[0]):
-            if np.isnan(vals[i]):
-                out.append(0)
-            else:
-                out.append(vals[i][0])
-        df_county[output_key] = out
+    
+    for outcome in ['Deaths', 'Cases']:
+        print(f'predicting {outcome}...')
+        for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
+            output_key = f'Predicted {outcome} {num_days_in_future}-day'    
+            df_county = fit_and_predict_ensemble(df_county, 
+                                        methods=BEST_MODEL,
+                                        outcome=outcome.lower(),
+                                        mode='predict_future',
+                                        target_day=np.array([num_days_in_future]),
+                                        output_key=output_key,
+                                        verbose=verbose)
+
+            vals = df_county[output_key].values
+            out = []
+            for i in range(vals.shape[0]):
+                if np.isnan(vals[i]):
+                    out.append(0)
+                else:
+                    out.append(vals[i][0])
+            df_county[output_key] = out
         
     if cached_dir is not None:
         df_county.to_pickle(cached_fname)

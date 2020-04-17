@@ -23,3 +23,5 @@ _site
 functions/_hidden_preds.csv
 ian_key.env
 **_hidden*
+data/hrsa
+data/respiratory_disease

@@ -16,6 +16,7 @@ def load_county_level(data_dir='data'):
     ------
     data_dir 
         path to the data directory
+    Saves 'county_data_abridged.csv' to data file
     '''
 
     if not "county_data_abridged.csv" in os.listdir(data_dir):
