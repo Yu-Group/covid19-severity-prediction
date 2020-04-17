@@ -13,9 +13,9 @@ rm $LOG_FILE
 cd $REPO_DIR
 git pull origin master
 # update usafacts and nytimes data
-cd $REPO_DIR/data/raw/nytimes_infections
+cd $REPO_DIR/data/county_level/raw/nytimes_infections
 $(which python3) download.py >> $LOG_FILE
-cd $REPO_DIR/data/processed/nytimes_infections
+cd $REPO_DIR/data/county_level/processed/nytimes_infections
 $(which python3) clean.py >> $LOG_FILE
 
 cd $REPO_DIR/data/raw/usafacts_infections
