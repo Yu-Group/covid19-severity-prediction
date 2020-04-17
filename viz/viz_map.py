@@ -62,12 +62,12 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None, 
         variable_dictionary[re.sub("[^\w]","",vd)] = []
     for county_id in counties:
         StateCountyID = str(county_id[0]).zfill(2) + str(county_id[1]).zfill(3)
-        if StateCountyID in list(df["Header-FIPSStandCtyCode"].values):
-            temp_var = df[df["Header-FIPSStandCtyCode"] == StateCountyID][variable_to_distribute].values[0]
+        if StateCountyID in list(df["countyFIPS"].values):
+            temp_var = df[df["countyFIPS"] == StateCountyID][variable_to_distribute].values[0]
 #             if temp_var > 0.0:
             variable_dictionary[re.sub("[^\w]","",variable_to_distribute)].append(temp_var)
             for vd in variables_to_display:
-                variable_dictionary[re.sub("[^\w]","",vd)].append(round(float(df[df["Header-FIPSStandCtyCode"] == StateCountyID][vd].values),2))
+                variable_dictionary[re.sub("[^\w]","",vd)].append(round(float(df[df["countyFIPS"] == StateCountyID][vd].values),2))
             color_idx = list(temp_var - np.array(index_range)).index(min(x for x in list(temp_var - np.array(index_range)) if x >= 0))
             county_colors.append(colors[color_idx])
 
