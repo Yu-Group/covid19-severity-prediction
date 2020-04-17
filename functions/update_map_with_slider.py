@@ -36,7 +36,8 @@ if __name__ == "__main__":
                          filename=oj(parentdir, 'results', 'deaths.html'))
 
     # load in hospital data and merge
-    df_hospital = load_data.load_hospital_level(data_dir=oj(parentdir, 'data', 'hospital_level'))
+    df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
+                                                            'covid-19-private-data'))
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
     df = severity_index.add_severity_index(df, NUM_DAYS_LIST)
 
