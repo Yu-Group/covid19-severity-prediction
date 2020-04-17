@@ -4,85 +4,26 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.cbook as cbook
-from functions import merge_data
 from os.path import join as oj
 import os
 from sklearn.model_selection import train_test_split
 import re
-from functions import preprocess
-from functions import load_usafacts_data
 import data
 
-def load_county_level(
-        data_dir='data',
-        cached_file='df_county_level_cached.pkl',
-        cached_file_abridged='df_county_level_abridged_cached.csv',
-        ahrf_data='hrsa/data_AHRF_2018-2019/processed/df_renamed.pkl',
-        diabetes='diabetes/DiabetesAtlasCountyData.csv',
-        voting='voting/county_voting_processed.pkl',
-        icu='medicare/icu_county.csv',
-        heart_disease_data="cardiovascular_disease/heart_disease_mortality_data.csv",
-        stroke_data="cardiovascular_disease/stroke_mortality_data.csv",
-        unacast="unacast/Unacast_Social_Distancing_Latest_Available_03_23.csv"
-    ):
+def load_county_level(data_dir='data'):
     '''
     Params
     ------
     data_dir 
         path to the data directory
-    cached_file
-        path to the cached file (within the data directory)
     '''
-    #df_covid = load_usafacts_data.load_daily_data(data_dir=data_dir)
-    
-    cached_file = oj(data_dir, cached_file)
-    cached_file_abridged = oj(data_dir, cached_file_abridged)
-    ahrf_data = oj(data_dir, ahrf_data)
-    diabetes = oj(data_dir, diabetes)
-    voting = oj(data_dir, voting)
-    icu = oj(data_dir, icu)
-    heart_disease_data = oj(data_dir, heart_disease_data)
-    stroke_data = oj(data_dir, stroke_data)
-    unacast = oj(data_dir, unacast)
 
-    # try adding the data
-    df = data.load_county_data(data_dir=data_dir, cached=True)
-    #df = pd.merge(df, df_covid, on="countyFIPS")
+    if not "county_data_abridged.csv" in os.listdir(data_dir):
+        df = data.load_county_data(data_dir=data_dir, cached=False)
+    else:
+        df = data.load_county_data(data_dir=data_dir, cached=True)
     return df.sort_values("tot_deaths", ascending=False)
-    # look for cached file in data_dir
-    if os.path.exists(cached_file):
-        df = pd.read_pickle(cached_file)
-        df = pd.merge(df, df_covid, on='countyFIPS')
-        return df.sort_values('tot_deaths', ascending=False)
-
-    # otherwise run whole pipeline
-    print('loading county level data...')
-    df = merge_data.merge_data(ahrf_data=ahrf_data,
-                               medicare_group="All Beneficiaries",
-                               voting=voting,
-                               icu=icu,
-                               resp_group="Chronic respiratory diseases",
-                               heart_disease_data=heart_disease_data,
-                               stroke_data=stroke_data,
-                               diabetes=diabetes,
-                               unacast=unacast)  # also cleans usafacts data
-
-    # basic preprocessing
-    df = df.loc[:, ~df.columns.duplicated()]
-    df = df.infer_objects()
-
-    # add features
-    df = preprocess.add_features(df)
-
-    # write cached file
-    print('caching to', cached_file)
-    df.to_pickle(cached_file)
-    important_vars = important_keys(df)
-    df[important_vars].to_csv(cached_file_abridged)
-
-    # add covid data
-    df = pd.merge(df, df_covid, on='countyFIPS')
-    return df.sort_values('tot_deaths', ascending=False)
+    
 
 
 def load_hospital_level(data_dir='data_hospital_level',
@@ -160,6 +101,10 @@ def important_keys(df):
     social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
 
     important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social_dist
+    
+    # keep variables that are in df
+    important_vars = [var for var in important_vars if var in list(df.columns)]
+    
     return important_vars
 
 
