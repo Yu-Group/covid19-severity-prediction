@@ -30,7 +30,8 @@ from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
                      cached_abridged_file="county_data_abridged.csv",
-                     cached=True, abridged=True, infections_data="usafacts", rm_na=True):
+                     cached=True, abridged=True, infections_data="usafacts", 
+                     with_private_data=True):
     '''  Load in merged county data set
     
     Parameters
@@ -48,7 +49,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     infections_data : string; source for daily cases/deaths counts from
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
                       
-    rm_na : logical; whether or not to remove counties with NA cases or deaths
+    with_private_data : logical; whether or not to load in private data (if available)
         
     Returns
     -------
@@ -88,9 +89,14 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         ## ADD PRIVATE DATASETS HERE
         private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt"]
         
+        if with_private_data == True:
+            datasets = public_datasets + private_datasets
+        else:
+            datasets = public_datasets
+        
         # load in and clean county-level datasets
         df_ls = []
-        for dataset in public_datasets + private_datasets:
+        for dataset in datasets:
             # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_health":
                 os.chdir(oj(data_dir_raw, dataset))
@@ -181,10 +187,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     covid["countyFIPS"] = covid["countyFIPS"].astype(str).str.zfill(5)
     
     # merge county data with covid data
-    if rm_na == True:
-        df = pd.merge(cnty, covid, on='countyFIPS', how='right')
-    else:
-        df = pd.merge(cnty, covid, on='countyFIPS', how='left')
+    df = pd.merge(cnty, covid, on='countyFIPS', how='inner')
     print("loaded and merged COVID-19 cases/deaths data successfully")
 
     return df
@@ -251,13 +254,17 @@ def add_features(df):
 
 
 def important_keys(df):
+    # geographic variables
+    geography = ['CensusRegionName', 'CensusDivisionName',
+                 'Rural-UrbanContinuumCode2013']
+    
     # demographic variables
     demographics = ['PopulationEstimate2018',
                     'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
                     'PopulationEstimate65+2017',
                     'PopulationDensityperSqMile2010',
                     'CensusPopulation2010',
-                    'MedianAge2010',
+                    'MedianAge2010'
                     #'MedianAge,Male2010', 'MedianAge,Female2010',
                    ]
 
@@ -294,7 +301,7 @@ def important_keys(df):
     vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
 
     # get list of important variables
-    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social
+    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social
     
     # keep variables that are in df
     important_vars = [var for var in important_vars if var in list(df.columns)]
@@ -424,12 +431,10 @@ def load_hospital_data(
         )
     cms_cmi = pd.read_csv(
         oj(data_dir, "hospital_level/processed/cms_cmi/cms_cmi.csv"),
-        index_col=0,
         dtype=hospital_dtype,
     )
     cms_hospitalpayment = pd.read_csv(
         oj(data_dir, "hospital_level/processed/cms_hospitalpayment/cms_hospitalpayment.csv"),
-        index_col=0,
         dtype=hospital_dtype,
     )
     # hifld_hospital = pd.read_csv(

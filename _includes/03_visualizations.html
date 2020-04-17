@@ -21,17 +21,13 @@
 <a type="button" class="btn btn-primary" style="margin-bottom: 30px; margin-right: 10px;" href="https://yu-group.github.io/covid19-severity-prediction/results/severity_map.html">View map in fullscreen</a>
 
 <p> <strong>COVID pandemic severity index (CPSI)</strong>: this index is designed to help aid the distribution of medical resources to hospitals.
-  It takes on three values (<font color="#AC3931">3: High</font>, <font color="#D3787D">2: Medium</font>, <font color="#6E8E96">1: Low</font>), indicating the severity of the covid-19 outbreak for a hospital on a certain day. It is calculated in three steps:
+  It takes on three values (<font color="#AC3931">3: High</font>, <font color="#D3787D">2: Medium</font>, <font color="#6E8E96">1: Low</font>), indicating the severity of the covid-19 outbreak for a hospital on a certain day. It is calculated in three steps (more details <a href="https://yu-group.github.io/covid19-severity-prediction/results/hospital_index_animated.html">here</a>):
 <br>
 </p>
-<p align="left">
+<p align="left" style="font-size: 12pt;">
 1. county-level predictions for number of deaths are modeled<br>
 2. county-level predictions are allocated to hospitals within counties proportional the their total number of employees<br>
 3. final value is decided by thresholding the number of cumulative predicted deaths for a hospital (=current recorded deaths + predicted future deaths)<br>
 
   <br>
-</p>
-<p>
-  See  evolution of the CPSI for different hospitals as a function of the total deaths recorded at that hospital so far, and the predicted deaths <a href="https://yu-group.github.io/covid19-severity-prediction/results/hospital_index_animated.html"> here. </a>
-
 </p>

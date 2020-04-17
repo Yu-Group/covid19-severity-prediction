@@ -24,8 +24,9 @@
 |**lon**| longitude corresponding to county's geographic center | county_latlong |
 |**POP\_LATITUDE**| latitude corresponding to county's population center | county_popcenters |
 |**POP\_LONGITUDE**| longitude corresponding to county's population center | county_popcenters |
-|CensusRegionName| name of census region | ahrf_health |
-|CensusDivisionName| name of census division | ahrf_health |
+|**CensusRegionName**| name of census region | ahrf_health |
+|**CensusDivisionName**| name of census division | ahrf_health |
+|**Rural-UrbanContinuumCode2013**| rural-urban continuum code | ahrf_health |
 |HPSAName| name of the Health Professional Shortage Area (HPSA) name | hpsa_shortage |
 |HPSAMetroIndicator| whether a Health Professional Shortage Area (HPSA) is either Metropolitan, Non-Metropolitan, or Frontier in nature | hpsa_shortage |
 |HPSARuralStatus| rural, non-rural, or partially rural | hpsa_shortage|
