@@ -119,7 +119,8 @@ if __name__ == '__main__':
     print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
-    df_hospital = load_data.load_hospital_level(data_dir=oj(parentdir, 'data_hospital_level'))
+    df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
+                                                            'covid-19-private-data'))
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=oj(parentdir, 'data')) # adds keys like "Predicted Deaths 1-day"
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
     df = add_severity_index(df, NUM_DAYS_LIST)

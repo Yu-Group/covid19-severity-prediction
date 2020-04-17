@@ -1,5 +1,7 @@
 # Overview
 
+*Note: This repo is actively maintained - for any questions, please file an issue.*
+
 [Our group](https://www.stat.berkeley.edu/~yugroup/people.html) at UC Berkeley is working to help forecast the severity of the epidemic both for individual counties and individual hospitals. As a byproduct, we have and will continue to produce models, visualizations, and curated datasets (including confirmed cases/deaths, demographics, risk factors, social distancing data) that can be used by other teams in the fight against COVID-19. We are collaborating with [Response4Life](https://response4life.org/), a non-profit organization, whose goal is to blunt the effect of COVID-19 through the production and appropriate distribution of PPE, medical equipment, and medical personnel to healthcare facilities across the United States. [Paper link](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf): "Curating a COVID-19 data repository and forecasting
 county-level death counts in the United States".
 
@@ -18,16 +20,15 @@ county-level death counts in the United States".
 # Quickstart with the data + models
 
 ## Data
-Can load and merge the (abridged) data via:
+Can download, load, and merge the data via:
 ```python
 import load_data
-df = load_data.load_county_level(data_dir='/path/to/data')
-print(df.shape) 
+# first time it runs, downloads and caches the data
+df = load_data.load_county_level(data_dir='/path/to/data') 
 ```
 
 - for more data details, see [./data/readme.md](./data/readme.md)
 - see also the [county_quickstart notebook](county_quickstart.ipynb)
-- note: abridged csv with county-level info such as demographics, hospital information, risk factors, social distancing, and voting data is saved at `data/county_data_abridged.csv`
 - we are constantly monitoring and adding new data sources (+ relevant data news [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/))
 - output from running the daily updates is stored [here](./functions/update_test.log)
 

@@ -32,7 +32,6 @@ git commit -am "update usafacts and nytimes data"
 # push to origin
 git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-severity-prediction.git 
 
-
 # update severity index gsheet + index viz
 $(which python3) $REPO_DIR/functions/update_severity_index.py >> $LOG_FILE
 
@@ -46,7 +45,7 @@ $(which python3) $REPO_DIR/functions/update_predictions_plot.py >> $LOG_FILE
 $(which python3) $REPO_DIR/functions/update_county_preds.py >> $LOG_FILE
 
 # cache IHME preds
-$(which python3) $REPO_DIR/functions/update_ihme.py >> $LOG_FILE
+# $(which python3) $REPO_DIR/functions/update_ihme.py >> $LOG_FILE
 
 # after running all scripts need to push to git
 cd $REPO_DIR
