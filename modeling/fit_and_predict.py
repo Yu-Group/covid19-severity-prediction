@@ -138,25 +138,28 @@ def fit_and_predict(df,
             neighboring_counties_df = pd.read_csv(oj(parentdir, 'data/county_level/raw/county_ids/county_adjacency2010.csv'))
             neighboring_counties_df['fipscounty'] = neighboring_counties_df['fipscounty'].astype(str).str.zfill(5)
             neighboring_counties_df['fipsneighbor'] = neighboring_counties_df['fipsneighbor'].astype(str).str.zfill(5)
-
-            df_subset = df[df['countyFIPS'].isin(list(neighboring_counties_df['fipscounty']))]
             df['countyFIPS'] = df['countyFIPS'].astype(str).str.zfill(5)
+            
             county_neighbor_deaths = []
             county_neighbor_cases = []
-
             county_fips = list(df['countyFIPS'])
             for fips in county_fips:
-
-                neighboring_counties = list(neighboring_counties_df.loc[neighboring_counties_df['fipscounty'] == fips ]['fipsneighbor'])
+                neighboring_counties = list(neighboring_counties_df.loc[neighboring_counties_df['fipscounty'] == fips]['fipsneighbor'])
                 neighboring_county_deaths = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['deaths'])
                 neighboring_county_cases = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['cases'])
-
-                sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
-                for deaths in neighboring_county_deaths:
-                    sum_neighboring_county_deaths += deaths
-                sum_neighboring_county_cases = np.zeros(len(neighboring_county_deaths[0]))
-                for cases in neighboring_county_cases:
-                    sum_neighboring_county_cases += cases
+                # if not in county adjacency file, assume neighboring deaths/counts to 0
+                if len(neighboring_county_deaths) == 0:  
+                    n_deaths = len(df.loc[df['countyFIPS'] == fips]['deaths'].iloc[0])
+                    n_cases = len(df.loc[df['countyFIPS'] == fips]['cases'].iloc[0])
+                    sum_neighboring_county_deaths = np.zeros(n_deaths)
+                    sum_neighboring_county_cases = np.zeros(n_cases)
+                else:
+                    sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
+                    for deaths in neighboring_county_deaths:
+                        sum_neighboring_county_deaths += deaths
+                    sum_neighboring_county_cases = np.zeros(len(neighboring_county_deaths[0]))
+                    for cases in neighboring_county_cases:
+                        sum_neighboring_county_cases += cases
                 county_neighbor_deaths.append(sum_neighboring_county_deaths)
                 county_neighbor_cases.append(sum_neighboring_county_cases)
 
