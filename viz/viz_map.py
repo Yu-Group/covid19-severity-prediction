@@ -62,12 +62,12 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None, 
         variable_dictionary[re.sub("[^\w]","",vd)] = []
     for county_id in counties:
         StateCountyID = str(county_id[0]).zfill(2) + str(county_id[1]).zfill(3)
-        if StateCountyID in list(df["Header-FIPSStandCtyCode"].values):
-            temp_var = df[df["Header-FIPSStandCtyCode"] == StateCountyID][variable_to_distribute].values[0]
+        if StateCountyID in list(df["countyFIPS"].values):
+            temp_var = df[df["countyFIPS"] == StateCountyID][variable_to_distribute].values[0]
 #             if temp_var > 0.0:
             variable_dictionary[re.sub("[^\w]","",variable_to_distribute)].append(temp_var)
             for vd in variables_to_display:
-                variable_dictionary[re.sub("[^\w]","",vd)].append(round(float(df[df["Header-FIPSStandCtyCode"] == StateCountyID][vd].values),2))
+                variable_dictionary[re.sub("[^\w]","",vd)].append(round(float(df[df["countyFIPS"] == StateCountyID][vd].values),2))
             color_idx = list(temp_var - np.array(index_range)).index(min(x for x in list(temp_var - np.array(index_range)) if x >= 0))
             county_colors.append(colors[color_idx])
 
@@ -333,7 +333,7 @@ def plot_counties_slider(df,
     tot_deaths = df['tot_deaths']
 
     d = df
-    d['text'] = 'State: ' + d['StateName'] + \
+    d['text'] = 'State: ' + d['State'] + \
         ' (' + d['StateName'] + ')' + '<br>' + \
         'County: ' + d['CountyName'] + '<br>' + \
         'Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
@@ -681,7 +681,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
         'Estimated # Deaths in Hospital (As Of Yesterday): ' + d['Total Deaths Hospital'].astype(str)
     d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
-        'State: ' + d['StateName'] + ' (' + d['StateName'] + ')' + '<br>' + \
+        'State: ' + d['StateName'] + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
         'County # Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
         'County # Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
