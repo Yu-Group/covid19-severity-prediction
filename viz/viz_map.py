@@ -333,7 +333,7 @@ def plot_counties_slider(df,
     tot_deaths = df['tot_deaths']
 
     d = df
-    d['text'] = 'State: ' + d['StateName'] + \
+    d['text'] = 'State: ' + d['State'] + \
         ' (' + d['StateName'] + ')' + '<br>' + \
         'County: ' + d['CountyName'] + '<br>' + \
         'Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
@@ -681,7 +681,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
         'Estimated # Deaths in Hospital (As Of Yesterday): ' + d['Total Deaths Hospital'].astype(str)
     d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
-        'State: ' + d['StateName'] + ' (' + d['StateName'] + ')' + '<br>' + \
+        'State: ' + d['StateName'] + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
         'County # Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
         'County # Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
