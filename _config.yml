@@ -3,7 +3,7 @@ baseurl: ""
 
 # Site Settings
 title: COVID19 Severity Prediction
-description: "COVID19 Severity Prediction"
+description: "Forecasting short-term COVID19 severity in the US"
 keywords: "COVID19"
 
 markdown: kramdown
