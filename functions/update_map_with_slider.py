@@ -20,17 +20,18 @@ if __name__ == "__main__":
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
     # add lat and lon to the dataframe
     county_lat_lon = pd.read_csv(
-        oj(data_dir, 'county_pop_centers.csv'),
+        oj(parentdir, 'data_old/county_pop_centers.csv'),
         dtype={'STATEFP': str, 'COUNTYFP': str}
     )
-    county_lat_lon['fips'] = (county_lat_lon['STATEFP'] + county_lat_lon['COUNTYFP']).astype(np.int64)
+    county_lat_lon['fips'] = (county_lat_lon['STATEFP'] + county_lat_lon['COUNTYFP'])#.astype(np.int64)
     # add predictions
     NUM_DAYS_LIST = [1, 2, 3, 4, 5]
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=data_dir)
     # join lat / lon to df_county
-    df_county = df_county.join(county_lat_lon.set_index('fips'), on='countyFIPS', how='left').rename(
-        columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
-    )
+    # This does not seem necessary as lat and lon is already in the df_county
+    #df_county = df_county.join(county_lat_lon.set_index('fips'), on='countyFIPS', how='left').rename(
+    #    columns={'LATITUDE': 'lat', 'LONGITUDE': 'lon'}
+    #)
     # create county-level predictions plot
     viz_map.plot_counties_slider(df_county, auto_open=False,
                          n_past_days=1,
