@@ -1,7 +1,7 @@
 import pandas as pd
 
 def loadRespDiseaseSheet(sheet_name):
-    filepath = "data/respiratory_disease/IHME_USA_COUNTY_RESP_DISEASE_MORTALITY_1980_2014_NATIONAL_Y2017M09D26.XLSX"
+    filepath = "data_old/respiratory_disease/IHME_USA_COUNTY_RESP_DISEASE_MORTALITY_1980_2014_NATIONAL_Y2017M09D26.XLSX"
     orig_data = pd.read_excel(filepath,
                               sheet_name = "Chronic respiratory diseases",
                               skiprows = 1,

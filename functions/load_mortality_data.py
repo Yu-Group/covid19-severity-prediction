@@ -8,7 +8,7 @@ import matplotlib.cbook as cbook
 def loadMortalityData(suffix = ""):
     
     # get data path
-    prefix = "./data/mortality/Compressed Mortality, 2012-2016"
+    prefix = "./data_old/mortality/Compressed Mortality, 2012-2016"
     if suffix != "":
         suffix = ", " + suffix
         nrows = 3147
