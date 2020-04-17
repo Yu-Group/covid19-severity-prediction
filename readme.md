@@ -1,6 +1,6 @@
 # Overview
 
-*Note: for any questions, please file an issue*
+*Note: This repo is actively maintained - for any questions, please file an issue.*
 
 [Our group](https://www.stat.berkeley.edu/~yugroup/people.html) at UC Berkeley is working to help forecast the severity of the epidemic both for individual counties and individual hospitals. As a byproduct, we have and will continue to produce models, visualizations, and curated datasets (including confirmed cases/deaths, demographics, risk factors, social distancing data) that can be used by other teams in the fight against COVID-19. We are collaborating with [Response4Life](https://response4life.org/), a non-profit organization, whose goal is to blunt the effect of COVID-19 through the production and appropriate distribution of PPE, medical equipment, and medical personnel to healthcare facilities across the United States. [Paper link](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf): "Curating a COVID-19 data repository and forecasting
 county-level death counts in the United States".
