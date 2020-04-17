@@ -117,15 +117,6 @@ def split_data_by_county(df):
     df_test = df[df.countyFIPS.isin(fips_test)]
     return df_train, df_test
 
-
-if __name__ == '__main__':
-    df = load_county_level()
-    print('loaded succesfully')
-    print(df.shape)
-    print('data including', 
-          [k for k in df.keys() if '#Deaths' in k][-1],
-          [k for k in df.keys() if '#Cases' in k][-1])
-
     
 def city_to_countFIPS_dict(df):
     '''
@@ -139,3 +130,11 @@ def city_to_countFIPS_dict(df):
             dr[row['City']] = row['countyFIPS']
         elif row['City'] in dr and not np.isnan(row['countyFIPS']):
             dr[row['City']] = row['countyFIPS']
+
+if __name__ == '__main__':
+    df = load_county_level()
+    print('loaded succesfully')
+    print(df.shape)
+    print('data including', 
+          [k for k in df.keys() if '#Deaths' in k][-1],
+          [k for k in df.keys() if '#Cases' in k][-1])
