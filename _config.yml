@@ -7,4 +7,4 @@ description: "Forecasting short-term COVID19 severity in the US"
 keywords: "COVID19"
 
 markdown: kramdown
-exclude: ["Rakefile", "LICENSE", "readme.md"]
+exclude: ["LICENSE", "readme.md", "eda"]
