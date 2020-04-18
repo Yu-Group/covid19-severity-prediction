@@ -1,10 +1,10 @@
-url: https://yu-group.github.io/covid19-severity-prediction/
+url: https://covidseverity.com/
 baseurl: ""
 
 # Site Settings
 title: COVID19 Severity Prediction
-description: "COVID19 Severity Prediction"
+description: "Forecasting short-term COVID19 severity in the US"
 keywords: "COVID19"
 
 markdown: kramdown
-exclude: ["Rakefile", "LICENSE", "readme.md"]
+exclude: ["LICENSE", "readme.md", "eda"]
