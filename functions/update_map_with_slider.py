@@ -16,7 +16,7 @@ import pandas as pd
 
 # will only work with plotly-orca installed
 # see https://plotly.com/python/static-image-export/
-TO_PNG = True
+TO_PNG = False
 
 if __name__ == "__main__":
     data_dir = oj(parentdir, 'data')
