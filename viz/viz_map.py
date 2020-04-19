@@ -331,13 +331,17 @@ def plot_counties_slider(df,
     fips = df['countyFIPS'].tolist()
     tot_deaths = df['tot_deaths']
 
+    latest_date = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+
     d = df
     d['text'] = 'State: ' + d['State'] + \
         ' (' + d['StateName'] + ')' + '<br>' + \
         'County: ' + d['CountyName'] + '<br>' + \
         'Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
-        '# Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
-        '# Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
+        '# Recorded Cases as of ' + latest_date + ": " + \
+        d['tot_cases'].astype(str) + '<br>' + \
+        '# Recorded Deaths as of ' + latest_date +  ": " + \
+        tot_deaths.astype(str) + '<br>' + \
         '# Hospitals: ' + d['#Hospitals'].astype(str)
 
     # compute scale_max for plotting colors
@@ -673,16 +677,21 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
     # replace missing values with string so below 'text' isn't missing
     d = d.replace(np.nan, 'Missing', regex=True)
 
+    latest_date = d.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+
     d['text_hospital'] = 'Hospital Name: ' + d['Hospital Name'] + '<br>' + \
         'Hospital # Employees: ' + d['Hospital Employees'].astype(str) + '<br>' + \
         'Hospital Type: ' + d['Hospital Type'] + '<br>' + \
         'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
-        'Estimated # Deaths in Hospital (As Of Yesterday): ' + d['Total Deaths Hospital'].astype(str)
+        'Estimated # Deaths in Hospital as of ' + latest_date + ": " + \
+        d['Total Deaths Hospital'].astype(str)
     d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
         'State: ' + d['StateName'] + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
-        'County # Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
-        'County # Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
+        'County # Recorded Cases as of ' + latest_date + ": " + \
+        d['tot_cases'].astype(str) + '<br>' + \
+        'County # Recorded Deaths as of ' + latest_date + ": " + \
+        tot_deaths.astype(str) + '<br>' + \
         'County Total # Hospitals: ' + d['#Hospitals'].astype(str) + '<br>' + \
         'County Total # Hospital Employees: ' + d['Hospital Employees in County'].astype(str)
 
@@ -717,7 +726,6 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         fig.data[3*target_days.size].visible = True
 
     # add slider to layout
-    latest_date = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
     sliders = make_severity_index_sliders(target_days, plot_choropleth, latest_date)
     fig.update_layout(
         sliders=sliders
