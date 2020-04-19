@@ -154,7 +154,7 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
             zmin=0,
             zmax=scale_max,
             hoverinfo='skip',
-            colorbar_title = "<b> Deaths </b>"
+            colorbar_title = "<b> Deaths </b><br> (choropleth)"
         )
         return choropleth_trace
 
@@ -164,6 +164,8 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
     # add past days
     for col in past_days:
         values = df[col]
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
 
         # TODO: add new deaths
@@ -180,6 +182,8 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
         #)
         pred_col = f'Predicted Deaths {i+1}-day'
         values = df[pred_col]
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
 
         choropleth_trace = make_choropleth_trace(values, fips)
@@ -219,6 +223,8 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
     # add past days
     for col in past_days:
         values = df[col]
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
         lat = df['lat']
         lon = df['lon']
@@ -241,6 +247,8 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
 
         pred_col = f'Predicted Deaths {i+1}-day'
         values = df[pred_col].round()
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
         lat = df['lat']
         lon = df['lon']
@@ -360,7 +368,8 @@ def plot_counties_slider(df,
     #     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
     # TODO: add new_deaths
-    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days' + '<br>'\
+    '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
@@ -398,6 +407,8 @@ def plot_counties_slider(df,
         'autosizable': True,
         'displaylogo': False
     }, auto_open = auto_open)
+
+    return fig
 
 
 """
@@ -684,7 +695,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         'Hospital Type: ' + d['Hospital Type'] + '<br>' + \
         'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
         'Estimated # Deaths in Hospital as of ' + latest_date + ": " + \
-        d['Total Deaths Hospital'].astype(str)
+        d['Total Deaths Hospital'].round().astype(str)
     d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
         'State: ' + d['StateName'] + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
@@ -698,12 +709,13 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
     # compute scale_max for plotting colors
     pred_col = f'Predicted Deaths {target_days[-1]}-day'
     values = df_county[pred_col]
-    scale_max = values.quantile(.995)
+    scale_max = values.quantile(.99)
 
     map_title='Hospital-Level COVID-19 Pandemic Severity Index (CPSI)'
     if plot_choropleth:
-        map_title = map_title + ' and Predicted Deaths Choropleth'
-    map_title = map_title + ' Over the Next '+ str(target_days.size) + ' Days'
+        map_title = map_title + ' and Predicted Deaths'
+    map_title = map_title + '<br> Over the Next '+ str(target_days.size) + ' Days' + '<br>'\
+    '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
@@ -739,3 +751,5 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         'autosizable': True,
         'displaylogo': False
     }, auto_open = auto_open)
+
+    return fig
