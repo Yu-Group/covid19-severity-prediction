@@ -14,10 +14,6 @@ import merge_data
 import numpy as np
 import pandas as pd
 
-# will only work with plotly-orca installed
-# see https://plotly.com/python/static-image-export/
-TO_PNG = False
-
 if __name__ == "__main__":
     data_dir = oj(parentdir, 'data')
 
@@ -39,9 +35,8 @@ if __name__ == "__main__":
                                               target_days=np.array(NUM_DAYS_LIST),
                                               filename=oj(parentdir, 'results', 'deaths.html'))
     print('successfully updated map of deaths')
-
-    if TO_PNG:
-        deaths_fig.write_image(oj(parentdir, 'results', 'deaths.png'), width=734, height=784)
+    deaths_fig.write_image(oj(parentdir, 'results', 'deaths.png'), width=734, height=784)
+    print('successfully updated png of map of deaths')
 
     # load in hospital data and merge
     df_hospital = load_data.load_hospital_level(
@@ -61,5 +56,5 @@ if __name__ == "__main__":
     )
     print('successfully updated map of severity index')
 
-    if TO_PNG:
-        severity_fig.write_image(oj(parentdir, 'results', 'severity_map.png'), width=734, height=784)
+    severity_fig.write_image(oj(parentdir, 'results', 'severity_map.png'), width=734, height=784)
+    print('successfully updated png of map of severity index')
