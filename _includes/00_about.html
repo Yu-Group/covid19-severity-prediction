@@ -4,9 +4,11 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
 
-                    <p class="intro-text" style="margin-top: 100px; text-align: justify;">
-                    <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRXKvNYDYm00f9EQHDMzMfs9n4otYEklUThbACGof0hEQLtJvrEn33mcRXPb3w8b9BKOawGnfl77Yfg/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-<a href="https://www.stat.berkeley.edu/~yugroup/people.html">The Yu Group </a> at UC Berkeley Statistics and EECS and CCB is
+                    <div class="model-box" style="margin-top: 100px">
+                        <iframe class="model" src="https://docs.google.com/presentation/d/e/2PACX-1vRXKvNYDYm00f9EQHDMzMfs9n4otYEklUThbACGof0hEQLtJvrEn33mcRXPb3w8b9BKOawGnfl77Yfg/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen=""></iframe>
+                    </div>
+                    <p style="margin-top: 10px">
+    <a href="https://www.stat.berkeley.edu/~yugroup/people.html">The Yu Group </a> at UC Berkeley Statistics and EECS and CCB is
     working to help forecast the severity of the epidemic for individual counties and
     hospitals in the US. We develop interpretable models (updated daily) and
     curate data to predict the trajectory of COVID-19-related deaths.
@@ -27,3 +29,20 @@
         </div>
     </div>
 </header>
+<style>
+    .model-box {
+  position:   relative;
+  width:      100%;
+  height: 0;
+  padding-top:   66.6%; /* This is your aspect ratio */ }
+
+.model {
+  position: absolute;
+  top:      0;
+  left:     0;
+  bottom:   0;
+  right:    0;
+  width:    100%;
+  height:   100%
+}
+</style>
