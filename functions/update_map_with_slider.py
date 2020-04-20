@@ -35,7 +35,8 @@ if __name__ == "__main__":
                                               target_days=np.array(NUM_DAYS_LIST),
                                               filename=oj(parentdir, 'results', 'deaths.html'))
     print('successfully updated map of deaths')
-    deaths_fig.write_image(oj(parentdir, 'results', 'deaths.png'), width=734, height=784)
+    deaths_fig.write_image(oj(parentdir, 'results', 'deaths.png'),
+                           width=734, height=784, scale=2)
     print('successfully updated png of map of deaths')
 
     # load in hospital data and merge
@@ -56,5 +57,6 @@ if __name__ == "__main__":
     )
     print('successfully updated map of severity index')
 
-    severity_fig.write_image(oj(parentdir, 'results', 'severity_map.png'), width=734, height=784)
+    severity_fig.write_image(oj(parentdir, 'results', 'severity_map.png'),
+                             width=734, height=784, scale=2)
     print('successfully updated png of map of severity index')
