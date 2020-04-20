@@ -14,6 +14,7 @@
     - **countyFIPS**: county FIPS
     - **daily_distance_diff%Y-%m-%d**: change of average distance traveled on %Y-%m-%d from baseline (avg. distance traveled for same day of week during pre-COVID-19 time period for a specific county)
     - **daily_visitation_diff%Y-%m-%d**: change of visits to non-essential retail and services on %Y-%m-%d from baseline (avg. visits for same day of week during pre-COVID-19 time period for a specific county)
+    - **encounter_rate%Y-%m-%d**: rate of unique human encounters per km^2 on %Y-%m-%d relative to national pre-COVID-19 baseline (median of the metric on a country level in 4 weeks before March 8)
 
 - **Notes**:
 
