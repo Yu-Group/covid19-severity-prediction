@@ -55,4 +55,3 @@ def plot_scatter(x, y, c, s, xlab: str, ylab: str, colorlab: str,
     legend2 = ax.legend(handles, l2, loc="lower right", title=sizelab)
     plt.xlabel(xlab)
     plt.ylabel(ylab)
-    plt.show()
