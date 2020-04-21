@@ -131,6 +131,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
             
+            
         # merge county ids data
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
         cnty_fips["countyFIPS"] = cnty_fips["countyFIPS"].str.zfill(5)
@@ -148,6 +149,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         # merge county-level data with county ids
         for i in range(0, len(df_ls)):
             df_ls[i] = clean_id(df_ls[i])  # remove potentially duplicate ID columns
+            df_ls[i] = clean_fips(df_ls[i])  # rename county fips if they have been changed recently
             cnty = pd.merge(cnty, df_ls[i], on='countyFIPS', how="left")  # merge data
             
         # basic preprocessing
@@ -169,11 +171,13 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
             cnty.to_csv(oj(data_dir, cached_file), header=True, index=False)
             print("saved " + cached_file + " successfully")
         
-    # get covid-19 infections data
+    # get cleaned covid-19 infections data
     if infections_data == 'usafacts':
         covid = pd.read_csv(oj(data_dir_clean, "usafacts_infections", "usafacts_infections.csv"))
+        covid = clean_fips(covid)
     elif infections_data == 'nytimes':
         covid = pd.read_csv(oj(data_dir_clean, "nytimes_infections", "nytimes_infections.csv"))
+        covid = clean_fips(covid)
     
     # add time-series keys
     deaths_keys = [k for k in covid.keys() if '#Deaths' in k]
@@ -214,6 +218,31 @@ def clean_id(df):
             
     return df
 
+
+def clean_fips(df):
+    ''' Fix county FIPS which have been recently renamed
+    
+    Parameters
+    ----------
+    df : data frame
+    
+    Returns
+    -------
+    data frame with most up to date countyFIPS
+    '''
+
+    if "02158" in df.countyFIPS.to_list():
+        if "02270" in df.countyFIPS.to_list():
+            df = df[df.countyFIPS != "02158"]
+        else:
+            df.countyFIPS[df.countyFIPS == "02158"] = "02270"
+    if "46102" in df.countyFIPS.to_list():
+        if "46113" in df.countyFIPS.to_list():
+            df = df[df.countyFIPS != "46102"]
+        else:
+            df.countyFIPS[df.countyFIPS == "46102"] == "46113"
+    
+    return df
 
 def add_features(df):
     

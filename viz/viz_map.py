@@ -664,24 +664,32 @@ def make_severity_index_sliders(target_days, plot_choropleth, latest_date):
 
 def plot_hospital_severity_slider(df, # merged hospital and county, with severity
                                   target_days=np.array([1, 2, 3, 4, 5]),
-                                  filename="severity_map.html",
+                                  filename="severity_map.html", # no effect unless plot = True
                                   cumulative=True, # not currently used
                                   plot_choropleth=True,
                                   df_county = None,
                                   counties_json=None,
                                   dark=True,
-                                  auto_open=True):
+                                  auto_open=True,
+                                  plot=True,
+                                  county_filter=None):
     """
     """
     if plot_choropleth:
         assert counties_json is not None, 'counties_json must be included for plotting choropleth'
         assert df_county is not None, 'df_county must be included for plotting county predictions'
     # TODO: note that df should have all data (preds and lat lon)
-    # TODO: add previous days
-    fips = df['countyFIPS'].tolist()
-    tot_deaths = df['tot_deaths']
-
     d = df
+    d_c = df_county
+
+    if county_filter is not None:
+        d = d[d['CountyName'] == county_filter]
+        if plot_choropleth:
+            d_c = d[d['CountyName'] == county_filter]
+
+    fips = d['countyFIPS'].tolist()
+    tot_deaths = d['tot_deaths']
+
     for day in target_days:
         pred_col = f'Predicted Deaths {day}-day'
         d[pred_col] = d[pred_col].astype(float).round()
@@ -708,7 +716,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
 
     # compute scale_max for plotting colors
     pred_col = f'Predicted Deaths {target_days[-1]}-day'
-    values = df_county[pred_col]
+    values = d_c[pred_col]
     scale_max = values.quantile(.99)
 
     map_title='Hospital-Level COVID-19 Pandemic Severity Index (CPSI)'
@@ -730,9 +738,8 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
 
     # make choropleth if plotting
     if plot_choropleth:
-        d_county = df_county
         add_counties_slider_choropleth_traces(
-            fig, d_county, [], target_days, scale_max, counties_json
+            fig, d_c, [], target_days, scale_max, counties_json
         )
         # make first day choropleth visible
         fig.data[3*target_days.size].visible = True
@@ -743,13 +750,14 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         sliders=sliders
     )
 
-    plot(fig, filename=filename, config={
-        'showLink': False,
-        'showSendToCloud': False,
-        'sendData': True,
-        'responsive': True,
-        'autosizable': True,
-        'displaylogo': False
-    }, auto_open = auto_open)
+    if plot:
+        plot(fig, filename=filename, config={
+            'showLink': False,
+            'showSendToCloud': False,
+            'sendData': True,
+            'responsive': True,
+            'autosizable': True,
+            'displaylogo': False
+        }, auto_open = auto_open)
 
     return fig

@@ -28,7 +28,7 @@ def clean_unacast_mobility(data_dir='../../../../../covid-19-private-data',
     drop_keys = ['weekday', 'covid', 'state_fips', 'county_population', 
                  'grade_total', 'grade_distance', 'grade_visitation', 
                  'n_grade_total', 'n_grade_distance', 'n_grade_visitation',
-                 'last_updated']
+                 'grade_encounters', 'n_grade_encounters', 'last_updated']
     df = df.drop(columns = drop_keys)
     
     # rename features
@@ -45,7 +45,8 @@ def clean_unacast_mobility(data_dir='../../../../../covid-19-private-data',
     
     # convert to wide format
     df = df.pivot(index = 'countyFIPS', columns = 'date', 
-                  values = ['daily_distance_diff', 'daily_visitation_diff'])
+                  values = ['daily_distance_diff', 'daily_visitation_diff',
+                            'encounters_rate'])
     df = pd.DataFrame(df.to_records())
     df.columns = [col.replace("('", "").replace("', '", "").replace("')", "") \
                   for col in df.columns]
