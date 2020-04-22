@@ -112,7 +112,7 @@ def df_to_plot(df, NUM_DAYS_LIST):
         ks.append(f'Predicted Deaths Hospital {i}-day')
         ks.append(f'Severity Index {i}-day')
         df[f'Severity Index {i}-day'] = [remap[x] for x in df[f'Severity {i}-day']]
-    ks += ['Surge County 3-day', 'tot_deaths'] # county keys
+    ks += ['Surge County 3-day', 'tot_deaths', 'SVIPercentile'] # county keys
     return df[ks]
     
 if __name__ == '__main__':
