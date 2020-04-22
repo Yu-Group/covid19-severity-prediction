@@ -671,7 +671,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
                                   counties_json=None,
                                   dark=True,
                                   auto_open=True,
-                                  plot=True,
+                                  plot_fig=True,
                                   county_filter=None):
     """
     """
@@ -750,7 +750,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         sliders=sliders
     )
 
-    if plot:
+    if plot_fig:
         plot(fig, filename=filename, config={
             'showLink': False,
             'showSendToCloud': False,
