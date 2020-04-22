@@ -7,7 +7,7 @@ sys.path.append(parentdir + '/modeling')
 # sys.path.append(parentdir + '/viz')
 
 from fit_and_predict import add_preds
-from viz import viz_mapjjj
+from viz import viz_map
 import update_severity_index as severity_index
 import load_data
 import merge_data
