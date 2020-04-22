@@ -51,8 +51,10 @@ if __name__ == "__main__":
 
     # create hospital-level severity index plot
     severity_fig = viz_map.plot_hospital_severity_slider(
-        df, target_days=np.array(NUM_DAYS_LIST),
-        df_county=df_county, counties_json=counties_json, dark=True,
+        df,
+        target_days=np.array(NUM_DAYS_LIST),
+        df_county=df_county,
+        counties_json=counties_json, dark=True,
         auto_open=False, filename=oj(parentdir, 'results', 'severity_map.html')
     )
     print('successfully updated map of severity index')
