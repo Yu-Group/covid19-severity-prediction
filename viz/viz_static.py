@@ -90,7 +90,7 @@ def plot_forecasts(dd, target='deaths', days_in_future=5, death_thresh=0):
         plt.fill_between(np.arange(num - 1, end), lower, upper, color=cs[i], alpha=0.1)
         plt.plot(np.arange(num - 1, end), preds, linestyle='dotted', alpha=1, color=cs[i])
         plt.ylabel('Cumulative deaths')
-        plt.xlabel(f'Days')
+        plt.xlabel(f'Date')
         plt.xticks(xticks, xlabs, rotation=0)
         plt.xlim(right=end * 1.25) # extend lim to make space for labels
         labs.append(row['CountyName'] + ', ' + row['StateName'])

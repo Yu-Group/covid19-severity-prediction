@@ -78,6 +78,7 @@ def forecasts_plot(df):
     dd = df[df.StateName != 'NY'] 
     plt.subplot(R, C, 2)
     viz_static.plot_forecasts(dd.head(6), death_thresh=16)
+    plt.xlabel('')
     plt.title('Most-affected counties outside NY')
 
 
