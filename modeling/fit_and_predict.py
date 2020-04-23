@@ -175,7 +175,9 @@ def fit_and_predict(df,
 
 
         feat_transforms = defaultdict(lambda y: [lambda x: x]) 
+        feat_transforms['deaths_per_cap'] = [lambda x: np.log(x+1)]
         feat_transforms['deaths'] = [lambda x: np.log(x+1)]
+        feat_transforms['new_deaths'] = [lambda x: np.log(x+1)]
         feat_transforms['cases'] =  [lambda x: np.log(x+1)]
         feat_transforms['neighbor_deaths'] =  [lambda x: np.log(x+1)]
         feat_transforms['neighbor_cases'] =  [lambda x: np.log(x+1)]
@@ -371,7 +373,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             if np.isnan(vals[i]):
                 out.append(0)
             else:
-                out.append(vals[i][0])
+                out.append(max(vals[i][0],list(df_county['deaths'])[i]))
         df_county[output_key] = out
         
     if cached_dir is not None:
