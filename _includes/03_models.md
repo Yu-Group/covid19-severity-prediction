@@ -14,5 +14,5 @@ However, we also find that some counties are starting to experience sub-exponent
 <figure class="video_container">
   <iframe src="results/predictions.html" frameborder="0" allowfullscreen="true" width="100%" height="650px"> </iframe>
 </figure>
-**Predictive accuracy**: This scatterplot shows the accuracy of our 3-day predictions (predicting today from 3 days ago). Bubble size corresponds to county size.
+**Predictive accuracy**: This scatterplot shows the accuracy of our 3-day predictions (predicting today from 3 days ago). Bubble size corresponds to county size (this plot omits counties which have no recorded deaths as of today).
 

@@ -31,6 +31,7 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
         output_key: pred_key,
         'tot_deaths': deaths_key,
     })
+    d = d[d[pred_key] >= 1e-1]
     minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
     maxx = max(max(d[pred_key]), max(d[deaths_key]))
 

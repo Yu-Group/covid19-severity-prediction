@@ -1,18 +1,2 @@
 cleaned nytimes infections successfully.
 cleaned usafacts infections successfully.
-loading data...
-loaded and merged COVID-19 cases/deaths data successfully
-writing to gsheets...
-writing to api
-api post succeeded? {"message": "success"}
-succesfully wrote to gsheets
-writing viz index animated...
-succesfully wrote viz index animated
-success! 4_22_5
-loaded and merged COVID-19 cases/deaths data successfully
-successfully updated map of deaths
-successfully updated png of map of deaths
-loading data...
-loaded and merged COVID-19 cases/deaths data successfully
-loaded and merged COVID-19 cases/deaths data successfully
-succesfully updated county preds!
