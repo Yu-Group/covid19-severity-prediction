@@ -183,19 +183,10 @@ def linear_fit(counts, mode, target_day=np.array([1])):
                 predicted_counts.append(np.array(m.predict(X_test)))
             except PerfectSeparationError as e:
                 print('Warning: PerfectSeparationError detected')
-                rate = 1.0 * train_ts[-1]/train_ts[-2]
-                predicted_counts.append(np.array(train_ts[-1]*np.array([rate**i for i in target_day])))  
-
-                       try:
-                m =  m.fit()
-                X_test = np.transpose(np.vstack((target_day + active_day - 1, 
-                                             #np.log(target_day + active_day),
-                                             np.ones(len(target_day)))))
-                predicted_counts.append(np.array(m.predict(X_test)))
-            except PerfectSeparationError as e:
-                print('Warning: PerfectSeparationError detected')
                 rate = max(train_ts[-1] - train_ts[-2], 0)
                 predicted_counts.append(np.array(train_ts[-1] + np.array([rate*i for i in target_day])))  
+
+
         #else:
         #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
