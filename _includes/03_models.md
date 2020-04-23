@@ -12,9 +12,12 @@ However, we also find that some counties are starting to experience sub-exponent
 "flattening-the-curve" impacts of interventions such as social distancing and shelter in place orders. Details are in the [paper](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf).
 
 <img src="results/forecasts.svg" style="width:100%;">
+**5-day forecasts for selected counties**: Prediction intervals are based on the historical performance of our predictors (narrower for counties where the forecasts were accurate). If we denote $err$ as the largest normalized absolute error for a given county in the past five days, then our prediction interval has the form $[prediction \cdot (1 - err), prediction \cdot (1 + err)]$.
+
+This scatterplot shows the accuracy of our 3-day predictions (predicting today from 3 days ago). Bubble size corresponds to county size (this plot omits counties which have no recorded deaths as of today).
 
 <figure class="video_container">
   <iframe src="results/predictions.html" frameborder="0" allowfullscreen="true" width="100%" height="650px"> </iframe>
 </figure>
-**Predictive accuracy**: This scatterplot shows the accuracy of our 3-day predictions (predicting today from 3 days ago). Bubble size corresponds to county size (this plot omits counties which have no recorded deaths as of today).
+**Predictive accuracy**: Accuracy of our 3-day predictions (predicting today from 3 days ago). Bubble size corresponds to county size (this plot omits counties which have no recorded deaths as of today).
 
