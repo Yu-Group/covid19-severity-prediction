@@ -47,6 +47,7 @@ exponential = {'model_type':'exponential'}
 shared_exponential = {'model_type':'shared_exponential'}
 demographics = {'model_type':'shared_exponential', 'demographic_vars':very_important_vars}
 linear = {'model_type':'linear'}
+advanced_model = {'model_type':'advanced_shared_model'}
 
 
 def fit_and_predict(df, 
@@ -272,67 +273,121 @@ def fit_and_predict_ensemble(df,
     df[output_key] = weighted_preds
     return df
         
-
-def get_forecasts(df,
-                  outcome,
-                  method,
-                  output_key,
-                  target_day=np.array([1]),
-                  demographic_vars=[]
-                  ):
-    
-    """
-    This is a tentative interface for extracting cases/deaths forecasts of future days
-    
-    df: county_level df
-    outcome: 'cases' or 'deaths'
-    method: currently only support 'exponential' and 'shared_exponential'
-    target_day:
-    output_key
-    
-    output: df with forecasts in output_key 
-    """
-    
-    ## not tested yet
-    
-    
-    if method == 'exponential':
-        return exponential_modeling.get_exponential_forecasts(df=df, 
-                                                              outcome=outcome, 
-                                                              target_day=target_day,
-                                                              output_key=output_key)
-         
-    
-
-    elif method == 'shared_exponential':
-        df[output_key] = exponential_modeling.fit_and_predict_shared_exponential(df, 
-                                                                                 mode='predict_future', 
-                                                                                 demographic_vars=[],
-                                                                                 outcome=outcome)
-        return df
-    elif method == 'shared_demographic':
-        assert len(demographic_vars) > 0
-
-        df[output_key] = exponential_modeling.fit_and_predict_shared_exponential(df, 
-                                                                                 mode='predict_future', 
-                                                                                 demographic_vars=demographic_vars,
-                                                                                 outcome=outcome)
-        return df
-    
-    elif method == 'ensemble':
-        df[output_key] = fit_and_predict.fit_and_predict(df, 
-                                                         method='ensemble',
-                                                         mode='predict_future', 
-                                                         demographic_vars=[],
-                                                         outcome=outcome)[f'predicted_{outcome}_{method}_{target_day[-1]}']
-        return df        
-
-    
-    else:
-        print('Unknown method')
-        raise ValueError        
-
         
+def previous_prediction_errors(df, 
+                               target_day: np.ndarray=np.array([1]),
+                               outcome: str='deaths', 
+                               methods: list=[advanced_model, linear],
+                               look_back_day: int=5,
+                               output_key: str=None):
+    """
+    Calculating prediction errors of previous days
+    Input:
+        df: pd.DataFrame
+        target_day: np.ndarray
+        outcome: str
+        methods: list
+        look_back_day: int
+            returns the prediction errors for the last {look_back_day} days
+    Output:
+        list of {len(df)} dictionaries, the keys of each dictionary are days in target_day, and the values are a list of (normalized) l1 error, of length {look_back_day}
+    """
+    
+    # find previous models to run
+    previous_start_days = defaultdict(list)
+    for day in target_day:
+        for back_day in range(look_back_day):
+            previous_start_days[day + back_day].append(day)
+    
+    #previous_model_predictions = {}
+    previous_model_errors = [defaultdict(list) for i in range(len(df))]
+    prediction_uncertainty = [defaultdict(list) for i in range(len(df))]
+    
+    for t in previous_start_days:
+        
+        previous_target_days = previous_start_days[t]
+        df_old = exponential_modeling.leave_t_day_out(df, t)
+        
+        previous_model_predictions = fit_and_predict_ensemble(df_old, 
+                                             target_day=np.array(previous_target_days),
+                                             outcome=outcome, 
+                                             methods=methods,
+                                             mode='predict_future', 
+                                             output_key='old_predictions',
+                                             )['old_predictions'].values # running old prediction models
+        for i in range(len(df)):
+            for (j, td) in enumerate(previous_target_days):
+                pred = previous_model_predictions[i][j]
+                actual_outcome = df[outcome].iloc[i][td-t-1]
+                error = actual_outcome/max(pred, 1)-1
+                previous_model_errors[i][td].append(error)
+        
+    #for i in range(len(df)):
+    #    for td in target_day:
+     #       prediction_uncertainty[i][td] = max(previous_model_errors[i][td])
+    
+    df[output_key] = previous_model_errors
+            
+    return df
+
+
+def add_prediction_intervals(df, 
+                             target_day: np.ndarray=np.array([1]),
+                             outcome: str='deaths', 
+                             methods: list=[advanced_model, linear],
+                             interval_type: str='local',
+                             look_back_day: int=5,
+                             output_key: str=None):
+    """
+    Adding intervals for future prediction
+    Input:
+        df: pd.DataFrame
+        target_day: np.ndarray
+        outcome: str
+        methods: list
+        interval_type: str
+            'local' or 'combined'
+    Output:
+        list of {len(df)} dictionaries, the keys of each dictionary are days in target_day, and the values are the predicted intervals
+     """
+    
+    assert interval_type == 'local' or interval_type == 'combined', 'unknown interval type'
+    lower_bound = {'deaths':10, 'cases':10}
+    
+    df = previous_prediction_errors(df, target_day, outcome, methods, look_back_day=5, output_key='previous_errors')
+    
+    df = fit_and_predict_ensemble(df, 
+                                  target_day=target_day,
+                                  outcome=outcome, 
+                                  methods=methods,
+                                  mode='predict_future', 
+                                  output_key='new_predictions',
+                                  verbose=False)
+    
+    preds = df['new_predictions'].values
+    latest_cases = np.array([p[-1] for p in df[outcome].values])
+    intervals = [[] for i in range(len(df))]
+    qts = {}
+    for td in target_day:
+        all_errors = []
+        for i in range(len(df)):
+            if latest_cases[i] >= lower_bound[outcome]:
+                all_errors += df['previous_errors'].values[i][td]
+        qts[td] = (np.quantile(np.array(all_errors), .05), np.quantile(np.array(all_errors), .95))
+    
+    for i in range(len(df)):
+        largest_error = []
+        for (j, td) in enumerate(target_day):
+            largest_error.append(max(np.abs(np.array(df['previous_errors'].values[i][td]))))
+            if interval_type == 'local':
+                intervals[i].append((max(preds[i][j]*(1 - largest_error[-1]), latest_cases[i]), 
+                                     preds[i][j]*(1 + largest_error[-1])))
+            elif interval_type == 'combined':
+                intervals[i].append((max(preds[i][j]*(1 + (qts[td][0] - largest_error[-1])/2), latest_cases[i]), 
+                                     preds[i][j]*(1 + (largest_error[-1] + qts[td][1])/2)))                  
+    df[output_key] = intervals
+    return df
+
         
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None):
     '''Adds predictions for the current best model
@@ -375,7 +430,16 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                 else:
                     out.append(vals[i][0])
             df_county[output_key] = out
+            
+        output_key = f'Predicted {outcome} Intervals'    
+        df_county = add_prediction_intervals(df_county, 
+                             target_day=np.array(NUM_DAYS_LIST),
+                             outcome=outcome.lower(), 
+                             methods=BEST_MODEL,
+                             interval_type='local',
+                             output_key=output_key)
         
     if cached_dir is not None:
         df_county.to_pickle(cached_fname)
     return df_county
+
