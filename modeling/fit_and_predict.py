@@ -474,5 +474,3 @@ def tune_hyperparams(df,target_day,outcome,output_key,method_hyperparam_dict,err
 
     return best_param, -1*value
 
-=======
->>>>>>> e908f1eb4e8fd9c01010f5674e309a9dbcaa6c65
