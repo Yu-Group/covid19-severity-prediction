@@ -12,7 +12,6 @@ However, we also find that some counties are starting to experience sub-exponent
 "flattening-the-curve" impacts of interventions such as social distancing and shelter in place orders. Details are in the [paper](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf).
 
 <img src="results/forecasts.svg" style="width:100%;">
-5-day forecasts for some selected counties.
 
 <figure class="video_container">
   <iframe src="results/predictions.html" frameborder="0" allowfullscreen="true" width="100%" height="650px"> </iframe>

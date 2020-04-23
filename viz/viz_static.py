@@ -92,7 +92,7 @@ def plot_forecasts(dd, target='deaths', days_in_future=5, death_thresh=0):
         plt.ylabel('Cumulative deaths')
         plt.xlabel(f'Days')
         plt.xticks(xticks, xlabs, rotation=0)
-        plt.xlim(right=end * 4/3) # extend lim to make space for labels
+        plt.xlim(right=end * 1.25) # extend lim to make space for labels
         labs.append(row['CountyName'] + ', ' + row['StateName'])
         lab_ys.append(preds[-1])
     
