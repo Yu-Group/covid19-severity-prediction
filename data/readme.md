@@ -17,7 +17,7 @@ covid Pandemic Severity Index (c-PSI) for each hospital. This project is in
 partnership with [response4life.org](http://response4life.org). We will be
 adding more relevant data sets as they are found.
 
-An overview of each data set in this corpus is provided below:
+An overview of each data set in this corpus is provided below. The data is also available on the AWS Data Exchange [here](https://aws.amazon.com/marketplace/pp/prodview-px2tvvydirx4o?qid=1587582026402&sr=0-1&ref_=srh_res_product_title#overview).
 
 - **Hospital Level Data**
     - **cms_cmi**: Case Mix Index for hospitals from CMS 
