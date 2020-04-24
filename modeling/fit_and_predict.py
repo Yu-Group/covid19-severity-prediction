@@ -411,6 +411,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
         if os.path.exists(cached_fname):
             return pd.read_pickle(cached_fname)
     
+    print('predictions not cached, now calculating (might take a while)')
     for outcome in ['Deaths', 'Cases']:
         print(f'predicting {outcome}...')
         for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
@@ -429,8 +430,10 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                 if np.isnan(vals[i]):
                     out.append(0)
                 else:
-                    out.append(max(vals[i][0],list(df_county[outcome])[i][-1]))
+                    out.append(max(vals[i][0],
+                                   list(df_county[outcome.lower()])[i][-1]))
             df_county[output_key] = out
+            
             
         output_key = f'Predicted {outcome} Intervals'    
         df_county = add_prediction_intervals(df_county, 
@@ -440,6 +443,18 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                              interval_type='local',
                              output_key=output_key)
         
+    # add 3-day lagged death preds
+    output_key = f'Predicted Deaths 3-day Lagged'
+    df_county = fit_and_predict_ensemble(df_county, 
+                                methods=BEST_MODEL,
+                                outcome='deaths',
+                                mode='eval_mode',
+                                target_day=np.array([3]),
+                                output_key=output_key,
+                                verbose=verbose)
+    df_county[output_key] = [v[0] for v in df_county[output_key].values]
+    
+    
     if cached_dir is not None:
         df_county.to_pickle(cached_fname)
     return df_county
