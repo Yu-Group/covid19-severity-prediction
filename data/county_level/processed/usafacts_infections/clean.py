@@ -30,6 +30,9 @@ def clean_usafacts_infections(data_dir='../../raw/usafacts_infections/',
     
     # load in data
     df = load_usafacts_infections(data_dir = data_dir)
+
+    # merge counties countyFIPS")with the same countyFIPS
+    df = df.groupby("
     
     # write out to csv
     df.to_csv(oj(out_dir, "usafacts_infections.csv"), index=False)
