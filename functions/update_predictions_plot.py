@@ -102,9 +102,10 @@ if __name__ == '__main__':
 
 
     num_days_in_past = 3
-    output_key = f'Predicted Deaths {num_days_in_past}-day'
+    output_key = f'Predicted Deaths {num_days_in_past}-day Lagged'
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=oj(parentdir, 'data')) # adds keys like "Predicted Deaths 1-day"
     '''
+    # don't use add_preds here, since we need preds from 3 days ago
     df_county = fit_and_predict_ensemble(df_county, 
                                 outcome='deaths',
                                 mode='eval_mode',
