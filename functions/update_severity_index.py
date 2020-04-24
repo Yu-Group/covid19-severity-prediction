@@ -84,12 +84,10 @@ def write_to_api(d, api_file='../ian_key.env', csv_file='_hidden_hosp.csv'):
     hed = {'Authorization': 'Bearer ' + auth_token}
     url = 'https://api-r4l-ventilator-prediction.herokuapp.com/berkeley/severity/auto-upload'
     d.to_csv(csv_file)
-    '''
     with open(csv_file, 'rb') as f:
         r = requests.post(url, files={'file': ('myfile.csv', f, 'text/csv', {'Expires': '0'})}, 
                           headers=hed)
     print('api post succeeded?', r.text)
-    '''
 
 
 def df_to_plot(df, NUM_DAYS_LIST):
@@ -102,6 +100,7 @@ def df_to_plot(df, NUM_DAYS_LIST):
         ks.append(f'Predicted New Deaths Hospital {i}-day')
         ks.append(f'Predicted Deaths Hospital {i}-day')
         df[f'Severity Index {i}-day'] = [remap[x] for x in df[f'Severity {i}-day']]
+        ks.append(f'Severity Index {i}-day')
     ks += ['Surge County 3-day', 'tot_deaths', 'SVIPercentile'] # county keys
     return df[ks]
     
