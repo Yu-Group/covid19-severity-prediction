@@ -55,6 +55,8 @@ An overview of each data set in this corpus is provided below. The data is also 
         - **jhu_interventions**: contains the dates that counties (or states governing them) took measures to mitigate the spread by restricting gatherings (e.g., travel bans, stay at home orders)
         - **mit_voting**: county-level returns for presidential elections from 2000 to 2016 according to official state election data records
 
+- **Miscellaneous Data**
+	- **bts_airtravel**: survey data including origin, destination, and itinerary details from a 10% sample of airline tickets from the Bureau of Transportation Statistics
 
 
 ## Quickstart
