@@ -342,9 +342,10 @@ def plot_counties_slider(df,
     latest_date_str = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
 
     d = df
-    d['text'] = 'State: ' + d['State'] + \
-        ' (' + d['StateName'] + ')' + '<br>' + \
-        'County: ' + d['CountyName'] + '<br>' + \
+
+    d['text'] = 'State: ' + d['State'].astype(str) + \
+        ' (' + d['StateName'].astype(str) + ')' + '<br>' + \
+        'County: ' + d['CountyName'].astype(str) + '<br>' + \
         'Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
         '# Recorded Cases as of ' + latest_date_str + ": " + \
         d['tot_cases'].astype(str) + '<br>' + \
@@ -699,14 +700,14 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
 
     latest_date_str = d.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
 
-    d['text_hospital'] = 'Hospital Name: ' + d['Hospital Name'] + '<br>' + \
+    d['text_hospital'] = 'Hospital Name: ' + d['Hospital Name'].astype(str) + '<br>' + \
         'Hospital # Employees: ' + d['Hospital Employees'].astype(str) + '<br>' + \
-        'Hospital Type: ' + d['Hospital Type'] + '<br>' + \
-        'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
+        'Hospital Type: ' + d['Hospital Type'].astype(str) + '<br>' + \
+        'Hospital Ownership: ' + d['Hospital Ownership'].astype(str) + '<br>' + \
         'Estimated # Deaths in Hospital as of ' + latest_date_str + ": " + \
         d['Total Deaths Hospital'].round().astype(str)
-    d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
-        'State: ' + d['StateName'] + '<br>' + \
+    d['text_county'] = 'County: ' + d['CountyName'].astype(str) + '<br>' + \
+        'State: ' + d['StateName'].astype(str) + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
         'County # Recorded Cases as of ' + latest_date_str + ": " + \
         d['tot_cases'].astype(str) + '<br>' + \
