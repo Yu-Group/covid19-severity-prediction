@@ -26,6 +26,9 @@ from .county_level.processed.usdss_diabetes.clean import clean_usdss_diabetes
 from .county_level.processed.jhu_interventions.clean import clean_jhu_interventions
 from .county_level.processed.kinsa_ili.clean import clean_kinsa_ili
 from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
+from .county_level.processed.usda_poverty.clean import clean_usda_poverty
+from .county_level.processed.safegraph_socialdistancing.clean import clean_safegraph_socialdistancing
+from .county_level.processed.safegraph_weeklypatterns.clean import clean_safegraph_weeklypatterns
 
 
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
@@ -85,9 +88,10 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         public_datasets = ["ahrf_health", "cdc_svi", "chrr_health", "dhdsp_heart",
                            "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
                            "medicare_chronic", "mit_voting", "nchs_mortality", 
-                           "usdss_diabetes", "jhu_interventions"]
+                           "usdss_diabetes", "jhu_interventions", "usda_poverty"]
         ## ADD PRIVATE DATASETS HERE
-        private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt"]
+        private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt", 
+                            "safegraph_socialdistancing", "safegraph_weeklypatterns"]
         
         if with_private_data == True:
             datasets = public_datasets + private_datasets
@@ -96,6 +100,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         
         # load in and clean county-level datasets
         df_ls = []
+        cols_ls = []
         for dataset in tqdm(datasets):
             # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_health":
@@ -115,8 +120,13 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                     # skip loading and cleaning
                     os.chdir(orig_dir)
                     continue
+                elif not any(fname.startswith(dataset) \
+                             for fname in os.listdir("../../../../../covid-19-private-data")):
+                    # skip loading and cleaning
+                    os.chdir(orig_dir)
+                    continue
                 os.chdir(orig_dir)
-            elif dataset != "jhu_interventions":
+            else:
                 if not any(fname.startswith(dataset) \
                            for fname in os.listdir(oj(data_dir_raw, dataset))):
                     # download raw data
@@ -127,10 +137,15 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                 
             # clean data
             os.chdir(oj(data_dir_clean, dataset))
-            df_ls.append(eval("clean_" + dataset + "()"))
+            df = eval("clean_" + dataset + "()")
+            df_ls.append(df)
+            cols_ls.append(pd.DataFrame({'dataset': dataset, 'feature': df.keys().tolist()}))
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
-            
+        
+        # save data frame of (datasets, features)
+        cols_df = pd.concat(cols_ls, axis=0, sort=False, ignore_index=True)
+        cols_df.to_csv("list_of_columns.csv", index=False)
             
         # merge county ids data
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
@@ -373,7 +388,7 @@ def important_keys(df):
     # neighboring keys
 
     # get list of important variables
-    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social
+    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social + vulnerability
     
     # keep variables that are in df
     important_vars = [var for var in important_vars if var in list(df.columns)]
