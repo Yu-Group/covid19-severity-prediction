@@ -11,6 +11,7 @@ This repo contains (daily updated) data and code for forecasting COVID-19 severi
 - **[Data](./data/readme.md)** (updated daily): We have compiled and cleaned a large corpus of hospital- and county-level data from a variety of public sources to aid data science efforts to combat COVID-19.
     - At the hospital level, the data include the location of the hospital, the number of ICU beds, the total number of employees, the hospital type, and contact information
     - At the county level, our data include socioeconomic factors, social distancing scores, and COVID-19 cases/deaths from USA Facts and NYT
+![](results/data_sources.png)
 - **[Modeling](./modeling/readme.md)**: Using this data, we have developed a short-term (3-5 days) forecasting model for mortality at the county level. This model combines a county-specific exponential growth model and a shared exponential growth model through a weighted average, where the weights depend on past prediction accuracy.
 ![](https://covidseverity.com/results/forecasts.svg)
 - **Severity index**: The Covid pandemic severity index (CPSI) is designed to help aid the distribution of medical resources to hospitals. It takes on three values (3: High, 2: Medium, 1: Low), indicating the severity of the covid-19 outbreak for a hospital on a certain day. It is calculated in three steps.
