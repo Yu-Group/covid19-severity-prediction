@@ -2,6 +2,7 @@
 
 - Variables in abridged data set (county_data_abridged.csv) are highlighted in bold.
 - Most variables from Area Health Resources Files (AHRF) are not listed below. Only those AHRF variables in the abridged data set are included. Please see the AHRF user documentation for details on the other \~7000 variables (which includes data on county classifications, health professions, health facilities, utilization, expenditures, population, and environment)
+- For full list of features in county_data.csv and their corresponding data set, see list_of_columns.csv
 
 
 ### Identifying variables
@@ -83,6 +84,14 @@
 |% Single-Parent Households| percentage of children that live in a household headed by single parent (2014-18) | chrr_health |
 |Social Association Rate| number of membership associations per 10,000 population (2017) | chrr_health |
 |% Severe Housing Problems| percentage of households with at least 1 of 4 housing problems: overcrowding, high housing costs, lack of kitchen facilities, or lack of plumbing facilities (2012-16) | chrr_health |
+|Urban Influence Code 2013| urban influence code 2013 | usda_poverty |
+|Poverty Num All Ages 2018| estimate of people of all ages in poverty 2018 | usda_poverty |
+|Poverty Num Ages 0-17 2018| estimate of people ages 0-17 in poverty 2018  | usda_poverty |
+|Poverty Num Ages 5-17 2018| estimate of people ages 5-17 in poverty 2018 | usda_poverty |
+|Poverty Pct All Ages 2018| estimate of percent of people of all ages in poverty 2018 | usda_poverty |
+|Poverty Pct Ages 0-17 2018| estimate of percent of people ages 0-17 in poverty 2018  | usda_poverty |
+|Poverty Pct Ages 5-17 2018| estimate of percent of people ages 5-17 in poverty 2018  | usda_poverty |
+|Median Household Income 2018| median household income 2018 | usda_poverty |
 
 
 #### Health Resource Availability
@@ -217,6 +226,30 @@
 |encounter\_rate%Y-%m-%d| rate of unique human encounters per km^2 on %Y-%m-%d relative to national pre-COVID-19 baseline | unacast_mobility |
 |VMT_per_capita%Y-%m-%d| total vehicle miles travelled by residents of county per capita on given date from Streetlight | streetlight_vmt |
 |VMT_percent_change%Y-%m-%d| percent change in VMT on given date compared to VMT baseline from Streetlight | streetlight_vmt |
+|device_count_{DATE}| number of devices seen in SafeGraph panel data on {DATE} whose home is in this countyFIPS | safegraph_socialdistancing |
+|completely_home_device_county_{DATE}| out of the device_count, the number of devices which did not leave the geohash-7 in which their home is located on {DATE} | safegraph_socialdistancing |
+|part_time_work_behavior_devices_{DATE}| out of the device_count, the number of devices that spent one period of between 3 and 6 hours at one location other than their geohash-7 home during the period of 8 am - 6 pm in local time | safegraph_socialdistancing |
+|full_time_work_behavior_devices_{DATE}| out of the device_count, the number of devices that spent greater than 6 hours at a location other than their home geohash-7 during the period of 8 am - 6 pm in local time | safegraph_socialdistancing |
+|delivery_behavior_devices_{DATE}| out of the device_count, the number of devices that stopped for < 20 minutes at > 3 locations outside of their geohash-7 home | safegraph_socialdistancing |
+|bucketed\_distance\_traveled\_{BUCKET}\_{DATE}| {BUCKET} is range of meters (from geohash-7 of home) and value is the number of devices that fall into the given distance traveled bucket | safegraph_socialdistancing |
+|bucketed_home_dwell_time\_{BUCKET}\_{DATE}| {BUCKET} is range of minutes and value is the number of devices that dwelled at geohash-7 of home for some time within the given {BUCKET} | safegraph_socialdistancing |
+|bucketed_away_from_home_time\_{BUCKET}\_{DATE}| {BUCKET} is range of minutes and value is device count of devices that dwelled outside of geohash-7 of home for some time within the given {BUCKET} | safegraph_socialdistancing |
+|bucketed_percentage_time_home\_{BUCKET}\_{DATE}| {BUCKET} is a range of percentage of time a device was observed at home (numerator) out of total hours observed that day at any location (denominator). Value is the number of devices observed in this {BUCKET} range. | safegraph_socialdistancing |
+|at_home_by_each_hour\_{#}\_{DATE}| {#} is an hour of the day (e.g., 0 = midnight to 1am, 1 = 1am to 2am) and value is the number of devices at geohash-7 home in the given hour (in local time) | safegraph_socialdistancing |
+|destination_cbgs\_{DATE}| dictionary; key is a destination countyFIPS and value is the number of devices with a home in the current (origin) countyFIPS that stopped in the given destination countyFIPS for >1 minute during the time period | safegraph_socialdistancing |
+|n_places_{CATEGORY}| number of places (POIs) in countyFIPS for given industry category in SafeGraph panel data| safegraph_weeklypatterns |
+|location_names_{CATEGORY}| list of locations in countyFIPS for given industry category in SafeGraph panel data | safegraph_weeklypatterns |
+|naics_codes_{CATEGORY}| list of NAICS codes (i.e., industry categories) for each location in location_names_{CATEGORY} | safegraph_weeklypatterns |
+|raw_visitor_counts_week\_{DATE}\_{CATEGORY}| list where the ith component corresponds to the number of unique visitors from panel to location i during the week starting on given {DATE} | safegraph_weeklypatterns |
+|raw_visit_counts_week_{DATE}\_{CATEGORY}| list where the ith component corresponds to the number of visits in panel to location i during the week starting on given {DATE} | safegraph_weeklypatterns |
+|visits_by_day_{DATE}\_{CATEGORY}| list where the ith component corresponds to the number of unique visitors from panel to location i on given date | safegraph_weeklypatterns |
+|max_visits_in_hour_{DATE}\_{CATEGORY}| list where the ith component corresponds to the max number of visits to location i over the span of an hour on given date | safegraph_weeklypatterns |
+|bucketed_dwell_times_{BUCKET}\_week\_{DATE}\_{CATEGORY}| list where the ith component corresponds to the number of visits to location i that were within the given time {BUCKET} duration over the span of the week starting on {DATE}; {BUCKET} is a range of minutes | safegraph_weeklypatterns |
+|median_raw_visitor_counts_week_{DATE}\_{CATEGORY}| median of raw_visitor_counts_week\_{DATE}\_{CATEGORY} | safegraph_weeklypatterns |
+|median_raw_visit_counts_week_{DATE}\_{CATEGORY}| median of raw_visit_counts_week_{DATE}\_{CATEGORY} | safegraph_weeklypatterns |
+|sum_visits_by_day_{DATE}\_{CATEGORY}| sum of visits_by_day_{DATE}\_{CATEGORY} | safegraph_weeklypatterns |
+|max_max_visits_in_hour_{DATE}\_{CATEGORY}| max of max_visits_in_hour_{DATE}\_{CATEGORY} | safegraph_weeklypatterns |
+|sum_bucketed_dwell_times_{BUCKET}\_week\_{DATE}\_{CATEGORY}| sum of bucketed_dwell_times_{BUCKET}\_week\_{DATE}\_{CATEGORY} | safegraph_weeklypatterns |
 |**stay at home**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |**>50 gatherings**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |**>500 gatherings**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |

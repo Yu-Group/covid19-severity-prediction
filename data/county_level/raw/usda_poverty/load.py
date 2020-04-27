@@ -17,7 +17,7 @@ def load_usda_poverty(data_dir ='./'):
     data frame
     '''
 
-    raw = pd.read_excel(oj(data_dir, 'PovertyEstimates.xls'), 
+    raw = pd.read_excel(oj(data_dir, 'usda_poverty.xls'), 
                         sheet_name="Poverty Data 2018", skiprows=4)
     return raw
 

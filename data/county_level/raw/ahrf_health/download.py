@@ -1,7 +1,14 @@
 #! /usr/bin/python3
 import pandas as pd
 import os
-from sas7bdat import SAS7BDAT
+
+try:
+    from sas7bdat import SAS7BDAT
+except ImportError:
+    sys.exit("""You need sas7bdat.
+                Install it from https://pypi.org/project/sas7bdat/
+                or run pip install sas7bdat.""")
+    
 import AHRF_parser
 
 # download raw data files
