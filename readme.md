@@ -1,8 +1,8 @@
 # Overview
 
-*Note: This repo is actively maintained - for any questions, please file an issue.*
-
 This repo contains (daily updated) data and code for forecasting COVID-19 severity for individual counties and hospitals in the US. The data contains a variety of information, including confirmed cases/deaths, demographics, risk factors, social distancing data, and much more.
+
+*Note: This repo is actively maintained - for any questions, please file an issue.*
 
 - **[Paper link](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf)**: "Curating a COVID-19 data repository and forecasting county-level death counts in the United States"
 - **[Project website](http://covidseverity.com/)**: http://covidseverity.com/
@@ -13,7 +13,7 @@ This repo contains (daily updated) data and code for forecasting COVID-19 severi
     - At the county level, our data include socioeconomic factors, social distancing scores, and COVID-19 cases/deaths from USA Facts and NYT
 ![](results/data_sources.png)
 - **[Modeling](./modeling/readme.md)**: Using this data, we have developed a short-term (3-5 days) forecasting model for mortality at the county level. This model combines a county-specific exponential growth model and a shared exponential growth model through a weighted average, where the weights depend on past prediction accuracy.
-![](https://covidseverity.com/results/forecasts.svg)
+![](https://covidseverity.com/results/forecasts_small.svg)
 - **Severity index**: The Covid pandemic severity index (CPSI) is designed to help aid the distribution of medical resources to hospitals. It takes on three values (3: High, 2: Medium, 1: Low), indicating the severity of the covid-19 outbreak for a hospital on a certain day. It is calculated in three steps.
     1. county-level predictions for number of deaths are modeled
     2. county-level predictions are allocated to hospitals within counties proportional the their total number of employees
@@ -22,7 +22,6 @@ This repo contains (daily updated) data and code for forecasting COVID-19 severi
 
 # Quickstart with the data + models
 
-## Data
 Can download, load, and merge the data via:
 ```python
 import load_data
@@ -35,8 +34,7 @@ df = load_data.load_county_level(data_dir='/path/to/data')
 - we are constantly monitoring and adding new data sources (+ relevant data news [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/))
 - output from running the daily updates is stored [here](./functions/update_test.log)
 
-## Prediction
-- To get deaths predictions for our current best-performing model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
+To get deaths predictions for our current best-performing model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
 
 ```python
 from modeling.fit_and_predict import add_preds
