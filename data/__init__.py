@@ -34,7 +34,7 @@ from .county_level.processed.safegraph_weeklypatterns.clean import clean_safegra
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
                      cached_abridged_file="county_data_abridged.csv",
                      cached=True, abridged=True, infections_data="usafacts", 
-                     with_private_data=False):
+                     with_private_data=False, preprocess=True):
     '''  Load in merged county data set
     
     Parameters
@@ -53,6 +53,8 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
                       
     with_private_data : logical; whether or not to load in private data (if available)
+    preprocess: bool
+        whether or not to preprocess the features with neighboring data
         
     Returns
     -------
@@ -209,7 +211,8 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     df = pd.merge(cnty, covid, on='countyFIPS', how='inner')
     
     # add engineered features
-    df = add_engineered_features(df, data_dir)
+    if preprocess:
+        df = add_engineered_features(df, data_dir)
     
     print("loaded and merged COVID-19 cases/deaths data successfully")
 
