@@ -28,5 +28,5 @@ data/hrsa
 data/respiratory_disease
 modeling/chandan*
 **.swp
-modeling/intermediate
+modeling/intermediate*
 **.xls
