@@ -1,6 +1,15 @@
-# Overview
+<h1 align="center">Covid Severity Forecasting</h1>
 
-This repo contains (daily updated) data and code for forecasting COVID-19 severity for individual counties and hospitals in the US. The data contains a variety of information, including confirmed cases/deaths, demographics, risk factors, social distancing data, and much more.
+<p align="center">Data and models (updated daily) for forecasting COVID-19 severity for individual counties and hospitals in the US. The data includes confirmed cases/deaths, demographics, risk factors, social distancing data, and much more.
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#quickstart-with-the-data--models">Quickstart</a> •
+  <a href="#acknowledgements">Acknowledgements</a> 
+</p>
+
+# Overview
 
 *Note: This repo is actively maintained - for any questions, please file an issue.*
 
