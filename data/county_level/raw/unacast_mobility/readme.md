@@ -18,6 +18,7 @@
     - **county_population**: total count of the population for this segment based on 2018 census data
     - **daily_distance_diff**: change of average distance traveled from baseline (avg. distance traveled for same day of week during pre-COVID-19 time period for a specific county)
     - **daily_visitation_diff**: change of visits to non-essential retail and services from baseline (avg. visits for same day of week during pre-COVID-19 time period for a specific county)
+    - **encounter_rate**: rate of unique human encounters per km^2 relative to national pre-COVID-19 baseline (median of the metric on a country level in 4 weeks before March 8)
     - **last_updated**: timestamp of when this data was processed and updated 
 
 - **Notes**:

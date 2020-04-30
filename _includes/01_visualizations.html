@@ -1,0 +1,32 @@
+<h1 align="center"> visualizations </h1>
+
+<!--<figure class="video_container">-->
+<!--  <iframe src="results/deaths.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>-->
+<!--</figure>-->
+<a href="results/deaths.html"><img src="results/deaths.png" style="width: 100%;"></a>
+<a type="button" class="btn btn-primary" style="margin-bottom: 30px; margin-right: 10px;" href="results/deaths.html">View interactive map in fullscreen</a>
+<p> <strong>County-level map</strong>: This map shows forecasts for the number of deaths at the county-level.</p>
+<br>
+
+
+<!--<figure class="video_container">-->
+<!--  <iframe src="results/severity_map.html" frameborder="0" allowfullscreen="true" width="100%" height="800"> </iframe>-->
+<!--</figure>-->
+<a href="results/severity_map.html"><img src="results/severity_map.png" style="width: 100%;"></a>
+<a type="button" class="btn btn-primary" style="margin-bottom: 30px; margin-right: 10px;" href="results/severity_map.html">View interactive map in fullscreen</a>
+
+<p> <strong>COVID pandemic severity index (CPSI)</strong>: this index is designed to help aid the distribution of medical resources to hospitals.
+  It takes on three values (<font color="#AC3931">3: High</font>, <font color="#D3787D">2: Medium</font>, <font color="#6E8E96">1: Low</font>), indicating the severity of the covid-19 outbreak for a hospital on a certain day. It is calculated in three steps (more details <a href="https://yu-group.github.io/covid19-severity-prediction/results/hospital_index_animated.html">here</a>):
+<br>
+</p>
+<p align="left" style="font-size: 12pt;">
+1. county-level predictions for number of deaths are modeled<br>
+2. county-level predictions are allocated to hospitals within counties proportional the their total number of employees<br>
+3. final value is decided by thresholding the number of cumulative predicted deaths for a hospital (=current recorded deaths + predicted future deaths)<br>
+
+  <br>
+</p>
+
+<p style="text-align: center"> Google sheets with our daily updated predictions: </p>
+<div align="center"> <a type="button" class="btn btn-primary" style="margin-bottom: 30px; margin-right: 10px;" href="https://docs.google.com/spreadsheets/d/1ZSG7o4cV-G0Zg3wlgJpB2Zvg-vEN1i_76n2I-djL0Dk/edit#gid=1510898570">County-level gsheet</a>
+<a type="button" class="btn btn-success" style="margin-bottom: 30px;" href="https://docs.google.com/spreadsheets/d/1ZLev2pRIPXvP-qNnvAtO53-bCrAGTAhB_w0w7bZKAWw/edit#gid=582592389">Hospital-level gsheet</a> </div>

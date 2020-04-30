@@ -8,6 +8,7 @@
 **.gif
 **.DS_Store
 **.idea
+**.pyc
 **Icon*
 **.asc
 .ipynb_checkpoints/
@@ -26,3 +27,4 @@ ian_key.env
 data/hrsa
 data/respiratory_disease
 intermediate
+modeling/chandan*

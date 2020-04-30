@@ -154,7 +154,7 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
             zmin=0,
             zmax=scale_max,
             hoverinfo='skip',
-            colorbar_title = "<b> Deaths </b>"
+            colorbar_title = "<b> Deaths </b><br> (choropleth)"
         )
         return choropleth_trace
 
@@ -164,6 +164,8 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
     # add past days
     for col in past_days:
         values = df[col]
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
 
         # TODO: add new deaths
@@ -180,6 +182,8 @@ def add_counties_slider_choropleth_traces(fig, df, past_days, target_days, scale
         #)
         pred_col = f'Predicted Deaths {i+1}-day'
         values = df[pred_col]
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
 
         choropleth_trace = make_choropleth_trace(values, fips)
@@ -219,6 +223,8 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
     # add past days
     for col in past_days:
         values = df[col]
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
         lat = df['lat']
         lon = df['lon']
@@ -241,6 +247,8 @@ def add_counties_slider_bubble_traces(fig, df, past_days, target_days, scale_max
 
         pred_col = f'Predicted Deaths {i+1}-day'
         values = df[pred_col].round()
+        if np.any(values < 0):
+            values[values < 0] = 0
         fips = df['countyFIPS']
         lat = df['lat']
         lon = df['lon']
@@ -331,13 +339,17 @@ def plot_counties_slider(df,
     fips = df['countyFIPS'].tolist()
     tot_deaths = df['tot_deaths']
 
+    latest_date = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+
     d = df
     d['text'] = 'State: ' + d['State'] + \
         ' (' + d['StateName'] + ')' + '<br>' + \
         'County: ' + d['CountyName'] + '<br>' + \
         'Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
-        '# Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
-        '# Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
+        '# Recorded Cases as of ' + latest_date + ": " + \
+        d['tot_cases'].astype(str) + '<br>' + \
+        '# Recorded Deaths as of ' + latest_date +  ": " + \
+        tot_deaths.astype(str) + '<br>' + \
         '# Hospitals: ' + d['#Hospitals'].astype(str)
 
     # compute scale_max for plotting colors
@@ -356,7 +368,8 @@ def plot_counties_slider(df,
     #     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
 
     # TODO: add new_deaths
-    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
+    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days' + '<br>'\
+    '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
@@ -394,6 +407,8 @@ def plot_counties_slider(df,
         'autosizable': True,
         'displaylogo': False
     }, auto_open = auto_open)
+
+    return fig
 
 
 """
@@ -649,52 +664,66 @@ def make_severity_index_sliders(target_days, plot_choropleth, latest_date):
 
 def plot_hospital_severity_slider(df, # merged hospital and county, with severity
                                   target_days=np.array([1, 2, 3, 4, 5]),
-                                  filename="severity_map.html",
+                                  filename="severity_map.html", # no effect unless plot = True
                                   cumulative=True, # not currently used
                                   plot_choropleth=True,
                                   df_county = None,
                                   counties_json=None,
                                   dark=True,
-                                  auto_open=True):
+                                  auto_open=True,
+                                  plot_fig=True,
+                                  county_filter=None):
     """
     """
     if plot_choropleth:
         assert counties_json is not None, 'counties_json must be included for plotting choropleth'
         assert df_county is not None, 'df_county must be included for plotting county predictions'
     # TODO: note that df should have all data (preds and lat lon)
-    # TODO: add previous days
-    fips = df['countyFIPS'].tolist()
-    tot_deaths = df['tot_deaths']
-
     d = df
+    d_c = df_county
+
+    if county_filter is not None:
+        d = d[d['CountyName'] == county_filter]
+        if plot_choropleth:
+            d_c = d[d['CountyName'] == county_filter]
+
+    fips = d['countyFIPS'].tolist()
+    tot_deaths = d['tot_deaths']
+
     for day in target_days:
         pred_col = f'Predicted Deaths {day}-day'
         d[pred_col] = d[pred_col].astype(float).round()
     # replace missing values with string so below 'text' isn't missing
     d = d.replace(np.nan, 'Missing', regex=True)
 
+    latest_date = d.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+
     d['text_hospital'] = 'Hospital Name: ' + d['Hospital Name'] + '<br>' + \
         'Hospital # Employees: ' + d['Hospital Employees'].astype(str) + '<br>' + \
         'Hospital Type: ' + d['Hospital Type'] + '<br>' + \
         'Hospital Ownership: ' + d['Hospital Ownership'] + '<br>' + \
-        'Estimated # Deaths in Hospital (As Of Yesterday): ' + d['Total Deaths Hospital'].astype(str)
+        'Estimated # Deaths in Hospital as of ' + latest_date + ": " + \
+        d['Total Deaths Hospital'].round().astype(str)
     d['text_county'] = 'County: ' + d['CountyName'] + '<br>' + \
         'State: ' + d['StateName'] + '<br>' + \
         'County Population (2018): ' + d['PopulationEstimate2018'].astype(str) + '<br>' + \
-        'County # Recorded Cases: ' + d['tot_cases'].astype(str) + '<br>' + \
-        'County # Recorded Deaths: ' + tot_deaths.astype(str) + '<br>' + \
+        'County # Recorded Cases as of ' + latest_date + ": " + \
+        d['tot_cases'].astype(str) + '<br>' + \
+        'County # Recorded Deaths as of ' + latest_date + ": " + \
+        tot_deaths.astype(str) + '<br>' + \
         'County Total # Hospitals: ' + d['#Hospitals'].astype(str) + '<br>' + \
         'County Total # Hospital Employees: ' + d['Hospital Employees in County'].astype(str)
 
     # compute scale_max for plotting colors
     pred_col = f'Predicted Deaths {target_days[-1]}-day'
-    values = df_county[pred_col]
-    scale_max = values.quantile(.995)
+    values = d_c[pred_col]
+    scale_max = values.quantile(.99)
 
     map_title='Hospital-Level COVID-19 Pandemic Severity Index (CPSI)'
     if plot_choropleth:
-        map_title = map_title + ' and Predicted Deaths Choropleth'
-    map_title = map_title + ' Over the Next '+ str(target_days.size) + ' Days'
+        map_title = map_title + ' and Predicted Deaths'
+    map_title = map_title + '<br> Over the Next '+ str(target_days.size) + ' Days' + '<br>'\
+    '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
@@ -709,25 +738,26 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
 
     # make choropleth if plotting
     if plot_choropleth:
-        d_county = df_county
         add_counties_slider_choropleth_traces(
-            fig, d_county, [], target_days, scale_max, counties_json
+            fig, d_c, [], target_days, scale_max, counties_json
         )
         # make first day choropleth visible
         fig.data[3*target_days.size].visible = True
 
     # add slider to layout
-    latest_date = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
     sliders = make_severity_index_sliders(target_days, plot_choropleth, latest_date)
     fig.update_layout(
         sliders=sliders
     )
 
-    plot(fig, filename=filename, config={
-        'showLink': False,
-        'showSendToCloud': False,
-        'sendData': True,
-        'responsive': True,
-        'autosizable': True,
-        'displaylogo': False
-    }, auto_open = auto_open)
+    if plot_fig:
+        plot(fig, filename=filename, config={
+            'showLink': False,
+            'showSendToCloud': False,
+            'sendData': True,
+            'responsive': True,
+            'autosizable': True,
+            'displaylogo': False
+        }, auto_open = auto_open)
+
+    return fig

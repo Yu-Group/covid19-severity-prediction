@@ -30,7 +30,8 @@ from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
                      cached_abridged_file="county_data_abridged.csv",
-                     cached=True, abridged=True, infections_data="usafacts", rm_na=True):
+                     cached=True, abridged=True, infections_data="usafacts", 
+                     with_private_data=True):
     '''  Load in merged county data set
     
     Parameters
@@ -48,7 +49,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     infections_data : string; source for daily cases/deaths counts from
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
                       
-    rm_na : logical; whether or not to remove counties with NA cases or deaths
+    with_private_data : logical; whether or not to load in private data (if available)
         
     Returns
     -------
@@ -88,9 +89,14 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         ## ADD PRIVATE DATASETS HERE
         private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt"]
         
+        if with_private_data == True:
+            datasets = public_datasets + private_datasets
+        else:
+            datasets = public_datasets
+        
         # load in and clean county-level datasets
         df_ls = []
-        for dataset in public_datasets + private_datasets:
+        for dataset in datasets:
             # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_health":
                 os.chdir(oj(data_dir_raw, dataset))
@@ -125,6 +131,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
             
+            
         # merge county ids data
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
         cnty_fips["countyFIPS"] = cnty_fips["countyFIPS"].str.zfill(5)
@@ -142,6 +149,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         # merge county-level data with county ids
         for i in range(0, len(df_ls)):
             df_ls[i] = clean_id(df_ls[i])  # remove potentially duplicate ID columns
+            df_ls[i] = clean_fips(df_ls[i])  # rename county fips if they have been changed recently
             cnty = pd.merge(cnty, df_ls[i], on='countyFIPS', how="left")  # merge data
             
         # basic preprocessing
@@ -163,11 +171,13 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
             cnty.to_csv(oj(data_dir, cached_file), header=True, index=False)
             print("saved " + cached_file + " successfully")
         
-    # get covid-19 infections data
+    # get cleaned covid-19 infections data
     if infections_data == 'usafacts':
         covid = pd.read_csv(oj(data_dir_clean, "usafacts_infections", "usafacts_infections.csv"))
+        covid = clean_fips(covid)
     elif infections_data == 'nytimes':
         covid = pd.read_csv(oj(data_dir_clean, "nytimes_infections", "nytimes_infections.csv"))
+        covid = clean_fips(covid)
     
     # add time-series keys
     deaths_keys = [k for k in covid.keys() if '#Deaths' in k]
@@ -181,10 +191,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     covid["countyFIPS"] = covid["countyFIPS"].astype(str).str.zfill(5)
     
     # merge county data with covid data
-    if rm_na == True:
-        df = pd.merge(cnty, covid, on='countyFIPS', how='right')
-    else:
-        df = pd.merge(cnty, covid, on='countyFIPS', how='left')
+    df = pd.merge(cnty, covid, on='countyFIPS', how='inner')
     print("loaded and merged COVID-19 cases/deaths data successfully")
 
     return df
@@ -211,6 +218,31 @@ def clean_id(df):
             
     return df
 
+
+def clean_fips(df):
+    ''' Fix county FIPS which have been recently renamed
+    
+    Parameters
+    ----------
+    df : data frame
+    
+    Returns
+    -------
+    data frame with most up to date countyFIPS
+    '''
+
+    if "02158" in df.countyFIPS.to_list():
+        if "02270" in df.countyFIPS.to_list():
+            df = df[df.countyFIPS != "02158"]
+        else:
+            df.countyFIPS[df.countyFIPS == "02158"] = "02270"
+    if "46102" in df.countyFIPS.to_list():
+        if "46113" in df.countyFIPS.to_list():
+            df = df[df.countyFIPS != "46102"]
+        else:
+            df.countyFIPS[df.countyFIPS == "46102"] == "46113"
+    
+    return df
 
 def add_features(df):
     
@@ -251,13 +283,17 @@ def add_features(df):
 
 
 def important_keys(df):
+    # geographic variables
+    geography = ['CensusRegionName', 'CensusDivisionName',
+                 'Rural-UrbanContinuumCode2013']
+    
     # demographic variables
     demographics = ['PopulationEstimate2018',
                     'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
                     'PopulationEstimate65+2017',
                     'PopulationDensityperSqMile2010',
                     'CensusPopulation2010',
-                    'MedianAge2010',
+                    'MedianAge2010'
                     #'MedianAge,Male2010', 'MedianAge,Female2010',
                    ]
 
@@ -294,7 +330,7 @@ def important_keys(df):
     vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
 
     # get list of important variables
-    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social
+    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social
     
     # keep variables that are in df
     important_vars = [var for var in important_vars if var in list(df.columns)]
@@ -424,12 +460,10 @@ def load_hospital_data(
         )
     cms_cmi = pd.read_csv(
         oj(data_dir, "hospital_level/processed/cms_cmi/cms_cmi.csv"),
-        index_col=0,
         dtype=hospital_dtype,
     )
     cms_hospitalpayment = pd.read_csv(
         oj(data_dir, "hospital_level/processed/cms_hospitalpayment/cms_hospitalpayment.csv"),
-        index_col=0,
         dtype=hospital_dtype,
     )
     # hifld_hospital = pd.read_csv(

@@ -176,10 +176,17 @@ def linear_fit(counts, mode, target_day=np.array([1])):
                        family=sm.families.Gaussian()
                        #family=sm.families.NegativeBinomial(alpha=.05),
                        )
-            m = m.fit()
-            X_test = np.transpose(np.vstack((target_day + active_day - 1, 
+            try:
+                m = m.fit()
+                X_test = np.transpose(np.vstack((target_day + active_day - 1, 
                                              np.ones(len(target_day)))))
-            predicted_counts.append(np.array(m.predict(X_test)))
+                predicted_counts.append(np.array(m.predict(X_test)))
+            except PerfectSeparationError as e:
+                print('Warning: PerfectSeparationError detected')
+                rate = max(train_ts[-1] - train_ts[-2], 0)
+                predicted_counts.append(np.array(train_ts[-1] + np.array([rate*i for i in target_day])))  
+
+
         #else:
         #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
             ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
@@ -267,6 +274,11 @@ def leave_t_day_out(df, t):
     for i in range(len(df)):
         df2['deaths'].values[i] = df2['deaths'].values[i][:-t]
         df2['cases'].values[i] = df2['cases'].values[i][:-t]
+        if 'new_deaths' in df2.columns:
+            df2['new_deaths'].values[i] = df2['new_deaths'].values[i][:-t]
+        if 'deaths_per_cap' in df2.columns:
+            df2['deaths_per_cap'].values[i] = df2['deaths_per_cap'].values[i][:-t]
+
         if 'neighbor_deaths' in df2.columns:
             df2['neighbor_deaths'].values[i] = df2['neighbor_deaths'].values[i][:-t]
             df2['neighbor_cases'].values[i] = df2['neighbor_cases'].values[i][:-t]

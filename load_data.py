@@ -28,8 +28,8 @@ def load_county_level(data_dir='data'):
 
 
 def load_hospital_level(data_dir='data_hospital_level',
-                        merged_hospital_level_info='processed/hospital_info_private.csv',
-                        fips_info='processed/county_FIPS.csv'):
+                        merged_hospital_level_info='hospital_info_private.csv',
+                        fips_info='county_FIPS.csv'):
     '''
     Params
     ------
@@ -71,40 +71,8 @@ def load_hospital_level(data_dir='data_hospital_level',
     
 
 def important_keys(df):
-    demographics = ['PopulationEstimate2018',
-                    'PopTotalMale2017', 'PopTotalFemale2017', 'FracMale2017',
-                    'PopulationEstimate65+2017',
-                    'PopulationDensityperSqMile2010',
-                    'CensusPopulation2010',
-                    'MedianAge2010',
-#                     'MedianAge,Male2010', 'MedianAge,Female2010',
-                   ]
-
-    # hospital vars
-    hospitals_hrsa = ['#FTEHospitalTotal2017', "TotalM.D.'s,TotNon-FedandFed2017", '#HospParticipatinginNetwork2017']
-    hospitals_misc = ["#Hospitals", "#ICU_beds"]
-    hospitals = hospitals_hrsa + hospitals_misc
-
-    age_distr = list([k for k in df.keys() if 'pop' in k.lower()
-                      and '2010' in k
-                      and ('popmale' in k.lower() or 'popfmle' in k.lower())])
-    mortality = [k for k in df.keys() if 'mort' in k.lower()
-                 and '2015-17' in k.lower()]
-
-    # comorbidity (simultaneous presence of multiple conditions) vars
-    comorbidity_hrsa = ['#EligibleforMedicare2018', 'MedicareEnrollment,AgedTot2017', '3-YrDiabetes2015-17']
-    comorbidity_misc = ["DiabetesPercentage", "HeartDiseaseMortality", "StrokeMortality", "Smokers_Percentage", 'Respiratory Mortality']
-    comorbidity = comorbidity_hrsa + comorbidity_misc
-
-    # political leanings (ratio of democrat : republican votes in 2016 presidential election)
-    political = ['dem_to_rep_ratio']
     
-    social_dist = ['unacast_n_grade', 'unacast_daily_distance_diff']
-
-    important_vars = demographics + comorbidity + hospitals + political + age_distr + mortality + social_dist
-    
-    # keep variables that are in df
-    important_vars = [var for var in important_vars if var in list(df.columns)]
+    important_vars = data.important_keys(df)
     
     return important_vars
 
@@ -116,15 +84,6 @@ def split_data_by_county(df):
     df_train = df[df.countyFIPS.isin(fips_train)]
     df_test = df[df.countyFIPS.isin(fips_test)]
     return df_train, df_test
-
-
-if __name__ == '__main__':
-    df = load_county_level()
-    print('loaded succesfully')
-    print(df.shape)
-    print('data including', 
-          [k for k in df.keys() if '#Deaths' in k][-1],
-          [k for k in df.keys() if '#Cases' in k][-1])
 
     
 def city_to_countFIPS_dict(df):
@@ -139,3 +98,11 @@ def city_to_countFIPS_dict(df):
             dr[row['City']] = row['countyFIPS']
         elif row['City'] in dr and not np.isnan(row['countyFIPS']):
             dr[row['City']] = row['countyFIPS']
+
+if __name__ == '__main__':
+    df = load_county_level()
+    print('loaded succesfully')
+    print(df.shape)
+    print('data including', 
+          [k for k in df.keys() if '#Deaths' in k][-1],
+          [k for k in df.keys() if '#Cases' in k][-1])

@@ -8,9 +8,10 @@ api post succeeded? {"message": "success"}
 succesfully wrote to gsheets
 writing viz index animated...
 succesfully wrote viz index animated
-success! 4_17_6
+success! 4_24_16
 loaded and merged COVID-19 cases/deaths data successfully
 loading data...
 loaded and merged COVID-19 cases/deaths data successfully
+succesfully updated prediction + forecast plots
 loaded and merged COVID-19 cases/deaths data successfully
 succesfully updated county preds!

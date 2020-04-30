@@ -24,8 +24,9 @@
 |**lon**| longitude corresponding to county's geographic center | county_latlong |
 |**POP\_LATITUDE**| latitude corresponding to county's population center | county_popcenters |
 |**POP\_LONGITUDE**| longitude corresponding to county's population center | county_popcenters |
-|CensusRegionName| name of census region | ahrf_health |
-|CensusDivisionName| name of census division | ahrf_health |
+|**CensusRegionName**| name of census region | ahrf_health |
+|**CensusDivisionName**| name of census division | ahrf_health |
+|**Rural-UrbanContinuumCode2013**| rural-urban continuum code | ahrf_health |
 |HPSAName| name of the Health Professional Shortage Area (HPSA) name | hpsa_shortage |
 |HPSAMetroIndicator| whether a Health Professional Shortage Area (HPSA) is either Metropolitan, Non-Metropolitan, or Frontier in nature | hpsa_shortage |
 |HPSARuralStatus| rural, non-rural, or partially rural | hpsa_shortage|
@@ -212,7 +213,8 @@
 | Data variable     | Description | Source data set |
 | ---   | --- | --- |
 |**daily\_distance\_diff%Y-%m-%d**| change of average distance traveled on %Y-%m-%d from baseline (avg. distance traveled for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
-|**daily\_visitation\_diff%Y-%m-%d**| change of visits to non-essential retail and services on %Y-%m-%d from baseline (avg. visits for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
+|daily\_visitation\_diff%Y-%m-%d| change of visits to non-essential retail and services on %Y-%m-%d from baseline (avg. visits for same day of week during pre-COVID-19 time period for a specific county); dating from 2/24/20 to present-day (minus few days lag) | unacast_mobility |
+|encounter\_rate%Y-%m-%d| rate of unique human encounters per km^2 on %Y-%m-%d relative to national pre-COVID-19 baseline | unacast_mobility |
 |VMT_per_capita%Y-%m-%d| total vehicle miles travelled by residents of county per capita on given date from Streetlight | streetlight_vmt |
 |VMT_percent_change%Y-%m-%d| percent change in VMT on given date compared to VMT baseline from Streetlight | streetlight_vmt |
 |**stay at home**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
