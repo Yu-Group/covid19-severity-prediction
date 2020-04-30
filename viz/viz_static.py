@@ -32,7 +32,7 @@ def plot_scatter(x, y, c, s, xlab: str, ylab: str, colorlab: str,
     ------
     markersize_rescaling: 
     '''
-    fig, ax = plt.subplots(dpi=500, figsize=figsize)
+    fig, ax = plt.subplots(dpi=500, figsize=figsize, facecolor='w')
     scatter = ax.scatter(x, y, c=c, s=s, alpha=1)
     plt.yscale('symlog')
     plt.xscale('symlog')

@@ -19,12 +19,6 @@ if __name__ == "__main__":
 
     # load in county data
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
-    # add lat and lon to the dataframe
-    county_lat_lon = pd.read_csv(
-        oj(parentdir, 'data/county_level/raw/county_ids/county_popcenters.csv'),
-        dtype={'STATEFP': str, 'COUNTYFP': str}
-    )
-    county_lat_lon['fips'] = (county_lat_lon['STATEFP'] + county_lat_lon['COUNTYFP'])
 
     # add predictions
     NUM_DAYS_LIST = [1, 2, 3, 4, 5]

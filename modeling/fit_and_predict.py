@@ -135,39 +135,7 @@ def fit_and_predict(df,
         print('please use fit_and_predict_ensemble instead')
 
     elif method == 'advanced_shared_model':
-        if 'neighbor_deaths' not in df.columns:
-            neighboring_counties_df = pd.read_csv(oj(parentdir, 'data/county_level/raw/county_ids/county_adjacency2010.csv'))
-            neighboring_counties_df['fipscounty'] = neighboring_counties_df['fipscounty'].astype(str).str.zfill(5)
-            neighboring_counties_df['fipsneighbor'] = neighboring_counties_df['fipsneighbor'].astype(str).str.zfill(5)
-            df['countyFIPS'] = df['countyFIPS'].astype(str).str.zfill(5)
-            
-            county_neighbor_deaths = []
-            county_neighbor_cases = []
-            county_fips = list(df['countyFIPS'])
-            for fips in county_fips:
-                neighboring_counties = list(neighboring_counties_df.loc[neighboring_counties_df['fipscounty'] == fips]['fipsneighbor'])
-                neighboring_county_deaths = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['deaths'])
-                neighboring_county_cases = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['cases'])
-                # if not in county adjacency file, assume neighboring deaths/counts to 0
-                if len(neighboring_county_deaths) == 0:  
-                    n_deaths = len(df.loc[df['countyFIPS'] == fips]['deaths'].iloc[0])
-                    n_cases = len(df.loc[df['countyFIPS'] == fips]['cases'].iloc[0])
-                    sum_neighboring_county_deaths = np.zeros(n_deaths)
-                    sum_neighboring_county_cases = np.zeros(n_cases)
-                else:
-                    sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
-                    for deaths in neighboring_county_deaths:
-                        sum_neighboring_county_deaths += deaths
-                    sum_neighboring_county_cases = np.zeros(len(neighboring_county_deaths[0]))
-                    for cases in neighboring_county_cases:
-                        sum_neighboring_county_cases += cases
-                county_neighbor_deaths.append(sum_neighboring_county_deaths)
-                county_neighbor_cases.append(sum_neighboring_county_cases)
-
-
-                    
-            df['neighbor_deaths'] = county_neighbor_deaths
-            df['neighbor_cases'] = county_neighbor_cases
+        
 
     
     
@@ -391,7 +359,8 @@ def add_prediction_intervals(df,
     return df
 
         
-def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None):
+def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
+              outcomes=['Deaths', 'Cases']):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
     '''
@@ -412,7 +381,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             return pd.read_pickle(cached_fname)
     
     print('predictions not cached, now calculating (might take a while)')
-    for outcome in ['Deaths', 'Cases']:
+    for outcome in outcomes:
         print(f'predicting {outcome}...')
         for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
             output_key = f'Predicted {outcome} {num_days_in_future}-day'    
@@ -436,6 +405,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             
             
         output_key = f'Predicted {outcome} Intervals'    
+        print('prediction intervals...')
         df_county = add_prediction_intervals(df_county, 
                              target_day=np.array(NUM_DAYS_LIST),
                              outcome=outcome.lower(), 

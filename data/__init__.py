@@ -9,7 +9,7 @@ from math import radians, sin, cos, sqrt, asin
 from sklearn.neighbors import NearestNeighbors
 #from hospital_level.processed.cms_cmi.clean import clean_cms_cmi
 #from hospital_level.processed.cms_hospitalpayment.clean import clean_cms_hospitalpayment
-
+from tqdm import tqdm
 from .county_level.processed.ahrf_health.clean import clean_ahrf_health
 from .county_level.processed.cdc_svi.clean import clean_cdc_svi
 from .county_level.processed.chrr_health.clean import clean_chrr_health
@@ -26,12 +26,15 @@ from .county_level.processed.usdss_diabetes.clean import clean_usdss_diabetes
 from .county_level.processed.jhu_interventions.clean import clean_jhu_interventions
 from .county_level.processed.kinsa_ili.clean import clean_kinsa_ili
 from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
+from .county_level.processed.usda_poverty.clean import clean_usda_poverty
+from .county_level.processed.safegraph_socialdistancing.clean import clean_safegraph_socialdistancing
+from .county_level.processed.safegraph_weeklypatterns.clean import clean_safegraph_weeklypatterns
 
 
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
                      cached_abridged_file="county_data_abridged.csv",
                      cached=True, abridged=True, infections_data="usafacts", 
-                     with_private_data=True):
+                     with_private_data=False, preprocess=True):
     '''  Load in merged county data set
     
     Parameters
@@ -50,6 +53,8 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
                       
     with_private_data : logical; whether or not to load in private data (if available)
+    preprocess: bool
+        whether or not to preprocess the features with neighboring data
         
     Returns
     -------
@@ -85,9 +90,10 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         public_datasets = ["ahrf_health", "cdc_svi", "chrr_health", "dhdsp_heart",
                            "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
                            "medicare_chronic", "mit_voting", "nchs_mortality", 
-                           "usdss_diabetes", "jhu_interventions"]
+                           "usdss_diabetes", "jhu_interventions", "usda_poverty"]
         ## ADD PRIVATE DATASETS HERE
-        private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt"]
+        private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt", 
+                            "safegraph_socialdistancing", "safegraph_weeklypatterns"]
         
         if with_private_data == True:
             datasets = public_datasets + private_datasets
@@ -96,7 +102,8 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         
         # load in and clean county-level datasets
         df_ls = []
-        for dataset in datasets:
+        cols_ls = []
+        for dataset in tqdm(datasets):
             # check if raw data files exist locally; if not, download raw data
             if dataset == "chrr_health":
                 os.chdir(oj(data_dir_raw, dataset))
@@ -115,8 +122,13 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                     # skip loading and cleaning
                     os.chdir(orig_dir)
                     continue
+                elif not any(fname.startswith(dataset) \
+                             for fname in os.listdir("../../../../../covid-19-private-data")):
+                    # skip loading and cleaning
+                    os.chdir(orig_dir)
+                    continue
                 os.chdir(orig_dir)
-            elif dataset != "jhu_interventions":
+            else:
                 if not any(fname.startswith(dataset) \
                            for fname in os.listdir(oj(data_dir_raw, dataset))):
                     # download raw data
@@ -127,10 +139,15 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
                 
             # clean data
             os.chdir(oj(data_dir_clean, dataset))
-            df_ls.append(eval("clean_" + dataset + "()"))
+            df = eval("clean_" + dataset + "()")
+            df_ls.append(df)
+            cols_ls.append(pd.DataFrame({'dataset': dataset, 'feature': df.keys().tolist()}))
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
-            
+        
+        # save data frame of (datasets, features)
+        cols_df = pd.concat(cols_ls, axis=0, sort=False, ignore_index=True)
+        cols_df.to_csv("list_of_columns.csv", index=False)
             
         # merge county ids data
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
@@ -192,6 +209,11 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     
     # merge county data with covid data
     df = pd.merge(cnty, covid, on='countyFIPS', how='inner')
+    
+    # add engineered features
+    if preprocess:
+        df = add_engineered_features(df, data_dir)
+    
     print("loaded and merged COVID-19 cases/deaths data successfully")
 
     return df
@@ -244,8 +266,45 @@ def clean_fips(df):
     
     return df
 
-def add_features(df):
+def add_engineered_features(df, data_dir):
+    '''Add new covid features
+    '''
+
+    # add info on neighboring counties
+    neighboring_counties_df = pd.read_csv(oj(data_dir, 'county_level/raw/county_ids/county_adjacency2010.csv'))
+    neighboring_counties_df['fipscounty'] = neighboring_counties_df['fipscounty'].astype(str).str.zfill(5)
+    neighboring_counties_df['fipsneighbor'] = neighboring_counties_df['fipsneighbor'].astype(str).str.zfill(5)
+    df['countyFIPS'] = df['countyFIPS'].astype(str).str.zfill(5)
+    county_neighbor_deaths = []
+    county_neighbor_cases = []
+    county_fips = list(df['countyFIPS'])
+    for fips in county_fips:
+        neighboring_counties = list(neighboring_counties_df.loc[neighboring_counties_df['fipscounty'] == fips]['fipsneighbor'])
+        neighboring_county_deaths = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['deaths'])
+        neighboring_county_cases = list(df.loc[df['countyFIPS'].isin(neighboring_counties)]['cases'])
+        # if not in county adjacency file, assume neighboring deaths/counts to 0
+        if len(neighboring_county_deaths) == 0:  
+            n_deaths = len(df.loc[df['countyFIPS'] == fips]['deaths'].iloc[0])
+            n_cases = len(df.loc[df['countyFIPS'] == fips]['cases'].iloc[0])
+            sum_neighboring_county_deaths = np.zeros(n_deaths)
+            sum_neighboring_county_cases = np.zeros(n_cases)
+        else:
+            sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
+            for deaths in neighboring_county_deaths:
+                sum_neighboring_county_deaths += deaths
+            sum_neighboring_county_cases = np.zeros(len(neighboring_county_deaths[0]))
+            for cases in neighboring_county_cases:
+                sum_neighboring_county_cases += cases
+        county_neighbor_deaths.append(sum_neighboring_county_deaths)
+        county_neighbor_cases.append(sum_neighboring_county_cases)
+    df['neighbor_deaths'] = county_neighbor_deaths
+    df['neighbor_cases'] = county_neighbor_cases
     
+    return df
+    
+def add_features(df):
+    '''Add new features
+    '''
     df['FracMale2017'] = df['PopTotalMale2017'] / (df['PopTotalMale2017'] + df['PopTotalFemale2017'])
     df['#FTEHospitalTotal2017'] = df['#FTETotalHospitalPersonnelShortTermGeneralHospitals2017'] + df['#FTETotalHospitalPersonnelSTNon-Gen+LongTermHosps2017']
     
@@ -328,9 +387,11 @@ def important_keys(df):
     
     # resource shortages/social vulnerability
     vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
+    
+    # neighboring keys
 
     # get list of important variables
-    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social
+    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social + vulnerability
     
     # keep variables that are in df
     important_vars = [var for var in important_vars if var in list(df.columns)]
