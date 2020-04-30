@@ -99,7 +99,7 @@ def write_to_api(d, api_file='../ian_key.env', csv_file='_hidden_hosp.csv'):
     url = 'https://api-r4l-ventilator-prediction.herokuapp.com/berkeley/severity/auto-upload'
     d.to_csv(csv_file)
     with open(csv_file, 'rb') as f:
-        r = requests.post(url, files={'file': ('myfile.csv', f, 'text/csv', {'Expires': '0'})}, 
+        r = requests.post(url, files={'file': (csv_file, f, 'text/csv', {'Expires': '0'})}, 
                           headers=hed)
     print('api post succeeded?', r.text)
 
