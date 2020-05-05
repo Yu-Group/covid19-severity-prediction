@@ -1,6 +1,15 @@
-# Overview
+<h1 align="center">Covid Severity Forecasting</h1>
 
-This repo contains (daily updated) data and code for forecasting COVID-19 severity for individual counties and hospitals in the US. The data contains a variety of information, including confirmed cases/deaths, demographics, risk factors, social distancing data, and much more.
+<p align="center">Data and models (updated daily) for forecasting COVID-19 severity for individual counties and hospitals in the US. The data includes confirmed cases/deaths, demographics, risk factors, social distancing data, and much more.
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#quickstart-with-the-data--models">Quickstart</a> •
+  <a href="#acknowledgements">Acknowledgements</a> 
+</p>
+
+# Overview
 
 *Note: This repo is actively maintained - for any questions, please file an issue.*
 
@@ -49,9 +58,6 @@ df = add_preds(df, NUM_DAYS_LIST=[1, 3, 5]) # adds keys like "Predicted Deaths 1
 
 # Acknowledgements
 
-To reference, please cite the paper: [Curating a COVID-19 data repository and forecasting
-county-level death counts in the United States](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf) 
-
 The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group members are all alphabetical by last name)
 
 - **[Yu group team](https://www.stat.berkeley.edu/~yugroup/people.html)** (Data/modeling): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (student lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
@@ -60,3 +66,13 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 - [Medical team](https://emergency.ucsf.edu/people/aaron-kornblith-md) (Advice from a medical perspective): Roger Chaufournier, Aaron Kornblith, David Jaffe
 - [Shen Group team](https://shen.ieor.berkeley.edu/) (IEOR): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
 - Helpful input from many including: SriSatish Ambati, Rob Crockett, Tina Elassia-Rad, Marty Elisco, Nick Jewell, Valerie Isham, Valerie Karplus, Andreas Lange, Ying Lu, Samuel Scarpino, Jas Sekhon, Phillip Stark, Jacob Steinhardt, Suzanne Tamang, Brian Yandell, Tarek Zohdi
+- Additionally, we would like to thank our sources, which can be found in the [data readme](./data/readme.md)
+
+To reference, please cite [the paper](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf) 
+```c
+@article{altieri2020curating,
+  title={Curating a COVID-19 data repository and forecasting county-level death counts in the United States},
+  author={Altieri, Nick and Barter, Rebecca and Duncan, James and Dwivedi, Raaz and Kumbier, Karl and Li, Xiao and Netzorg, Robert and Park, Briton and Singh, Chandan and Tan, Yan Shuo and others},
+  year={2020}
+}
+```
