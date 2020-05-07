@@ -20,7 +20,8 @@
 - **[Data](./data/readme.md)** (updated daily): We have compiled, cleaned, and documented a large corpus of hospital- and county-level data from a variety of public sources to aid data science efforts to combat COVID-19.
     - At the hospital level, the data include the location of the hospital, the number of ICU beds, the total number of employees, the hospital type, and contact information
     - At the county level, our data include socioeconomic factors, social distancing scores, and COVID-19 cases/deaths from USA Facts and NYT
-    - detailed documentations available [here](./data/list_of_columns.md)
+    - Easily downloadable as [processed csv](./data/county_data_abridged.csv) or full pipeline
+    - Extensive documentation available [here](./data/list_of_columns.md)
 ![](results/data_sources.png)
 - **[Modeling](./modeling/readme.md)**: Using this data, we have developed a short-term (3-5 days) forecasting model for mortality at the county level. This model combines a county-specific exponential growth model and a shared exponential growth model through a weighted average, where the weights depend on past prediction accuracy.
 ![](https://covidseverity.com/results/forecasts_small.svg)
