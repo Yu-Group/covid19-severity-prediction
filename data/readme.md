@@ -1,7 +1,9 @@
 ## Overview of all the data sets
 
-The Yu group at UC Berkeley Statistics and EECS compiled and cleaned a large
-corpus of hospital- and county-level data from a variety of public sources to
+**Overview below, detailed documentation in the [list of columns](list_of_columns.md)
+
+The Yu group at UC Berkeley Statistics and EECS has compiled, cleaned and documented
+a large corpus of hospital- and county-level data from a variety of public sources to
 aid data science efforts to combat COVID-19. At the hospital level, our data
 include the location of the hospital, the number of ICU beds, the total number
 of employees, and the hospital type. At the county level, our data include
@@ -9,13 +11,6 @@ COVID-19 cases/deaths from USA Facts and NYT, automatically updated every day,
 along with demographic information, health resource availability, COVID-19
 health risk factors, and social mobility information. An overview of each data
 set in this corpus is provided in this file.
-
-We prepared this data to support emergency medical supply distribution efforts
-through short-term (days) prediction of COVID-19 deaths (and cases) at the
-county level. We are using the predictions and hospital data to arrive at a
-covid Pandemic Severity Index (c-PSI) for each hospital. This project is in
-partnership with [response4life.org](http://response4life.org). We will be
-adding more relevant data sets as they are found.
 
 An overview of each data set in this corpus is provided below. The data is also available on the AWS Data Exchange [here](https://aws.amazon.com/marketplace/pp/prodview-px2tvvydirx4o?qid=1587582026402&sr=0-1&ref_=srh_res_product_title#overview).
 
@@ -83,3 +78,11 @@ In this folder, we collect the useful hospital level data from a variety of sour
         - clean.py (a script that cleans the data)
         - cleaned data
         - Readme.md (metadata for the cleaned data)
+
+
+We prepared this data to support emergency medical supply distribution efforts
+through short-term (days) prediction of COVID-19 deaths (and cases) at the
+county level. We are using the predictions and hospital data to arrive at a
+covid Pandemic Severity Index (c-PSI) for each hospital. This project is in
+partnership with [response4life.org](http://response4life.org). We will be
+adding more relevant data sets as they are found.
