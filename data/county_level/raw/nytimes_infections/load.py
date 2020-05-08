@@ -33,7 +33,7 @@ def load_nytimes_infections(data_dir="."):
         deaths.iloc[:,col_ind] = np.minimum(
             deaths.iloc[:,col_ind],
             deaths.iloc[:,col_ind+1])
-    return deaths.merge(confirmed, left_index=True, right_index=True).reset_index()
+    return confirmed.merge(deaths, left_index=True, right_index=True).astype(int).reset_index()
     
 if __name__ == "__main__":
     nytimes_infections = load_nytimes_infections()
