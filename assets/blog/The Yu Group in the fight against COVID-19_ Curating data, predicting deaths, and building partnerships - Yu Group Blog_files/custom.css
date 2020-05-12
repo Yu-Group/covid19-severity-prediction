@@ -1,0 +1,34 @@
+.img > img {
+    display: block;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+/* prevent wrapping around floating images */
+.clear-both {
+    clear: both;
+}
+
+.grid-2-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid-3-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-2-columns > .img, .grid-3-columns > .img {
+    align-self: center;
+    justify-self: center;
+}
