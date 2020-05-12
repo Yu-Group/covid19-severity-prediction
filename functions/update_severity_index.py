@@ -122,9 +122,10 @@ def prep_county_df(df, NUM_DAYS_LIST):
     '''
     df = add_severity_county(df, NUM_DAYS_LIST)
     k_severity = 'Severity County 5-day'
-    today = datetime.datetime.today().strftime("%B %d")
+    latest_date_str = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+    latest_date = datetime.datetime.strptime(latest_date_str, '%m-%d-%Y').date()
     days = [
-        prefix + (datetime.datetime.today() + datetime.timedelta(days=i)).strftime("%B %d")
+        prefix + (latest_date + datetime.timedelta(days=i)).strftime("%B %d")
         for i in NUM_DAYS_LIST for prefix in ('Predicted Deaths by ', 'Predicted Deaths Intervals by ')
     ]
     remap = {
@@ -134,9 +135,9 @@ def prep_county_df(df, NUM_DAYS_LIST):
                 (f'Predicted Deaths {i}-day', f'Predicted Deaths Intervals {i}-day'),
                 # values
                 ('Predicted Deaths by ' + \
-                 (datetime.datetime.today() + datetime.timedelta(days=i)).strftime("%B %d"),
+                 (latest_date + datetime.timedelta(days=i)).strftime("%B %d"),
                 'Predicted Deaths Intervals by ' + \
-                 (datetime.datetime.today() + datetime.timedelta(days=i)).strftime("%B %d"))
+                 (latest_date + datetime.timedelta(days=i)).strftime("%B %d"))
         )
     }
     dfc = df.apply(lambda r: unpack_preds_list(r, NUM_DAYS_LIST, "Predicted Deaths Intervals"), axis=1)
