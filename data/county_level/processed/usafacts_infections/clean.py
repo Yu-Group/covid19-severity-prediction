@@ -40,6 +40,8 @@ def clean_usafacts_infections(data_dir='../../raw/usafacts_infections/',
     # merge counties countyFIPS")with the same countyFIPS
     df = df.groupby("countyFIPS").sum().reset_index()
 
+    # remove princess cruise ship
+    df = df[df['countyFIPS'] != "06000"]
 
     # write out to csv
     df.to_csv(oj(out_dir, "usafacts_infections.csv"), index=False)
