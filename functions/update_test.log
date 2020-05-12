@@ -17,7 +17,7 @@ api post succeeded? {"message": "success"}
 succesfully wrote to api
 writing viz index animated...
 succesfully wrote viz index animated
-success! 5_10_16
+success! 5_11_16
 loading county-level data...
 loaded and merged COVID-19 cases/deaths data successfully
 successfully updated map of deaths
