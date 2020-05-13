@@ -85,7 +85,12 @@ def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
         df[f'Predicted New Deaths Hospital {num_days}-day'] = (df[f'Predicted New Deaths {num_days}-day'] * df['Frac Hospital Employees of County']).fillna(0)
         
         # severity
-        df[f'Severity {num_days}-day'] = cut_with_manual_low(df[f'Predicted Deaths Hospital {num_days}-day']) 
+        index_hosp_keys = [f'Predicted New Deaths {num_days}-day', 'Total Deaths Hospital']
+        for k in index_hosp_keys:
+            df[k + ' Percentile'] = percentiles(df[k])
+        df_perc = df[[k + ' Percentile' for k in index_hosp_keys]]
+        df[f'Severity {num_days}-day'] = cut_into_categories(df_perc.mean(axis=1))
+        # df[f'Severity {num_days}-day'] = cut_with_manual_low(df[f'Predicted Deaths Hospital {num_days}-day']) 
         df[f'Severity Emerging {num_days}-day'] = cut_with_manual_low(df[f'Predicted New Deaths Hospital {num_days}-day']) 
         df[f'Rural Severity {num_days}-day'] = [-1] * df.shape[0]
         idxs_rural = df['Urban or Rural Designation'] == 'Rural'
