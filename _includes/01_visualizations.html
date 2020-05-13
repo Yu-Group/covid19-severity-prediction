@@ -22,7 +22,7 @@
 <p align="left" style="font-size: 12pt;">
 1. county-level predictions for number of deaths are modeled<br>
 2. county-level predictions are allocated to hospitals within counties proportional the their total number of employees<br>
-3. final value is decided by thresholding the number of cumulative predicted deaths for a hospital (=current recorded deaths + predicted future deaths)<br>
+3. final value is decided by thresholding the mean of two numbers: (i) percentile of cumulative deaths so far (ii) percentile of predicted new deaths in the next few days<br>
 
   <br>
 </p>
