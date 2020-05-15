@@ -8,17 +8,17 @@ def clean(data_path='../../raw/google_mobility/google.csv',
 
     Output will have columns:
     - Country
-    - State/Province
+    - State (also province, or any region bigger than county)
     - County
     - Date (YYYY-MM-DD)
-    - Region Type (one of {County, State/Province, Country}, level of granularity)
+    - Region Type (one of {County, State, Country}, level of granularity)
     - Sector (one of {parks, retail_and_recreation, transit, workplaces,
         residential, grocery_and_pharmacy})
     """
     # Naming of region granularities
     rename_dict = {
         'sub_region_2': 'County',
-        'sub_region_1': 'Region',
+        'sub_region_1': 'State',
         'country_region': 'Country',
         'date': 'Date',
     }
@@ -39,7 +39,7 @@ def clean(data_path='../../raw/google_mobility/google.csv',
     goog_df = goog_df.rename(columns=rename_dict)
     goog_df['Sector'] = goog_df['Sector'].apply(lambda x: sector_dict[x])
 
-    for region_type in ['Country', 'Region', 'County']:
+    for region_type in ['Country', 'State', 'County']:
         this_granularity = goog_df[~goog_df[region_type].isna()].index
         goog_df.loc[this_granularity, 'Region Type'] = region_type
     goog_df.to_csv('google.csv', index=False)
