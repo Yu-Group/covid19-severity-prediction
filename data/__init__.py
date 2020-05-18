@@ -7,9 +7,11 @@ from os.path import join as oj
 import sys
 from math import radians, sin, cos, sqrt, asin
 from sklearn.neighbors import NearestNeighbors
+from tqdm import tqdm
+import re
+import copy
 #from hospital_level.processed.cms_cmi.clean import clean_cms_cmi
 #from hospital_level.processed.cms_hospitalpayment.clean import clean_cms_hospitalpayment
-from tqdm import tqdm
 from .county_level.processed.ahrf_health.clean import clean_ahrf_health
 from .county_level.processed.cdc_svi.clean import clean_cdc_svi
 from .county_level.processed.chrr_health.clean import clean_chrr_health
@@ -29,6 +31,8 @@ from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 from .county_level.processed.usda_poverty.clean import clean_usda_poverty
 from .county_level.processed.safegraph_socialdistancing.clean import clean_safegraph_socialdistancing
 from .county_level.processed.safegraph_weeklypatterns.clean import clean_safegraph_weeklypatterns
+from .nursinghome_level.processed.nyt_nursinghomes.clean import clean_nyt_nursinghomes
+from .nursinghome_level.processed.hifld_nursinghomes.clean import clean_hifld_nursinghomes
 
 
 def load_county_data(data_dir=".", cached_file="county_data.csv", 
@@ -45,14 +49,14 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
     
     cached_abridged_file : string; name of cached abridged county-level data
     
-    cached : logical; whether or not to load in cached data (if possible)
+    cached : boolean; whether or not to load in cached data (if possible)
     
-    abridged : logical; whether or not to load in abridged data
+    abridged : boolean; whether or not to load in abridged data
     
     infections_data : string; source for daily cases/deaths counts from
                       COVID-19 infections; must be either 'usafacts' or 'nytimes'
                       
-    with_private_data : logical; whether or not to load in private data (if available)
+    with_private_data : boolean; whether or not to load in private data (if available)
     preprocess: bool
         whether or not to preprocess the features with neighboring data
         
@@ -575,3 +579,238 @@ def distance(lat1, lat2, lon1, lon2):
        
     # calculate the result 
     return(c * r) 
+
+
+def load_nursinghome_data(data_dir=".", cached_file="nursinghomes_data.csv", cached=True):
+    '''  Load in merged nursing homes data set
+    
+    Parameters
+    ----------
+    data_dir : string; path to the data directory
+    
+    cached_file : string; name of cached nursing homes-level data
+    
+    cached : boolean; whether or not to load in cached data (if possible)
+        
+    Returns
+    -------
+    data frame with fully merged nursing homes-level data set
+    '''    
+    # data directories
+    orig_dir = os.getcwd()
+    data_dir_raw = oj(data_dir, "nursinghome_level", "raw")
+    data_dir_clean = oj(data_dir, "nursinghome_level", "processed")
+    
+    if cached == True:  
+        # read in cached data
+        if os.path.exists(oj(data_dir, cached_file)):
+            nh = pd.read_csv(oj(data_dir, cached_file))
+        else:
+            raise ValueError("Cached file cannot be found. " + "Please set cached = False")
+    else: 
+        
+        ## ADD PUBLIC DATASETS HERE
+        datasets = ["nyt_nursinghomes", "hifld_nursinghomes"]
+        
+        # load in and clean county-level datasets
+        df_ls = []
+        for dataset in tqdm(datasets):
+            # check if raw data files exist locally; if not, download raw data
+            if not any(fname.startswith(dataset) \
+                       for fname in os.listdir(oj(data_dir_raw, dataset))):
+                # download raw data
+                os.chdir(oj(data_dir_raw, dataset))
+                os.system("python download.py")
+                print("downloaded " + dataset + " successfully")
+                os.chdir(orig_dir)
+                
+            # clean data
+            os.chdir(oj(data_dir_clean, dataset))
+            df = eval("clean_" + dataset + "()")
+            df_ls.append(df)
+            print("loaded and cleaned " + dataset + " successfully")
+            os.chdir(orig_dir)
+
+        # merge nursing homes data
+        manual_merge_tab = pd.read_csv(oj(data_dir, "nursinghome_level", "manual_merge_table.csv"))
+        nh = merge_nursinghome_data(df_ls[0], df_ls[1], manual_merge_tab)
+        print("merged nursing homes data successfully")
+        
+        # write full county data to file
+        nh.to_csv(oj(data_dir, cached_file), index=False)
+        print("saved " + cached_file + " successfully")
+
+    # ensure consistent data types
+    nh["countyFIPS"] = nh["countyFIPS"].astype(str).str.zfill(5)
+    
+    return nh
+
+
+def merge_nursinghome_data(nyt, hifld, manual_merge_tab):
+    ''' merge nursing home data
+    
+    Parameters
+    ----------
+    nyt : cleaned nyt nursing homes data
+    
+    hifld : cleaned hifld nursing homes data
+    
+    manual_merge_tab : merge table with merges to manually correct
+        
+    Returns
+    -------
+    data frame with merged nursing homes data
+    '''  
+    
+    try:
+        from fuzzywuzzy import process, fuzz
+    except ImportError:
+        sys.exit("""You need fuzzywuzzy.
+                    Install it from https://pypi.org/project/fuzzywuzzy/
+                    or run pip install fuzzywuzzy.""")
+    
+    # clean names and cities for better merge
+    nyt = clean_nh_cities(nyt)
+    nyt = clean_nh_names(nyt, level = 1)
+    nyt2 = clean_nh_names(copy.deepcopy(nyt), level = 2)  # more ambitious cleaning
+    hifld = clean_nh_cities(hifld)
+    hifld = clean_nh_names(hifld, level = 1)
+    hifld2 = clean_nh_names(copy.deepcopy(hifld), level = 2)  # more ambitious cleaning
+    
+    # fuzzy merging
+    matched_fid = []
+    for i in range(nyt.shape[0]):
+        name = nyt.loc[i, "Name"]
+        name2 = nyt2.loc[i, "Name"]
+        city = nyt.loc[i, "City"]
+        state = nyt.loc[i, "State"]
+
+        # get exact matches
+        matched_all = hifld.loc[(hifld["Name"] == name) &\
+                                (hifld["City"] == city) &\
+                                (hifld["State"] == state)]
+
+        if matched_all.shape[0] == 1:  # one exact match
+            fid = matched_all.iloc[0]["Fid"]
+        elif matched_all.shape[0] > 1:  # more than one exact match
+            if matched_all.Name.iloc[0] == "CHRISTIAN HEALTH CARE CENTER":
+                fid = 6658  # manual merge
+            else:
+                print("Multiple exact matches for: " + name)
+        else:  # if no exact match, do fuzzy matching
+            # first try exact matching on city and state
+            hifld_matched = hifld.loc[(hifld["City"] == city) & (hifld["State"] == state)]
+            if hifld_matched.shape[0] > 0:
+                matched = process.extractOne(name, hifld_matched["Name"], scorer=fuzz.WRatio)
+                if matched[1] >= 87:  # if meet threshold requirement, found match
+                    matched_fids = hifld_matched.loc[hifld_matched["Name"] == matched[0]]
+                else:  # try using names that are even more abbreviated/cleaned
+                    hifld2_matched = hifld2.loc[(hifld2["City"] == city) & (hifld2["State"] == state)] 
+                    matched = process.extractOne(name2, hifld2_matched["Name"], scorer=fuzz.WRatio)
+                    if matched[1] >= 87:  # if meet threshold requirement, found match
+                        matched_fids = hifld2_matched.loc[hifld2_matched["Name"] == matched[0]]
+                    else:  # finally try using different distance metric
+                        matched = process.extractOne(name2, hifld2_matched["Name"], scorer=fuzz.ratio)
+                        matched_fids = hifld2_matched.loc[hifld2_matched["Name"] == matched[0]]
+
+                # get (a single) matched FID
+                if matched_fids.shape[0] == 1:
+                    fid = matched_fids["Fid"].iloc[0]
+                else:  # if multiple matched FIDs
+                    if not matched_fids["Population"].isna().all() == 0:  # not all nans in pop field
+                        # choose one with large population
+                        fid = matched_fids.loc[matched_fids["Population"] ==\
+                                               np.nanmax(matched_fids["Population"])]["Fid"].iloc[0]
+                    else:  # all nans in population field
+                        fid = matched_fids["Fid"].iloc[0]  # take first one
+            else:  # do manual merge later
+                fid = np.NaN
+        matched_fid.append(fid)
+    nyt["Matched FID"] = matched_fid
+            
+    # fix some nursing home matched FIDs manually
+    for i in range(manual_merge_tab.shape[0]):
+        name = manual_merge_tab.Name.iloc[i]
+        fid = manual_merge_tab.FID.iloc[i]
+        city = manual_merge_tab.City.iloc[i]
+        state = manual_merge_tab.State.iloc[i]
+        idx = (nyt.Name == name) & (nyt.City == city) & (nyt.State == state)
+        nyt["Matched FID"].loc[idx] = fid
+    
+    # take entry with max #cases to deal with duplicates in nyt
+    nyt_duplicated_ls = []
+    for fid in nyt["Matched FID"].loc[nyt["Matched FID"].duplicated()].unique():
+        if fid == -999:
+            continue
+        nyt_duplicated = nyt.loc[nyt["Matched FID"] == fid]
+        nyt_duplicated = nyt_duplicated.loc[nyt_duplicated["Cases_2020-05-11"] ==\
+                                            np.max(nyt_duplicated["Cases_2020-05-11"])]
+        nyt_duplicated_ls.append(nyt_duplicated)
+        nyt = nyt.loc[nyt["Matched FID"] != fid]
+    nyt_duplicated = pd.concat(nyt_duplicated_ls, axis = 0, sort = False)
+    nyt = pd.concat([nyt, nyt_duplicated], axis = 0, sort = False)
+
+    #nyt.to_csv("full_merge_table.csv", index=False)
+    
+    # merge with hifld
+    nyt["Matched FID"] = nyt["Matched FID"].astype(int)
+    nyt = nyt.rename(columns = {"Name": "NYT Name", "City": "NYT City", "State": "NYT State"})
+    nh = pd.merge(hifld, nyt, left_on = "Fid", right_on = "Matched FID", how = "right")
+    nh = nh.replace(-999, np.NaN)
+
+    return nh
+    
+            
+def clean_nh_names(df, level = 1):
+    ''' clean nursing home names (helper function for merge_nursinghome_data())
+    
+    Parameters
+    ----------
+    df : data frame to clean
+    
+    level : denotes how much cleaning to do; 1 = minimal, 2 = more
+        
+    Returns
+    -------
+    data frame with cleaned nursing home names
+    '''    
+    
+    rm_words = [".", ",", " LTD", " LLC", " INC", "'"]
+    for word in rm_words:
+        df.Name = df.Name.str.replace(word, "")
+    df.Name = df.Name.str.replace("&", "AND")
+    df.Name = df.Name.str.replace("HEALTHCARE", "HEALTH CARE")
+    df.Name = df.Name.str.replace("REHABILITATION", "REHAB")
+    
+    if level > 1:  # more ambitious cleaning
+        rm_words = ["REHAB", "CENTER", "CENTRE", "FACILITY", "NURSING HOME", "CONVALESCENT",
+                    "NURSING", "WELLNESS SUITES", "RETIREMENT COMMUNITY", "HEALTH", "SENIOR",
+                    "LIVING", "AND"]  
+        for word in rm_words:
+            df.Name = df.Name.str.replace(word, "")
+    
+    # remove extra spaces
+    df.Name = df.Name.apply(lambda x: re.sub(' +', ' ', x))  
+    df.Name = df.Name.str.strip()
+    return df
+
+def clean_nh_cities(df):
+    ''' clean nursing home city names (helper function for merge_nursinghome_data())
+    
+    Parameters
+    ----------
+    df : data frame to clean
+        
+    Returns
+    -------
+    data frame with cleaned nursing home city names
+    '''  
+    df.City = df.City.str.replace(",", "")
+    df.City = df.City.str.replace(".", "")
+    df.City = df.City.str.replace("SAINT", "ST")
+    df.City = df.City.str.replace("MOUNT ", "MT ")
+    df.City = df.City.str.replace("TOWNSHIP", "")
+    df.City = df.City.str.replace("'", "")
+    #df.City = df.City.str.replace("CITY", "")
+    df.City = df.City.str.strip()
+    return df
