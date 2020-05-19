@@ -260,6 +260,12 @@
 |**foreign travel ban**| contains the date that counties (or states governing them) took measures to mitigate the spread by restricting gatherings, given as the proleptic Gregorian ordinal of the date, where January 1 of year 1 has t = 1| jhu_interventions |
 |% Drive Alone to Work| percentage of the workforce that drives alone to work (2014-18) | chrr_health |
 |% Long Commute - Drives Alone| among workers who commute in their car alone, the percentage that commute more than 30 minutes (2014-18) | chrr_health |
+|%Y-%m-%d_Parks| percent change in mobility at parks relative to baseline value for that day of the week | google_mobility |
+|%Y-%m-%d_Residential| percent change in mobility at residential areas relative to baseline value for that day of the week | google_mobility |
+|%Y-%m-%d_Retail-Recreation| percent change in mobility at retail and recreational areas relative to baseline value for that day of the week | google_mobility |
+|%Y-%m-%d_Transit| percent change in mobility at transit areas relative to baseline value for that day of the week | google_mobility |
+|%Y-%m-%d_Workplace| percent change in mobility at workplaces relative to baseline value for that day of the week | google_mobility |
+|%Y-%m-%d_Grocery-Pharmacy| percent change in mobility at groceries and pharmacies relative to baseline value for that day of the week | google_mobility |
 
 
 #### Miscellaneous
