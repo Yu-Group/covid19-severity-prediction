@@ -67,13 +67,13 @@ df_unabridged = data.load_county_data(data_dir = "data", cached = False, abridge
 df_abrdiged = data.load_county_data(data_dir = "data", cached = False, abridged = True)
 ```
 
-To load the hospital-level data from the project root directory:
+To load the nursing homes data from the project root directory:
 ```python
 import data
 nhomes = data.load_nursinghome_data(data_dir = "data", cached = False)
 ```
 
-To load the nursing homes-level data from the project root directory:
+To load the hospital-level data from the project root directory:
 ```python
 import data
 hosp = data.load_hospital_data(data_dir="data", with_private_data=False, load_cached_file=False)
