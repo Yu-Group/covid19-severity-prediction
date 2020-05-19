@@ -13,7 +13,7 @@
 
 *Note: This repo is actively maintained - for any questions, please file an issue.*
 
-- **[Paper link](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf)**: "Curating a COVID-19 data repository and forecasting county-level death counts in the United States"
+- **[Paper link](https://arxiv.org/abs/2005.07882)**: "Curating a COVID-19 data repository and forecasting county-level death counts in the United States"
 - **[Project website](http://covidseverity.com/)**: http://covidseverity.com/
     - see [interactive county-level map](http://covidseverity.com/results/deaths.html) + [interactive hospital-level map](http://covidseverity.com/results/severity_map.html)
 ![](results/maps_static.png)
@@ -70,11 +70,12 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 - Helpful input from many including: SriSatish Ambati, Rob Crockett, Tina Elassia-Rad, Marty Elisco, Nick Jewell, Valerie Isham, Valerie Karplus, Andreas Lange, Ying Lu, Samuel Scarpino, Jas Sekhon, Phillip Stark, Jacob Steinhardt, Suzanne Tamang, Brian Yandell, Tarek Zohdi
 - Additionally, we would like to thank our sources, which can be found in the [data readme](./data/readme.md)
 
-To reference, please cite [the paper](https://www.stat.berkeley.edu/~binyu/ps/papers2020/covid19_paper.pdf) 
+To reference, please cite [the paper](https://arxiv.org/abs/2005.07882) 
 ```c
 @article{altieri2020curating,
   title={Curating a COVID-19 data repository and forecasting county-level death counts in the United States},
   author={Altieri, Nick and Barter, Rebecca and Duncan, James and Dwivedi, Raaz and Kumbier, Karl and Li, Xiao and Netzorg, Robert and Park, Briton and Singh, Chandan and Tan, Yan Shuo and others},
+  journal={arXiv preprint arXiv:2005.07882},
   year={2020}
 }
 ```
