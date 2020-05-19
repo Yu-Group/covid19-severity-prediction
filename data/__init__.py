@@ -31,6 +31,8 @@ from .county_level.processed.streetlight_vmt.clean import clean_streetlight_vmt
 from .county_level.processed.usda_poverty.clean import clean_usda_poverty
 from .county_level.processed.safegraph_socialdistancing.clean import clean_safegraph_socialdistancing
 from .county_level.processed.safegraph_weeklypatterns.clean import clean_safegraph_weeklypatterns
+from .county_level.processed.apple_mobility.clean import clean_apple_mobility
+from .county_level.processed.google_mobility.clean import clean_google_mobility
 from .nursinghome_level.processed.nyt_nursinghomes.clean import clean_nyt_nursinghomes
 from .nursinghome_level.processed.hifld_nursinghomes.clean import clean_hifld_nursinghomes
 
@@ -148,6 +150,17 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
             cols_ls.append(pd.DataFrame({'dataset': dataset, 'feature': df.keys().tolist()}))
             print("loaded and cleaned " + dataset + " successfully")
             os.chdir(orig_dir)
+        
+        # add wide-format county-level google mobility data
+        goog_df = clean_google_mobility(data_dir = oj(data_dir_raw, "google_mobility"), 
+                                        out_dir = oj(data_dir_clean, "google_mobility"))
+        goog_df = goog_df.loc[goog_df["Region Type"] == "County"][["countyFIPS", "Date", "Sector", "Percent Change"]]
+        goog_df = goog_df.pivot_table(index = "countyFIPS", columns = ['Date', 'Sector'], values = 'Percent Change')
+        goog_df = pd.DataFrame(goog_df.to_records())
+        goog_df.columns = [col.replace("('", "").replace("', '", "_").replace("')", "") for col in goog_df.columns]
+        df_ls.append(goog_df)
+        cols_ls.append(pd.DataFrame({'dataset': 'google_mobility', 'feature': goog_df.keys().tolist()}))
+        print("loaded and cleaned google_mobility successfully")
         
         # save data frame of (datasets, features)
         cols_df = pd.concat(cols_ls, axis=0, sort=False, ignore_index=True)
@@ -813,4 +826,94 @@ def clean_nh_cities(df):
     df.City = df.City.str.replace("'", "")
     #df.City = df.City.str.replace("CITY", "")
     df.City = df.City.str.strip()
+    return df
+
+
+def load_socialmobility_data(data_dir=".", level="country", df_shape="long"):
+    '''  Load in merged social mobility data set
+    
+    Parameters
+    ----------
+    data_dir : string; path to the data directory
+    
+    level : one of {"country", "county", "state", "state/province", "city"}; level of granularity of 
+            social mobility data; "state/province" (which will include states/provinces from all countries) 
+            has not been implemented yet
+        
+    df_shape : one of {"long", "wide"}; whether to return long or wide data frame
+        
+    Returns
+    -------
+    data frame with merged and cleaned social mobility data set; 
+        for details on the data columns, see the readmes for the apple mobility and google mobility data at 
+        data/county_level/processed/apple_mobility and data/county_level/processed/google_mobility respectively
+    ''' 
+    
+    # data directories
+    orig_dir = os.getcwd()
+    data_dir_raw = oj(data_dir, "county_level", "raw")
+    data_dir_clean = oj(data_dir, "county_level", "processed")
+    
+    # load and clean most up-to-date apple mobility data
+    appl_df = clean_apple_mobility(data_dir = oj(data_dir_raw, "apple_mobility"), 
+                                   out_dir = oj(data_dir_clean, "apple_mobility"))
+    appl_df["Dataset"] = "apple"
+    print("loaded and cleaned apple mobility data successfully")
+    goog_df = clean_google_mobility(data_dir = oj(data_dir_raw, "google_mobility"), 
+                                    out_dir = oj(data_dir_clean, "google_mobility"))
+    goog_df["Dataset"] = "google"
+    print("loaded and cleaned google mobility data successfully")
+    
+    if level == "country":  # get country-level data
+        appl_df = appl_df.loc[appl_df["Region Type"] == "Country"]
+        appl_df = appl_df.drop(columns = ["Region Type"])
+        appl_df = appl_df.rename(columns = {"Region": "Country"})
+        
+        goog_df = goog_df.loc[goog_df["Region Type"] == "Country"]
+        goog_df = goog_df.drop(columns = ["Region Type", "State/Province", "County", "countyFIPS"])
+        
+        df = pd.concat([appl_df, goog_df], axis = 0, sort = False)
+        
+    elif level == "state":  # get US state-level data
+        us_states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", 
+                     "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", 
+                     "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+                     "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
+                     "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma",
+                     "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas",
+                     "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
+        appl_df = appl_df.loc[(appl_df["Region Type"] == "State/Province") & (appl_df["Region"].isin(us_states))]
+        appl_df = appl_df.drop(columns = ["Region Type"])
+        appl_df = appl_df.rename(columns = {"Region": "State"})
+        
+        goog_df = goog_df.loc[(goog_df["Region Type"] == "State/Province") &\
+                              (goog_df["State/Province"].isin(us_states))]
+        goog_df = goog_df.drop(columns = ["Region Type", "Country", "County", "countyFIPS"])
+        goog_df = goog_df.rename(columns = {"State/Province": "State"})
+        
+        df = pd.concat([appl_df, goog_df], axis = 0, sort = False)
+    
+    elif level == "state/province":  # get world state/province level data
+        print("level == 'state/province' has not been implemented yet. Need to check if names of provinces in apple and google data sets overlap/match")
+        return
+    
+    elif level == "county":  # get US county level data
+        goog_df = goog_df.loc[goog_df["Region Type"] == "County"]
+        goog_df = goog_df.drop(columns = ["Region Type", "Country"])
+        goog_df = goog_df.rename(columns = {"State/Province": "State"})
+        df = goog_df
+        
+    elif level == "city":
+        appl_df = appl_df.loc[appl_df["Region Type"] == "City"]
+        appl_df = appl_df.drop(columns = ["Region Type"])
+        appl_df = appl_df.rename(columns = {"Region": "City"})
+        df = appl_df
+    
+    if df_shape == "wide":
+        keys = [col for col in df.columns if col not in ['Date', 'Sector', 'Dataset', 'Percent Change']]
+        df = df.pivot_table(index = keys, columns = ['Date', 'Sector', 'Dataset'], values = 'Percent Change')
+        #df = pd.DataFrame(df.to_records())
+        #df.columns = [col.replace("('", "").replace("', '", "").replace("')", "") \
+        #              for col in df.columns]
+    
     return df

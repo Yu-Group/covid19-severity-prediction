@@ -79,6 +79,16 @@ import data
 hosp = data.load_hospital_data(data_dir="data", with_private_data=False, load_cached_file=False)
 ```
 
+To load the public social mobility data from the project root directory:
+```python
+import data
+# country-level data in long-format
+mobility_country_long = data.load_socialmobility_data(data_dir = "data", level = "country", df_shape = "long")
+# county-level data in wide-format
+mobility_country_long = data.load_socialmobility_data(data_dir = "data", level = "county", df_shape = "wide")
+# level must be one of {"country", "state", "county", "city"}
+```
+
 
 ## Folder Structure 
 The structure of the folder is as the following:
