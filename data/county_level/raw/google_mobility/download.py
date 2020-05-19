@@ -1,2 +1,5 @@
-import os
-os.system("wget https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv -O google.csv")
+#! /usr/bin/python3
+
+# load in directly from google to get most up-to-date data
+
+pass
