@@ -5,7 +5,12 @@ import os
 from os.path import join as oj
 from os.path import dirname
 
-from ...raw.ahrf_health.load import load_ahrf_health
+if __name__ == "__main__":
+    import sys
+    sys.path.append("../../raw/ahrf_health/")
+    from load import load_ahrf_health
+else:
+    from ...raw.ahrf_health.load import load_ahrf_health
 
 def clean_ahrf_health(data_dir='../../raw/ahrf_health/', 
                       out_dir='.'):

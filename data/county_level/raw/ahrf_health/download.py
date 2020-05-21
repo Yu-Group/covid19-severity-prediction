@@ -13,9 +13,9 @@ import AHRF_parser
 
 # download raw data files
 os.system("wget https://data.hrsa.gov//DataDownload/AHRF/AHRF_2018-2019_SAS.zip -O ahrf_raw_sas.zip")
-os.system("unzip ahrf_raw_sas.zip")
+os.system("unzip -nq ahrf_raw_sas.zip")
 os.system("wget https://data.hrsa.gov//DataDownload/AHRF/AHRF_2018-2019.ZIP -O ahrf_raw.zip")
-os.system("unzip ahrf_raw.zip")
+os.system("unzip -nq ahrf_raw.zip")
 
 # sas7bdat to data frame
 with SAS7BDAT('ahrf2019.sas7bdat', skip_header=False) as reader:

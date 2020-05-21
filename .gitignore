@@ -29,5 +29,6 @@ data/respiratory_disease
 intermediate
 modeling/chandan*
 **.swp
+list_of_columns.csv
 modeling/intermediate*
 **.xls
