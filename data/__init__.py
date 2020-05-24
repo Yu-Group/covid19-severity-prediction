@@ -309,7 +309,7 @@ def add_engineered_features(df, data_dir):
             sum_neighboring_county_deaths = np.zeros(len(neighboring_county_deaths[0]))
             for deaths in neighboring_county_deaths:
                 sum_neighboring_county_deaths += deaths
-            sum_neighboring_county_cases = np.zeros(len(neighboring_county_deaths[0]))
+            sum_neighboring_county_cases = np.zeros(len(neighboring_county_cases[0]))
             for cases in neighboring_county_cases:
                 sum_neighboring_county_cases += cases
         county_neighbor_deaths.append(sum_neighboring_county_deaths)
