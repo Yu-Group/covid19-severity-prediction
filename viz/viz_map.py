@@ -16,6 +16,8 @@ import plotly
 import pandas as pd
 from datetime import date, datetime, timedelta
 
+from viz.viz_map_utils import *
+
 credstr ='rgb(234, 51, 86)'
 cbluestr = 'rgb(57, 138, 242)'
 
@@ -115,231 +117,54 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None, 
     return p
 
 
-"""
-Predicted death maps
-"""
-def make_us_map(title_text, dark=False):
-    fig = go.Figure()
+# -- Plot cumulative deaths map with slider.
 
-    fig.update_geos(
-        scope = 'usa',
-        projection=go.layout.geo.Projection(type = 'albers usa'),
-        subunitcolor = "rgb(0, 0, 0)",
-        landcolor = 'rgb(255, 255, 255)'
-    )
-
-    fig.update_layout(
-        dragmode = 'pan',
-        title = {'text' : title_text}
-    )
-
-    if dark:
-        fig.update_layout(
-            paper_bgcolor='rgba(0,0,0,255)',
-            plot_bgcolor='rgba(0,0,0,255)',
-            template='plotly_dark'
-        )
-
-    return fig
-
-
-def add_counties_slider_choropleth_traces(fig, df, past_days, prediction_dates, scale_max, counties_json):
-    def make_choropleth_trace(values, fips):
-        choropleth_trace = go.Choropleth(
-            visible=False,
-            colorscale=color_scl,
-            z=values,
-            geojson=counties_json,
-            locations=fips,
-            zmin=0,
-            zmax=scale_max,
-            hoverinfo='skip',
-            colorbar_title = "<b> Deaths </b><br> (choropleth)"
-        )
-        return choropleth_trace
-
-    color_scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
-                 [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
-
-    # add past days
-    for col in past_days:
-        values = df[col]
-        if np.any(values < 0):
-            values[values < 0] = 0
-        fips = df['countyFIPS']
-
-        # TODO: add new deaths
-
-        choropleth_trace = make_choropleth_trace(values, fips)
-        fig.add_trace(choropleth_trace)
-
-    for i in range(len(prediction_dates)):
-
-        #df['new_deaths'] = (preds - tot_deaths).apply(
-        #    lambda x: np.array(
-        #        [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
-        #    )
-        #)
-        pred_col = f'Predicted Deaths {i+1}-day'
-        values = df[pred_col]
-        if np.any(values < 0):
-            values[values < 0] = 0
-        fips = df['countyFIPS']
-
-        choropleth_trace = make_choropleth_trace(values, fips)
-        fig.add_trace(choropleth_trace)
-
-    return None
-
-
-def add_counties_slider_bubble_traces(fig, df, past_days, prediction_dates, scale_max, plot_choropleth):
-    def make_bubble_trace(values, fips, lat, lon, text):
-        bubble_trace = go.Scattergeo(
-            visible=False,
-            lat=lat,
-            lon=lon,
-            text=text,
-            hovertemplate='%{text}',
-            name="Bubble Plot",
-            marker = dict(
-                size = values,
-                sizeref = 0.5*(scale_max/1000), # make bubble slightly larger
-                color = values,
-                colorscale = color_scl,
-                cmin=0,
-                cmax=scale_max,
-                line_color='rgb(40,40,40)',
-                line_width=0.5,
-                sizemode='area',
-                colorbar_title = "<b> Deaths </b>",
-                showscale=not plot_choropleth
-            )
-        )
-        return bubble_trace
-
-    color_scl = [[0.0, '#ffffff'],[0.2, '#ff9999'],[0.4, '#ff4d4d'],
-                 [0.6, '#ff1a1a'],[0.8, '#cc0000'],[1.0, '#4d0000']] # reds
-
-    days = list(map(lambda x: x.replace('#Deaths_', ''), past_days))
-
-    # add past days
-    for i, col in enumerate(past_days):
-        values = df[col]
-        if np.any(values < 0):
-            values[values < 0] = 0
-        fips = df['countyFIPS']
-        lat = df['lat']
-        lon = df['lon']
-        text = '<b>Actual # of Deaths, ' + days[i] + '</b>: ' + \
-            values.round().astype(str) + '<br>' + \
-            df['text'].tolist()
-
-        # TODO: add new deaths
-
-        bubble_trace = make_bubble_trace(values, fips, lat, lon, text)
-        fig.add_trace(bubble_trace)
-
-    # add predictions
-    for i in range(len(prediction_dates)):
-
-        #df['new_deaths'] = (preds - tot_deaths).apply(
-        #    lambda x: np.array(
-        #        [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
-        #    )
-        #)
-
-        pred_col = f'Predicted Deaths {i+1}-day'
-        values = df[pred_col].round()
-        if np.any(values < 0):
-            values[values < 0] = 0
-        fips = df['countyFIPS']
-        lat = df['lat']
-        lon = df['lon']
-        text = '<b># Deaths Predicted, ' + prediction_dates[i] + ':</b> ' + \
-            values.round().astype(str) + '<br>' + \
-            df['text'].tolist()
-
-        # day_name = "Day " + str(target_days[i])
-        # TODO: add new deaths
-
-        bubble_trace = make_bubble_trace(values, fips, lat, lon, text)
-        fig.add_trace(bubble_trace)
-
-    return None
-
-
-def make_counties_slider_sliders(past_days, prediction_dates, plot_choropleth):
-    sliders = [
-        {
-            "active": 0,
-            "visible": True,
-            "pad": {"t": 50},
-            "currentvalue": {'xanchor' : 'right'},
-            'transition': {'duration': 1000, 'easing': 'cubic-in-out'},
-            "steps": [],
-        }
-    ]
-
-    days = list(map(lambda x: x.replace('#Deaths_', ''), past_days))
-    num_days = len(days) + len(prediction_dates)
-
-    # add steps for past days
-    for i, day in enumerate(days):
-        if plot_choropleth:
-            args = ["visible", [False] * (2*num_days)]
-        else:
-            args = ["visible", [False] * num_days]
-        slider_step = {
-            # the first falses are the map traces
-            # the last 12 trues are the scatter traces
-            "args": args,
-            "label": day,
-            "method": "restyle"
-        }
-        slider_step['args'][1][i] = True # Toggle i'th trace to "visible"
-        if plot_choropleth:
-            slider_step['args'][1][num_days + i] = True # and the other trace
-        sliders[0]['steps'].append(slider_step)
-
-    # add steps for predicted days
-    for i in range(len(prediction_dates)):
-        day_name = prediction_dates[i]
-        if plot_choropleth:
-            args = ["visible", [False] * (2*num_days)]
-        else:
-            args = ["visible", [False] * num_days]
-        slider_step = {
-            "args": args,
-            "label": day_name,
-            "method": "restyle"
-        }
-        slider_step['args'][1][len(days) + i] = True
-        if plot_choropleth:
-            slider_step['args'][1][num_days + len(days) + i] = True
-        sliders[0]['steps'].append(slider_step)
-
-    return sliders
-
-
-def plot_counties_slider(df,
-                         target_days=np.array([1, 2, 3, 4, 5]),
-                         filename="results/deaths.html",
-                         cumulative=True, # not currently used
-                         plot_choropleth=False,
-                         counties_json=None,
-                         n_past_days=3,
-                         dark=True,
-                         auto_open=True):
+def plot_cumulative_deaths_map_with_slider(df,
+                                           target_days=np.array([0, 1, 2, 3, 4, 5]),
+                                           filename="results/deaths.html",
+                                           plot_choropleth=False,
+                                           counties_json=None,
+                                           dark=True,
+                                           plot_fig=True,
+                                           auto_open=True):
     """
+    Create an interactive plot of the cumulative deaths data for counties
+    across the US, with a slider to change the date.
+
+    Params
+    ------
+    df
+       A county-level dataframe, with predictions if target_days has positive numbers.
+       The df must also have columns called 'countyFIPS', 'tot_deaths', 'State', 'StateName',
+       'CountyName', 'PopulationEstimate2018', 'tot_cases', '#Hospitals', 'POP_LATITUDE',
+       and 'POP_LONGITUDE'.
+    target_days
+        Array of days to plot. 0 is the last observed day, positive numbers are predictions,
+        and negative numbers are past days.
+    filename
+        Where to save the interactive plot html.
+    plot_choropleth
+        If True, plot a choropleth in addition to bubbles.
+    counties_json
+        A JSON object with the borders of the geographical units of interest.
+        If None, will try to open geojson-counties-fips.json in the data dir of this repo.
+    dark
+        Whether to use a dark theme for the figure.
+    plot_fig
+        If True, plots the figure to a filename and possibly opens it in a browser.
+    auto_open
+        If True, the plot will open in a browser.
     """
     if plot_choropleth:
-        assert counties_json is not None, 'counties_json must be included for plotting choropleth'
+        if counties_json is None:
+            counties_json = json.load(open(oj(parentdir, 'data', 'geojson-counties-fips.json'), "r"))
+
     # TODO: note that df should have all data (preds and lat lon)
-    # TODO: add previous days
     fips = df['countyFIPS'].tolist()
     tot_deaths = df['tot_deaths']
 
-    latest_date_str = df.filter(regex='#Deaths_').columns[-1].replace('#Deaths_', '')
+    latest_date = most_recent_date_in_data(df)
+    latest_date_str = str_from_date(latest_date)
 
     d = df
 
@@ -353,45 +178,27 @@ def plot_counties_slider(df,
         tot_deaths.astype(str) + '<br>' + \
         '# Hospitals: ' + d['#Hospitals'].astype(str)
 
-    # compute scale_max for plotting colors
-    pred_col = f'Predicted Deaths {target_days[-1]}-day'
-    values = d[pred_col]
-    scale_max = values.quantile(.995)
-
-    # if not cumulative:
-    #     df['new_deaths'] = (preds - tot_deaths).apply(
-    #        lambda x: np.array(
-    #            [x[i] - x[i - 1] if i > 0 else x[i] for i in range(target_days.size)]
-    #        )
-    #     )
-    #     title_text='Predicted New COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
-    # else:
-    #     title_text='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days'
-
-    # TODO: add new_deaths
-    map_title='Predicted Cumulative COVID-19 Deaths Over the Next '+ str(target_days.size) + ' Days' + '<br>'\
-    '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
+    map_title='Predicted Cumulative COVID-19 Deaths<br>' + \
+        '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
 
-    # get names of columns with past 3 days' deaths
-    past_days = df.filter(regex='#Deaths_').columns[-n_past_days:]
+    target_dates = make_target_dates(df, target_days)
+    observed_cols = observed_dates_to_cols(np.array(target_dates)[target_days <= 0])
+    predicted_cols = target_days_to_cols(target_days[target_days > 0])
 
-    # get prediction dates
-    latest_date = datetime.strptime(latest_date_str, '%m-%d-%Y').date()
-    time_deltas = [timedelta(days = int(day)) for day in target_days]
-    pred_dates = [(latest_date + time_delta).isoformat() for time_delta in time_deltas]
+    plotting_cols = observed_cols + predicted_cols
 
     # make choropleth if plotting
     # want this to happen first so bubbles overlay
     if plot_choropleth:
-        add_counties_slider_choropleth_traces(
-            fig, df, past_days, pred_dates, scale_max, counties_json
+        add_choropleth_traces(
+            fig, df, plotting_cols, counties_json
         )
 
     # add Scattergeo
-    add_counties_slider_bubble_traces(fig, df, past_days, pred_dates, scale_max, plot_choropleth)
+    add_bubble_traces(fig, df, plotting_cols, plot_choropleth, show_hovertext = True)
 
     # make first day visible
     fig.data[0].visible = True
@@ -400,190 +207,30 @@ def plot_counties_slider(df,
         fig.data[n_past_days + target_days.size].visible = True
 
     # add slider to layout
-    sliders = make_counties_slider_sliders(past_days, pred_dates, plot_choropleth)
+    sliders = make_slider_from_dates(target_dates, plot_choropleth)
     fig.update_layout(
         sliders=sliders
     )
 
-    plot(fig, filename=filename, config={
-        'showLink': False,
-        'showSendToCloud': False,
-        'sendData': True,
-        'responsive': True,
-        'autosizable': True,
-        'displaylogo': False
-    }, auto_open = auto_open)
+    if plot_fig:
+        plot(fig, filename=filename, config={
+            'showLink': False,
+            'showSendToCloud': False,
+            'sendData': True,
+            'responsive': True,
+            'autosizable': True,
+            'displaylogo': False
+        }, auto_open = auto_open)
 
     return fig
 
 
-"""
-Death curve scatter plot grid
-"""
-def make_scatter_plot_grid_subplot(title_text, subplot_titles):
-    fig = make_subplots(
-        rows=3, cols=3, column_widths=[0.2]*3,
-        specs=[ # indices of outer list correspond to rows
-            [ # indices of inner list to cols
-                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scatter'}
-            ], # row 1
-            [
-                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scatter'}
-            ], # row 2
-            [
-                {"type" : 'scatter'}, {"type" : 'scatter'}, {"type" : 'scatter'}
-            ] # row 3
-        ],
-        subplot_titles=subplot_titles
-    )
+# --- Plot hospital severity index.
 
-    fig.update_layout(
-        hovermode = 'x',
-        dragmode = 'pan',
-        title = {
-            'text' : title_text,
-            # 'pad' : {'b': 25},
-            # 'y' : 0.95,
-            # 'x' : 0.18,
-            # 'xanchor': 'center',
-            # 'yanchor': 'bottom'
-        }
-    )
-
-    return fig
-
-
-def add_scatter_traces_to_grid(fig, df,
-                               key_toggle='CountyName',
-                               keys_curves=['deaths', 'cases'],
-                               decimal_places=0,
-                               expl_dict=None, interval_dicts=None,
-                               point_id=None, show_stds=False,
-                               annotation_text=None,
-                               annotation_x=None,
-                               annotation_y=None):
-        '''
-        Add first 9 rows as scatter plot traces to a 3x3 grid.
-        '''
-        color_strings = [credstr, cbluestr]
-
-        # scatter plots
-        annotations = []
-
-        for i in range(9):
-            row = df.iloc[i]
-            key = row[key_toggle]
-
-            for j, key_curve in enumerate(keys_curves):
-                curve = row[key_curve]
-                x = np.arange(curve.size)
-                fig.add_trace(
-                    go.Scatter(
-                        x=x,
-                        y=curve,
-                        showlegend=False,
-                        visible=True,
-                        name=key_curve,
-                        line=dict(color=color_strings[j], width=4)
-                    ),
-                    row=i // 3 + 1, col=i % 3 + 1
-                )
-            if annotation_text is not None:
-                if i==0:
-                    xref='x'
-                    yref='y'
-                else:
-                    xref='x'+str(i+1)
-                    yref='y'+str(i+1)
-                fig.add_annotation(
-                        x=annotation_x[i],
-                        y=annotation_y[i],
-                        text=annotation_text[i],
-                        xref=xref,
-                        yref=yref,
-                        showarrow=True,
-                        arrowhead=7,
-                        visible=True
-                )
-
-        return None
-
-
-def plot_emerging_hotspots_grid(df,
-                                target_days=[1,2,3],
-                                n_days_past=3,
-                                order_by='emerging_index',
-                                filename='results/emerging_hotspots.html',
-                                auto_open=True):
-    """
-    Plot observations and predictions for the first nine rows of df in a grid.
-    """
-    d = df.sort_values(order_by, ascending=False)
-
-    counties = d['CountyName'].take(range(9)).tolist()
-    states = d['StateName'].take(range(9)).tolist()
-    subplot_titles = [county + ', ' + state + ' (Hotspot Rank: ' +  str(rank + 1) + ')' for
-                      (county, state, rank) in zip(counties, states, range(9))]
-
-
-    # get col names of past obs, plus one more as the baseline
-    past_cols = d.filter(regex='#Deaths_').columns[-(n_days_past):].tolist()
-    # get col names of predictions
-    pred_cols = [f'Predicted Deaths {day}-day' for day in target_days]
-
-    past_days = list(map(lambda x: x.replace('#Deaths_', ''), past_cols))
-
-    title = "Emerging Hotspots"
-
-    d['deaths'] = d[past_cols + pred_cols].values.tolist()
-    d['deaths'] = d['deaths'].apply(lambda x: np.around(np.array(x)))
-
-    fig = make_scatter_plot_grid_subplot(title, subplot_titles)
-
-    add_scatter_traces_to_grid(
-        fig, d, keys_curves=['deaths'],
-        annotation_text = ['Predictions Begin'] * 9,
-        annotation_x = [n_days_past] * 9,
-        annotation_y = d['deaths'].take(range(9)).apply(lambda x: x[n_days_past]).tolist()
-    )
-
-    # add more annotations
-    annotation_y = d['deaths'].take(range(9)).apply(lambda x: x[n_days_past-1]).tolist()
-    for i in range(9):
-        if i==0:
-            xref='x'
-            yref='y'
-        else:
-            xref='x'+str(i+1)
-            yref='y'+str(i+1)
-        fig.add_annotation(
-                x=n_days_past-1,
-                y=annotation_y[i],
-                text=past_days[-1],
-                xref=xref,
-                yref=yref,
-                showarrow=True,
-                arrowhead=7,
-                visible=True
-        )
-
-    plot(fig, filename=filename, config={
-        'showLink': False,
-        'showSendToCloud': False,
-        'sendData': True,
-        'responsive': True,
-        'autosizable': True,
-        'displaylogo': False
-    }, auto_open = auto_open)
-
-
-"""
-Hospital-level: severity index scatter, death predictions choropleth
-"""
-def add_hopsital_severity_index_scatter_traces(fig, df, prediction_dates, plot_choropleth):
+def add_hopsital_severity_index_scatter_traces(fig, df, target_days, visible=False):
     def make_bubble_trace(lat, lon, text, size, color, name):
         bubble_trace = go.Scattergeo(
-            visible=False,
+            visible=visible,
             lat=lat,
             lon=lon,
             text=text,
@@ -600,15 +247,17 @@ def add_hopsital_severity_index_scatter_traces(fig, df, prediction_dates, plot_c
         )
         return bubble_trace
 
-    # colors = ["#2d3a9a", "#DEC34B", "#9e0521"]
     colors = ["#6E8E96", "#D3787D", "#AC3931"]
 
+    target_date_strs = [nice_date_str(str_from_date(date))
+                        for date in make_target_dates(df, target_days)]
+
     # add predictions
-    for i in range(len(prediction_dates)):
+    for i in range(len(target_days)):
         for s in range(3):
-            severity_col = f'Severity {i+1}-day'
-            surge_col = f'Surge {i+1}-day'
-            pred_col = f'Predicted Deaths {i+1}-day'
+            severity_col = f'Severity {target_days[i]}-day'
+            surge_col = f'Surge {target_days[i]}-day'
+            pred_col = f'Predicted Deaths {target_days[i]}-day'
             df_s = df[df[severity_col] == s+1]
             values = df_s[severity_col]
             surge = df_s[surge_col]
@@ -619,7 +268,7 @@ def add_hopsital_severity_index_scatter_traces(fig, df, prediction_dates, plot_c
                 '<b>Surge Index (SUI)</b>: ' + surge.astype(str) + '<br>' + \
                 df_s['text_hospital'].tolist() + '<br>' \
                 '------ <br>' + \
-                '<b># Deaths Predicted in County, ' + prediction_dates[i] + '</b>: ' + \
+                '<b># Deaths Predicted in County, ' + target_date_strs[i] + '</b>: ' + \
                 preds.astype(str) + '<br>' + df_s['text_county'].tolist()
             bubble_trace = make_bubble_trace(
                 lat, lon, text, size=s+7, color=colors[s], name=str(s+1)
@@ -629,7 +278,7 @@ def add_hopsital_severity_index_scatter_traces(fig, df, prediction_dates, plot_c
     return None
 
 
-def make_severity_index_sliders(prediction_dates, plot_choropleth):
+def make_severity_index_sliders(dates, plot_choropleth):
     sliders = [
         {
             "active": 0,
@@ -641,19 +290,17 @@ def make_severity_index_sliders(prediction_dates, plot_choropleth):
         }
     ]
 
-    # days = list(map(lambda x: x.replace('#Deaths_', ''), past_days))
-    num_days = len(prediction_dates)
+    num_days = len(dates)
 
     # add steps for predicted days
-    for i in range(num_days):
-        day_name = prediction_dates[i]
+    for i, date in enumerate(dates):
         if plot_choropleth:
             args = ["visible", [False] * (4*num_days)]
         else:
             args = ["visible", [False] * 3*num_days]
         slider_step = {
             "args": args,
-            "label": day_name,
+            "label": nice_date_str(str_from_date(date)),
             "method": "restyle"
         }
         for s in range(3):
@@ -667,24 +314,52 @@ def make_severity_index_sliders(prediction_dates, plot_choropleth):
 def plot_hospital_severity_slider(df, # merged hospital and county, with severity
                                   target_days=np.array([1, 2, 3, 4, 5]),
                                   filename="severity_map.html", # no effect unless plot = True
-                                  cumulative=True, # not currently used
-                                  plot_choropleth=True,
-                                  df_county = None,
+                                  plot_choropleth=False,
+                                  df_county=None,
                                   counties_json=None,
                                   dark=True,
-                                  auto_open=True,
                                   plot_fig=True,
+                                  auto_open=True,
                                   county_filter=None):
     """
+    Create an interactive plot of the predicted hospital-level severity index
+    data for hospitals across the US, with a slider to change the date.
+
+    Params
+    ------
+    df
+       A hospital-level dataframe, with predictions.
+    target_days
+        Array of days to plot. Unlike for plot_cumulative_deaths_map_with_slider(),
+        must be only positive numbers.
+    filename
+        Where to save the interactive plot html.
+    plot_choropleth
+        If True, plot a choropleth in addition to bubbles.
+    df_county
+        A county-level df with predictions. Must be present if plot_choropleth is True.
+    counties_json
+        A JSON object with the borders of the geographical units of interest.
+        If None, will try to open geojson-counties-fips.json in the data dir of this repo.
+    dark
+        Whether to use a dark theme for the figure.
+    plot_fig
+        If True, plots the figure to a filename and possibly opens it in a browser.
+    auto_open
+        If True, the plot will open in a browser.
+
     """
+    target_days = target_days[target_days > 0]
+
     if plot_choropleth:
-        assert counties_json is not None, 'counties_json must be included for plotting choropleth'
+        if counties_json is None:
+            counties_json = json.load(open(oj(parentdir, 'data', 'geojson-counties-fips.json'), "r"))
         assert df_county is not None, 'df_county must be included for plotting county predictions'
     # TODO: note that df should have all data (preds and lat lon)
     d = df
     d_c = df_county
 
-    if county_filter is not None:
+    if county_filter is not None: # TODO: remove this
         d = d[d['CountyName'] == county_filter]
         if plot_choropleth:
             d_c = d[d['CountyName'] == county_filter]
@@ -716,11 +391,6 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         'County Total # Hospitals: ' + d['#Hospitals'].astype(str) + '<br>' + \
         'County Total # Hospital Employees: ' + d['Hospital Employees in County'].astype(str)
 
-    # compute scale_max for plotting colors
-    pred_col = f'Predicted Deaths {target_days[-1]}-day'
-    values = d_c[pred_col]
-    scale_max = values.quantile(.99)
-
     map_title='Hospital-Level COVID-19 Pandemic Severity Index (CPSI)'
     if plot_choropleth:
         map_title = map_title + ' and Predicted Deaths'
@@ -733,10 +403,10 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
     # get prediction dates
     latest_date = datetime.strptime(latest_date_str, '%m-%d-%Y').date()
     time_deltas = [timedelta(days = int(day)) for day in target_days]
-    pred_dates = [(latest_date + time_delta).isoformat() for time_delta in time_deltas]
+    pred_dates = [latest_date + time_delta for time_delta in time_deltas]
 
     # add Scattergeo
-    add_hopsital_severity_index_scatter_traces(fig, d, pred_dates, plot_choropleth)
+    add_hopsital_severity_index_scatter_traces(fig, d, target_days, plot_choropleth)
 
     # make first day visible
     fig.data[0].visible = True
@@ -745,8 +415,9 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
 
     # make choropleth if plotting
     if plot_choropleth:
-        add_counties_slider_choropleth_traces(
-            fig, d_c, [], pred_dates, scale_max, counties_json
+        plotting_cols = target_days_to_cols(target_days)
+        add_choropleth_traces(
+            fig, d_c, plotting_cols, counties_json
         )
         # make first day choropleth visible
         fig.data[3*target_days.size].visible = True
@@ -768,3 +439,15 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
         }, auto_open = auto_open)
 
     return fig
+
+
+# -- Plot map of daily change in deaths.
+
+def plot_change_map():
+    """
+    Plot a map of the US with the change in # of new deaths from day to day.
+    new_death{t} = pred_cumulative{t} - pred_cumulative{t-1}
+    change{t} = new_death{t} - new_death{t - 1}
+    """
+    pass
+

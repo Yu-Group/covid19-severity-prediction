@@ -24,35 +24,38 @@ if __name__ == "__main__":
     NUM_DAYS_LIST = [1, 2, 3, 4, 5]
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=data_dir)
 
-    deaths_fig = viz_map.plot_counties_slider(df_county, auto_open=False,
-                                              n_past_days=1,
-                                              target_days=np.array(NUM_DAYS_LIST),
-                                              filename=oj(parentdir, 'results', 'deaths.html'))
+    deaths_fig = viz_map.plot_cumulative_deaths_map_with_slider(
+        df_county, auto_open=False,
+        target_days=np.array([0]+NUM_DAYS_LIST),
+        filename=oj(parentdir, 'results', 'deaths.html')
+    )
     print('successfully updated map of deaths')
     deaths_fig.write_image(oj(parentdir, 'results', 'deaths.png'),
-                           width=734, height=784, scale=2)
+                           width=900, height=600, scale=2)
     print('successfully updated png of map of deaths')
 
     # load in hospital data and merge
     df_hospital = load_data.load_hospital_level(
         data_dir=oj(os.path.dirname(parentdir), 'covid-19-private-data')
     )
+
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
     df = severity_index.add_severity_index(df, NUM_DAYS_LIST)
 
     # load counties geojson
-    counties_json = json.load(open(oj(parentdir, 'data', 'geojson-counties-fips.json'), "r"))
+    # counties_json = json.load(open(oj(parentdir, 'data', 'geojson-counties-fips.json'), "r"))
 
     # create hospital-level severity index plot
     severity_fig = viz_map.plot_hospital_severity_slider(
         df,
         target_days=np.array(NUM_DAYS_LIST),
-        df_county=df_county,
-        counties_json=counties_json, dark=True,
-        auto_open=False, filename=oj(parentdir, 'results', 'severity_map.html')
+        plot_choropleth=False,
+        dark=True,
+        auto_open=False,
+        filename=oj(parentdir, 'results', 'severity_map.html')
     )
     print('successfully updated map of severity index')
 
     severity_fig.write_image(oj(parentdir, 'results', 'severity_map.png'),
-                             width=734, height=784, scale=2)
+                             width=900, height=600, scale=2)
     print('successfully updated png of map of severity index')
