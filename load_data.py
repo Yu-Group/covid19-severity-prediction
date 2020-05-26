@@ -45,11 +45,43 @@ def load_hospital_level(data_dir='data_hospital_level',
 
     def map_county_to_fips(name, st):
         if type(name) is str:
+            raw_name = name
+            rename_dict = {
+                "Wrangell City and Borough, AK": "Wrangell-Petersburg Borough, AK",
+                "Miami-Dade County, FL": "Dade County, FL",
+                "District of Columbia, DC": "Washington County, DC",
+                "James City County, VA": "James County, VA",
+                "Humacao Municipio, PR": "Hormigueros Municipio, PR",
+                "Broomfield County, CO": "Boulder County, CO"
+            }
+            if name in rename_dict:
+                name = rename_dict[name]
             index = name.find(' County, ')
+            if index == -1:
+                index = name.find(" Parish, ")
+            if index == -1:
+                index = name.find(" City and Borough, ")
+            if index == -1:
+                index = name.find(" Borough, ")
+            if index == -1:
+                index = name.find(" Census Area, ")
+            if index == -1:
+                index = name.find(" Municipality, ")
+            if index == -1:
+                index = name.find(" city, ")
+            if index == -1:
+                index = name.find(" City, ")
+            if index == -1:
+                index = name.find(" Municipio, ")
+            if index == -1:
+                index = name.find(" Island, ")
+                
             name = name[:index]
             name = re.sub('[^a-zA-Z]+', '', name).lower()
             if (name, st) in county_to_fips:
                 return int(county_to_fips[(name, st)])
+            else:
+                print("{}, {} not found. Raw name is {}.".format(name, st, raw_name))
         return np.nan
 
     hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
