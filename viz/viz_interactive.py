@@ -166,6 +166,7 @@ def viz_index_animated(d, NUM_DAYS_LIST, by_size=False,
     today = datetime.today().strftime("%B %d")
     todays_deaths_key = f'Total (estimated) deaths at hospital by {today}'
     dd = dd.rename(columns={'Total Deaths Hospital': todays_deaths_key})
+    dd = dd[~np.isnan(dd['Hospital Employees'])]
     
     # decide x and y keys
     if x_key == 'Total Deaths Hospital':
