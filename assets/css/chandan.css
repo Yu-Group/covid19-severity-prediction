@@ -15,3 +15,7 @@ p {
     text-align: justify;
 }
 
+.grid-2-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
