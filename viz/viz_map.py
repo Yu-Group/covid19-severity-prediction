@@ -197,8 +197,19 @@ def plot_cumulative_deaths_map_with_slider(df,
             fig, df, plotting_cols, counties_json
         )
 
+    value_labels = []
+    for i, date in enumerate(target_dates):
+        if target_days[i] <= 0:
+            value_label = '<b>Observed Count, ' + nice_date_str(str_from_date(date)) + ': </b>'
+        else:
+            value_label = '<b>Predicted Count, ' + nice_date_str(str_from_date(date)) + ': </b>'
+        value_labels.append(value_label)
+
     # add Scattergeo
-    add_bubble_traces(fig, df, plotting_cols, plot_choropleth, show_hovertext = True)
+    add_bubble_traces(
+        fig, df, plotting_cols, plot_choropleth, show_hovertext = True,
+        value_labels = value_labels
+    )
 
     # make first day visible
     fig.data[0].visible = True

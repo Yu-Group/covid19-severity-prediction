@@ -169,7 +169,8 @@ def make_slider_from_dates(dates, double_layers=False):
 def add_choropleth_traces(fig, df, plotting_cols, counties_json=None, visible=False,
                           show_hovertext=False, colorbar_title="Deaths",
                           color_scl = [[0.0, '#FFFFFF'],[0.2, '#B96D67'],[0.4, '#A83C3B'],
-                                       [0.6, '#8B2222'],[0.8, '#5B0D0D'],[1.0, '#5A2318']]):
+                                       [0.6, '#8B2222'],[0.8, '#5B0D0D'],[1.0, '#5A2318']],
+                          value_labels = ["Deaths: "]):
     """
     Add choropleth layers to a fig using one or more of df's columns.
 
@@ -193,6 +194,8 @@ def add_choropleth_traces(fig, df, plotting_cols, counties_json=None, visible=Fa
         The title to display above the color scale.
     color_scl
         A list of lists with the range of colors to use for the color scale.
+    value_labels
+        A string list of length 1 or of the same length as plotting_cols to use in hover text.
     """
     if counties_json is None:
         counties_json = json.load(open(oj(parentdir, 'data', 'geojson-counties-fips.json'), "r"))
@@ -210,14 +213,21 @@ def add_choropleth_traces(fig, df, plotting_cols, counties_json=None, visible=Fa
         )
         return choropleth_trace
 
+    assert len(value_labels) == 1 or len(value_labels) == len(plotting_cols)
+
     # add past days
-    for col in plotting_cols:
+    for i, col in enumerate(plotting_cols):
         values = df[col]
         if np.any(values < 0):
             values[values < 0] = 0
         fips = df['countyFIPS']
         if show_hovertext:
-            text = df['text'].tolist()
+            if len(value_labels) == 1:
+                label = value_labels[0]
+            else:
+                label = value_labels[i]
+            text = label + values.round().astype(str) + '<br>' + \
+                df['text'].tolist()
         else:
             text = None
 
@@ -232,7 +242,8 @@ def add_bubble_traces(fig, df, plotting_cols,
                       colorbar_title='<b> Deaths </b>',
                       show_hovertext=False,
                       color_scl = [[0.0, '#F5C8BB'],[0.2, '#B96D67'],[0.4, '#A83C3B'],
-                                   [0.6, '#8B2222'],[0.8, '#5B0D0D'],[1.0, '#5A2318']]):
+                                   [0.6, '#8B2222'],[0.8, '#5B0D0D'],[1.0, '#5A2318']],
+                      value_labels = ["Deaths: "]):
     """
     Add bubble plot layers to a fig using one or more of df's columns.
 
@@ -277,15 +288,21 @@ def add_bubble_traces(fig, df, plotting_cols,
         )
         return bubble_trace
 
-    # add past days
-    for col in plotting_cols:
+    assert len(value_labels) == 1 or len(value_labels) == len(plotting_cols)
+
+    for i, col in enumerate(plotting_cols):
         values = df[col]
         if np.any(values < 0):
             values[values < 0] = 0
         lat = df['POP_LATITUDE']
         lon = df['POP_LONGITUDE']
         if show_hovertext:
-            text = df['text'].tolist()
+            if len(value_labels) == 1:
+                label = value_labels[0]
+            else:
+                label = value_labels[i]
+            text = label + values.round().astype(str) + '<br>' + \
+                df['text'].tolist()
         else:
             text = None
         bubble_trace = make_bubble_trace(values, lat, lon, text)
