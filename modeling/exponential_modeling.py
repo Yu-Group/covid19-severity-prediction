@@ -272,8 +272,10 @@ def leave_t_day_out(df, t):
     df2 = copy.deepcopy(df)
     #days = len(df['deaths'].values[0])
     for i in range(len(df)):
-        df2['deaths'].values[i] = df2['deaths'].values[i][:-t]
-        df2['cases'].values[i] = df2['cases'].values[i][:-t]
+        if 'deaths' in df2.columns:
+             df2['deaths'].values[i] = df2['deaths'].values[i][:-t]
+        if 'cases' in df2.columns:
+            df2['cases'].values[i] = df2['cases'].values[i][:-t]
         if 'new_deaths' in df2.columns:
             df2['new_deaths'].values[i] = df2['new_deaths'].values[i][:-t]
         if 'deaths_per_cap' in df2.columns:
@@ -282,6 +284,9 @@ def leave_t_day_out(df, t):
         if 'neighbor_deaths' in df2.columns:
             df2['neighbor_deaths'].values[i] = df2['neighbor_deaths'].values[i][:-t]
             df2['neighbor_cases'].values[i] = df2['neighbor_cases'].values[i][:-t]
+        
+        if 'hospitalizations' in df2.columns:
+            df2['hospitalizations'].values[i] = df2['hospitalizations'].values[i][:-t]
 
     return df2
 
