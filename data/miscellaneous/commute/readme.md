@@ -13,4 +13,3 @@
 	- each column corresponds to county FIPS of residence and workplace; numbers of workers in commute and margin of error on the workers count
 
 - **Notes**:
-	- 
