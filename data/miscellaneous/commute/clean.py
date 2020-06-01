@@ -3,6 +3,7 @@
 import pandas as pd
 import os
 from os.path import join as oj
+import numpy as np
 
 from load import load_commute
 
