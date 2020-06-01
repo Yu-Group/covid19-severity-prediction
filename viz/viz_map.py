@@ -197,8 +197,19 @@ def plot_cumulative_deaths_map_with_slider(df,
             fig, df, plotting_cols, counties_json
         )
 
+    value_labels = []
+    for i, date in enumerate(target_dates):
+        if target_days[i] <= 0:
+            value_label = '<b>Observed Count, ' + nice_date_str(str_from_date(date)) + ': </b>'
+        else:
+            value_label = '<b>Predicted Count, ' + nice_date_str(str_from_date(date)) + ': </b>'
+        value_labels.append(value_label)
+
     # add Scattergeo
-    add_bubble_traces(fig, df, plotting_cols, plot_choropleth, show_hovertext = True)
+    add_bubble_traces(
+        fig, df, plotting_cols, plot_choropleth, show_hovertext = True,
+        value_labels = value_labels
+    )
 
     # make first day visible
     fig.data[0].visible = True
@@ -221,7 +232,7 @@ def plot_cumulative_deaths_map_with_slider(df,
             'autosizable': True,
             'displaylogo': False
         }, auto_open = auto_open)
-
+    fig['layout']['title']['font']['size'] = 25
     return fig
 
 
@@ -394,7 +405,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
     map_title='Hospital-Level COVID-19 Pandemic Severity Index (CPSI)'
     if plot_choropleth:
         map_title = map_title + ' and Predicted Deaths'
-    map_title = map_title + '<br> Over the Next '+ str(target_days.size) + ' Days' + '<br>'\
+    map_title = map_title + '<br>' + \
     '<span style="font-size: 14px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
@@ -437,7 +448,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
             'autosizable': True,
             'displaylogo': False
         }, auto_open = auto_open)
-
+    fig['layout']['title']['font']['size'] = 25
     return fig
 
 
