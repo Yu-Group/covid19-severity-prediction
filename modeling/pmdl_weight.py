@@ -16,7 +16,7 @@ import exponential_modeling
 import fit_and_predict
 
 
-def pmdl_weight(y, y_preds):
+def pmdl_weight(y, y_preds, c0=1, mu=0.5):
 	"""
 	function to compute the pmdl weights.
 	y: observed outcome
@@ -29,7 +29,7 @@ def pmdl_weight(y, y_preds):
 	assert y.shape == y_preds.shape, 'y and y_preds have different shapes'
 
 	n, t = y.shape
-	c0, mu = 1, 0.5
+	#c0, mu = 1, 0.5
 
 	error_weights = c0 * (1 - mu) * np.array([mu ** i for i in range(t - 1, -1, -1)])
 	model_weights = []
@@ -40,7 +40,7 @@ def pmdl_weight(y, y_preds):
 	return np.array(model_weights)
 
 
-def compute_pmdl_weight(df, methods, outcome, target_day):
+def compute_pmdl_weight(df, methods, outcome, target_day, c0=1, mu=0.5):
 	y = np.array([df[outcome].values[i][-7:] for i in range(len(df))])
 	weights = {}
 	for (i, model) in enumerate(methods):
@@ -65,7 +65,7 @@ def compute_pmdl_weight(df, methods, outcome, target_day):
 
 		# weights[i] = pmdl_weight(np.log(y + 1), np.log(np.maximum(y_preds, 0) + 1))
 		# weights[i] = pmdl_weight(y, y_preds)
-		weights[i] = pmdl_weight(np.sqrt(y), np.sqrt(np.maximum(y_preds, 0)))
+		weights[i] = pmdl_weight(np.sqrt(y), np.sqrt(np.maximum(y_preds, 0)), c0=c0, mu=mu)
 		# weights[i] = pmdl_weight(y**(1/4), (np.maximum(y_preds, 0))**(1/4))
 
 	return weights
