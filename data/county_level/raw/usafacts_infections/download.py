@@ -32,4 +32,4 @@ for tag in ['confirmed_cases', 'deaths']:
     cleaned = raw.groupby(['countyFIPS', 'County Name', 'State', 'stateFIPS']).sum().reset_index()
 
     # save the cleaned data
-    cleaned.T.to_csv(out_path, header=True, index=True)
+    print(cleaned)

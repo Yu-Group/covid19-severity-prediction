@@ -49,7 +49,6 @@ def load_usafacts_infections(data_dir = "./"):
 
     df = pd.merge(cases, deaths, how='left', on='countyFIPS')
     df = df.fillna(0)
-
     return df
 
 if __name__ == '__main__':
