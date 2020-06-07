@@ -32,4 +32,3 @@ for tag in ['confirmed_cases', 'deaths']:
     cleaned = raw.groupby(['countyFIPS', 'County Name', 'State', 'stateFIPS']).sum().reset_index()
 
     # save the cleaned data
-    print(cleaned)
