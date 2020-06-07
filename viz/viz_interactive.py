@@ -138,6 +138,7 @@ plotly.offline.plot(fig, filename="results/new_deaths_vs_curr_deaths.html")
 '''
 
 
+
 def viz_index_animated(d, NUM_DAYS_LIST, by_size=False,
                        x_key='Total Deaths Hospital', # Hospital Employees
                        y_key='Predicted new deaths at hospital', # 'Predicted (cumulative) deaths at hospital'

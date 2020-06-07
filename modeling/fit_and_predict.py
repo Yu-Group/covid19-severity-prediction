@@ -364,7 +364,7 @@ def add_prediction_intervals(df,
 
         
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
-              outcomes=['Deaths', 'Cases']):
+              outcomes=['Deaths', 'Cases'],discard=False):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
     '''
@@ -379,8 +379,10 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     if cached_dir is not None:
         # getting current date and time
         d = datetime.datetime.today()
-        cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
-        
+        if not discard:
+            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
+        else:
+            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached_discard1day.pkl')
         if os.path.exists(cached_fname):
             return pd.read_pickle(cached_fname)
     

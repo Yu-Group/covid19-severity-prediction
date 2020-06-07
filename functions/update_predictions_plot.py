@@ -26,7 +26,6 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
     today = datetime.today().strftime("%B %d")
     day_past = (datetime.now() - timedelta(days=num_days_in_past)).strftime("%B %d")
     df_county = df_county[df_county['tot_deaths'] >= 1]
-
     pred_key = f'Predicted deaths by {today}\n(predicted on {day_past})'
     deaths_key = f'Actual deaths by {today}'
     d = df_county.rename(columns={
@@ -61,7 +60,48 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
                 title='County-level predictions'
             )
     plotly.offline.plot(fig, filename=oj(parentdir, 'results', 'predictions.html'), auto_open=False)
-    
+
+def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_past, output_key):
+    today = datetime.today().strftime("%m-%d-%Y")
+    day_past = (datetime.now() - timedelta(days=num_days_in_past)).strftime("%B %d")
+    df_county = df_county[df_county['tot_deaths'] >= 1]
+    pred_key = f'Predicted deaths on {today}\n(predicted on {day_past})'
+    deaths_key = f'Actual deaths on {today}'
+    d = df_county.rename(columns={
+        output_key: pred_key,
+        'tot_deaths': deaths_key,
+    })
+    d[pred_key] = df_county['tot_deaths'] - df_county_dis['tot_deaths']
+    d[deaths_key] = df_county['#Deaths_'+today]
+    d = d[d[pred_key] >= 1e-1]
+    minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
+    maxx = max(max(d[pred_key]), max(d[deaths_key]))
+
+    px.colors.DEFAULT_PLOTLY_COLORS[:3] = ['rgb(239,138,98)','rgb(247,247,247)','rgb(103,169,207)']
+    fig = px.scatter(d,
+                     x=deaths_key, 
+                     y=pred_key, 
+                 size='PopulationEstimate2018',
+                 hover_name="CountyName", 
+                 hover_data=["CountyName", 'StateName'],
+                 log_x=True, log_y=True)
+    fig.update_layout(shapes=[
+        dict(
+          type= 'line',
+          yref= 'y', y0=minn, y1=maxx,
+          xref= 'x', x0=minn, x1=maxx,
+          opacity=0.2
+        )
+    ])
+
+    fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,255)',
+                plot_bgcolor='rgba(0,0,0,255)',
+                template='plotly_dark',
+                title='County-level predictions'
+            )
+    plotly.offline.plot(fig, filename=oj(parentdir, 'results', 'predictions_new.html'), auto_open=False)
+     
 def forecasts_plot(df):
     R, C = 3, 1
     plt.figure(figsize=(8, 9))
@@ -99,11 +139,11 @@ if __name__ == '__main__':
     print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data')).fillna(0)
-
-
+    df_county_dis = load_data.load_county_level(data_dir=oj(parentdir, 'data'), discard = True).fillna(0) # discard one day in time series
     num_days_in_past = 3
     output_key = f'Predicted Deaths {num_days_in_past}-day Lagged'
-    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=oj(parentdir, 'data')) # adds keys like "Predicted Deaths 1-day"
+    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=oj(parentdir, 'data'),discard = False) # adds keys like "Predicted Deaths 1-day"
+    df_county_dis = add_preds(df_county_dis, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=oj(parentdir, 'data'),discard=True) # adds keys like "Predicted Deaths 1-day"
     '''
     # don't use add_preds here, since we need preds from 3 days ago
     df_county = fit_and_predict_ensemble(df_county, 
@@ -114,6 +154,6 @@ if __name__ == '__main__':
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
     '''
     predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key)
-    
+    predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_past, output_key)
     forecasts_plot(df_county)
     print('succesfully updated prediction + forecast plots')

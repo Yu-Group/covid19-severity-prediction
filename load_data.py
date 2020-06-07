@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 import re
 import data
 
-def load_county_level(data_dir='data', preprocess=True):
+def load_county_level(data_dir='data', preprocess=True, discard = False):
     '''
     Params
     ------
@@ -20,9 +20,9 @@ def load_county_level(data_dir='data', preprocess=True):
     '''
     print('loading county-level data...')
     if not "county_data_abridged.csv" in os.listdir(data_dir):
-        df = data.load_county_data(data_dir=data_dir, cached=False, preprocess=preprocess)
+        df = data.load_county_data(data_dir=data_dir, cached=False, preprocess=preprocess, discard = discard)
     else:
-        df = data.load_county_data(data_dir=data_dir, cached=True, preprocess=preprocess)
+        df = data.load_county_data(data_dir=data_dir, cached=True, preprocess=preprocess, discard = discard)
     return df.sort_values("tot_deaths", ascending=False)
     
 
