@@ -78,22 +78,28 @@
 
 <script>
     var hoverInfo = document.getElementById("map id to replace").on('plotly_click', function(data) {
-            var found = '';
-    const regex = /FIPS: ([0-9]*)/;
+    var county = " County"
+    var state = ""
+    const regex = /County: (.*)<br>State: (.*)<br>FIPS/;
     for(var i=0; i < data.points.length; i++){
-        found = data.points[i].text.match(regex)[1];
+        found = data.points[i].text.match(/County: (.*)<br>State: (.*)<br>FIPS/)
+        county = found[1] + " County"
+        state = found[2]
     }
+
     var el = document.getElementById('plot');
-    el.src = "All_counties/"+found+".html";
+    el.src = "All_counties/"+state+"_"+county+".html";
     el.style = "visibility: show";
+    console.log(el.src)
     });
 </script>
 <script>
 function findplot()
 {
-    var state = $('#state').val();
+    var stateSelect = document.getElementById("state");
+    var state= stateSelect.options[stateSelect.selectedIndex].text;
     var county = " County"
-    if(state != 'AK' && state != 'DC') // Alaska and District Columbia have no counties
+    if(state != 'Alaska' && state != 'District Columbia') // Alaska and District Columbia have no counties
     {
     county = $('#county').val();
     }

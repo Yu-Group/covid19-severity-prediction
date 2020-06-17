@@ -136,7 +136,6 @@ def viz_curves_all_counties(df, filename, dates, keys_curves = ['deaths','cases'
     def generateplot(row):
         state,county,FIPS = row['State'],row['County']+" County",row['countyFIPS']
         filename1 = filename + state+'_'+county+'.html'
-        filename2 = filename +row['countyFIPS']+'.html'
         newdates = [dates[-1] + timedelta(days =i) for i in range(0,8)]
         fig = make_subplots(specs=[[{"secondary_y": True}]])
         x = [d.strftime("%m/%d") for d in dates]
@@ -208,7 +207,6 @@ def viz_curves_all_counties(df, filename, dates, keys_curves = ['deaths','cases'
         fig.update_layout(xaxis_range=[datetime(2020, 3, 25), newdates[-1]])
         fig.layout.template = 'plotly_dark'
         plotly.offline.plot(fig, filename=filename1, auto_open=False)
-        plotly.offline.plot(fig, filename=filename2, auto_open=False)
 
 
     color_strings = [credstr, cbluestr]
