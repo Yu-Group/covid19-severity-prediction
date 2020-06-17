@@ -1,0 +1,73 @@
+
+    <meta charset="utf-8"/>
+    <!-- Custom Fonts -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
+    <style>
+
+.content {
+  max-width: 1000px;
+  margin: auto;
+  background: black;
+  padding: 10px;
+  font-size: 26px;
+  color: white;
+
+}
+</style>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-123022910-2');
+    </script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.2.6.min.js"></script>
+
+<!-- Drop Down JS -->
+<script src='Chart.min.js'></script>
+<script> 
+function drop_down_list()
+{
+    var state = $('#state').val();
+
+    if(state == 'AK' || state == 'DC') // Alaska and District Columbia have no counties
+    {
+    $('#county_drop_down').hide();
+    $('#no_county_drop_down').show();
+    }
+    else
+    {
+    $('#loading_county_drop_down').show(); // Show the Loading...
+    
+    $('#county_drop_down').hide(); // Hide the drop down
+    $('#no_county_drop_down').hide(); // Hide the "no counties" message (if it's the case)
+
+    $.getScript("js/states/"+ state.toLowerCase() +".js", function(){
+
+    populate(document.form.county);
+
+    $('#loading_county_drop_down').hide(); // Hide the Loading...
+    $('#county_drop_down').show(); // Show the drop down
+    });
+}
+}
+$(document).ready(function(){
+$("#state").change(drop_down_list);
+});
+
+$(window).load(drop_down_list);
+</script>
+
+<!-- Preload Images -->
+<SCRIPT language="JavaScript">
+<!--
+pic1 = new Image(16, 16); 
+pic1.src="style/loader.gif";
+//-->
+</SCRIPT>
+<body>
+    <body style="background-color:black;">
+   <div class="content">
+      <p> Click on map or use drop-down lists to access information on specific counties.</p>

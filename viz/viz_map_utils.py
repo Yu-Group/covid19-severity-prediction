@@ -4,6 +4,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 
 from datetime import date, datetime, timedelta
+from plotly.offline import plot
 
 import numpy as np
 import plotly.graph_objs as go
@@ -32,6 +33,10 @@ def most_recent_date_in_data(df):
     latest_date = date_from_str(latest_date_str)
     return(latest_date)
 
+def date_in_data(df):
+    deaths_cols = df.filter(regex='^#Deaths_').columns
+    date_str = [x.replace('#Deaths_', '') for x in deaths_cols]
+    return [date_from_str(s) for s in date_str]
 
 def nice_date_str(date_str):
     """
@@ -116,7 +121,7 @@ def make_us_map(title_text='', dark=False, usa_scope=True):
             plot_bgcolor='rgba(0,0,0,255)',
             template='plotly_dark'
         )
-
+        
     return fig
 
 

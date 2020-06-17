@@ -1,0 +1,41 @@
+function populate(form)
+{
+form.options.length = 0;
+form.options[0] = new Option("Select a county of Oregon","");
+form.options[1] = new Option("Baker County","Baker County");
+form.options[2] = new Option("Benton County","Benton County");
+form.options[3] = new Option("Clackamas County","Clackamas County");
+form.options[4] = new Option("Clatsop County","Clatsop County");
+form.options[5] = new Option("Columbia County","Columbia County");
+form.options[6] = new Option("Coos County","Coos County");
+form.options[7] = new Option("Crook County","Crook County");
+form.options[8] = new Option("Curry County","Curry County");
+form.options[9] = new Option("Deschutes County","Deschutes County");
+form.options[10] = new Option("Douglas County","Douglas County");
+form.options[11] = new Option("Gilliam County","Gilliam County");
+form.options[12] = new Option("Grant County","Grant County");
+form.options[13] = new Option("Harney County","Harney County");
+form.options[14] = new Option("Hood River County","Hood River County");
+form.options[15] = new Option("Jackson County","Jackson County");
+form.options[16] = new Option("Jefferson County","Jefferson County");
+form.options[17] = new Option("Josephine County","Josephine County");
+form.options[18] = new Option("Klamath County","Klamath County");
+form.options[19] = new Option("Lake County","Lake County");
+form.options[20] = new Option("Lane County","Lane County");
+form.options[21] = new Option("Lincoln County","Lincoln County");
+form.options[22] = new Option("Linn County","Linn County");
+form.options[23] = new Option("Malheur County","Malheur County");
+form.options[24] = new Option("Marion County","Marion County");
+form.options[25] = new Option("Morrow County","Morrow County");
+form.options[26] = new Option("Multnomah County","Multnomah County");
+form.options[27] = new Option("Polk County","Polk County");
+form.options[28] = new Option("Sherman County","Sherman County");
+form.options[29] = new Option("Tillamook County","Tillamook County");
+form.options[30] = new Option("Umatilla County","Umatilla County");
+form.options[31] = new Option("Union County","Union County");
+form.options[32] = new Option("Wallowa County","Wallowa County");
+form.options[33] = new Option("Wasco County","Wasco County");
+form.options[34] = new Option("Washington County","Washington County");
+form.options[35] = new Option("Wheeler County","Wheeler County");
+form.options[36] = new Option("Yamhill County","Yamhill County");
+}

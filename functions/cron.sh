@@ -41,6 +41,10 @@ $(which python3) $REPO_DIR/functions/update_map_with_slider.py >> $LOG_FILE
 # update model preds plot
 $(which python3) $REPO_DIR/functions/update_predictions_plot.py >> $LOG_FILE
 
+# update the search map
+$(which python3) $REPO_DIR/functions/update_search.py >> $LOG_FILE
+
+
 # cache IHME preds
 # $(which python3) $REPO_DIR/functions/update_ihme.py >> $LOG_FILE
 
