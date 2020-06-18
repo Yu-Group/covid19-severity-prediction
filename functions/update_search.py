@@ -31,9 +31,9 @@ def add_pre(df, var, name):
 # generate html for individual counties
 def generate_all_counties():
     print('generating html for counties')
-    df_tab = df_county[['CountyName', 'StateName', 
+    df_tab = df_county[['CountyName', 'State', 
              'deaths', 'cases','countyFIPS','pred_cases','pred_deaths','Predicted Deaths Intervals','Predicted Cases Intervals']]
-    df_tab = df_tab.rename(columns={'CountyName': 'County', 'StateName': 'State',
+    df_tab = df_tab.rename(columns={'CountyName': 'County', 'State': 'State',
                                 'Predicted Deaths Intervals': 'pred_deaths_interval',
                                 'Predicted Cases Intervals': 'pred_cases_interval'})
     dates = viz_map_utils.date_in_data(df_county)
@@ -70,11 +70,67 @@ def generate_map():
                 include_plotlyjs='https://cdn.plot.ly/plotly-1.42.3.min.js',
                    output_type='div')
 
+# Fill the state full name according to their abbreviations#
+def fillstate(df):
+    us_state_abbrev = {
+    'AL': 'Alabama',
+    'AK': 'Alaska',
+    'AZ': 'Arizona',
+    'AR': 'Arkansas',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DE': 'Delaware',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'IA': 'Iowa',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'ME': 'Maine',
+    'MD': 'Maryland',
+    'MA': 'Massachusetts',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MS': 'Mississippi',
+    'MO': 'Missouri',
+    'MT': 'Montana',
+    'NE': 'Nebraska',
+    'NV': 'Nevada',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NM': 'New Mexico',
+    'NY': 'New York',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah',
+    'VT': 'Vermont',
+    'VA': 'Virginia',
+    'WA': 'Washington',
+    'WV': 'West Virginia',
+    'WI': 'Wisconsin',
+    'WY': 'Wyoming'
+    }
+    for i in range(df.shape[0]):
+        if df.loc[i, "State"] == 0:
+            df.loc[i, "State"] = us_state_abbrev[df.loc[i,"StateName"]]
 
 # update the html file (conbine search1 + search2 + search3)
 def update_html(search2):
     id =re.search('<div id="([^ ]*)"',search2)
-    print(id,id.group(1),id.group(0))
     with open(oj(parentdir,'results/search1.html'), 'r') as content_file:
         search1 = content_file.read()
     with open(oj(parentdir,'results/search3.html'), 'r') as content_file:
@@ -92,7 +148,8 @@ if __name__ == '__main__':
     ## orgnize predicts as array
     add_pre(df_county,'Predicted Cases ','pred_cases')
     add_pre(df_county,'Predicted Deaths ','pred_deaths')
-
+    ##fill missing values of some state full names
+    fillstate(df_county)
     generate_all_counties()
     search2 = generate_map()
     update_html(search2)
