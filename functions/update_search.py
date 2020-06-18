@@ -80,6 +80,7 @@ def fillstate(df):
     'CA': 'California',
     'CO': 'Colorado',
     'CT': 'Connecticut',
+    'DC': 'District Columbia',
     'DE': 'Delaware',
     'FL': 'Florida',
     'GA': 'Georgia',
@@ -125,7 +126,7 @@ def fillstate(df):
     'WY': 'Wyoming'
     }
     for i in range(df.shape[0]):
-        if df.loc[i, "State"] == 0:
+        if df.loc[i, "State"] not in us_state_abbrev.values():
             df.loc[i, "State"] = us_state_abbrev[df.loc[i,"StateName"]]
 
 # update the html file (conbine search1 + search2 + search3)
