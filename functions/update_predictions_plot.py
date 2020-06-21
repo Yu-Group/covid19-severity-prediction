@@ -72,6 +72,8 @@ def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_pa
         output_key: pred_key,
         'tot_deaths': deaths_key,
     })
+    df_county = df_county.sort_values(by=['countyFIPS'])
+    df_county_dis = df_county_dis.sort_values(by=['countyFIPS'])
     d[pred_key] = df_county[output_key] - df_county_dis[output_key]
     d[deaths_key] = df_county['tot_deaths'] - df_county_dis['tot_deaths']
     d = d[d[pred_key] >= 1e-1]
