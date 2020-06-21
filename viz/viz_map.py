@@ -179,7 +179,7 @@ def plot_cumulative_deaths_map_with_slider(df,
         '# Hospitals: ' + d['#Hospitals'].astype(str)
 
     map_title='Predicted Cumulative COVID-19 Deaths<br>' + \
-        '<span style="font-size: 18px; color: red;">Use the slider below the map to change date.</span>'
+        '<span style="font-size: 22px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
@@ -406,7 +406,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
     if plot_choropleth:
         map_title = map_title + ' and Predicted Deaths'
     map_title = map_title + '<br>' + \
-    '<span style="font-size: 18px; color: red;">Use the slider below the map to change date.</span>'
+    '<span style="font-size: 22px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
