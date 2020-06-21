@@ -1,0 +1,40 @@
+a{
+    color:#5bc0de
+}
+
+.intro .intro-body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+h1, h2, h3, h4, h5, ul, li {
+    text-transform: capitalize;
+}
+
+p {
+    text-align: justify;
+}
+
+.grid-2-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.grid-2-columns a.btn.btn-primary {
+    font-size: 10px;
+}
+
+@media (min-width: 670px) {
+    .grid-2-columns a.btn.btn-primary {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 767px) {
+    .grid-2-columns {
+        margin-top: 100px;
+    }
+
+    .grid-2-columns a.btn.btn-primary {
+    }
+}

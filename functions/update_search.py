@@ -28,6 +28,36 @@ def add_pre(df, var, name):
     df_county[name] = [h.T[i] for i in range(len(h.T))]
 
 
+## Add prediction history to dataframe
+def add_prediction_history(df_tab):
+    def add_predictions_7day(data,df):
+        data = data.sort_values(by='countyFIPS')
+        dic = {'cases':'Cases','deaths':'Deaths'}
+        for i in range(df.shape[0]):
+            for key in ['cases','deaths']:
+                df.loc[i,'pred_7day_'+key].append(data.loc[i,'Predicted '+ dic[key] +' 7-day'])
+                df.loc[i,'pred_7day_'+key+'_interval'].append(data.loc[i,'Predicted '+dic[key]+' Intervals'][6])
+    cached_dir=oj(parentdir, 'data')
+    i = 0
+    for c in ['deaths','cases']:
+        df_tab['pred_7day_'+c] =[[] for _ in range(df_tab.shape[0])]
+        df_tab['pred_7day_'+c+'_interval'] =[[] for _ in range(df_tab.shape[0])]
+    df_tab = df_tab.sort_values(by='countyFIPS')
+    date2 = []
+    k = 0
+    while True:
+        d = datetime.today() - timedelta(days=i)
+        date2.append(d+timedelta(days=7))
+        i += 1
+        if cached_dir is not None:
+            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
+            if os.path.exists(cached_fname):
+                add_predictions_7day(pd.read_pickle(cached_fname),df_tab)
+            else:
+                k += 1
+                if k > 1:
+                    break
+    return df_tab, date2
 # generate html for individual counties
 def generate_all_counties():
     print('generating html for counties')
@@ -37,7 +67,8 @@ def generate_all_counties():
                                 'Predicted Deaths Intervals': 'pred_deaths_interval',
                                 'Predicted Cases Intervals': 'pred_cases_interval'})
     dates = viz_map_utils.date_in_data(df_county)
-    viz_interactive.viz_curves_all_counties(df_tab, oj(parentdir, 'results/All_counties/'), dates)
+    df_tab, date2 = add_prediction_history(df_tab)
+    viz_interactive.viz_curves_all_counties(df_tab, oj(parentdir, 'results/All_counties/'), dates,date2)
     print('succesfully generated all county html')
 
 # Generate map plot 
@@ -60,7 +91,7 @@ def generate_map():
         plot_bgcolor='rgba(0,0,0,255)',
         template='plotly_dark'
     )
-    fig['layout'].update(width=1000, height=500, autosize=True)
+    fig['layout'].update(width=1200, height=600, autosize=True)
 
     fig.write_image(oj(parentdir,"results/search_map.png"),width=900, height=450)
     
@@ -69,6 +100,7 @@ def generate_map():
     return plotly.offline.plot(fig,
                 include_plotlyjs='https://cdn.plot.ly/plotly-1.42.3.min.js',
                    output_type='div')
+
 
 # Fill the state full name according to their abbreviations#
 def fillstate(df):

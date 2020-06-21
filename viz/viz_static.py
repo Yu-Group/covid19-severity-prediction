@@ -87,7 +87,7 @@ def plot_forecasts(dd, target='deaths', days_in_future=5, death_thresh=0):
         upper = [deaths[-1]] + [x[1] for x in intervals][:days_in_future]
         preds = [deaths[-1]] + [row[f'Predicted {target.capitalize()} {i}-day'] for i in range(1, days_in_future + 1)]
         plt.plot(np.arange(num), deaths, alpha=1, color=cs[i])
-        plt.fill_between(np.arange(num - 1, end), lower, upper, color=cs[i], alpha=0.1)
+        plt.fill_between(np.arange(num - 1, end), lower, upper, color=cs[i], alpha=0.4)
         plt.plot(np.arange(num - 1, end), preds, linestyle='dotted', alpha=1, color=cs[i])
         plt.ylabel('Cumulative deaths')
         plt.xlabel(f'Date')
