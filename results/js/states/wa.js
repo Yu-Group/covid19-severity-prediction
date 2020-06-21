@@ -1,0 +1,44 @@
+function populate(form)
+{
+form.options.length = 0;
+form.options[0] = new Option("Select a county of Washington","");
+form.options[1] = new Option("Adams County","Adams County");
+form.options[2] = new Option("Asotin County","Asotin County");
+form.options[3] = new Option("Benton County","Benton County");
+form.options[4] = new Option("Chelan County","Chelan County");
+form.options[5] = new Option("Clallam County","Clallam County");
+form.options[6] = new Option("Clark County","Clark County");
+form.options[7] = new Option("Columbia County","Columbia County");
+form.options[8] = new Option("Cowlitz County","Cowlitz County");
+form.options[9] = new Option("Douglas County","Douglas County");
+form.options[10] = new Option("Ferry County","Ferry County");
+form.options[11] = new Option("Franklin County","Franklin County");
+form.options[12] = new Option("Garfield County","Garfield County");
+form.options[13] = new Option("Grant County","Grant County");
+form.options[14] = new Option("Grays Harbor County","Grays Harbor County");
+form.options[15] = new Option("Island County","Island County");
+form.options[16] = new Option("Jefferson County","Jefferson County");
+form.options[17] = new Option("King County","King County");
+form.options[18] = new Option("Kitsap County","Kitsap County");
+form.options[19] = new Option("Kittitas County","Kittitas County");
+form.options[20] = new Option("Klickitat County","Klickitat County");
+form.options[21] = new Option("Lewis County","Lewis County");
+form.options[22] = new Option("Lincoln County","Lincoln County");
+form.options[23] = new Option("Mason County","Mason County");
+form.options[24] = new Option("Okanogan County","Okanogan County");
+form.options[25] = new Option("Pacific County","Pacific County");
+form.options[26] = new Option("Pend Oreille County","Pend Oreille County");
+form.options[27] = new Option("Pierce County","Pierce County");
+form.options[28] = new Option("San Juan County","San Juan County");
+form.options[29] = new Option("Skagit County","Skagit County");
+form.options[30] = new Option("Skamania County","Skamania County");
+form.options[31] = new Option("Snohomish County","Snohomish County");
+form.options[32] = new Option("Spokane County","Spokane County");
+form.options[33] = new Option("Stevens County","Stevens County");
+form.options[34] = new Option("Thurston County","Thurston County");
+form.options[35] = new Option("Wahkiakum County","Wahkiakum County");
+form.options[36] = new Option("Walla Walla County","Walla Walla County");
+form.options[37] = new Option("Whatcom County","Whatcom County");
+form.options[38] = new Option("Whitman County","Whitman County");
+form.options[39] = new Option("Yakima County","Yakima County");
+}
