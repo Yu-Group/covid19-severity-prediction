@@ -162,6 +162,6 @@ if __name__ == '__main__':
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
     '''
     predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key)
-    predictions_new_plot(df_county, df_county_old, NUM_DAYS_LIST, num_days_in_past, output_key)
+    #predictions_new_plot(df_county, df_county_old, NUM_DAYS_LIST, num_days_in_past, output_key)
     forecasts_plot(df_county)
     print('succesfully updated prediction + forecast plots')

@@ -61,7 +61,7 @@ def add_prediction_history(df_tab):
 # generate html for individual counties
 def generate_all_counties():
     print('generating html for counties')
-    df_tab = df_county[['CountyName', 'State', 
+    df_tab = df_county[['CountyName', 'State', 'tot_deaths',
              'deaths', 'cases','countyFIPS','pred_cases','pred_deaths','Predicted Deaths Intervals','Predicted Cases Intervals']]
     df_tab = df_tab.rename(columns={'CountyName': 'County', 'State': 'State',
                                 'Predicted Deaths Intervals': 'pred_deaths_interval',
