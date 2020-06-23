@@ -246,16 +246,17 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
         fig.update_yaxes(title_text="Cases", color=cbluestr,rangemode = 'tozero',
             dtick = y1/5,range=[0,y1], domain=[0,0.95],row=1, col=1)  
         fig.update_yaxes(title_text="Deaths",showgrid=False,rangemode = 'tozero',color=credstr,
-            dtick = y2*1.3/5, range=[0,y2*1.3], secondary_y=True, row=1,col=1)
+            dtick = round(y2*1.3/5), range=[0,y2*1.3], secondary_y=True, row=1,col=1)
         ## Set plot2 axes properties
         fig.update_xaxes(title_text="Date",range=[date2[-1], date2[7]],domain = [0.59,1], row=1, col=2)
         fig.update_yaxes(title_text="Cases", color=cbluestr,rangemode = 'tozero',
             dtick = y1/5,range=[0,y1], domain=[0,0.95],row=1, col=2)  
         fig.update_yaxes(title_text="Deaths",rangemode = 'tozero',color=credstr,
-            dtick = y2*1.3/5, showgrid=False,range=[0,y2*1.3], secondary_y=True, row=1,col=2)
+            dtick = round(y2*1.3/5), showgrid=False,range=[0,y2*1.3], secondary_y=True, row=1,col=2)
         fig.layout.template = 'plotly_dark'
         plotly.offline.plot(fig, filename=filename1, auto_open=False)
-
+    
+    df = df.sort_values(by='tot_deaths', ascending=False).iloc[:df.shape[0]-200]
     for i in range(df.shape[0]):
         row = df.iloc[i]
         generateplot(row)

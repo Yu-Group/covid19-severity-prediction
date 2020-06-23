@@ -12,7 +12,7 @@ However, we also find that some counties are starting to experience sub-exponent
 "flattening-the-curve" impacts of interventions such as social distancing and shelter in place orders. Details are in our [paper](https://arxiv.org/abs/2005.07882).
 
 <img src="results/forecasts.svg" style="width:100%;">
-**5-day forecasts for selected counties**: Prediction intervals are based on the historical performance of our predictors (narrower for counties where the forecasts were accurate). If we denote *err* as the largest normalized absolute error for a given county in the past five days, then our prediction interval has the form \[prediction * (1 - *err*), prediction * (1 + *err*)\].
+**7-day forecasts for selected counties**: Prediction intervals are based on the historical performance of our predictors (narrower for counties where the forecasts were accurate). If we denote *err* as the largest normalized absolute error for a given county in the past five days, then our prediction interval has the form \[prediction * (1 - *err*), prediction * (1 + *err*)\].
 
 <figure class="video_container">
   <iframe src="results/predictions.html" frameborder="0" allowfullscreen="true" width="100%" height="650px"> </iframe>

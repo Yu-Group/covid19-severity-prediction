@@ -60,7 +60,7 @@ def plot_scatter(x, y, c, s, xlab: str, ylab: str, colorlab: str,
     
 
 
-def plot_forecasts(dd, target='deaths', days_in_future=5, death_thresh=0):
+def plot_forecasts(dd, target='deaths', days_in_future=7, death_thresh=0):
     # cs = sns.diverging_palette(20, 220, n=NUM_COUNTIES)
     def nonzero_len(l):
         return len([x for x in l if x > death_thresh])
