@@ -78,8 +78,8 @@ def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_pa
     d[deaths_key] = df_county['tot_deaths'] - df_county_dis['tot_deaths']
     d = d[d[pred_key] >= 1e-1]
     d = d[d[deaths_key] >= 1e-1]
-    minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
-    maxx = max(max(d[pred_key]), max(d[deaths_key]))
+    minn = min(min(d[pred_key]+[0]), min(d[deaths_key]+[0])) + 1
+    maxx = max(max(d[pred_key]+[0]), max(d[deaths_key]+[0]))
     px.colors.DEFAULT_PLOTLY_COLORS[:3] = ['rgb(239,138,98)','rgb(247,247,247)','rgb(103,169,207)']
     fig = px.scatter(d,
                      x=deaths_key, 
