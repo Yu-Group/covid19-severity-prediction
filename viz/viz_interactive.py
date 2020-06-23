@@ -217,7 +217,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                     yanchor = 'top'),
             width=1200,height=700,
             font=dict(size=12),
-            legend=dict(x=0.5, y=1.2),
+            legend=dict(x=0.3, y=1.2),
             legend_orientation="h"
                 )
         fig.add_annotation(dict(font=dict(color="white",size=11),
