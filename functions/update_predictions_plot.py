@@ -33,11 +33,9 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
         output_key: pred_key,
         'tot_deaths': deaths_key,
     })
-    #d = d[d[pred_key] >= 1e-1]
-    #minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
-    #maxx = max(max(d[pred_key]), max(d[deaths_key]))
-    minn = 0
-    maxx = 100
+    d = d[d[pred_key] >= 1e-1]
+    minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
+    maxx = max(max(d[pred_key]), max(d[deaths_key]))
     px.colors.DEFAULT_PLOTLY_COLORS[:3] = ['rgb(239,138,98)','rgb(247,247,247)','rgb(103,169,207)']
     fig = px.scatter(d,
                      x=deaths_key, 
