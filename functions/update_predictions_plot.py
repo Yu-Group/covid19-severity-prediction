@@ -33,10 +33,11 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
         output_key: pred_key,
         'tot_deaths': deaths_key,
     })
-    d = d[d[pred_key] >= 1e-1]
-    minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
-    maxx = max(max(d[pred_key]), max(d[deaths_key]))
-
+    #d = d[d[pred_key] >= 1e-1]
+    #minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
+    #maxx = max(max(d[pred_key]), max(d[deaths_key]))
+    minn = 0
+    maxx = 100
     px.colors.DEFAULT_PLOTLY_COLORS[:3] = ['rgb(239,138,98)','rgb(247,247,247)','rgb(103,169,207)']
     fig = px.scatter(d,
                      x=deaths_key, 
@@ -63,8 +64,8 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
     plotly.offline.plot(fig, filename=oj(parentdir, 'results', 'predictions.html'), auto_open=False)
 
 def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_past, output_key):
-    today = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%m-%d-%Y") ##Predict the newly gained cases yesterday which we have data on
-    day_past = (datetime.datetime.now() - datetime.timedelta(days=num_days_in_past)).strftime("%B %d")
+    today = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%m-%d-%Y") ##Predict the newly gained cases yesterday which we have data on 
+    day_past = (datetime.datetime.now() - datetime.timedelta(days=num_days_in_past + 1)).strftime("%B %d")
     df_county = df_county[df_county['tot_deaths'] >= 1]
     pred_key = f'Predicted deaths on {today}\n(predicted on {day_past})'
     deaths_key = f'Actual deaths on {today}'
@@ -75,6 +76,7 @@ def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_pa
     df_county = df_county.sort_values(by=['countyFIPS'])
     df_county_dis = df_county_dis.sort_values(by=['countyFIPS'])
     d[pred_key] = df_county[output_key] - df_county_dis[output_key]
+    print(d[pred_key].values.sort(ascending = False))
     d[deaths_key] = df_county['tot_deaths'] - df_county_dis['tot_deaths']
     d = d[d[pred_key] >= 1e-1]
     d = d[d[deaths_key] >= 1e-1]
@@ -162,6 +164,6 @@ if __name__ == '__main__':
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
     '''
     predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key)
-    #predictions_new_plot(df_county, df_county_old, NUM_DAYS_LIST, num_days_in_past, output_key)
+    predictions_new_plot(df_county, df_county_old, NUM_DAYS_LIST, num_days_in_past, output_key)
     forecasts_plot(df_county)
     print('succesfully updated prediction + forecast plots')

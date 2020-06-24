@@ -120,7 +120,7 @@ def plot_counties(df, variable_to_distribute, variables_to_display, state=None, 
 # -- Plot cumulative deaths map with slider.
 
 def plot_cumulative_deaths_map_with_slider(df,
-                                           target_days=np.array([0, 1, 2, 3, 4, 5]),
+                                           target_days=np.array([0, 1, 2, 3, 4, 5, 6, 7]),
                                            filename="results/deaths.html",
                                            plot_choropleth=False,
                                            counties_json=None,
@@ -178,8 +178,8 @@ def plot_cumulative_deaths_map_with_slider(df,
         tot_deaths.astype(str) + '<br>' + \
         '# Hospitals: ' + d['#Hospitals'].astype(str)
 
-    map_title='Predicted Cumulative COVID-19 Deaths<br>' + \
-        '<span style="font-size: 22px; color: red;">Use the slider below the map to change date.</span>'
+    map_title='Predicted Cumulative COVID-19 Deaths ' + '<a href = "results/search.html"> (Search by county)</a><br>'\
+        '<span style="font-size: 20px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)
@@ -323,7 +323,7 @@ def make_severity_index_sliders(dates, plot_choropleth):
 
 
 def plot_hospital_severity_slider(df, # merged hospital and county, with severity
-                                  target_days=np.array([1, 2, 3, 4, 5]),
+                                  target_days=np.array([1, 2, 3, 4, 5, 6, 7]),
                                   filename="severity_map.html", # no effect unless plot = True
                                   plot_choropleth=False,
                                   df_county=None,
@@ -406,7 +406,7 @@ def plot_hospital_severity_slider(df, # merged hospital and county, with severit
     if plot_choropleth:
         map_title = map_title + ' and Predicted Deaths'
     map_title = map_title + '<br>' + \
-    '<span style="font-size: 22px; color: red;">Use the slider below the map to change date.</span>'
+    '<span style="font-size: 20px; color: red;">Use the slider below the map to change date.</span>'
 
     # make main figure
     fig = make_us_map(map_title, dark)

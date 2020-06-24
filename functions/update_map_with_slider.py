@@ -21,7 +21,7 @@ if __name__ == "__main__":
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
 
     # add predictions
-    NUM_DAYS_LIST = [1, 2, 3, 4, 5]
+    NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6 ,7]
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST, cached_dir=data_dir)
 
     deaths_fig = viz_map.plot_cumulative_deaths_map_with_slider(

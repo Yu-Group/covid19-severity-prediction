@@ -71,7 +71,7 @@ def add_severity_county(df, NUM_DAYS_LIST):
     
     return df
 
-def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3]):
+def add_severity_index(df, NUM_DAYS_LIST=[1, 2, 3, 4, 5 ,6 ,]):
     '''Add county + hospital indexes
     '''
     df = add_severity_county(df, NUM_DAYS_LIST)
