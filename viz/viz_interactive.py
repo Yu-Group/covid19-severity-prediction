@@ -136,6 +136,8 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
     '''
     def generateplot(row):
         state,county,FIPS = row['State'],row['County']+" County",row['countyFIPS']
+        if county == "De Kalb":
+            county = "DeKalb"
         filename1 = filename + state+'_'+county+'.html'
         newdates = [date1[-1] + timedelta(days =i) for i in range(0,8)]
         fig = make_subplots(rows=1, cols=2, specs=[[{"secondary_y": True},{"secondary_y": True}]],
