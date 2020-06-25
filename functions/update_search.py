@@ -91,7 +91,7 @@ def generate_map():
         plot_bgcolor='rgba(0,0,0,255)',
         template='plotly_dark'
     )
-    fig['layout'].update(width=1200, height=600, autosize=True)
+    fig['layout'].update(width=1000, height=500, autosize=True)
 
     fig.write_image(oj(parentdir,"results/search_map.png"),width=900, height=450)
     
