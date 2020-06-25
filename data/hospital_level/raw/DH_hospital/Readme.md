@@ -1,7 +1,15 @@
 - Data source: https://coronavirus-resources.esri.com/datasets/definitivehc::definitive-healthcare-usa-hospital-beds
 - Last downloaded: 04-01-2020
-- Description: This data has Facility ID, location, and number of employees info about each hospital.
+- Description: This data has number of ICU/Staffed/Licensed Beds info about each hospital.
 - Known data quality issues: 
-    - None
+    - Does not have CMS certificaton number, thus it is hard to merge this data with other data sources.
 - Selected Columns:
-    - To be added.
+    - X : latitude
+    - Y : longitude
+    - HOSPITAL_TYPE : hospital type
+    - HOSPITAL_NAME : hospital name
+    - NUM_ICU_BEDS : Number of ICU Beds
+    - NUM_LICENSED_BEDS : Number of Licensed Beds
+    - NUM_STAFFED_BEDS : Number of Staffed Beds
+    - CNTY_FIPS : CountyFIPS
+    - BED_UTILIZATION : Bed utilization rate
