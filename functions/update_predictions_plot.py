@@ -74,7 +74,6 @@ def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_pa
     df_county = df_county.sort_values(by=['countyFIPS'])
     df_county_dis = df_county_dis.sort_values(by=['countyFIPS'])
     d[pred_key] = df_county[output_key] - df_county_dis[output_key]
-    print(d[pred_key].values.sort(ascending = False))
     d[deaths_key] = df_county['tot_deaths'] - df_county_dis['tot_deaths']
     d = d[d[pred_key] >= 1e-1]
     d = d[d[deaths_key] >= 1e-1]
@@ -162,6 +161,6 @@ if __name__ == '__main__':
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
     '''
     predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key)
-    predictions_new_plot(df_county, df_county_old, NUM_DAYS_LIST, num_days_in_past, output_key)
+    #predictions_new_plot(df_county, df_county_old, NUM_DAYS_LIST, num_days_in_past, output_key)
     forecasts_plot(df_county)
     print('succesfully updated prediction + forecast plots')
