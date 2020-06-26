@@ -51,7 +51,7 @@ def add_prediction_history(df_tab):
         if cached_dir is not None:
             cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
             if os.path.exists(cached_fname):
-                date2.append(d+timedelta(days=7))
+                date2.append(d+timedelta(days=6))
                 add_predictions_7day(pd.read_pickle(cached_fname),df_tab)
             else:
                 k += 1
