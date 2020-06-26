@@ -171,7 +171,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                     name=key_curve,
                     line=dict(color=color_strings[j], width=width))        )
                 low = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve+'_interval']]))
-                curve_pre = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve]))
+                curve_pre = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve]]))
                 up = np.hstack((curve[-1],[x[1] for x in row[pre+key_curve+'_interval']]))
                 if pre == 'pred_7day_':
                     low = low[1:]
