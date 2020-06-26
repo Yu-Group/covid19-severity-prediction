@@ -18,6 +18,9 @@ from viz import  viz_interactive, viz_static, viz_map_utils
 import plotly.figure_factory as ff
 import plotly
 import re
+import plotly.express as px
+from urllib.request import urlopen
+import json
 
 
 #Load data and add prediction
@@ -51,7 +54,7 @@ def add_prediction_history(df_tab):
         if cached_dir is not None:
             cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
             if os.path.exists(cached_fname):
-                date2.append(d+timedelta(days=7))
+                date2.append(d+timedelta(days=6))
                 add_predictions_7day(pd.read_pickle(cached_fname),df_tab)
             else:
                 k += 1
@@ -72,35 +75,48 @@ def generate_all_counties():
     print('succesfully generated all county html')
 
 # Generate map plot 
-def generate_map():
+def generate_map(key):
     print('generating search map')
-    fips = df_county['countyFIPS']
-    values = df_county['tot_cases']
-    binning = []
-    level = 6
-    for i in range(level):
-        binning.append(np.rint(2**(np.log2(max(values))/(level+1)*(i+1))))
-    fig = ff.create_choropleth(fips=fips, values=values,
-                           colorscale = ['#F7E8E4','#F5C8BB','#B96D67','#A83C3B',
-                                '#8B2222','#5B0D0D','#5A2318'],binning_endpoints=binning,
-                           legend_title='Cases'
-                          )
-
+    with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+        counties = json.load(response)
+    fig = px.choropleth(df_county, geojson=counties, locations='countyFIPS', color=np.log(df_county[key]+1),
+                            color_continuous_scale =['#F7E8E4','#F5C8BB','#B96D67','#A83C3B',
+                                '#8B2222','#5B0D0D','#5A2318'],
+                           scope="usa",
+                           labels={'tot_cases':'cumulative cases',
+                                  'tot_deaths':'cumulative deaths',
+                                  'new_cases': 'new case',
+                                  'new_deaths':'new deaths',
+                                  'StateName':'State','CountyName':'County',
+                                  'tot_deaths_rate':'deaths per 100k',
+                                  'tot_cases_rate':'cases per 100k'},
+                            hover_data = ['State','CountyName','tot_cases','new_cases','tot_deaths','tot_deaths_rate','tot_cases_rate'],
+                   title = 'County level Covid-19 map on ' + (datetime.today()-timedelta(days=1)).strftime('%m-%d'))
+    fig.update_layout(coloraxis_colorbar=dict(len=0.75,
+                                  title='cases', 
+                                  tickvals = [2.302585092994046,4.605170185988092,6.907755278982137,9.210340371976184,11.512925464970229],
+                                  ticktext = ['10', '100', '1000', '10000', '10000','100000'],
+                                  x=1, y= 0.5))
+    ## update the hover information
+    for c in ["countyFIPS=%{location}<br>","<br>color=%{z}"]:
+        fig['data'][0]['hovertemplate'] =fig['data'][0]['hovertemplate'].replace(c,"")
+    fig['data'][0]['hovertemplate'] =fig['data'][0]['hovertemplate'].replace("=",": ")
+    fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
     fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,255)',
-        plot_bgcolor='rgba(0,0,0,255)',
-        template='plotly_dark'
+        paper_bgcolor='rgb(0,0,0)',
+        plot_bgcolor='rgb(0,0,0)',
+        template='plotly_dark',
     )
-    fig['layout'].update(width=1000, height=500, autosize=True)
-
+    fig['layout'].update(width=1000, height=500, autosize=True,title_x=0.3)
     fig.write_image(oj(parentdir,"results/search_map.png"),width=900, height=450)
-    
     print('succesfully generated search map')   
-    
+
+
     return plotly.offline.plot(fig,
-                include_plotlyjs='https://cdn.plot.ly/plotly-1.42.3.min.js',
+                include_plotlyjs='https://cdn.plot.ly/plotly-1.54.1.min.js',
                    output_type='div')
 
+# Add new cases/deaths to dataframe():
 
 # Fill the state full name according to their abbreviations#
 def fillstate(df):
@@ -161,17 +177,24 @@ def fillstate(df):
         if df.loc[i, "State"] not in us_state_abbrev.values():
             df.loc[i, "State"] = us_state_abbrev[df.loc[i,"StateName"]]
 
-# update the html file (conbine search1 + search2 + search3)
-def update_html(search2):
-    id =re.search('<div id="([^ ]*)"',search2)
-    with open(oj(parentdir,'results/search1.html'), 'r') as content_file:
-        search1 = content_file.read()
-    with open(oj(parentdir,'results/search3.html'), 'r') as content_file:
-        search3 = content_file.read()
+## update the html file (conbine search1 + search2 + search3)
+def update_html(map_html):
+    id =re.search('<div id="([^ ]*)"',map_html)
+    with open(oj(parentdir,'results/template.html'), 'r') as content_file:
+        template = content_file.read()
     f = open(oj(parentdir,'results/search.html'),"w+")
-    f.write(search1+search2+search3.replace("map id to replace",id.group(1)))
+    f.write(template.replace("map id to replace",id.group(1)).replace("Part to replace with map",map_html))
     print('succesfully updated search html')
-
+## Add cases/deaths rate to dataframe
+def add_rates(df_county):
+    for key in ['tot_deaths','tot_cases']:
+        df_county[key+'_rate'] = round(df_county[key] / df_county['PopulationEstimate2018']*100000,2)
+## Add new cases/deaths to dataframe
+def add_new(df_county):
+    def get_col_name(key,days):
+        return '#'+key + '_' +(datetime.today()-timedelta(days=days)).strftime('%m-%d-%Y')
+    for key in ['Cases','Deaths']:
+        df_county['new_'+key.lower()] =  df_county[get_col_name(key,1)] - df_county[get_col_name(key,2)]
 if __name__ == '__main__':
     print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
@@ -181,8 +204,13 @@ if __name__ == '__main__':
     ## orgnize predicts as array
     add_pre(df_county,'Predicted Cases ','pred_cases')
     add_pre(df_county,'Predicted Deaths ','pred_deaths')
+
+    ## add new cases/death to dataframe
+    add_new(df_county)
     ##fill missing values of some state full names
     fillstate(df_county)
-    generate_all_counties()
-    search2 = generate_map()
-    update_html(search2)
+    ## Add cases/deaths rate to the dataframe
+    add_rates(df_county)
+    #generate_all_counties()
+    map_html = generate_map('tot_cases')
+    update_html(map_html)
