@@ -171,10 +171,12 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                     name=key_curve,
                     line=dict(color=color_strings[j], width=width))        )
                 low = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve+'_interval']]))
+                curve_pre = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve]))
                 up = np.hstack((curve[-1],[x[1] for x in row[pre+key_curve+'_interval']]))
                 if pre == 'pred_7day_':
                     low = low[1:]
                     up = up[1:]
+                    curve_pre = curve_pre[1:]
                 traces.append(go.Scatter(
                     name = 'Upper Bound',
                     showlegend= False,
@@ -183,7 +185,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                     marker = dict(size=0),
                     line=dict(dash ='solid',color=fill_strings[j], width=0)))
                 traces.append(go.Scatter(x= date2,
-                    y=row[pre+key_curve],
+                    y=curve_pre,
                     name = key_curve +' prediction',
                     showlegend= show_lengend,
                     mode = 'lines',
