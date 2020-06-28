@@ -155,7 +155,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                         else:
                             miss += 1
                 return (hit/(hit+miss))
-            return [cal(key, 'pred_7day_' + key +'_interval') for key in keys]
+            return [cal(key, 'pred_7day_' + key + '_interval') for key in keys]
         def make_traces(fig, row, pre, date1, date2, r, c, width,show_lengend,keys_curves):
             for j, key_curve in enumerate(keys_curves):
                 curve = row[key_curve]
@@ -166,42 +166,43 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                     visible=True, #key == key0,# False, #key == key0,
                     name=key_curve,
                     line=dict(color=color_strings[j], width=width))        )
-                low = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve+'_interval']]))
-                curve_pre = np.hstack((curve[-1],row[pre+key_curve]))
-                up = np.hstack((curve[-1],[x[1] for x in row[pre+key_curve+'_interval']]))
+                low = np.hstack((curve[-1],[x[0] for x in row[pre + key_curve + '_interval']]))
+                curve_pre = np.hstack((curve[-1],row[pre + key_curve]))
+
+                up = np.hstack((curve[-1],[x[1] for x in row[pre + key_curve + '_interval']]))
                 if pre == pre1:
                     low = low[1:]
                     up = up[1:]
-                    curve = curve[1:]
+                    curve_pre = curve_pre[1:]
                 traces.append(go.Scatter(
                     name = 'Upper Bound',
                     showlegend= False,
                     x = date2,
                     y = up,
-                    marker = dict(size=0),
-                    line=dict(dash ='solid',color=fill_strings[j], width=0)))
+                    marker = dict(size = 0),
+                    line=dict(dash ='solid',color=fill_strings[j], width = 0)))
                 traces.append(go.Scatter(x= date2,
                     y=curve_pre,
                     name = key_curve +' prediction',
                     showlegend= show_lengend,
                     mode = 'lines',
-                    line=dict(dash ='dash',color=color_strings[j], width=width),
+                    line=dict(dash ='dash',color = color_strings[j], width = width),
                     fillcolor = fill_strings[j],
                     fill ='tonexty'))
                 traces.append(go.Scatter(
                     name = 'Lower Bound',
                     showlegend= False,
-                    marker = dict(size=0),
+                    marker = dict(size = 0),
                     x = date2,
                     y = low,
                     fill ='tonexty',
                     fillcolor = fill_strings[j],
-                    line=dict(dash ='solid',color=fill_strings[j], width=0)))
+                    line=dict(dash ='solid',color = fill_strings[j], width = 0)))
                 for trace in traces:
-                    fig.add_trace(trace, secondary_y= "deaths" in key_curve, row=r,col=c)
+                    fig.add_trace(trace, secondary_y = "deaths" in key_curve, row = r,col = c)
             return fig
         fig = make_traces(fig, row,'pred_7day_',date1,date2,1,2,3,False, keys)
-        newdates = [date1[-1] + timedelta(days =i) for i in range(0,8)]
+        newdates = [date1[-1] + timedelta(days = i) for i in range(0,8)]
         fig = make_traces(fig, row,'pred_',date1,newdates,1,1,4,True, keys)            
         for i in fig['layout']['annotations']:
             i['font'] = dict(size=15,color='white')  
