@@ -91,7 +91,7 @@ def generate_map(key):
                            scope="usa",
                            labels={'tot_cases':'cumulative cases',
                                   'tot_deaths':'cumulative deaths',
-                                  'new_cases_last': 'new case',
+                                  'new_cases_last': 'new cases',
                                   'new_deaths_last':'new deaths',
                                   'StateName':'State','CountyName':'County',
                                   'tot_deaths_rate':'deaths per 100k',
