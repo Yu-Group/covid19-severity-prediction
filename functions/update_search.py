@@ -216,7 +216,7 @@ def add_new_pre(df_county, var, name, newname):
 
     def find_intervals(b, a):
         tmp = [[a[0][0] - b, a[0][1] - b]]
-        for i in range(2, len(a)):
+        for i in range(1, len(a)):
             tmp.append([max(a[i][0] - a[i - 1][1], 0), max(a[i][1] - a[i - 1][0], 0)])
         return tmp
     df_county = df_county.sort_values(by=['countyFIPS'])
