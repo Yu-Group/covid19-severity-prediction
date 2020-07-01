@@ -42,7 +42,7 @@ def add_prediction_history(df_tab):
             for key in dic.keys():
                 df.loc[i,'pred_7day_'+key].append(data.loc[i,'Predicted '+ dic[key] +' 7-day'])
                 df.loc[i,'pred_7day_'+key+'_interval'].append(data.loc[i,'Predicted '+dic[key]+' Intervals'][6])
-                df.loc[i,'pred_7day_new_'+key].append(data.loc[i,'Predicted '+ dic[key] +' 7-day']-data.loc[i,'Predicted '+ dic[key] +' 6-day'])
+                df.loc[i,'pred_7day_new_'+key].append(max(0, data.loc[i,'Predicted '+ dic[key] +' 7-day']-data.loc[i,'Predicted '+ dic[key] +' 6-day']))
                 df.loc[i,'pred_7day_new_'+key+'_interval'].append(find_interval(data.loc[i,'Predicted '+ dic[key] +' Intervals']))
 
     cached_dir=oj(parentdir, 'data')
@@ -208,20 +208,21 @@ def add_new(df_county):
             for j in range(1, len(df_county.loc[i, key])):
                 df_county.loc[i, 'new_'+key]. append(df_county.loc[i, key][j] - df_county.loc[i, key][j-1])
 def add_new_pre(df_county, var, name, newname):    
-    
     h = df_county[var + '1-day'] - df_county[name]
     for i in range(2,8):
         h = np.vstack((h,df_county[var + str(i) + '-day'] - df_county[var + str(i - 1) + '-day']))
     df_county[newname] = [h.T[i] for i in range(len(h.T))]
+    df_county[newname+'_interval'] = [[] for _ in range(df_county.shape[0])]
 
     def find_intervals(b, a):
         tmp = [[a[0][0] - b, a[0][1] - b]]
         for i in range(1, len(a)):
             tmp.append([max(a[i][0] - a[i - 1][1], 0), max(a[i][1] - a[i - 1][0], 0)])
         return tmp
-    df_county = df_county.sort_values(by=['countyFIPS'])
-    df_county[newname+'_interval'] = [find_intervals(df_county.loc[i,name],df_county.loc[i,var+'Intervals']) for i in range(df_county.shape[0])]
+    for i in range(df_county.shape[0]):
+        df_county.loc[i,newname+'_interval'].extend(find_intervals(df_county.loc[i,name],df_county.loc[i,var+'Intervals'])) 
     return df_county  
+    
 if __name__ == '__main__':
     print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
