@@ -326,7 +326,7 @@ def add_prediction_intervals(df,
      """
     
     assert interval_type == 'local' or interval_type == 'combined', 'unknown interval type'
-    lower_bound = {'deaths':10, 'cases':10}
+    lower_bound = {'deaths':10, 'cases':10, 'hospitalizations':1}
     
     df = previous_prediction_errors(df, target_day, outcome, methods, look_back_day=5, output_key='previous_errors')
     
