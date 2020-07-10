@@ -270,6 +270,6 @@ if __name__ == '__main__':
     fillstate(df_county)
     ## Add cases/deaths rate to the dataframe
     add_rates(df_county)
-    #generate_all_counties()
+    generate_all_counties()
     maps, tables = generate_map(df_county)
     update_html(maps, tables)
