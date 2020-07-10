@@ -249,7 +249,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
         y1 = max(y1, max(row[keys[1]]))
         y2 = max([x[1] for x in row[pre2+keys[0]+'_interval']])
         y2 = max(y2, max(row[keys[0]]))
-        dic = {'cases':'Cases','deaths':'Deaths','new_cases':'New cases','new_deaths':'New deaths'}
+        dic = {'cases':'Cumulative Cases','deaths':'Cumulative Deaths','new_cases':'New cases','new_deaths':'New deaths'}
         fig.update_xaxes(title_text="Date",range=[datetime(2020, 4, 18), newdates[-1]],domain = [0,0.4],row=1, col=1)
         fig.update_yaxes(title_text=dic[keys[1]], color=cbluestr,rangemode = 'tozero',
             dtick = y1/5,range=[0,y1], domain=[0,0.95],row=1, col=1)  
