@@ -4,7 +4,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 sys.path.append(parentdir + '/modeling')
-# sys.path.append(parentdir + '/viz')
+sys.path.append(parentdir + '/viz')
 
 from fit_and_predict import add_preds
 from viz import viz_map
