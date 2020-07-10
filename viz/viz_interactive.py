@@ -203,6 +203,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
             return fig
         fig = make_traces(fig, row,'pred_7day_',date1,date2,1,2,3,False, keys)
         newdates = [date1[-1] + timedelta(days = i) for i in range(0,8)]
+
         fig = make_traces(fig, row,'pred_',date1,newdates,1,1,4,True, keys)            
         for i in fig['layout']['annotations']:
             i['font'] = dict(size=15,color='white')  

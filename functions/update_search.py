@@ -43,7 +43,11 @@ def add_prediction_history(df_tab):
             for key in dic.keys():
                 df.loc[i,'pred_7day_'+key].append(data.loc[i,'Predicted '+ dic[key] +' 7-day'])
                 df.loc[i,'pred_7day_'+key+'_interval'].append(data.loc[i,'Predicted '+dic[key]+' Intervals'][6])
+<<<<<<< HEAD
                 df.loc[i,'pred_7day_new_'+key].append(max(0, data.loc[i,'Predicted '+ dic[key] +' 7-day']-data.loc[i,'Predicted '+ dic[key] +' 6-day']))
+=======
+                df.loc[i,'pred_7day_new_'+key].append(data.loc[i,'Predicted '+ dic[key] +' 7-day']-data.loc[i,'Predicted '+ dic[key] +' 6-day'])
+>>>>>>> 78902fd9413366d223c8688f45c2c893273b475f
                 df.loc[i,'pred_7day_new_'+key+'_interval'].append(find_interval(data.loc[i,'Predicted '+ dic[key] +' Intervals']))
 
     cached_dir=oj(parentdir, 'data')
@@ -100,11 +104,25 @@ def generate_map(df):
                             color_continuous_scale =['#F7E8E4','#F5C8BB','#B96D67','#A83C3B',
                                 '#8B2222','#5B0D0D','#5A2318'],
                            scope="usa",
+<<<<<<< HEAD
                            hover_data = ['State','County','Cumulative Cases','New Cases','Cumulative Deaths'
                                          ,'New Deaths','Deaths per 100k','Cases per 100k'],
                    title = key + ' on ' + (datetime.today()-timedelta(days=1)).strftime('%m-%d'))
         fig.update_layout(coloraxis_colorbar=dict(len=0.75,
                                   title=key, 
+=======
+                           labels={'tot_cases':'cumulative cases',
+                                  'tot_deaths':'cumulative deaths',
+                                  'new_cases_last': 'new case',
+                                  'new_deaths_last':'new deaths',
+                                  'StateName':'State','CountyName':'County',
+                                  'tot_deaths_rate':'deaths per 100k',
+                                  'tot_cases_rate':'cases per 100k'},
+                            hover_data = ['State','CountyName','tot_cases','new_cases_last','tot_deaths','new_cases_last','tot_deaths_rate','tot_cases_rate'],
+                   title = 'County level Covid-19 map on ' + (datetime.today()-timedelta(days=1)).strftime('%m-%d'))
+    fig.update_layout(coloraxis_colorbar=dict(len=0.75,
+                                  title='cases', 
+>>>>>>> 78902fd9413366d223c8688f45c2c893273b475f
                                   tickvals = [2.302585092994046,4.605170185988092,6.907755278982137,9.210340371976184,11.512925464970229],
                                   ticktext = ['10', '100', '1000', '10000', '10000','100000'],
                                   x=1, y= 0.5))
@@ -234,10 +252,15 @@ def add_new(df_county):
             for j in range(1, len(df_county.loc[i, key])):
                 df_county.loc[i, 'new_'+key]. append(df_county.loc[i, key][j] - df_county.loc[i, key][j-1])
 def add_new_pre(df_county, var, name, newname):    
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 78902fd9413366d223c8688f45c2c893273b475f
     h = df_county[var + '1-day'] - df_county[name]
     for i in range(2,8):
         h = np.vstack((h,df_county[var + str(i) + '-day'] - df_county[var + str(i - 1) + '-day']))
     df_county[newname] = [h.T[i] for i in range(len(h.T))]
+<<<<<<< HEAD
     df_county[newname+'_interval'] = [[] for _ in range(df_county.shape[0])]
 
     def find_intervals(b, a):
@@ -249,6 +272,17 @@ def add_new_pre(df_county, var, name, newname):
         df_county.loc[i,newname+'_interval'].extend(find_intervals(df_county.loc[i,name],df_county.loc[i,var+'Intervals'])) 
     return df_county  
     
+=======
+
+    def find_intervals(b, a):
+        tmp = [[a[0][0] - b, a[0][1] - b]]
+        for i in range(2, len(a)):
+            tmp.append([max(a[i][0] - a[i - 1][1], 0), max(a[i][1] - a[i - 1][0], 0)])
+        return tmp
+    df_county = df_county.sort_values(by=['countyFIPS'])
+    df_county[newname+'_interval'] = [find_intervals(df_county.loc[i,name],df_county.loc[i,var+'Intervals']) for i in range(df_county.shape[0])]
+    return df_county  
+>>>>>>> 78902fd9413366d223c8688f45c2c893273b475f
 if __name__ == '__main__':
     print('loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
@@ -270,6 +304,12 @@ if __name__ == '__main__':
     fillstate(df_county)
     ## Add cases/deaths rate to the dataframe
     add_rates(df_county)
+<<<<<<< HEAD
     #generate_all_counties()
     maps, tables = generate_map(df_county)
     update_html(maps, tables)
+=======
+    generate_all_counties()
+    map_html = generate_map('tot_cases')
+    update_html(map_html)
+>>>>>>> 78902fd9413366d223c8688f45c2c893273b475f
