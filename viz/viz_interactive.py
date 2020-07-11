@@ -154,7 +154,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                             hit += 1
                         else:
                             miss += 1
-                return (hit/(hit+miss))
+                return (hit/(hit+miss+1e-5))
             return [cal(key, 'pred_7day_' + key + '_interval') for key in keys]
         def make_traces(fig, row, pre, date1, date2, r, c, width,show_lengend,keys_curves):
             for j, key_curve in enumerate(keys_curves):
@@ -203,6 +203,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
             return fig
         fig = make_traces(fig, row,'pred_7day_',date1,date2,1,2,3,False, keys)
         newdates = [date1[-1] + timedelta(days = i) for i in range(0,8)]
+
         fig = make_traces(fig, row,'pred_',date1,newdates,1,1,4,True, keys)            
         for i in fig['layout']['annotations']:
             i['font'] = dict(size=15,color='white')  

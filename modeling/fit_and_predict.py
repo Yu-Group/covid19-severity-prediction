@@ -27,7 +27,9 @@ from collections import defaultdict
 import inspect
 import sys
 from tqdm import tqdm
-
+from moving_average import MovingAverage
+import statsmodels.api as sm
+lowess = sm.nonparametric.lowess
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
@@ -48,6 +50,8 @@ shared_exponential = {'model_type':'shared_exponential'}
 demographics = {'model_type':'shared_exponential', 'demographic_vars':very_important_vars}
 linear = {'model_type':'linear'}
 advanced_model = {'model_type':'advanced_shared_model'}
+LAD = {'model_type':'LAD'}
+moving_average = {'model_type':'moving_average'}
 
 
 def fit_and_predict(df, 
@@ -57,6 +61,7 @@ def fit_and_predict(df,
                     target_day: np.ndarray=np.array([1]),
                     output_key: str=None,
                     demographic_vars=[],
+                    aux_time_vars = None,
                     verbose: bool=False):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
@@ -119,7 +124,18 @@ def fit_and_predict(df,
         df[output_key] = preds
         #del test_df['predicted_deaths_exponential']
 
-        return df        
+        return df   
+    
+    elif method == 'LAD':
+        preds = exponential_modeling.LAD_fit(df[outcome].values, 
+                                                     mode=mode, 
+                                                     target_day=target_day)
+        
+            
+        df[output_key] = preds
+        #del test_df['predicted_deaths_exponential']
+
+        return df
     
     elif method == 'shared_exponential':
         # Fit a poisson GLM with shared parameters across counties. Input to the poisson GLM is demographic_vars and log(previous_days_deaths+1)
@@ -144,15 +160,22 @@ def fit_and_predict(df,
 
 
         feat_transforms = defaultdict(lambda y: [lambda x: x]) 
-        feat_transforms['deaths_per_cap'] = [lambda x: np.log(x+1)]
-        feat_transforms['deaths'] = [lambda x: np.log(x+1)]
-        feat_transforms['new_deaths'] = [lambda x: np.log(x+1)]
-        feat_transforms['cases'] =  [lambda x: np.log(x+1)]
-        feat_transforms['neighbor_deaths'] =  [lambda x: np.log(x+1)]
-        feat_transforms['neighbor_cases'] =  [lambda x: np.log(x+1)]
+#         feat_transforms['deaths_per_cap'] = [lambda x: np.log(x+1)]
+        
+#         feat_transforms['new_deaths'] = [lambda x: np.log(x+1)]
+        #feat_transforms['deaths'] = [lambda x: np.log(x+1)]
+        #feat_transforms['cases'] =  [lambda x: np.log(x+1)]
+        #feat_transforms['neighbor_deaths'] =  [lambda x: np.log(x+1)]
+        #feat_transforms['neighbor_cases'] =  [lambda x: np.log(x+1)]
+        #feat_transforms['hospitalizations'] = [lambda x: np.log(x+1)]
+        feat_transforms['neighborHos'] = [lambda x: np.log(x+1)]
+        feat_transforms[outcome] = [lambda x: np.log(x+1)]
         default_values = defaultdict(lambda: 0) 
-        aux_feats = ['cases','neighbor_deaths','neighbor_cases']
-        shared_model = SharedModel(df=df,outcome=outcome,demographic_variables=[],mode=mode,target_days=target_day, feat_transforms=feat_transforms,auxiliary_time_features=aux_feats,time_series_default_values=default_values,scale=True)
+        #aux_feats = ['deaths','neighbor_deaths','neighbor_cases']
+        aux_feats = ['neighborHos']
+#         default_values = []
+
+        shared_model = SharedModel(df=df,outcome=outcome,demographic_variables=[],mode=mode,target_days=target_day,a = .01, L1 = .5, feat_transforms=feat_transforms,auxiliary_time_features=aux_feats,time_series_default_values=default_values,scale=True)
         shared_model.create_dataset()
         shared_model.fit_model()
         shared_model.predict()
@@ -160,6 +183,16 @@ def fit_and_predict(df,
         df[output_key] = shared_model.predictions
         return df
 
+    
+    # Moving average for fit_and_predict
+    elif method == 'moving_average':
+        moving_average = MovingAverage(df=df, outcome=outcome, target_days=target_day)
+        moving_average.predict()
+        
+        df[output_key] = moving_average.predictions
+        return df
+    
+        
         
         
     else:
@@ -173,7 +206,9 @@ def fit_and_predict_ensemble(df,
                              methods: list=[shared_exponential, linear],
                              mode: str='predict_future', 
                              output_key: str=None,
-                             verbose: bool=False,
+                             verbose: bool=False, smoothing: bool = False, smooth_days: int = 0,
+                             weight_target_day: int=3,
+                             weight_prev_days: int=7,
                              weight_c0: int=1,
                              weight_mu: int=0.5):
     
@@ -187,6 +222,7 @@ def fit_and_predict_ensemble(df,
             each dictionary specify the type and parameters of the model
         mode: str
         output_key: str
+        smoothing refers to running lowess smoothing on prediction and data. If local_info = True, smoothing is not run on entire history 
     Output:
         df with ensemble prediction
     """
@@ -218,7 +254,8 @@ def fit_and_predict_ensemble(df,
     weights = pmdl_weight.compute_pmdl_weight(use_df, 
                                               methods=methods, 
                                               outcome=outcome,
-                                              target_day=target_day,
+                                              target_day=weight_target_day,
+                                              prev_days=weight_prev_days,
                                               c0=weight_c0,
                                               mu=weight_mu)
     sum_weights = np.zeros(len(use_df))
@@ -230,7 +267,28 @@ def fit_and_predict_ensemble(df,
     for i in range(len(df)):
         for model_index in weights:
             weighted_preds[i] += np.array(predictions[model_index][i]) * weights[model_index][i] / sum_weights[i]
-
+    if smoothing:
+        for i in range(len(df)):
+            hosp_data = df[outcome][i]
+            x = np.zeros(hosp_data.shape[0]+1)
+            x[:hosp_data.shape[0]] = hosp_data
+            x[hosp_data.shape[0]] = weighted_preds[i]
+            indices = np.zeros(hosp_data.shape[0]+1)
+            indices[:hosp_data.shape[0]]=range(0,hosp_data.shape[0])
+            indices[hosp_data.shape[0]] = hosp_data.shape[0]+target_day[0]-1
+            if hosp_data.shape[0]<smooth_days:
+                frac = 1
+                emp_list = []
+                a = lowess(x,indices,frac = frac, it = 2, delta = 0.0, is_sorted = True)[hosp_data.shape[0],1]
+                emp_list.append(a)
+                #weighted_preds[i]= lowess(x,indices,frac = frac, it = 2, delta = 0.0, is_sorted = True)[hosp_data.shape[0],1]
+                weighted_preds[i] = np.array(emp_list)
+            else:
+                emp_list = []
+                frac = smooth_days/hosp_data.shape[0]
+                a = lowess(x,indices,frac = frac, it = 2, delta = 0.0, is_sorted = True)[hosp_data.shape[0],1]
+                emp_list.append(a)
+                weighted_preds[i] = np.array(emp_list)
     # print out the relative contribution of each model
     if verbose:
         print('--- Model Contributions ---')
@@ -251,7 +309,7 @@ def fit_and_predict_ensemble(df,
 def previous_prediction_errors(df, 
                                target_day: np.ndarray=np.array([1]),
                                outcome: str='deaths', 
-                               methods: list=[advanced_model, linear],
+                               methods: list=[advanced_model, linear], smooth : bool = False, days_to_smooth : int = 0, 
                                look_back_day: int=5,
                                output_key: str=None):
     """
@@ -286,8 +344,8 @@ def previous_prediction_errors(df,
                                              target_day=np.array(previous_target_days),
                                              outcome=outcome, 
                                              methods=methods,
-                                             mode='predict_future', 
-                                             output_key='old_predictions',
+                                             mode='predict_future',
+                                             output_key='old_predictions',smoothing = smooth, smooth_days = days_to_smooth
                                              )['old_predictions'].values # running old prediction models
         for i in range(len(df)):
             for (j, td) in enumerate(previous_target_days):
@@ -309,8 +367,9 @@ def add_prediction_intervals(df,
                              target_day: np.ndarray=np.array([1]),
                              outcome: str='deaths', 
                              methods: list=[advanced_model, linear],
-                             interval_type: str='local',
-                             look_back_day: int=5,
+                             interval_type: str='local', smooth : bool = False, days_to_smooth : int = 0 , 
+                             look_back_day: int=5,weight_c0: int=1,
+                             weight_mu: int=0.5,
                              output_key: str=None):
     """
     Adding intervals for future prediction
@@ -326,7 +385,11 @@ def add_prediction_intervals(df,
      """
     
     assert interval_type == 'local' or interval_type == 'combined', 'unknown interval type'
+<<<<<<< HEAD
+    lower_bound = {'deaths':10, 'cases':10,'hospitalizations':1}
+=======
     lower_bound = {'deaths':10, 'cases':10, 'hospitalizations':1}
+>>>>>>> 2a39ed2e7faf106e6b6a25decf811f7b3105dd68
     
     df = previous_prediction_errors(df, target_day, outcome, methods, look_back_day=5, output_key='previous_errors')
     
@@ -335,7 +398,7 @@ def add_prediction_intervals(df,
                                   outcome=outcome, 
                                   methods=methods,
                                   mode='predict_future', 
-                                  output_key='new_predictions',
+                                  output_key='new_predictions', smoothing = smooth, smooth_days = days_to_smooth, weight_c0 = weight_c0, weight_mu = weight_mu ,
                                   verbose=False)
     
     preds = df['new_predictions'].values
@@ -354,8 +417,13 @@ def add_prediction_intervals(df,
         for (j, td) in enumerate(target_day):
             largest_error.append(max(np.abs(np.array(df['previous_errors'].values[i][td]))))
             if interval_type == 'local':
-                intervals[i].append((max(preds[i][j]*(1 - largest_error[-1]), latest_cases[i]), 
-                                     preds[i][j]*(1 + largest_error[-1])))
+                    intervals[i].append((max(preds[i][j]*(1 - largest_error[-1])*1.2, 0), 
+                                     preds[i][j]*(1 + largest_error[-1])*1.2))
+#                 else:
+#                      intervals[i].append((max(preds[i][j]*(1 - largest_error[-1])*1.2, latest_cases[i]), 
+#                                      preds[i][j]*(1 + largest_error[-1])*1.2))
+                #intervals[i].append((preds[i][j]*(1 - largest_error[-1]), 
+                                     #preds[i][j]*(1 + largest_error[-1])))
             elif interval_type == 'combined':
                 intervals[i].append((max(preds[i][j]*(1 + (qts[td][0] - largest_error[-1])/2), latest_cases[i]), 
                                      preds[i][j]*(1 + (largest_error[-1] + qts[td][1])/2)))                  
@@ -364,7 +432,7 @@ def add_prediction_intervals(df,
 
         
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
-              outcomes=['Deaths', 'Cases'],discard=False,d=datetime.datetime.today()):
+              outcomes=['Deaths', 'Cases']):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
     '''
@@ -378,10 +446,9 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     # load cached preds
     if cached_dir is not None:
         # getting current date and time
-        if not discard:
-            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
-        else:
-            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached_discard1day.pkl')
+        d = datetime.datetime.today()
+        cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
+        
         if os.path.exists(cached_fname):
             return pd.read_pickle(cached_fname)
     

@@ -1,19 +1,83 @@
+<meta charset="utf-8"/>
+<!-- Custom Fonts -->
+<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.2.6.min.js"></script>
+<script src='Chart.min.js'></script>
+<script src="https://cdn.plot.ly/plotly-1.54.1.min.js"></script>    
 
-    <meta charset="utf-8"/>
-    <!-- Custom Fonts -->
-    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
-    <style>
+
+<style>
 .content {
-  max-width: 1100px;
+  max-width: 1150px;
   margin: auto;
   background: black;
   padding: 10px;
+  margin-top: 0px;
   font-size: 26px;
   color: white;
   font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
 
+}
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+}
+
+.left {
+  width: 25%;
+}
+
+.right {
+  width: 75%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 </style>
     <script>
@@ -23,11 +87,7 @@
 
       gtag('config', 'UA-123022910-2');
     </script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script type="text/javascript" src="js/jquery-1.2.6.min.js"></script>
-
 <!-- Drop Down JS -->
-<script src='Chart.min.js'></script>
 <script> 
 function drop_down_list()
 {
@@ -70,10 +130,66 @@ pic1.src="style/loader.gif";
 </SCRIPT>
 <body>
     <body style="background-color:black;">
-   <div class="content">
-      <p> Click on map or use drop-down menu to access county-specific information and scroll down to see results.</p>
+      <div class="tab">
+            <button class="tablinks" onclick="changeto(event, 'Cumulative Cases')">Cumulative Cases</button>
+            <button class="tablinks" onclick="changeto(event, 'Cumulative Deaths')">Cumulative Deaths</button>
+            <button class="tablinks" onclick="changeto(event, 'New Cases')">New Cases</button>
+            <button class="tablinks" onclick="changeto(event, 'New Deaths')">New Deaths</button>
+      </div>   
+      <div class="content">
+          <p> Click on map or use drop-down menu to access county-specific information and scroll down to see results.</p>
+              <div id="Cumulative Cases" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                    Cumulative Cases table
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Cumulative Cases map
+                  </div>
+              </div>
+              <div id="Cumulative Deaths" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                      Cumulative Deaths table
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Cumulative Deaths map
+                  </div>
+              </div>
+              <div id="New Cases" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                      New Cases table
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      New Cases map
+                  </div>
+            </div>
+            <div id="New Deaths" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                      New Deaths table
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      New Deaths map
+                  </div>
+            </div>
 
-      Part to replace with map
+<script>
+document.getElementsByClassName('tablinks')[0].click()
+function changeto(evt, key) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(key).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+
+
 <p align = 'right'  style= "font-size:19px;"> 
   Data Source: USAFacts        
 </p>
@@ -153,11 +269,12 @@ pic1.src="style/loader.gif";
         </figure>
   </p>
 
+
 </div>
 </body>
 
 <script>
-    var hoverInfo = document.getElementById("map id to replace").on('plotly_click', function(data) {
+    var hoverInfo = document.getElementById("Cumulative Cases id to replace").on('plotly_click', function(data) {
     var county = " County"
     var state = ""
 
@@ -177,6 +294,67 @@ pic1.src="style/loader.gif";
     el.src = "All_counties/"+state+"_"+county+".html";
     el.style = "visibility: show";
     });
+        var hoverInfo = document.getElementById("Cumulative Deaths id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+            var hoverInfo = document.getElementById("New Cases id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+                var hoverInfo = document.getElementById("New Deaths id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+
 </script>
 <script>
 function findplot()

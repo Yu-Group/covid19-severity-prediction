@@ -178,8 +178,14 @@ def plot_cumulative_deaths_map_with_slider(df,
         tot_deaths.astype(str) + '<br>' + \
         '# Hospitals: ' + d['#Hospitals'].astype(str)
 
+<<<<<<< HEAD
     map_title='Predicted Cumulative COVID-19 Deaths ' + '(Click <a href = "search.html"> here </a> to search by county) <br>'+ \
     '<span style="font-size: 20px; color: red;">Use the slider below the map to change date.</span>'
+=======
+    map_title='Predicted Cumulative COVID-19 Deaths ' + '(Click <a href = "search.html"> here </a> to search by county) <br>'+\
+        '<span style="font-size: 20px; color: red;">Use the slider below the map to change date.</span>'
+
+>>>>>>> 8def8d1aa7ca072eed520b15d4720a7435ed1bf2
     # make main figure
     fig = make_us_map(map_title, dark)
 
