@@ -92,10 +92,9 @@ def generate_map(df):
     df = rename(df)
     df['POS'] = df['County'] + ', '+ df['StateName']
     maps = []
-    tables = []
     with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
         counties = json.load(response)
-    for key in ['Cumulative Cases','Cumulative Deaths','New Cases','New Deaths']:
+    for key in keys:
         fig = px.choropleth(df, geojson=counties, locations='countyFIPS', color=np.log(df[key]+1),
                             color_continuous_scale =['#F7E8E4','#F5C8BB','#B96D67','#A83C3B',
                                 '#8B2222','#5B0D0D','#5A2318'],
@@ -106,7 +105,7 @@ def generate_map(df):
         fig.update_layout(coloraxis_colorbar=dict(len=0.75,
                                   title=key, 
                                   tickvals = [2.302585092994046,4.605170185988092,6.907755278982137,9.210340371976184,11.512925464970229],
-                                  ticktext = ['10', '100', '1000', '10000', '10000','100000'],
+                                  ticktext = ['10', '100', '1k', '10k', '100k','1000k'],
                                   x=1, y= 0.5))
         ## update the hover information
         for c in ["countyFIPS=%{location}<br>","<br>color=%{z}"]:
@@ -118,18 +117,19 @@ def generate_map(df):
             plot_bgcolor='rgb(0,0,0)',
             template='plotly_dark',
         )
-        fig['layout'].update(width=750, height=450, autosize=True,title_x=0.3)
+        fig['layout'].update(width=900, height=450, autosize=True,title_x=0.3)
         if key == 'Cumulative Cases':
             fig.write_image(oj(parentdir,"results/search_map.png"),width=900, height=450)
         maps.append(plotly.offline.plot(fig,include_plotlyjs=False,output_type='div'))
     
         df_tab = df.sort_values(by = key, ascending = False)
-        df_tab = df_tab.reset_index(drop=True)[['POS',key]]
+        df_tab = df_tab.reset_index(drop=True)[['POS',key]].loc[:19,:]
         fig = go.Figure(data=[go.Table(
-            header=dict(values=['','County', 'Cumulative Cases'],
+            header=dict(values=['','County', key],
                 line_color='grey',
                 fill_color='darkgrey',
                 font_color = 'white',
+                font_size = 12,
                 align='center'),
             cells=dict(values=[[i+1 for i in range(len(df_tab))],
                        df_tab['POS'], 
@@ -137,13 +137,16 @@ def generate_map(df):
                line_color='darkgrey',
                fill_color='grey',
                font_color='white',
+               font_size = 11,
                align='center'),
-            columnwidth = [30,130,90])
+            columnwidth = [20,120,80])
             ])
-        fig['layout'].update(margin=dict(l=0, r=0, t=0, b=0),width=250, height=450, autosize=True,title_x=0.3,template='plotly_dark')
-        tables.append(plotly.offline.plot(fig,include_plotlyjs=False,output_type='div'))
+        fig['layout'].update(paper_bgcolor='rgb(0,0,0)',
+            plot_bgcolor='rgb(0,0,0)',margin=dict(l=0, r=0, t=0, b=0),width=200, height=550, autosize=True,template='plotly_dark')
+        fig.write_image(oj(parentdir,"results/" + key + ".png"),width=200, height=550)
+
     print('succesfully generated search map')   
-    return maps,tables
+    return maps
 
 # Fill the state full name according to their abbreviations#
 def fillstate(df):
@@ -205,14 +208,13 @@ def fillstate(df):
             df.loc[i, "State"] = us_state_abbrev[df.loc[i,"StateName"]]
 
 ## update search.html
-def update_html(maps, tables):
+def update_html(maps):
     f = open(oj(parentdir,'results/template.html'),"r")
     content = f.read()
-    for i, key in enumerate(['Cumulative Cases','Cumulative Deaths','New Cases','New Deaths']):
+    for i, key in enumerate(keys):
         content = content.replace(key+' map', maps[i])
         id =re.search('<div id="([^ ]*)"',maps[i])
         content = content.replace(key + " id to replace",id.group(1))
-        content = content.replace(key+' table', tables[i])
     f = open(oj(parentdir,'results/search.html'),"w+")
     f.write(content)
     print('succesfully updated search html')
@@ -270,6 +272,10 @@ if __name__ == '__main__':
     fillstate(df_county)
     ## Add cases/deaths rate to the dataframe
     add_rates(df_county)
-    generate_all_counties()
-    maps, tables = generate_map(df_county)
-    update_html(maps, tables)
+    #generate_all_counties()
+    ## keys for the tab and map
+    keys = ['Cumulative Cases','Cumulative Deaths','New Cases','New Deaths','Cases per 100k','Deaths per 100k']
+    ## generate maps in different tabs
+    maps = generate_map(df_county)
+    ## update html of search.html
+    update_html(maps)

@@ -53,7 +53,7 @@
 /* Style the tab content */
 .tabcontent {
   display: none;
-  padding: 6px 12px;
+  padding: 0px 0px;
   border-top: none;
 }
 * {
@@ -66,11 +66,11 @@
 }
 
 .left {
-  width: 25%;
+  width: 21%;
 }
 
 .right {
-  width: 75%;
+  width: 79%;
 }
 
 /* Clear floats after the columns */
@@ -135,12 +135,15 @@ pic1.src="style/loader.gif";
             <button class="tablinks" onclick="changeto(event, 'Cumulative Deaths')">Cumulative Deaths</button>
             <button class="tablinks" onclick="changeto(event, 'New Cases')">New Cases</button>
             <button class="tablinks" onclick="changeto(event, 'New Deaths')">New Deaths</button>
+            <button class="tablinks" onclick="changeto(event, 'Cases per 100k')">Cases per 100k</button>
+            <button class="tablinks" onclick="changeto(event, 'Deaths per 100k')">Deaths per 100k</button>
+
       </div>   
       <div class="content">
-          <p> Click on map or use drop-down menu to access county-specific information and scroll down to see results.</p>
+          <p> Use above tabs to switch between different metrics. Click on map or use drop-down menu to access county-specific information and scroll down to see results.</p>
               <div id="Cumulative Cases" class="tabcontent">
                   <div class="column left" style="background-color:black;">
-                    Cumulative Cases table
+                       <img src="Cumulative Cases.png" style="width: 100%;"></a>
                   </div>
                   <div class="column right" style="background-color:black;">
                       Cumulative Cases map
@@ -148,7 +151,7 @@ pic1.src="style/loader.gif";
               </div>
               <div id="Cumulative Deaths" class="tabcontent">
                   <div class="column left" style="background-color:black;">
-                      Cumulative Deaths table
+                       <img src="Cumulative Deaths.png" style="width: 100%;"></a>
                   </div>
                   <div class="column right" style="background-color:black;">
                       Cumulative Deaths map
@@ -156,7 +159,7 @@ pic1.src="style/loader.gif";
               </div>
               <div id="New Cases" class="tabcontent">
                   <div class="column left" style="background-color:black;">
-                      New Cases table
+                       <img src="New Cases.png" style="width: 100%;"></a>
                   </div>
                   <div class="column right" style="background-color:black;">
                       New Cases map
@@ -164,10 +167,26 @@ pic1.src="style/loader.gif";
             </div>
             <div id="New Deaths" class="tabcontent">
                   <div class="column left" style="background-color:black;">
-                      New Deaths table
+                       <img src="New Deaths.png" style="width: 100%;"></a>
                   </div>
                   <div class="column right" style="background-color:black;">
                       New Deaths map
+                  </div>
+            </div>
+            <div id="Cases per 100k" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="Cases per 100k.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Cases per 100k map
+                  </div>
+            </div>
+            <div id="Deaths per 100k" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="Deaths per 100k.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Deaths per 100k map
                   </div>
             </div>
 
@@ -294,7 +313,9 @@ function changeto(evt, key) {
     el.src = "All_counties/"+state+"_"+county+".html";
     el.style = "visibility: show";
     });
-        var hoverInfo = document.getElementById("Cumulative Deaths id to replace").on('plotly_click', function(data) {
+    
+
+    var hoverInfo = document.getElementById("Cumulative Deaths id to replace").on('plotly_click', function(data) {
     var county = " County"
     var state = ""
 
@@ -314,7 +335,9 @@ function changeto(evt, key) {
     el.src = "All_counties/"+state+"_"+county+".html";
     el.style = "visibility: show";
     });
-            var hoverInfo = document.getElementById("New Cases id to replace").on('plotly_click', function(data) {
+    
+
+    var hoverInfo = document.getElementById("New Cases id to replace").on('plotly_click', function(data) {
     var county = " County"
     var state = ""
 
@@ -334,7 +357,9 @@ function changeto(evt, key) {
     el.src = "All_counties/"+state+"_"+county+".html";
     el.style = "visibility: show";
     });
-                var hoverInfo = document.getElementById("New Deaths id to replace").on('plotly_click', function(data) {
+    
+    
+    var hoverInfo = document.getElementById("New Deaths id to replace").on('plotly_click', function(data) {
     var county = " County"
     var state = ""
 
@@ -355,6 +380,49 @@ function changeto(evt, key) {
     el.style = "visibility: show";
     });
 
+
+    var hoverInfo = document.getElementById("Cases per 100k id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+
+
+    var hoverInfo = document.getElementById("Deaths per 100k id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
 </script>
 <script>
 function findplot()
