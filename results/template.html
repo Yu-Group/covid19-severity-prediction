@@ -1,0 +1,443 @@
+<meta charset="utf-8"/>
+<!-- Custom Fonts -->
+<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.2.6.min.js"></script>
+<script src='Chart.min.js'></script>
+<script src="https://cdn.plot.ly/plotly-1.54.1.min.js"></script>    
+
+
+<style>
+.content {
+  max-width: 1150px;
+  margin: auto;
+  background: black;
+  padding: 10px;
+  margin-top: 0px;
+  font-size: 23px;
+  color: white;
+  font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
+
+}
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 0px 0px;
+  border-top: none;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+}
+
+.left {
+  width: 21%;
+}
+
+.right {
+  width: 79%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-123022910-2');
+    </script>
+<!-- Drop Down JS -->
+<script> 
+function drop_down_list()
+{
+    var state = $('#state').val();
+
+    if(state == 'DC') // Alaska and District Columbia have no counties
+    {
+    $('#county_drop_down').hide();
+    $('#no_county_drop_down').show();
+    }
+    else
+    {
+    $('#loading_county_drop_down').show(); // Show the Loading...
+    
+    $('#county_drop_down').hide(); // Hide the drop down
+    $('#no_county_drop_down').hide(); // Hide the "no counties" message (if it's the case)
+
+    $.getScript("js/states/"+ state.toLowerCase() +".js", function(){
+
+    populate(document.form.county);
+
+    $('#loading_county_drop_down').hide(); // Hide the Loading...
+    $('#county_drop_down').show(); // Show the drop down
+    });
+}
+}
+$(document).ready(function(){
+$("#state").change(drop_down_list);
+});
+
+$(window).load(drop_down_list);
+</script>
+
+<!-- Preload Images -->
+<SCRIPT language="JavaScript">
+<!--
+pic1 = new Image(16, 16); 
+pic1.src="style/loader.gif";
+//-->
+</SCRIPT>
+<body>
+    <body style="background-color:black;">
+      <div class="tab">
+            <button class="tablinks" onclick="changeto(event, 'Cumulative Cases')">Cumulative Cases</button>
+            <button class="tablinks" onclick="changeto(event, 'Cumulative Deaths')">Cumulative Deaths</button>
+            <button class="tablinks" onclick="changeto(event, 'New Cases')">New Cases</button>
+            <button class="tablinks" onclick="changeto(event, 'New Deaths')">New Deaths</button>
+            <button class="tablinks" onclick="changeto(event, 'Cases per 100k')">Cases per 100k</button>
+            <button class="tablinks" onclick="changeto(event, 'Deaths per 100k')">Deaths per 100k</button>
+
+      </div>   
+      <div class="content">
+          <p> Use above tabs to switch between different metrics. Click on map or use drop-down menu to access county-specific information and scroll down to see results.</p>
+              <div id="Cumulative Cases" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="Cumulative Cases.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Cumulative Cases map
+                  </div>
+              </div>
+              <div id="Cumulative Deaths" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="Cumulative Deaths.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Cumulative Deaths map
+                  </div>
+              </div>
+              <div id="New Cases" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="New Cases.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      New Cases map
+                  </div>
+            </div>
+            <div id="New Deaths" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="New Deaths.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      New Deaths map
+                  </div>
+            </div>
+            <div id="Cases per 100k" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="Cases per 100k.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Cases per 100k map
+                  </div>
+            </div>
+            <div id="Deaths per 100k" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="Deaths per 100k.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      Deaths per 100k map
+                  </div>
+            </div>
+
+<script>
+document.getElementsByClassName('tablinks')[0].click()
+function changeto(evt, key) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(key).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+
+
+<p align = 'right'  style= "font-size:19px;"> 
+  Data Source: USAFacts        
+</p>
+
+<br>
+<form name="form">
+<table width="350" border="0" align="center">
+   <tr>
+     <td width="100" style="color: white">State:</td>
+     <td width="217" height ='20'><select id="state" name="state" style="font-size:15px;">
+       <option value='AL'>Alabama</option>
+       <option value='AK'>Alaska</option>
+       <option value='AZ'>Arizona</option>
+       <option value='AR'>Arkansas</option>
+       <option value='CA'>California</option>
+       <option value='CO'>Colorado</option>
+       <option value='CT'>Connecticut</option>
+       <option value='DE'>Delaware</option>
+       <option value='DC'>District of Columbia</option>
+       <option value='FL'>Florida</option>
+       <option value='GA'>Georgia</option>
+       <option value='HI'>Hawaii</option>
+       <option value='ID'>Idaho</option>
+       <option value='IL'>Illinois</option>
+       <option value='IN'>Indiana</option>
+       <option value='IA'>Iowa</option>
+       <option value='KS'>Kansas</option>
+       <option value='KY'>Kentucky</option>
+       <option value='LA'>Louisiana</option>
+       <option value='ME'>Maine</option>
+       <option value='MD'>Maryland</option>
+       <option value='MA'>Massachusetts</option>
+       <option value='MI'>Michigan</option>
+       <option value='MN'>Minnesota</option>
+       <option value='MS'>Mississippi</option>
+       <option value='MO'>Missouri</option>
+       <option value='MT'>Montana</option>
+       <option value='NE'>Nebraska</option>
+       <option value='NV'>Nevada</option>
+       <option value='NH'>New Hampshire</option>
+       <option value='NJ'>New Jersey</option>
+       <option value='NM'>New Mexico</option>
+       <option value='NY'>New York</option>
+       <option value='NC'>North Carolina</option>
+       <option value='ND'>North Dakota</option>
+       <option value='OH'>Ohio</option>
+       <option value='OK'>Oklahoma</option>
+       <option value='OR'>Oregon</option>
+       <option value='PA'>Pennsylvania</option>
+       <option value='RI'>Rhode Island</option>
+       <option value='SC'>South Carolina</option>
+       <option value='SD'>South Dakota</option>
+       <option value='TN'>Tennessee</option>
+       <option value='TX'>Texas</option>
+       <option value='UT'>Utah</option>
+       <option value='VT'>Vermont</option>
+       <option value='VA'>Virginia</option>
+       <option value='WA'>Washington</option>
+       <option value='WV'>West Virginia</option>
+       <option value='WI'>Wisconsin</option>
+       <option value='WY'>Wyoming</option>
+     </select></td>
+   </tr>
+   <tr>
+     <td height="40" style="color: white">County:</td>
+     <td><div id="county_drop_down"><select id="county" name="county" style="font-size:15px"><option value="">County...</option></select></div>
+   <span id="loading_county_drop_down"><img src="style/loader.gif" width="16" height="16" align="absmiddle">&nbsp;Loading...</span>
+   <div id="no_county_drop_down">This state has no counties.</div></td>
+   </tr>
+ </table>
+ </form>
+ <p align="center">
+
+     <button type="button" onclick="findplot()" style="font-size:16px">Go!</button>
+        <figure class="video_container">
+            <iframe id='plot' style="visibility: hidden;"frameborder="0" allowfullscreen="true" width="100%" height="1400px"></iframe>
+        </figure>
+  </p>
+
+
+</div>
+</body>
+
+<script>
+    var hoverInfo = document.getElementById("Cumulative Cases id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+    
+
+    var hoverInfo = document.getElementById("Cumulative Deaths id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+    
+
+    var hoverInfo = document.getElementById("New Cases id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+    
+    
+    var hoverInfo = document.getElementById("New Deaths id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+
+
+    var hoverInfo = document.getElementById("Cases per 100k id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+
+
+    var hoverInfo = document.getElementById("Deaths per 100k id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+</script>
+<script>
+function findplot()
+{
+    var stateSelect = document.getElementById("state");
+    var state= stateSelect.options[stateSelect.selectedIndex].text;
+    var county = " County"
+    if(state != 'District Columbia') // Alaska and District Columbia have no counties
+    {
+    county = $('#county').val();
+    }
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    console.log(el.src)
+ }     
+         
+</script>
