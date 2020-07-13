@@ -134,7 +134,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
     df: table of data
     
     '''
-    def make_plot(pre1, pre2, keys, title):
+    def make_plot(pre1, pre2, keys, title, show_interval = True):
         newdates = [date1[-1] + timedelta(days =i) for i in range(0,8)]
         fig = make_subplots(rows=1, cols=2, specs=[[{"secondary_y": True},{"secondary_y": True}]],
             subplot_titles=("Time series with 7 day prediction","Time series with historical prediction(7 day)"))
@@ -170,6 +170,9 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                 curve_pre = np.hstack((curve[-1],row[pre + key_curve]))
 
                 up = np.hstack((curve[-1],[x[1] for x in row[pre + key_curve + '_interval']]))
+                if not(show_interval):
+                    low = curve_pre
+                    up = curve_pre
                 if pre == pre1:
                     low = low[1:]
                     up = up[1:]
@@ -247,8 +250,12 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                            ))
 ## Set plot1 axes properties
         y1 = max([x[1] for x in row[pre2+keys[1]+'_interval']])
+        if not(show_interval):
+            y1 = 0
         y1 = max(y1, max(row[keys[1]]))
         y2 = max([x[1] for x in row[pre2+keys[0]+'_interval']])
+        if not (show_interval):
+            y2 = 0
         y2 = max(y2, max(row[keys[0]]))
         dic = {'cases':'Cumulative Cases','deaths':'Cumulative Deaths','new_cases':'New cases','new_deaths':'New deaths'}
         fig.update_xaxes(title_text="Date",range=[datetime(2020, 4, 18), newdates[-1]],domain = [0,0.4],row=1, col=1)
@@ -277,7 +284,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
             county = "DeKalb"
         filename1 = filename + state+'_'+county+'.html'
         c1 = make_plot('pred_7day_','pred_',['deaths','cases'], True)
-        c2 = make_plot('pred_7day_','pred_',['new_deaths','new_cases'], False)
+        c2 = make_plot('pred_7day_','pred_',['new_deaths','new_cases'], False, False)
         f = open(filename1,"w+")
         f.write(c1+c2)
 
