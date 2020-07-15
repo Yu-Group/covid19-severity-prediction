@@ -17,7 +17,7 @@ p {
 
 .grid-2-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
 
 .grid-2-columns a.btn.btn-primary {
