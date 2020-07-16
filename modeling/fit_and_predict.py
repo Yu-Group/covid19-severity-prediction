@@ -405,7 +405,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                     out.append(0)
                 else:
                     out.append(max(vals[i][0],
-                                   list(df_county[outcome.lower()])[i][-1]),tmp[i])
+                                   list(df_county[outcome.lower()])[i][-1],tmp[i]))
             df_county[output_key] = out
             tmp = out
             
