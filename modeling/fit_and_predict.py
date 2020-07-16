@@ -398,10 +398,6 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                         target_day=np.array([num_days_in_future]),
                                         output_key=output_key,
                                         verbose=verbose)
-            for i in range(df_county.shape[0]):
-              tmp[i] = max(tmp[i], df_county.loc[i, output_key])
-
-            df_county[output_key] = tmp
             vals = df_county[output_key].values
             out = []
             for i in range(vals.shape[0]):
@@ -409,8 +405,9 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                     out.append(0)
                 else:
                     out.append(max(vals[i][0],
-                                   list(df_county[outcome.lower()])[i][-1]))
+                                   list(df_county[outcome.lower()])[i][-1]),tmp[i])
             df_county[output_key] = out
+            tmp = out
             
             
         output_key = f'Predicted {outcome} Intervals'    
