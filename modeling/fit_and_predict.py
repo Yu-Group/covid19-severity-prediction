@@ -400,6 +400,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                         verbose=verbose)
             for i in range(df_county.shape[0]):
               tmp[i] = max(tmp[i], df_county.loc[i, output_key])
+
             df_county[output_key] = tmp
             vals = df_county[output_key].values
             out = []
