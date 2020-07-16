@@ -388,6 +388,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     print('predictions not cached, now calculating (might take a while)')
     for outcome in outcomes:
         print(f'predicting {outcome}...')
+        tmp = 0
         for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
             output_key = f'Predicted {outcome} {num_days_in_future}-day'    
             df_county = fit_and_predict_ensemble(df_county, 
@@ -397,7 +398,8 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                         target_day=np.array([num_days_in_future]),
                                         output_key=output_key,
                                         verbose=verbose)
-
+            tmp = max(tmp, df_county[output_key])
+            df_county[output_key] = tmp
             vals = df_county[output_key].values
             out = []
             for i in range(vals.shape[0]):
