@@ -137,6 +137,8 @@ pic1.src="style/loader.gif";
             <button class="tablinks" onclick="changeto(event, 'New Deaths')">New Deaths</button>
             <button class="tablinks" onclick="changeto(event, 'Cases per 100k')">Cases per 100k</button>
             <button class="tablinks" onclick="changeto(event, 'Deaths per 100k')">Deaths per 100k</button>
+            <button class="tablinks" onclick="changeto(event, 'New Cases per 100k')">New Cases per 100k</button>
+            <button class="tablinks" onclick="changeto(event, 'New Deaths per 100k')">New Deaths per 100k</button>
 
       </div>   
       <div class="content">
@@ -187,6 +189,22 @@ pic1.src="style/loader.gif";
                   </div>
                   <div class="column right" style="background-color:black;">
                       Deaths per 100k map
+                  </div>
+            </div>
+            <div id="New Cases per 100k" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="New Cases per 100k.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      New Cases per 100k map
+                  </div>
+            </div>
+            <div id="New Deaths per 100k" class="tabcontent">
+                  <div class="column left" style="background-color:black;">
+                       <img src="New Deaths per 100k.png" style="width: 100%;"></a>
+                  </div>
+                  <div class="column right" style="background-color:black;">
+                      New Deaths per 100k map
                   </div>
             </div>
 
@@ -404,6 +422,46 @@ function changeto(evt, key) {
 
 
     var hoverInfo = document.getElementById("Deaths per 100k id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+    var hoverInfo = document.getElementById("New cases per 100k id to replace").on('plotly_click', function(data) {
+    var county = " County"
+    var state = ""
+
+    for(var i=0; i < data.points.length; i++){
+        state = data.points[i].customdata[0]
+        if (state === 'Alaska') {
+          county = ' Borough'
+        }
+        if (state === 'Louisiana') {
+          county = ' Parish'
+        }
+        county = data.points[i].customdata[1] + county
+        state = data.points[i].customdata[0]
+    }
+
+    var el = document.getElementById('plot');
+    el.src = "All_counties/"+state+"_"+county+".html";
+    el.style = "visibility: show";
+    });
+    var hoverInfo = document.getElementById("New Deaths per 100k id to replace").on('plotly_click', function(data) {
     var county = " County"
     var state = ""
 

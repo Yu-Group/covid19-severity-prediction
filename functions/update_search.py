@@ -86,7 +86,8 @@ def rename(df):
     return df.rename(columns={"tot_deaths": "Cumulative Deaths", "tot_cases": "Cumulative Cases",
                       "new_cases_last": "New Cases", "new_deaths_last": "New Deaths",
                               'CountyName':'County','tot_deaths_rate':'Deaths per 100k',
-                      'tot_cases_rate':'Cases per 100k'})
+                      'tot_cases_rate':'Cases per 100k','new_cases_last_rate': 'New Cases per 100k',
+                      'new_deaths_last_rate': 'New Deaths per 100k'})
 # Generate map and table html code 
 def generate_map(df):
     df = rename(df)
@@ -100,7 +101,8 @@ def generate_map(df):
                                 '#8B2222','#5B0D0D','#5A2318'],
                            scope="usa",
                            hover_data = ['State','County','Cumulative Cases','New Cases','Cumulative Deaths'
-                                         ,'New Deaths','Deaths per 100k','Cases per 100k'],
+                                         ,'New Deaths','Deaths per 100k','Cases per 100k','New Cases per 100k',
+                                         'New Deaths per 100k'],
                    title = key + ' on ' + (datetime.today()-timedelta(days=1)).strftime('%m-%d'))
         fig.update_layout(coloraxis_colorbar=dict(len=0.75,
                                   title=key, 
@@ -212,16 +214,16 @@ def update_html(maps):
     f = open(oj(parentdir,'results/template.html'),"r")
     content = f.read()
     for i, key in enumerate(keys):
-        content = content.replace(key+' map', maps[i])
+        content = content.replace(key+' map', maps[i], 1)
         id =re.search('<div id="([^ ]*)"',maps[i])
-        content = content.replace(key + " id to replace",id.group(1))
+        content = content.replace(key + " id to replace",id.group(1), 1)
     f = open(oj(parentdir,'results/search.html'),"w+")
     f.write(content)
     print('succesfully updated search html')
 
 ## Add cases/deaths rate to dataframe
 def add_rates(df_county):
-    for key in ['tot_deaths','tot_cases']:
+    for key in ['tot_deaths', 'tot_cases', 'new_deaths_last', 'new_cases_last']:
         df_county[key+'_rate'] = round(df_county[key] / df_county['PopulationEstimate2018']*100000,2)
 ## Add new cases/deaths to dataframe
 def add_new(df_county):
@@ -272,9 +274,9 @@ if __name__ == '__main__':
     fillstate(df_county)
     ## Add cases/deaths rate to the dataframe
     add_rates(df_county)
-    generate_all_counties()
+    #generate_all_counties()
     ## keys for the tab and map
-    keys = ['Cumulative Cases','Cumulative Deaths','New Cases','New Deaths','Cases per 100k','Deaths per 100k']
+    keys = ['Cumulative Cases','Cumulative Deaths','New Cases','New Deaths','Cases per 100k','Deaths per 100k','New Cases per 100k','New Deaths per 100k']
     ## generate maps in different tabs
     maps = generate_map(df_county)
     ## update html of search.html

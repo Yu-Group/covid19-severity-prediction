@@ -17,8 +17,13 @@ p {
 
 .grid-2-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
+.grid-2-columns_2 {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+}
+
 
 .grid-2-columns a.btn.btn-primary {
     font-size: 10px;
