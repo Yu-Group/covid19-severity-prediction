@@ -41,7 +41,7 @@ df = load_data.load_county_level(data_dir='/path/to/data')
 ```
 
 - for more data details, see [./data/readme.md](./data/readme.md)
-- see also the [county_quickstart notebook](county_quickstart.ipynb)
+- see also the [quickstart notebook](quickstart.ipynb)
 - we are constantly monitoring and adding new data sources (+ relevant data news [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/))
 - output from running the daily updates is stored [here](./functions/update_test.log)
 

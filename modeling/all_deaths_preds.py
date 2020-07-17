@@ -2,6 +2,7 @@
 
 import sys
 sys.path.append('../') 
+sys.path.append('../data') 
 import sklearn
 import copy
 import numpy as np
@@ -16,7 +17,7 @@ from bokeh.plotting import figure, show, output_notebook, output_file, save
 from functions import merge_data
 from sklearn.model_selection import RandomizedSearchCV
 import load_data
-import data_new
+import data as data_new
 from datetime import datetime, timedelta, date
 
 from sklearn.linear_model import LinearRegression
@@ -24,7 +25,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 import fit_and_predict
-import data_new
+# import data_new
 import warnings
 warnings.filterwarnings("ignore")
 import exponential_modeling
@@ -104,12 +105,16 @@ def add_all_preds(df_county):
     return df_county
 
 
-def add_ensemble_prediction(df_county, month, day, outcome='deaths'):
+def add_ensemble_prediction(df_county, month, day, outcome='deaths', days_ahead: int=3):
     """
     add ensemble predictions made on given month and day
     for example, if month = 6 and day = 20, this function will add ensemble predictions for 6/20, 6/21, ... 6/20 + horizon - 1,
     and the predictions are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)
     this works only when previous (9) days' predictions of single predictors exist in the data frame df_county
+    Params
+    ------
+    days_ahead
+        Number of days in the future to predict
     
     the ensemble predictions are saved in the column 'all_deaths_pred_{month}_{day}_ensemble_{horizon}'
     """    
@@ -125,7 +130,7 @@ def add_ensemble_prediction(df_county, month, day, outcome='deaths'):
             preds = []
             for k in range(7):
                 d1 = d0 - timedelta(3+k)
-                preds.append(df_county[f'all_{outcome}_pred_{d1.month}_{d1.day}_{method}_{horizon}'].values[i][2])
+                preds.append(df_county[f'all_{outcome}_pred_{d1.month}_{d1.day}_{method}_{horizon}'].values[i][days_ahead - 3])
                 # 3-day-ahead predicted deaths of last 7 days.
             y_preds.append(preds[::-1])
         y, y_preds = np.array(y), np.array(y_preds)
@@ -177,14 +182,18 @@ def add_mepi(df_county, month, day, outcome='deaths'):
 if __name__ == '__main__':
     
     df_county = add_all_preds(df_county)  
+    days_ahead = 7
     for i in tqdm(range(1, ndays - 10)):
         d = today - timedelta(i)
-        df_county = add_ensemble_prediction(df_county, d.month, d.day, 'deaths')
+        df_county = add_ensemble_prediction(df_county, d.month, d.day, 'deaths', days_ahead=days_ahead)
+    '''
     for i in tqdm(range(1, ndays - 24)):
         d = today - timedelta(i)
-        df_county = add_mepi(df_county, d.month, d.day, 'deaths')
-            
+        df_county = add_mepi(df_county, d.month, d.day, 'deaths')     
     df_county.to_pickle("all_deaths_preds_6_21.pkl")
+    '''
+    
+    df_county.to_csv(f'all_deaths_preds_{days_ahead}.csv')
     
     print("computed all predictions successfully")
         
