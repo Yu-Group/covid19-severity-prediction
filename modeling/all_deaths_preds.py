@@ -31,6 +31,7 @@ import exponential_modeling
 from pmdl_weight import pmdl_weight
 
 from tqdm import tqdm
+
 ndays = 99
 outcome = 'deaths'
 horizon = 21
@@ -49,14 +50,14 @@ methods = ['linear', 'advanced_shared_model', 'shared_exponential',
            'demographic', 'exponential']
 advanced_model = {'model_type':'advanced_shared_model'}
 linear = {'model_type':'linear'}
-today = date(2020, 6, 21)
 corrected = False
 df_county = load_data.load_county_level(data_dir = '../data/')
+today = date(2020, 6, 21) # this should be one day after the last date in df_county
 #df_county = pd.read_pickle("all_cases_preds_6_21.pkl")
 
 if corrected:
     """
-    
+    correcting the uptick on 4/14
     """
     df_county_orig = load_data.load_county_level(data_dir = '../data/')
     df_county_predictions = pd.read_pickle("all_deaths_preds_6_21.pkl")
@@ -109,6 +110,8 @@ def add_ensemble_prediction(df_county, month, day, outcome='deaths'):
     for example, if month = 6 and day = 20, this function will add ensemble predictions for 6/20, 6/21, ... 6/20 + horizon - 1,
     and the predictions are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)
     this works only when previous (9) days' predictions of single predictors exist in the data frame df_county
+    
+    the ensemble predictions are saved in the column 'all_deaths_pred_{month}_{day}_ensemble_{horizon}'
     """    
     d0 = date(2020, month, day)
     delta_0 = (today - d0).days
@@ -122,7 +125,7 @@ def add_ensemble_prediction(df_county, month, day, outcome='deaths'):
             preds = []
             for k in range(7):
                 d1 = d0 - timedelta(3+k)
-                preds.append(df_county[f'all_deaths_pred_{d1.month}_{d1.day}_{method}_{horizon}'].values[i][2])
+                preds.append(df_county[f'all_{outcome}_pred_{d1.month}_{d1.day}_{method}_{horizon}'].values[i][2])
                 # 3-day-ahead predicted deaths of last 7 days.
             y_preds.append(preds[::-1])
         y, y_preds = np.array(y), np.array(y_preds)
@@ -132,10 +135,10 @@ def add_ensemble_prediction(df_county, month, day, outcome='deaths'):
     for i in range(len(df_county)):
         preds = np.zeros(horizon)
         for method in ['advanced_shared_model', 'linear']:
-            preds += weights[method][i] * np.array(df_county[f'all_deaths_pred_{d0.month}_{d0.day}_{method}_{horizon}'].values[i])
+            preds += weights[method][i] * np.array(df_county[f'all_{outcome}_pred_{d0.month}_{d0.day}_{method}_{horizon}'].values[i])
         preds = preds/sum(weights[m][i] for m in ['advanced_shared_model', 'linear'])
         ensemble_preds.append(preds)
-    df_county[f'all_deaths_pred_{d0.month}_{d0.day}_ensemble_{horizon}'] = ensemble_preds
+    df_county[f'all_{outcome}_pred_{d0.month}_{d0.day}_ensemble_{horizon}'] = ensemble_preds
     
     return df_county
     
@@ -144,6 +147,8 @@ def add_mepi(df_county, month, day, outcome='deaths'):
     compute MEPI for given month and day for up to 14-day
     for example, if month = 6 and day = 20, this function will add mepi for 6/20, 6/21, ... 7/3,
     only works when the ensemble predictions of last 19 days are available in df_county
+    
+    the ensemble predictions are saved in the column 'all_deaths_pred_{month}_{day}_ensemble_mepi'
     """
     d0 = date(2020, month, day)
     mepis = []
@@ -172,10 +177,10 @@ def add_mepi(df_county, month, day, outcome='deaths'):
 if __name__ == '__main__':
     
     df_county = add_all_preds(df_county)  
-    for i in tqdm(range(1, ndays - 7 + 1)):
+    for i in tqdm(range(1, ndays - 10)):
         d = today - timedelta(i)
         df_county = add_ensemble_prediction(df_county, d.month, d.day, 'deaths')
-    for i in tqdm(range(1, ndays - 21 + 1)):
+    for i in tqdm(range(1, ndays - 24)):
         d = today - timedelta(i)
         df_county = add_mepi(df_county, d.month, d.day, 'deaths')
             
