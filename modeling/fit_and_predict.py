@@ -403,39 +403,40 @@ def add_prediction_intervals(df,
 
 
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
-              outcomes=['Deaths', 'Cases']):
+              outcomes=['Deaths', 'Cases'],discard=False,d=datetime.datetime.today()):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
     '''
-
+    
     # select the best model
     advanced_model = {'model_type':'advanced_shared_model'}
     linear = {'model_type':'linear'}
     BEST_MODEL = [advanced_model, linear]
-
-
+    
+    
     # load cached preds
     if cached_dir is not None:
         # getting current date and time
-        d = datetime.datetime.today()
-        cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
-
+        if not discard:
+            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
+        else:
+            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached_discard1day.pkl')
         if os.path.exists(cached_fname):
             return pd.read_pickle(cached_fname)
-
+    
     print('predictions not cached, now calculating (might take a while)')
     for outcome in outcomes:
         print(f'predicting {outcome}...')
+        tmp = [0 for _ in range(df_county.shape[0])]
         for num_days_in_future in tqdm(NUM_DAYS_LIST): # 1 is tomorrow
-            output_key = f'Predicted {outcome} {num_days_in_future}-day'
-            df_county = fit_and_predict_ensemble(df_county,
+            output_key = f'Predicted {outcome} {num_days_in_future}-day'    
+            df_county = fit_and_predict_ensemble(df_county, 
                                         methods=BEST_MODEL,
                                         outcome=outcome.lower(),
                                         mode='predict_future',
                                         target_day=np.array([num_days_in_future]),
                                         output_key=output_key,
                                         verbose=verbose)
-
             vals = df_county[output_key].values
             out = []
             for i in range(vals.shape[0]):
@@ -443,22 +444,23 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                     out.append(0)
                 else:
                     out.append(max(vals[i][0],
-                                   list(df_county[outcome.lower()])[i][-1]))
+                                   list(df_county[outcome.lower()])[i][-1],tmp[i]))
             df_county[output_key] = out
-
-
-        output_key = f'Predicted {outcome} Intervals'
+            tmp = out
+            
+            
+        output_key = f'Predicted {outcome} Intervals'    
         print('prediction intervals...')
-        df_county = add_prediction_intervals(df_county,
+        df_county = add_prediction_intervals(df_county, 
                              target_day=np.array(NUM_DAYS_LIST),
-                             outcome=outcome.lower(),
+                             outcome=outcome.lower(), 
                              methods=BEST_MODEL,
                              interval_type='local',
                              output_key=output_key)
-
+        
     # add 3-day lagged death preds
     output_key = f'Predicted Deaths 3-day Lagged'
-    df_county = fit_and_predict_ensemble(df_county,
+    df_county = fit_and_predict_ensemble(df_county, 
                                 methods=BEST_MODEL,
                                 outcome='deaths',
                                 mode='eval_mode',
@@ -466,12 +468,11 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                 output_key=output_key,
                                 verbose=verbose)
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
-
-
+    
+    
     if cached_dir is not None:
         df_county.to_pickle(cached_fname)
     return df_county
-
 
 
 def tune_hyperparams(df,target_day,outcome,output_key,method_hyperparam_dict,error_fn,num_iters):
