@@ -134,7 +134,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
     df: table of data
     
     '''
-    def make_plot(pre1, pre2, keys, title, show_interval = True):
+    def make_plot(pre1, pre2, keys, title, show_interval, js):
         newdates = [date1[-1] + timedelta(days =i) for i in range(0,8)]
         fig = make_subplots(rows=1, cols=2, specs=[[{"secondary_y": True},{"secondary_y": True}]],
             subplot_titles=("Time series with 7 day prediction","Time series with historical prediction(7 day)"))
@@ -271,7 +271,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
             dtick = round(y2*1.3/5), showgrid=False,range=[0,y2*1.3], secondary_y=True, row=1,col=2)
         fig.layout.template = 'plotly_dark'
         return plotly.offline.plot(fig, 
-                include_plotlyjs= "https://cdn.plot.ly/plotly-1.54.1.min.js", output_type='div')
+                include_plotlyjs= js, output_type='div')
            
     for i in range(df.shape[0]):
         row = df.iloc[i]
@@ -283,8 +283,8 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
         if county == "De Kalb":
             county = "DeKalb"
         filename1 = filename + state+'_'+county+'.html'
-        c1 = make_plot('pred_7day_','pred_',['deaths','cases'], True)
-        c2 = make_plot('pred_7day_','pred_',['new_deaths','new_cases'], False, False)
+        c1 = make_plot('pred_7day_','pred_',['deaths','cases'], True, True, "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly-basic.min.js")
+        c2 = make_plot('pred_7day_','pred_',['new_deaths','new_cases'], False, False, False)
         f = open(filename1,"w+")
         f.write(c1+c2)
 

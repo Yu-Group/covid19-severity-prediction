@@ -1,133 +1,135 @@
-<meta charset="utf-8"/>
-<!-- Custom Fonts -->
-<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script type="text/javascript" src="js/jquery-1.2.6.min.js"></script>
-<script src='Chart.min.js'></script>
-<script src="https://cdn.plot.ly/plotly-1.54.1.min.js"></script>    
+<HEAD>
+  <meta charset="utf-8"/>
+  <!-- Custom Fonts -->
+  <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
+  <script type="text/javascript" src="js/jquery-1.2.6.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-1.54.1.min.js"></script>    
 
 
-<style>
-.content {
-  max-width: 1150px;
-  margin: auto;
-  background: black;
-  padding: 10px;
-  margin-top: 0px;
-  font-size: 23px;
-  color: white;
-  font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  <style>
+    <meta name="viewport">
+    .content {
+      max-width: 1150px;
+      margin: auto;
+      background: black;
+      padding: 10px;
+      margin-top: 0px;
+      font-size: 23px;
+      color: white;
+      font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
 
-}
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: none;
-  background-color: #f1f1f1;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 0px 0px;
-  border-top: none;
-}
-* {
-  box-sizing: border-box;
-}
-
-/* Create two unequal columns that floats next to each other */
-.column {
-  float: left;
-}
-
-.left {
-  width: 21%;
-}
-
-.right {
-  width: 79%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-</style>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-123022910-2');
-    </script>
-<!-- Drop Down JS -->
-<script> 
-function drop_down_list()
-{
-    var state = $('#state').val();
-
-    if(state == 'DC') // Alaska and District Columbia have no counties
-    {
-    $('#county_drop_down').hide();
-    $('#no_county_drop_down').show();
     }
-    else
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: none;
+      background-color: #f1f1f1;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 0px 0px;
+      border-top: none;
+    }
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    .column {
+      float: left;
+    }
+
+    .left {
+      width: 21%;
+    }
+
+    .right {
+      width: 79%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    </style>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-123022910-2');
+        </script>
+    <!-- Drop Down JS -->
+    <script> 
+    function drop_down_list()
     {
-    $('#loading_county_drop_down').show(); // Show the Loading...
-    
-    $('#county_drop_down').hide(); // Hide the drop down
-    $('#no_county_drop_down').hide(); // Hide the "no counties" message (if it's the case)
+        var state = $('#state').val();
 
-    $.getScript("js/states/"+ state.toLowerCase() +".js", function(){
+        if(state == 'DC') // Alaska and District Columbia have no counties
+        {
+        $('#county_drop_down').hide();
+        $('#no_county_drop_down').show();
+        }
+        else
+        {
+        $('#loading_county_drop_down').show(); // Show the Loading...
+        
+        $('#county_drop_down').hide(); // Hide the drop down
+        $('#no_county_drop_down').hide(); // Hide the "no counties" message (if it's the case)
 
-    populate(document.form.county);
+        $.getScript("js/states/"+ state.toLowerCase() +".js", function(){
 
-    $('#loading_county_drop_down').hide(); // Hide the Loading...
-    $('#county_drop_down').show(); // Show the drop down
+        populate(document.form.county);
+
+        $('#loading_county_drop_down').hide(); // Hide the Loading...
+        $('#county_drop_down').show(); // Show the drop down
+        });
+    }
+    }
+    $(document).ready(function(){
+    $("#state").change(drop_down_list);
     });
-}
-}
-$(document).ready(function(){
-$("#state").change(drop_down_list);
-});
 
-$(window).load(drop_down_list);
-</script>
+    $(window).load(drop_down_list);
+  </script>
 
-<!-- Preload Images -->
-<SCRIPT language="JavaScript">
-<!--
-pic1 = new Image(16, 16); 
-pic1.src="style/loader.gif";
-//-->
-</SCRIPT>
+  <!-- Preload Images -->
+  <SCRIPT language="JavaScript">
+  <!--
+  pic1 = new Image(16, 16); 
+  pic1.src="style/loader.gif";
+  //-->
+  </SCRIPT>
+</HEAD>
+
 <body>
     <body style="background-color:black;">
       <div class="tab">
@@ -441,7 +443,7 @@ function changeto(evt, key) {
     el.src = "All_counties/"+state+"_"+county+".html";
     el.style = "visibility: show";
     });
-    var hoverInfo = document.getElementById("New cases per 100k id to replace").on('plotly_click', function(data) {
+    var hoverInfo = document.getElementById("New Cases per 100k id to replace").on('plotly_click', function(data) {
     var county = " County"
     var state = ""
 
