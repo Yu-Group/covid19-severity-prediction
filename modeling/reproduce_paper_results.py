@@ -69,8 +69,8 @@ def compute_prediction_errors(metric):
         
     for td in range(1, 22):
         for i in range(1, error_num_days + 1):
-            d1 = today - timedelta(i)
-            d2 = today - timedelta(i+td-1)
+            d1 = today - timedelta(i) # we want to predict cumulative deaths on d1
+            d2 = today - timedelta(i+td-1) # the prediction is made on day d2
             all_dates.append(f'{d1.month}/{d1.day}')
             actual = np.array([p[-i] for p in df_county['deaths'].values])
             for method in all_methods:
