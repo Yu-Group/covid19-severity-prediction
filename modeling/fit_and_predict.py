@@ -14,15 +14,15 @@ from bokeh.plotting import figure, show, output_notebook, output_file, save
 from sklearn.model_selection import RandomizedSearchCV
 from collections import Counter
 #import load_data
-#import naive_autoreg_baselines
-import exponential_modeling
+#from models import naive_autoreg_baselines
+from models import exponential_modeling
 import pmdl_weight
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from functools import partial
 import datetime
-from shared_models import SharedModel
+from models.shared_models import SharedModel
 from collections import defaultdict
 import inspect
 import sys

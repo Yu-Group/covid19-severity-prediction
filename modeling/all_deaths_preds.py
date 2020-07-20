@@ -26,7 +26,7 @@ from sklearn.ensemble import RandomForestRegressor
 import fit_and_predict
 import warnings
 warnings.filterwarnings("ignore")
-import exponential_modeling
+from models import exponential_modeling
 from pmdl_weight import pmdl_weight
 
 from tqdm import tqdm

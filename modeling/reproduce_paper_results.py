@@ -18,7 +18,7 @@ from bokeh.plotting import figure, show, output_notebook, output_file, save
 from functions import merge_data
 from sklearn.model_selection import RandomizedSearchCV
 import load_data
-import data_new
+import data as data_new
 from datetime import datetime, timedelta, date
 
 from sklearn.linear_model import LinearRegression
@@ -26,10 +26,8 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
 import fit_and_predict
-import data_new
 import warnings
 warnings.filterwarnings("ignore")
-import exponential_modeling
 from collections import defaultdict
 import os
 from tqdm import tqdm
@@ -383,7 +381,7 @@ def plot_all_mepi_results():
             mepi_results(td, period)    
     
 if __name__ == '__main__':
-    
+    os.makedirs('reproduce_paper_results', exist_ok=True)
     print_and_plot_all_prediction_errors()
     plot_all_county_level_results()
     plot_all_mepi_results()

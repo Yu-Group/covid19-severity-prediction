@@ -11,10 +11,8 @@ from bokeh.plotting import figure, show, output_notebook, output_file, save
 from functions import merge_data
 from sklearn.model_selection import RandomizedSearchCV
 import load_data
-import naive_autoreg_baselines
-import exponential_modeling
+from models import naive_autoreg_baselines, exponential_modeling
 import fit_and_predict
-
 
 def pmdl_weight(y, y_preds, c0=1, mu=0.5):
 	"""
