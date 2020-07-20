@@ -82,7 +82,7 @@ def compute_prediction_errors(metric):
                     if metric == 'mae':
                         err = y - y_preds
                     elif metric == 'mape':
-                        err = (y - y_preds)/np.maximum(y, 1)
+                        err = 100*(y - y_preds)/np.maximum(y, 1)
                     elif metric == 'sqrt':
                         err = np.sqrt(y) - np.sqrt(np.abs(y_preds))
                     all_errors[method][td].append(np.mean(np.abs(err)))
@@ -190,7 +190,12 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
     ax.spines["right"].set_visible(False)
     plt.boxplot([all_errors['ensemble'][td][:71] for td in [3, 5, 7, 10, 14]])
     plt.yscale('linear')
-    plt.ylabel("MAPE (%)", fontsize=15)
+    if metric == 'mae':
+        plt.ylabel("Raw scale MAE", fontsize=15)
+    elif metric == 'mape':
+        plt.ylabel("MAPE", fontsize=15)
+    elif metric == 'sqrt':
+        plt.ylabel("Square root scale MAE", fontsize=15)
     plt.xlabel("Horizon", fontsize=15)
     plt.yticks(fontsize=12)
     plt.xticks(fontsize=12)
@@ -211,7 +216,12 @@ def plot_clep_median_error(metric, all_errors):
     plt.figure(figsize=(4, 3), dpi=200)
     ax = plt.subplot(111)
     plt.plot(np.arange(1, 22, 1), median_error, color='lightcoral', linewidth=3)
-    plt.ylabel("Median of MAPE (%)", fontsize=15)
+    if metric == 'mae':
+        plt.ylabel("Median of raw scale MAE", fontsize=15)
+    elif metric == 'mape':
+        plt.ylabel("Median of MAPE", fontsize=15)
+    elif metric == 'sqrt':
+        plt.ylabel("Median of square root MAE", fontsize=15)
     plt.xlabel("Horizon", fontsize=15)
     plt.yticks(fontsize=12)
     plt.xticks(fontsize=12)
@@ -265,9 +275,9 @@ def county_level_results(counties, td):
             d0 = today - timedelta(j)
             d1 = d0 - timedelta(td-1)
             dates.append(f'{d0.month}/{d0.day}')
-            actual.append(r[f'#{outcome.capitalize()}_{d0.strftime("%m-%d-%Y")}'])
-            mepi.append(r[f'all_{outcome}_pred_{d1.month}_{d1.day}_ensemble_mepi'][td-1])
-            pred.append(r[f'all_{outcome}_pred_{d1.month}_{d1.day}_ensemble_{horizon}'][td-1])
+            actual.append(r[f'#Deaths_{d0.strftime("%m-%d-%Y")}'])
+            mepi.append(r[f'all_deaths_pred_{d1.month}_{d1.day}_ensemble_mepi'][td-1])
+            pred.append(r[f'all_deaths_pred_{d1.month}_{d1.day}_ensemble_{horizon}'][td-1])
         plt.plot(actual[::-1], label='Recorded deaths', color='black')
         plt.plot(pred[::-1], label=f'{td}-day predictions', linestyle='--', color='steelblue')
         plt.fill_between(range(71), 
@@ -283,7 +293,7 @@ def county_level_results(counties, td):
         plt.yticks(fontsize=8)
         #plt.ylim((0, 5 * np.max(actual)))
         if td == 14:
-            plt.ylim((0, min(20000, np.max(mepi))))
+            plt.ylim((0, min(20000, 2*np.max(actual))))
         if i==0:
             plt.legend(loc='lower right', fontsize=6)
 
