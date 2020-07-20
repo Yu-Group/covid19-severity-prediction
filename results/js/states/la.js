@@ -1,7 +1,7 @@
 function populate(form)
 {
 form.options.length = 0;
-form.options[0] = new Option("Select a county of Louisiana","");
+form.options[0] = new Option("Select a county(Parish) of Louisiana","");
 form.options[1] = new Option("Acadia Parish","Acadia Parish");
 form.options[2] = new Option("Allen Parish","Allen Parish");
 form.options[3] = new Option("Ascension Parish","Ascension Parish");

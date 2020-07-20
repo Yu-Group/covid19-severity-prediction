@@ -134,14 +134,12 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
     df: table of data
     
     '''
-    def generateplot(row):
-        state,county,FIPS = row['State'],row['County']+" County",row['countyFIPS']
-        filename1 = filename + state+'_'+county+'.html'
+    def make_plot(pre1, pre2, keys, title, show_interval = True):
         newdates = [date1[-1] + timedelta(days =i) for i in range(0,8)]
         fig = make_subplots(rows=1, cols=2, specs=[[{"secondary_y": True},{"secondary_y": True}]],
-            subplot_titles=("Time series with 7 day prediction","Time series with historical prediction"))
+            subplot_titles=("Time series with 7 day prediction","Time series with historical prediction(7 day)"))
 
-        def cal_coverage(row,date1,date2,keys = ['deaths', 'cases']):
+        def cal_coverage(row,date1,date2,keys):
             def cal(key, key_inv):
                 dic_real = {}
                 dic_pre = {}
@@ -156,9 +154,9 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                             hit += 1
                         else:
                             miss += 1
-                return (hit/(hit+miss))
-            return [cal(key, 'pred_7day_' + key +'_interval') for key in keys]
-        def make_traces(fig, row, pre, date1, date2, r, c, width,show_lengend,keys_curves=['deaths','cases']):
+                return (hit/(hit+miss+1e-5))
+            return [cal(key, 'pred_7day_' + key + '_interval') for key in keys]
+        def make_traces(fig, row, pre, date1, date2, r, c, width,show_lengend,keys_curves):
             for j, key_curve in enumerate(keys_curves):
                 curve = row[key_curve]
                 traces = []
@@ -168,60 +166,71 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                     visible=True, #key == key0,# False, #key == key0,
                     name=key_curve,
                     line=dict(color=color_strings[j], width=width))        )
-                low = np.hstack((curve[-1],[x[0] for x in row[pre+key_curve+'_interval']]))
-                up = np.hstack((curve[-1],[x[1] for x in row[pre+key_curve+'_interval']]))
-                if pre == 'pred_7day_':
+                low = np.hstack((curve[-1],[x[0] for x in row[pre + key_curve + '_interval']]))
+                curve_pre = np.hstack((curve[-1],row[pre + key_curve]))
+
+                up = np.hstack((curve[-1],[x[1] for x in row[pre + key_curve + '_interval']]))
+                if not(show_interval):
+                    low = curve_pre
+                    up = curve_pre
+                if pre == pre1:
                     low = low[1:]
                     up = up[1:]
+                    curve_pre = curve_pre[1:]
                 traces.append(go.Scatter(
                     name = 'Upper Bound',
                     showlegend= False,
                     x = date2,
                     y = up,
-                    marker = dict(size=0),
-                    line=dict(dash ='solid',color=fill_strings[j], width=0)))
+                    marker = dict(size = 0),
+                    line=dict(dash ='solid',color=fill_strings[j], width = 0)))
                 traces.append(go.Scatter(x= date2,
-                    y=row[pre+key_curve],
+                    y=curve_pre,
                     name = key_curve +' prediction',
                     showlegend= show_lengend,
                     mode = 'lines',
-                    line=dict(dash ='dash',color=color_strings[j], width=width),
+                    line=dict(dash ='dash',color = color_strings[j], width = width),
                     fillcolor = fill_strings[j],
                     fill ='tonexty'))
                 traces.append(go.Scatter(
                     name = 'Lower Bound',
                     showlegend= False,
-                    marker = dict(size=0),
+                    marker = dict(size = 0),
                     x = date2,
                     y = low,
                     fill ='tonexty',
                     fillcolor = fill_strings[j],
-                    line=dict(dash ='solid',color=fill_strings[j], width=0)))
+                    line=dict(dash ='solid',color = fill_strings[j], width = 0)))
                 for trace in traces:
-                    fig.add_trace(trace, secondary_y=key_curve=="deaths", row=r,col=c)
+                    fig.add_trace(trace, secondary_y = "deaths" in key_curve, row = r,col = c)
             return fig
-        fig = make_traces(fig, row,'pred_7day_',date1,date2,1,2,3,False)
-        newdates = [date1[-1] + timedelta(days =i) for i in range(0,8)]
-        fig = make_traces(fig, row,'pred_',date1,newdates,1,1,4,True)            
+        fig = make_traces(fig, row,'pred_7day_',date1,date2,1,2,3,False, keys)
+        newdates = [date1[-1] + timedelta(days = i) for i in range(0,8)]
+
+        fig = make_traces(fig, row,'pred_',date1,newdates,1,1,4,True, keys)            
         for i in fig['layout']['annotations']:
             i['font'] = dict(size=15,color='white')  
 
-        deaths_cov,cases_cov = cal_coverage(row,date1,date2)
-# Update the margins to add a title and see graph x-labels.
-        fig.layout.margin.update({'t':150, 'b':120})
-        
-        fig.layout.update(
-            title = dict(text = county+', '+state+ '<br>' + 'FIPS: '+row['countyFIPS'], 
+        deaths_cov,cases_cov = cal_coverage(row,date1,date2, keys)
+    # Update the margins to add a title and see graph x-labels.
+        fig.layout.update(margin = {'t':120,'b':120})
+        if title:        
+            fig.layout.update(
+                title = dict(text = county+', '+state+ '<br>' + 'FIPS:'+row['countyFIPS'], 
                     y = 0.92,
                     x = 0.03, 
                     yanchor = 'top'),
-            width=1200,height=700,
-            font=dict(size=12),
-            legend=dict(x=0.3, y=1.2),
-            legend_orientation="h"
-                )
+                legend=dict(x=0.25, y=1.2),
+                legend_orientation="h")
+        else:
+            fig.layout.update(
+                legend=dict(x=0.15, y=1.2),
+                legend_orientation="h")
+        fig.layout.update(
+            width=1000,height=600,
+            font=dict(size=12))
         fig.add_annotation(dict(font=dict(color="white",size=11),
-                            x=0.8,
+                            x=0.85,
                             y=0.9,
                             showarrow=False,
                             text='Cases Prediction coverage: '+str(round(cases_cov, 2))+'<br>'
@@ -240,30 +249,46 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
                             yref="paper"
                            ))
 ## Set plot1 axes properties
-        y1 = max([x[1] for x in row['pred_cases_interval']])
-        y2 = max([x[1] for x in row['pred_deaths_interval']])
-        fig.update_xaxes(title_text="Date",range=[datetime(2020, 4, 18), newdates[-1]],domain = [0,0.41],row=1, col=1)
-        fig.update_yaxes(title_text="Cases", color=cbluestr,rangemode = 'tozero',
+        y1 = max([x[1] for x in row[pre2+keys[1]+'_interval']])
+        if not(show_interval):
+            y1 = 0
+        y1 = max(y1, max(row[keys[1]]))
+        y2 = max([x[1] for x in row[pre2+keys[0]+'_interval']])
+        if not (show_interval):
+            y2 = 0
+        y2 = max(y2, max(row[keys[0]]))
+        dic = {'cases':'Cumulative Cases','deaths':'Cumulative Deaths','new_cases':'New cases','new_deaths':'New deaths'}
+        fig.update_xaxes(title_text="Date",range=[datetime(2020, 4, 18), newdates[-1]],domain = [0,0.4],row=1, col=1)
+        fig.update_yaxes(title_text=dic[keys[1]], color=cbluestr,rangemode = 'tozero',
             dtick = y1/5,range=[0,y1], domain=[0,0.95],row=1, col=1)  
-        fig.update_yaxes(title_text="Deaths",showgrid=False,rangemode = 'tozero',color=credstr,
+        fig.update_yaxes(title_text=dic[keys[0]],showgrid=False,rangemode = 'tozero',color=credstr,
             dtick = round(y2*1.3/5), range=[0,y2*1.3], secondary_y=True, row=1,col=1)
         ## Set plot2 axes properties
-        fig.update_xaxes(title_text="Date",range=[date2[-1], date2[7]],domain = [0.59,1], row=1, col=2)
-        fig.update_yaxes(title_text="Cases", color=cbluestr,rangemode = 'tozero',
+        fig.update_xaxes(title_text="Date",range=[date2[-1], date2[7]],domain = [0.57,0.97], row=1, col=2)
+        fig.update_yaxes(title_text=dic[keys[1]], color=cbluestr,rangemode = 'tozero',
             dtick = y1/5,range=[0,y1], domain=[0,0.95],row=1, col=2)  
-        fig.update_yaxes(title_text="Deaths",rangemode = 'tozero',color=credstr,
+        fig.update_yaxes(title_text=dic[keys[0]],rangemode = 'tozero',color=credstr,
             dtick = round(y2*1.3/5), showgrid=False,range=[0,y2*1.3], secondary_y=True, row=1,col=2)
         fig.layout.template = 'plotly_dark'
-        plotly.offline.plot(fig, filename=filename1, auto_open=False)
-    
-    df = df.sort_values(by='tot_deaths', ascending=False).iloc[:df.shape[0]-200]
+        return plotly.offline.plot(fig, 
+                include_plotlyjs= "https://cdn.plot.ly/plotly-1.54.1.min.js", output_type='div')
+           
     for i in range(df.shape[0]):
         row = df.iloc[i]
-        generateplot(row)
+        state,county,FIPS = row['State'],row['County']+" County",row['countyFIPS']
+        if state == 'Alaska':
+            county = row['County']+" Borough"
+        if state == 'Louisiana':
+            county = row['County'] + " Parish"
+        if county == "De Kalb":
+            county = "DeKalb"
+        filename1 = filename + state+'_'+county+'.html'
+        c1 = make_plot('pred_7day_','pred_',['deaths','cases'], True)
+        c2 = make_plot('pred_7day_','pred_',['new_deaths','new_cases'], False, False)
+        f = open(filename1,"w+")
+        f.write(c1+c2)
 
-                
-
-
+            
 
 '''Interactive plots for counties/hospitals'''
 

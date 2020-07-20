@@ -32,3 +32,4 @@ modeling/chandan*
 list_of_columns.csv
 modeling/intermediate*
 **.xls
+modeling/*.csv

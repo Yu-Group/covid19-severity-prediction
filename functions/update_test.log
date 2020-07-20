@@ -17,7 +17,13 @@ api post succeeded? {"message": "success"}
 succesfully wrote to api
 writing viz index animated...
 succesfully wrote viz index animated
-success! 6_24_18
+success! 7_19_18
+loading county-level data...
+loaded and merged COVID-19 cases/deaths data successfully
+successfully updated map of deaths
+successfully updated png of map of deaths
+successfully updated map of severity index
+successfully updated png of map of severity index
 loading data...
 loading county-level data...
 loaded and merged COVID-19 cases/deaths data successfully
@@ -26,8 +32,5 @@ loaded and merged COVID-19 cases/deaths data successfully
 loading data...
 loading county-level data...
 loaded and merged COVID-19 cases/deaths data successfully
-generating html for counties
-succesfully generated all county html
-generating search map
 succesfully generated search map
 succesfully updated search html
