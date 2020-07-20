@@ -274,7 +274,7 @@ if __name__ == '__main__':
     fillstate(df_county)
     ## Add cases/deaths rate to the dataframe
     add_rates(df_county)
-    #generate_all_counties()
+    generate_all_counties()
     ## keys for the tab and map
     keys = ['Cumulative Cases','Cumulative Deaths','New Cases','New Deaths','Cases per 100k','Deaths per 100k','New Cases per 100k','New Deaths per 100k']
     ## generate maps in different tabs
