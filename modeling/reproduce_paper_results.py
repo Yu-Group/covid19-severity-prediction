@@ -265,9 +265,9 @@ def county_level_results(counties, td):
             d0 = today - timedelta(j)
             d1 = d0 - timedelta(td-1)
             dates.append(f'{d0.month}/{d0.day}')
-            actual.append(df_county[f'#Deaths_{d0.strftime("%m-%d-%Y")}'].values[i])
-            mepi.append(df_county[f'all_deaths_pred_{d1.month}_{d1.day}_ensemble_mepi'].values[i][td-1])
-            pred.append(df_county[f'all_deaths_pred_{d1.month}_{d1.day}_ensemble_{horizon}'].values[i][td-1])
+            actual.append(r[f'#{outcome.capitalize()}_{d0.strftime("%m-%d-%Y")}'])
+            mepi.append(r[f'all_{outcome}_pred_{d1.month}_{d1.day}_ensemble_mepi'][td-1])
+            pred.append(r[f'all_{outcome}_pred_{d1.month}_{d1.day}_ensemble_{horizon}'][td-1])
         plt.plot(actual[::-1], label='Recorded deaths', color='black')
         plt.plot(pred[::-1], label=f'{td}-day predictions', linestyle='--', color='steelblue')
         plt.fill_between(range(71), 
