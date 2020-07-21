@@ -130,11 +130,11 @@ def generate_map(df):
         )
         fig['layout'].update(width=900, height=450, autosize=True, title_x=0.3)
         if key == 'Cumulative Cases':
-            fig.write_image(oj(parentdir, "results/search_map.png"), width=900, height=450)
-        maps.append(plotly.offline.plot(fig, include_plotlyjs=False, output_type='div'))
-
-        df_tab = df.sort_values(by=key, ascending=False)
-        df_tab = df_tab.reset_index(drop=True)[['POS', key]].loc[:19, :]
+            fig.write_image(oj(parentdir,"results/search_map.svg"),width=900, height=450)
+        maps.append(plotly.offline.plot(fig,include_plotlyjs=False,output_type='div'))
+    
+        df_tab = df.sort_values(by = key, ascending = False)
+        df_tab = df_tab.reset_index(drop=True)[['POS',key]].loc[:19,:]
         fig = go.Figure(data=[go.Table(
             header=dict(values=['', 'County', key],
                         line_color='grey',
@@ -153,10 +153,11 @@ def generate_map(df):
             columnwidth=[20, 120, 80])
         ])
         fig['layout'].update(paper_bgcolor='rgb(0,0,0)',
-                             plot_bgcolor='rgb(0,0,0)', margin=dict(l=0, r=0, t=0, b=0), width=200, height=550,
-                             autosize=True, template='plotly_dark')
-        fig.write_image(oj(parentdir, "results/" + key + ".png"), width=200, height=550)
-
+                                plot_bgcolor='rgb(0,0,0)',
+                                margin=dict(l=0, r=0, t=0, b=0),
+                                width=200, height=550, autosize=True,
+                                template='plotly_dark')
+        fig.write_image(oj(parentdir,"results/" + key + ".svg"),width=200, height=550)
     print('succesfully generated search map')
     return maps
 

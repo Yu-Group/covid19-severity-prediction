@@ -31,9 +31,9 @@ if __name__ == "__main__":
         filename=oj(parentdir, 'results', 'deaths.html')
     )
     print('successfully updated map of deaths')
-    deaths_fig.write_image(oj(parentdir, 'results', 'deaths.png'),
+    deaths_fig.write_image(oj(parentdir, 'results', 'deaths.svg'),
                            width=900, height=600, scale=2)
-    print('successfully updated png of map of deaths')
+    print('successfully updated svg of map of deaths')
 
     # load in hospital data and merge
     df_hospital = load_data.load_hospital_level(
@@ -57,6 +57,6 @@ if __name__ == "__main__":
     )
     print('successfully updated map of severity index')
 
-    severity_fig.write_image(oj(parentdir, 'results', 'severity_map.png'),
+    severity_fig.write_image(oj(parentdir, 'results', 'severity_map.svg'),
                              width=900, height=600, scale=2)
-    print('successfully updated png of map of severity index')
+    print('successfully updated svg of map of severity index')
