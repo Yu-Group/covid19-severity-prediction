@@ -1,16 +1,13 @@
 import numpy as np
-import scipy as sp
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.cbook as cbook
 from os.path import join as oj
 import os
 from sklearn.model_selection import train_test_split
 import re
 import data
 
-def load_county_level(data_dir='data', preprocess=True, discard = False):
+
+def load_county_level(data_dir='data', preprocess=True, discard=False):
     '''
     Params
     ------
@@ -20,11 +17,10 @@ def load_county_level(data_dir='data', preprocess=True, discard = False):
     '''
     print('loading county-level data...')
     if not "county_data_abridged.csv" in os.listdir(data_dir):
-        df = data.load_county_data(data_dir=data_dir, cached=False, preprocess=preprocess, discard = discard)
+        df = data.load_county_data(data_dir=data_dir, cached=False, preprocess=preprocess, discard=discard)
     else:
-        df = data.load_county_data(data_dir=data_dir, cached=True, preprocess=preprocess, discard = discard)
+        df = data.load_county_data(data_dir=data_dir, cached=True, preprocess=preprocess, discard=discard)
     return df.sort_values("tot_deaths", ascending=False)
-    
 
 
 def load_hospital_level(data_dir='data_hospital_level',
@@ -75,7 +71,7 @@ def load_hospital_level(data_dir='data_hospital_level',
                 index = name.find(" Municipio, ")
             if index == -1:
                 index = name.find(" Island, ")
-                
+
             name = name[:index]
             name = re.sub('[^a-zA-Z]+', '', name).lower()
             if (name, st) in county_to_fips:
@@ -86,26 +82,25 @@ def load_hospital_level(data_dir='data_hospital_level',
 
     hospital_level['countyFIPS'] = hospital_level.apply(lambda x: map_county_to_fips(x['County Name_x'], x['State_x']),
                                                         axis=1).astype('float')
-    hospital_level['IsAcademicHospital'] = (pd.isna(hospital_level['TIN'])==False).astype(int)
+    hospital_level['IsAcademicHospital'] = (pd.isna(hospital_level['TIN']) == False).astype(int)
     hospital_level['IsUrbanHospital'] = (hospital_level['Urban or Rural Designation'] == 'Urban').astype(int)
     hospital_level['IsAcuteCareHospital'] = (hospital_level['Hospital Type'] == 'Acute Care Hospitals').astype(int)
-    
+
     # rename keys
     remap = {
-        '#ICU_beds': 'ICU Beds in County', 
+        '#ICU_beds': 'ICU Beds in County',
         'Total Employees': 'Hospital Employees',
         'County Name_x': 'County Name',
         'Facility Name_x': 'Facility Name'
     }
     hospital_level = hospital_level.rename(columns=remap)
-    
+
     return hospital_level
-    
+
 
 def important_keys(df):
-    
     important_vars = data.important_keys(df)
-    
+
     return important_vars
 
 
@@ -117,7 +112,7 @@ def split_data_by_county(df):
     df_test = df[df.countyFIPS.isin(fips_test)]
     return df_train, df_test
 
-    
+
 def city_to_countFIPS_dict(df):
     '''
     '''
@@ -131,10 +126,11 @@ def city_to_countFIPS_dict(df):
         elif row['City'] in dr and not np.isnan(row['countyFIPS']):
             dr[row['City']] = row['countyFIPS']
 
+
 if __name__ == '__main__':
     df = load_county_level()
     print('loaded succesfully')
     print(df.shape)
-    print('data including', 
+    print('data including',
           [k for k in df.keys() if '#Deaths' in k][-1],
           [k for k in df.keys() if '#Cases' in k][-1])

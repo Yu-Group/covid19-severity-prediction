@@ -5,10 +5,10 @@ def compute_new_deaths(df, in_col='deaths'):
     '''
     compute new deaths
     '''
-    return(
+    return (
         df[in_col].apply(
             lambda x: np.array(
-                [x[i+1] - x[i] for i in range(len(x) - 1)]
+                [x[i + 1] - x[i] for i in range(len(x) - 1)]
             )
         )
     )
@@ -20,10 +20,10 @@ def compute_emerging_index(x, n_days):
     pred_growth = growth[n_days:]
     past_trend = np.cov(np.arange(n_days), past_growth)[0][1]
     pred_trend = np.cov(np.arange(len(pred_growth)), pred_growth)[0][1]
-    return (pred_trend - past_trend)/np.var(np.arange(n_days))
+    return (pred_trend - past_trend) / np.var(np.arange(n_days))
 
 
-def add_emerging_index(df, col_name="emerging_index", target_days=[1,2,3],
+def add_emerging_index(df, col_name="emerging_index", target_days=[1, 2, 3],
                        n_days_past=3, min_deaths=20, new_deaths=True):
     """
     Computes differences in avg. predicted growth rate over next `n_days_past` days
