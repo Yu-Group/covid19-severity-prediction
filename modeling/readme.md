@@ -14,3 +14,7 @@ from fit_and_predict import add_preds
 df = add_preds(df, NUM_DAYS_LIST=[1, 3, 5]) # adds keys like "Predicted Deaths 1-day", "Predicted Deaths 3-day"
 # NUM_DAYS_LIST is list of number of days in the future to predict
 ```
+
+
+## reproducibility
+- to reproduce all the results in the paper, first run `predict_all_deaths.py` and then run `reproduce_paper_results.py`

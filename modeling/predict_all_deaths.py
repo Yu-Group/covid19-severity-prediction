@@ -206,7 +206,16 @@ def add_mepi(df_county, month, day, outcome='deaths'):
 
 
 if __name__ == '__main__':
-    
+    '''
+    Calculate a dataframe with all predictions
+    predictions
+        all_deaths_pred_month_day_ensemble_horizon
+        this is a list of length horizon, first value is 1-day ahead prediction, second value is 2-day ahead prediction
+        example: all_deaths_pred_3_27_ensemble_21
+            list of length 21, first value is predictions made on 03/27 for 03/28, second value is predictions made on 03/27 for 03/28 and so on
+    confidence intervals
+        all_deaths_pred_month_day_ensemble_mepi - list of tuples corresponding to the predictions
+    '''
     df_county = add_all_preds(df_county)  # add single predictor predictions
     #df_county.to_pickle("all_deaths_preds_6_21.pkl")
     for i in tqdm(range(1, ndays + 1)):   # add ensemble predictions
@@ -217,5 +226,7 @@ if __name__ == '__main__':
         df_county = add_mepi(df_county, d.month, d.day, 'deaths')
             
     df_county.to_pickle("all_deaths_preds_6_21.pkl")
+
+
     
     print("computed all predictions successfully")

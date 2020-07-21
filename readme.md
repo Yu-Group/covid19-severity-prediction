@@ -45,7 +45,7 @@ df = load_data.load_county_level(data_dir='/path/to/data')
 - we are constantly monitoring and adding new data sources (+ relevant data news [here](https://docs.google.com/document/d/1Gxfp-8NXHZN1Hre0CThx0sdO17vDOso640eK6MHlbiU/))
 - output from running the daily updates is stored [here](./functions/update_test.log)
 
-To get deaths predictions for our current best-performing model, the simplest way is to call (for more details, see [./modeling/readme.md](./modeling/readme.md))
+To get deaths predictions for our current best-performing model, the simplest way is to call the `add_preds` function (for more details, see [./modeling/readme.md](./modeling/readme.md))
 
 ```python
 from modeling.fit_and_predict import add_preds
