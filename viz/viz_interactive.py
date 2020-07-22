@@ -229,21 +229,13 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
         fig.layout.update(
             width=1000,height=600,
             font=dict(size=12))
-        fig.add_annotation(dict(font=dict(color="white",size=11),
+        if show_interval:
+            fig.add_annotation(dict(font=dict(color="white",size=11),
                             x=0.85,
                             y=0.9,
                             showarrow=False,
                             text='Cases Prediction coverage: '+str(round(cases_cov, 2))+'<br>'
                                 '  Deaths Prediction coverage: '+str(round(deaths_cov, 2)),
-                            textangle=0,
-                            xref="paper",
-                            yref="paper"
-                           ))
-        fig.add_annotation(dict(font=dict(color="white",size=12),
-                            x=0.9,
-                            y=1.3,
-                            showarrow=False,
-                            text='Modebar '+u'\u2191',
                             textangle=0,
                             xref="paper",
                             yref="paper"
