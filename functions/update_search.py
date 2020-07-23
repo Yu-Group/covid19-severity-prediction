@@ -280,6 +280,7 @@ if __name__ == '__main__':
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data')).fillna(0)
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST,
                           cached_dir=oj(parentdir, 'data'))  # adds keys like "Predicted Deaths 1-day"
+    df_county.loc[2409,'PopulationEstimate2018'] = 13586
 
     ## orgnize predicts as array
 
