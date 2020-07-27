@@ -1,16 +1,12 @@
 #!/usr/bin/python3
 
 import sys
-
 sys.path.append('../')
 import numpy as np
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import timedelta, date
-
 import warnings
-
 warnings.filterwarnings("ignore")
 from collections import defaultdict
 import os
