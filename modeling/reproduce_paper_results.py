@@ -124,6 +124,8 @@ def plot_7_day_prediction_errors(metric, all_errors, all_dates):
         plt.ylabel("MAPE", fontsize=15)
     elif metric == 'sqrt':
         plt.ylabel("Square root scale MAE", fontsize=15)
+    if metric == 'mape':
+        plt.legend(fontsize=12)
     plt.yticks([20, 40, 60], fontsize=12)
     plt.xticks(fontsize=12)
     plt.xticks(range(0, error_num_days, 14), all_dates[::-1][range(0, error_num_days, 14)])
@@ -160,7 +162,8 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
     plt.yticks(fontsize=12)
     plt.xticks(fontsize=12)
     plt.xticks(range(0, 70, 11), all_dates[np.arange(0, 70, 11)][::-1])
-    plt.legend(fontsize=12)
+    if metric == 'mape':
+        plt.legend(fontsize=12)
     plt.tight_layout()
     filename = os.path.join(result_dir, f'{metric}_clep_14_day.pdf')
     plt.savefig(filename)
