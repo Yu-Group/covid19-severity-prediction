@@ -352,14 +352,192 @@ def mepi_results(td, period):
     filename = os.path.join(result_dir, f'mepi_length_period_{period}_{td}_day.pdf')
     plt.savefig(filename)
 
+def error_orders(i, month, day, td, lb_days=5, metric='normalized'):
+    """
+    Ranking of errors \Delta{t-4}, \Delta{t-3}, ... \Delta{t} and \Delta{t+td}
+    
+    Input:
+        i: int
+            index for county
+        month, day: int
+            month and day of day t
+        td: int
+            prediction horizon (number of days to predict ahead)
+        lb_days: int
+            number of past days (errors) to look back when computing MEPI
+        metric: str
+            "normalized" or "absolute"
+    Output:
+        error_orders: list
+            Orders of {\Delta{t-4}, \Delta{t-3}, ... \Delta{t}, \Delta{t+k}}. Each element in the list
+            is an integer between 1 and 6. 1 is smallest, 6 is largest.
+    """
+    
+    d0 = date(2020, month, day)
+    mepis = []
+    preds = df_county[f'all_deaths_pred_{month}_{day}_ensemble_{horizon}'].values
+    err = []
+    for lb in range(lb_days):
+        d1 = d0 - timedelta(lb+1)
+        d2 = d0 - timedelta(lb+td)
+        actual = df_county[f'#Deaths_{d1.strftime("%m-%d-%Y")}'].values[i]
+        pred = df_county[f'all_deaths_pred_{d2.month}_{d2.day}_ensemble_{horizon}'].values[i][td-1]
+        if metric == 'normalized':
+            err.append(abs(actual/max(pred, 1)-1))
+        elif metric == 'absolute':
+            err.append(abs(actual-pred))
+    d1 = d0 + timedelta(td-1)
+    actual = df_county[f'#Deaths_{d1.strftime("%m-%d-%Y")}'].values[i]
+    pred = df_county[f'all_deaths_pred_{d0.month}_{d0.day}_ensemble_{horizon}'].values[i][td-1]
+    if metric == 'normalized':
+        err.append(abs(actual/max(pred, 1)-1))
+    elif metric == 'absolute':
+        err.append(abs(actual-pred))
+    error_orders = 1 + np.argsort(np.array(err))
+    return error_orders
 
-def plot_all_mepi_results():
+def plot_normalized_error_orders(td, counties):
+    """
+    plot Figure 5 and 18 in the paper (average rank of normalized error)
+    """
+    
+    df_county['CountyNamew/StateAbbrev'] = [df_county['CountyName'].iloc[i] + ', ' + df_county['StateName'].iloc[i] for i in range(len(df_county))]
+    random1 = ['Bergen, NJ', 'Broward, FL', 'Dougherty, GA', 'Monmouth, NJ', 'Oakland, MI', 'Suffolk, NY']
+    random_index = np.where(df_county['CountyNamew/StateAbbrev'].isin(random1) == True)[0]
+    
+    err_labels = [r'${\Delta}_{t-4}$',
+     r'${\Delta}_{t-3}$',
+     r'${\Delta}_{t-2}$',
+     r'${\Delta}_{t-1}$',
+     r'${\Delta}_{t}$',
+     f'$\Delta_t+{td}$']
+    
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        ax.spines["top"].set_visible(False)  
+        ax.spines["right"].set_visible(False)
+        rank_sum = np.zeros(6)
+        if counties == 'worst':
+            r = df_county.iloc[i]
+        elif counties == 'random':
+            r = df_county.iloc[random_index[i]]
+        plt.title(r['CountyName'] + ' County, ' + r['StateName'], fontsize=12)
+        start = 1 + td
+        end = 95 - td
+        for d in range(start, end):
+            d1 = today - timedelta(d)
+            rank_sum += error_orders(i, d1.month, d1.day, td, metric='normalized')
+        ax.plot(err_labels,
+                rank_sum/(end-start),
+                color="#3F5D7D",
+                linewidth=2,
+                linestyle='-'
+                )
+        ax.scatter(err_labels,
+                rank_sum/(end-start),
+                color="#3F5D7D",
+                s=15            
+                )
+
+        if i <= 2:
+            plt.xticks([])
+        plt.ylim((0, 4.8))
+        ax.axhline(3.5, linestyle='--', color='k', alpha=.5, linewidth=2)
+        plt.yticks(fontsize=12)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor='none', top=False, bottom=False, left=False, right=False)
+    fig.text(0.5, 0.04, 'Error', ha='center', va='center', fontsize=12)
+    #fig.text(0.04, 0.5, 'Cumulative deaths', ha='center', va='center', rotation='vertical')
+    #plt.xlabel("Error", fontsize=12)
+    plt.ylabel("Average rank of normalized error", fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f'{counties}_counties_rank_average_normalized_error_{td}_day.pdf')
+    plt.savefig(filename)
+    
+
+def plot_error_orders_eda_plots(lb_days, metric):
+    """
+    plot Figure 17 in the paper (eda plots of error ranking)
+    """
+    
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        ax.spines["top"].set_visible(False)  
+        ax.spines["right"].set_visible(False)
+        rank_sum = np.zeros(lb_days + 1)
+        r = df_county.iloc[i]
+        plt.title(r['CountyName'] + ' County, ' + r['StateName'], fontsize=12)
+        start = 58
+        end = 88 + 5 - lb_days
+        for d in range(start, end):
+            d1 = today - timedelta(d)
+            rank_sum += error_orders(i, d1.month, d1.day, 7, lb_days=lb_days, metric=metric)
+        ax.plot(
+                rank_sum/(end-start),
+                color="#3F5D7D",
+                linewidth=2,
+                linestyle='-'
+                )
+        ax.scatter(range(lb_days + 1),
+                rank_sum/(end-start),
+                color="#3F5D7D",
+                s=15            
+                )
+
+        if i <= 2:
+            plt.xticks([])
+        else:
+            if lb_days == 5:
+                plt.xticks(range(6), [r'${\Delta}_{t-4}$',
+                r'${\Delta}_{t-3}$',
+                r'${\Delta}_{t-2}$',
+                r'${\Delta}_{t-1}$',
+                r'${\Delta}_{t}$',
+                r'${\Delta}_{t+7}$'], fontsize=12)
+            elif lb_days == 10:
+                plt.xticks(range(0, 12, 2), [r'${\Delta}_{t-9}$',
+                r'${\Delta}_{t-7}$',
+                r'${\Delta}_{t-5}$',
+                r'${\Delta}_{t-3}$',
+                r'${\Delta}_{t-1}$',
+                r'${\Delta}_{t+7}$'], rotation=45, fontsize=12)
+        if lb_days == 5:
+            plt.ylim((0, 4.8))
+            ax.axhline(3.5, linestyle='--', color='k', alpha=.5, linewidth=2)
+        elif lb_days == 10:
+            plt.ylim((0, 9))
+            plt.yticks((0, 3, 6))
+            ax.axhline(6, linestyle='--', color='k', alpha=.5, linewidth=2)
+        plt.yticks(fontsize=12)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor='none', top=False, bottom=False, left=False, right=False)
+    fig.text(0.5, 0.04, 'Error', ha='center', va='center', fontsize=12)
+    #fig.text(0.04, 0.5, 'Cumulative deaths', ha='center', va='center', rotation='vertical')
+    #plt.xlabel("Error", fontsize=12)
+    plt.ylabel(f"Average rank of {metric} error", fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f'eda_rank_average_{metric}_error_look_back_{lb_days}_day.pdf')
+    plt.savefig(filename)
+
+def plot_all_mepi_results():    
+
     """
     produce all MEPI-related results
     """
+    for counties in ['worst', 'random']:
+        for td in [7, 14]:
+            plot_normalized_error_orders(td, counties)
+    plot_error_orders_eda_plots(5, 'normalized')
+    plot_error_orders_eda_plots(5, 'absolute')
+    plot_error_orders_eda_plots(10, 'normalized')
+            
     for period in [1, 2, 3]:
         for td in [7, 14]:
-            mepi_results(td, period)
+            mepi_results(td, period)  
 
 
 if __name__ == '__main__':
