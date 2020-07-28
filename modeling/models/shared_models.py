@@ -130,6 +130,8 @@ class SharedModel:
         tmp_df = copy.deepcopy(self.df)
         tmp_outcomes = copy.deepcopy(self.outcome_data)
         for county_index in range(len(self.df)):
+
+
             if self.direct_predict:
                 time_index = len(self.outcome_data[county_index]) - 1
                 time_series_features = self.create_time_series_features(county_index, time_index)
@@ -139,6 +141,7 @@ class SharedModel:
                 else:
                     features = time_series_features + demographic_features + [1]
                 prediction = self.model.predict([features])[0]
+                prediction = max(self.outcome_data[county_index][-1],prediction)
                 county_predictions = [prediction]
 
             else:
@@ -153,9 +156,9 @@ class SharedModel:
                     else:
                         features = time_series_features + demographic_features + [1]
                     prediction = self.model.predict([features])[0]
+                    prediction = max(self.outcome_data[county_index][-1],prediction)
                     if i + 1 in self.target_days:
                         county_predictions.append(prediction)
-                    ## TODO: CHECK THAT THIS SHOULDNT BE TEMP OUTCOMES
                     self.outcome_data[county_index].append(prediction)
             self.predictions.append(county_predictions)
         self.df = tmp_df

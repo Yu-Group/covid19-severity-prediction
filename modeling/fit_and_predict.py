@@ -159,7 +159,11 @@ def fit_and_predict(df,
             shared_model.predict()
             for i in range(len(shared_model.predictions)):
                 assert len(shared_model.predictions[i]) == 1
-                shared_model_predictions[i].append(shared_model.predictions[i][0])
+                # If there is a prediction, make sure the new one is at least as large
+                new_prediction = shared_model.predictions[i][0]
+                if len(shared_model_predictions[i]) > 0:
+                    new_prediction = max(shared_model_predictions[i][-1],new_prediction)
+                shared_model_predictions[i].append(new_prediction)
         df[output_key] = shared_model_predictions
 
         # df[output_key] = shared_model_predictions
@@ -248,6 +252,17 @@ def fit_and_predict_ensemble(df,
         for model_index, weight in model_weight_counter.most_common():
             print(str(methods[model_index]) + ': ' + str(weight))
 
+    # Make sure predictions are non-decreasing
+    monotonic_weighted_preds = []
+    for preds in weighted_preds:
+        new_preds = []
+        for i in range(len(preds)):
+            if i > 0:
+                new_preds.append(max(preds[i],preds[i-1]))
+            else:
+                new_preds.append(preds[i])
+        monotonic_weighted_preds.append(new_preds)
+    weighted_preds = monotonic_weighted_preds
     df[output_key] = weighted_preds
     return df
 
