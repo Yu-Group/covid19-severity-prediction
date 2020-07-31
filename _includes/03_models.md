@@ -2,7 +2,7 @@
 <div align="center"> <a type="button" class="btn btn-primary" style="margin-bottom: 30px; margin-right: 10px;" href="https://github.com/Yu-Group/covid19-severity-prediction/blob/master/modeling/readme.md">View modeling on Github</a> 
 </div>
 
-<img src="results/models.jpg" style="width:100%;">
+<img src="results/models.svg" style="width:100%;">
 <p style="text-align: center; font-size: x-large;">Combined Linear and Exponential Predictors (CLEP) </p>
 <p style="text-align: center; font-size: large;">Calculate a <strong>weighted average of the predictions</strong>: higher weight to the models with better historical performance</p>
 

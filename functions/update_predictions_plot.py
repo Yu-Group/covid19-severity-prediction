@@ -30,6 +30,7 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
         output_key: pred_key,
         'tot_deaths': deaths_key,
     })
+    d = d.fillna(0)
     d = d[d[pred_key] >= 1e-1]
     minn = min(min(d[pred_key]), min(d[deaths_key])) + 1
     maxx = max(max(d[pred_key]), max(d[deaths_key]))
@@ -51,12 +52,12 @@ def predictions_plot(df_county, NUM_DAYS_LIST, num_days_in_past, output_key):
     ])
 
     fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,255)',
-        plot_bgcolor='rgba(0,0,0,255)',
-        template='plotly_dark',
-        title='County-level predictions'
-    )
-    plotly.offline.plot(fig, filename=oj(parentdir, 'results', 'predictions.html'), auto_open=False)
+                paper_bgcolor='rgba(0,0,0,255)',
+                plot_bgcolor='rgba(0,0,0,255)',
+                template='plotly_dark',
+                title='County-level predictions'
+            )
+    plotly.offline.plot(fig, include_plotlyjs= "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly-basic.min.js",filename=oj(parentdir, 'results', 'predictions.html'), auto_open=False)
 
 
 def predictions_new_plot(df_county, df_county_dis, NUM_DAYS_LIST, num_days_in_past, output_key):
