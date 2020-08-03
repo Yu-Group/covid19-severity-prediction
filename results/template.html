@@ -84,54 +84,7 @@
         <script defer src="https://www.googletagmanager.com/gtag/js?id=UA-123022910-2"></script>
         <script type="text/javascript" defer src="js/jquery-1.2.6.min.js" async></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly-geo.min.js"></script>  
-        <script>
-          window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'UA-123022910-2');
-        </script>
-        <!-- Drop Down JS -->
-        <script> 
-          function drop_down_list()
-          {
-            var state = $('#state').val();
-
-            if(state == 'DC') // Alaska and District Columbia have no counties
-            {
-            $('#county_drop_down').hide();
-            $('#no_county_drop_down').show();
-            }
-            else
-            {
-            $('#loading_county_drop_down').show(); // Show the Loading...
-            
-            $('#county_drop_down').hide(); // Hide the drop down
-            $('#no_county_drop_down').hide(); // Hide the "no counties" message (if it's the case)
-
-            $.getScript("js/states/"+ state.toLowerCase() +".js", function(){
-
-            populate(document.form.county);
-
-            $('#loading_county_drop_down').hide(); // Hide the Loading...
-            $('#county_drop_down').show(); // Show the drop down
-            });
-        }
-        }
-        $(document).ready(function(){
-        $("#state").change(drop_down_list);
-        });
-
-        $(window).load(drop_down_list);
-      </script>
-
-      <!-- Preload Images -->
-      <SCRIPT language="JavaScript">
-      <!--
-      pic1 = new Image(16, 16); 
-      pic1.src="style/loader.gif";
-      //-->
-      </SCRIPT>
+ 
 
         <body style="background-color:black;">
           <div class="tab">
@@ -503,4 +456,52 @@
      }     
              
     </script>
+           <script>
+          window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-123022910-2');
+        </script>
+        <!-- Drop Down JS -->
+        <script> 
+          function drop_down_list()
+          {
+            var state = $('#state').val();
+
+            if(state == 'DC') // Alaska and District Columbia have no counties
+            {
+            $('#county_drop_down').hide();
+            $('#no_county_drop_down').show();
+            }
+            else
+            {
+            $('#loading_county_drop_down').show(); // Show the Loading...
+            
+            $('#county_drop_down').hide(); // Hide the drop down
+            $('#no_county_drop_down').hide(); // Hide the "no counties" message (if it's the case)
+
+            $.getScript("js/states/"+ state.toLowerCase() +".js", function(){
+
+            populate(document.form.county);
+
+            $('#loading_county_drop_down').hide(); // Hide the Loading...
+            $('#county_drop_down').show(); // Show the drop down
+            });
+        }
+        }
+        $(document).ready(function(){
+        $("#state").change(drop_down_list);
+        });
+
+        $(window).load(drop_down_list);
+      </script>
+
+      <!-- Preload Images -->
+      <SCRIPT language="JavaScript">
+      <!--
+      pic1 = new Image(16, 16); 
+      pic1.src="style/loader.gif";
+      //-->
+      </SCRIPT>
 </html>
