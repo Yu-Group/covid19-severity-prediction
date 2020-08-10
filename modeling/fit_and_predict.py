@@ -384,7 +384,9 @@ def add_prediction_intervals(df,
 
 
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
-              outcomes=['Deaths', 'Cases'], discard=False, d=datetime.datetime.today()):
+              outcomes=['Deaths', 'Cases'], discard=False, d=datetime.datetime.today(),
+              add_predict_interval=True,
+    ):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
     '''
@@ -429,13 +431,14 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             tmp = out
 
         output_key = f'Predicted {outcome} Intervals'
-        print('prediction intervals...')
-        df_county = add_prediction_intervals(df_county,
-                                             target_day=np.array(NUM_DAYS_LIST),
-                                             outcome=outcome.lower(),
-                                             methods=BEST_MODEL,
-                                             interval_type='local',
-                                             output_key=output_key)
+        if add_predict_interval:
+            print('prediction intervals...')
+            df_county = add_prediction_intervals(df_county,
+                                                 target_day=np.array(NUM_DAYS_LIST),
+                                                 outcome=outcome.lower(),
+                                                 methods=BEST_MODEL,
+                                                 interval_type='local',
+                                                 output_key=output_key)
 
     # add 3-day lagged death preds
     output_key = f'Predicted Deaths 3-day Lagged'
