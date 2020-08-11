@@ -185,7 +185,9 @@ def fit_and_predict_ensemble(df,
                              output_key: str = None,
                              verbose: bool = False,
                              weight_c0: int = 1,
-                             weight_mu: int = 0.5):
+                             weight_mu: int = 0.5,
+                             debug: bool = False,
+):
     """
     Function for ensemble prediction
     Input:
@@ -203,6 +205,8 @@ def fit_and_predict_ensemble(df,
         output_key = f'predicted_{outcome}_ensemble_{target_day[-1]}'
     predictions = {}
     for (i, model) in enumerate(methods):
+        if debug:
+            print(f"[DEBUG] fit_and_predict_ensemble:{i}, {model}")
 
         if 'demographic_vars' in model:
             demographic_vars = model['demographic_vars']
@@ -222,7 +226,8 @@ def fit_and_predict_ensemble(df,
         use_df = df
     else:
         use_df = exponential_modeling.leave_t_day_out(df, target_day[-1])
-
+    if debug:
+        print(f"[DEBUG] fit_and_predict_ensemble: compute weights.")
     weights = pmdl_weight.compute_pmdl_weight(use_df,
                                               methods=methods,
                                               outcome=outcome,
@@ -253,6 +258,8 @@ def fit_and_predict_ensemble(df,
             print(str(methods[model_index]) + ': ' + str(weight))
 
     # Make sure predictions are non-decreasing
+    if debug:
+        print(f"[DEBUG] fit_and_predict_ensemble: monotonicity constraint.")
     monotonic_weighted_preds = []
     for preds in weighted_preds:
         new_preds = []
@@ -385,7 +392,7 @@ def add_prediction_intervals(df,
 
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
               outcomes=['Deaths', 'Cases'], discard=False, d=datetime.datetime.today(),
-              add_predict_interval=True,
+              add_predict_interval=True, interval_target_days=[],
     ):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
@@ -432,9 +439,12 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
 
         output_key = f'Predicted {outcome} Intervals'
         if add_predict_interval:
+            if not interval_target_days:
+                interval_target_days = NUM_DAYS_LIST
             print('prediction intervals...')
+            print(interval_target_days)
             df_county = add_prediction_intervals(df_county,
-                                                 target_day=np.array(NUM_DAYS_LIST),
+                                                 target_day=np.array(interval_target_days),
                                                  outcome=outcome.lower(),
                                                  methods=BEST_MODEL,
                                                  interval_type='local',

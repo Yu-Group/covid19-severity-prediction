@@ -52,7 +52,7 @@ def cut_into_categories(vals, NUM_CATEGORIES=3):
     '''Evenly divide values into NUM_CATEGORIES categories
     (higher values get higher categories)
     '''
-    return pd.qcut(vals, NUM_CATEGORIES, labels=False) + 1
+    return pd.qcut(vals, NUM_CATEGORIES, labels=False, duplicates='drop') + 1
 
 
 def add_severity_county(df, NUM_DAYS_LIST):
@@ -194,8 +194,8 @@ if __name__ == '__main__':
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
 
-    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST,
-                          cached_dir=oj(parentdir, 'data'))  # adds keys like "Predicted Deaths 1-day"
+    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21],
+                          cached_dir=oj(parentdir, 'data'), add_predict_interval=True, interval_target_days=NUMS_DAYS_LIST)  # adds keys like "Predicted Deaths 1-day"
     df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
                                                             'covid-19-private-data'))
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)

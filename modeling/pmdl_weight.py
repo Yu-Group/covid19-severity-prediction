@@ -28,6 +28,7 @@ def pmdl_weight(y, y_preds, c0=1, mu=0.5):
 
 
 def compute_pmdl_weight(df, methods, outcome, target_day, c0=1, mu=0.5):
+    # FIXME: currently target_day is not used in this function
     y = np.array([df[outcome].values[i][-7:] for i in range(len(df))])
     weights = {}
     for (i, model) in enumerate(methods):
