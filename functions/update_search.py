@@ -20,15 +20,6 @@ from urllib.request import urlopen
 import json
 import plotly.graph_objs as go
 
-
-# Load data and add prediction
-def add_pre(df, var, name, newname):
-    h = df_county[var + '1-day'].copy()
-    for i in range(2, 8):
-        h = np.vstack((h, df_county[var + str(i) + '-day']))
-    df_county[name] = [h.T[i] for i in range(len(h.T))]
-
-
 ## Add prediction history to dataframe
 def add_prediction_history(df_tab):
     def find_interval(a):
@@ -72,7 +63,7 @@ def add_prediction_history(df_tab):
 
 
 # generate html for individual counties
-def generate_all_counties():
+def generate_all_counties(df_tab):
     print('generating html for counties')
     df_tab = df_county[['CountyName', 'State', 'new_cases', 'new_deaths',
                         'deaths', 'cases', 'countyFIPS', 'pred_cases', 'pred_deaths', 'Predicted Deaths Intervals',
@@ -97,7 +88,7 @@ def rename(df):
 
 
 # Generate map and table html code
-def generate_map(df):
+def generate_map(df, keys):
     df = rename(df)
     df['POS'] = df['County'] + ', ' + df['StateName']
     maps = []
@@ -160,70 +151,8 @@ def generate_map(df):
         fig.write_image(oj(parentdir,"results/" + key + ".svg"),width=200, height=550)
     print('succesfully generated search map')
     return maps
-
-
-# Fill the state full name according to their abbreviations#
-def fillstate(df):
-    us_state_abbrev = {
-        'AL': 'Alabama',
-        'AK': 'Alaska',
-        'AZ': 'Arizona',
-        'AR': 'Arkansas',
-        'CA': 'California',
-        'CO': 'Colorado',
-        'CT': 'Connecticut',
-        'DC': 'District Columbia',
-        'DE': 'Delaware',
-        'FL': 'Florida',
-        'GA': 'Georgia',
-        'HI': 'Hawaii',
-        'ID': 'Idaho',
-        'IL': 'Illinois',
-        'IN': 'Indiana',
-        'IA': 'Iowa',
-        'KS': 'Kansas',
-        'KY': 'Kentucky',
-        'LA': 'Louisiana',
-        'ME': 'Maine',
-        'MD': 'Maryland',
-        'MA': 'Massachusetts',
-        'MI': 'Michigan',
-        'MN': 'Minnesota',
-        'MS': 'Mississippi',
-        'MO': 'Missouri',
-        'MT': 'Montana',
-        'NE': 'Nebraska',
-        'NV': 'Nevada',
-        'NH': 'New Hampshire',
-        'NJ': 'New Jersey',
-        'NM': 'New Mexico',
-        'NY': 'New York',
-        'NC': 'North Carolina',
-        'ND': 'North Dakota',
-        'OH': 'Ohio',
-        'OK': 'Oklahoma',
-        'OR': 'Oregon',
-        'PA': 'Pennsylvania',
-        'RI': 'Rhode Island',
-        'SC': 'South Carolina',
-        'SD': 'South Dakota',
-        'TN': 'Tennessee',
-        'TX': 'Texas',
-        'UT': 'Utah',
-        'VT': 'Vermont',
-        'VA': 'Virginia',
-        'WA': 'Washington',
-        'WV': 'West Virginia',
-        'WI': 'Wisconsin',
-        'WY': 'Wyoming'
-    }
-    for i in range(df.shape[0]):
-        if df.loc[i, "State"] not in us_state_abbrev.values():
-            df.loc[i, "State"] = us_state_abbrev[df.loc[i, "StateName"]]
-
-
 ## update search.html
-def update_html(maps):
+def update_html(maps,keys):
     f = open(oj(parentdir, 'results/template.html'), "r")
     content = f.read()
     for i, key in enumerate(keys):
@@ -256,53 +185,16 @@ def add_new(df_county):
                 df_county.loc[i, 'new_' + key].append(df_county.loc[i, key][j] - df_county.loc[i, key][j - 1])
 
 
-def add_new_pre(df_county, var, name, newname):
-    h = df_county[var + '1-day'] - df_county[name]
-    for i in range(2, 8):
-        h = np.vstack((h, df_county[var + str(i) + '-day'] - df_county[var + str(i - 1) + '-day']))
-    df_county[newname] = [h.T[i] for i in range(len(h.T))]
-    df_county[newname + '_interval'] = [[] for _ in range(df_county.shape[0])]
-
-    def find_intervals(b, a):
-        tmp = [[a[0][0] - b, a[0][1] - b]]
-        for i in range(1, len(a)):
-            tmp.append([max(a[i][0] - a[i - 1][1], 0), max(a[i][1] - a[i - 1][0], 0)])
-        return tmp
-
-    for i in range(df_county.shape[0]):
-        df_county.loc[i, newname + '_interval'].extend(
-            find_intervals(df_county.loc[i, name], df_county.loc[i, var + 'Intervals']))
-    return df_county
-
-
 if __name__ == '__main__':
     print('loading data...')
-    NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
-    df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data')).fillna(0)
-    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST,
-                          cached_dir=oj(parentdir, 'data'))  # adds keys like "Predicted Deaths 1-day"
-    df_county.loc[2409,'PopulationEstimate2018'] = 13586
+    df_county = pd.read_pickle('update_search.pkl')
 
-    ## orgnize predicts as array
-
-    add_pre(df_county, 'Predicted Cases ', 'pred_cases', 'pred_new_cases')
-    add_pre(df_county, 'Predicted Deaths ', 'pred_deaths', 'pred_new_deaths')
-
-    ## add new cases/death to dataframe
-    add_new(df_county)
-    ## Add new cases/deaths predictions and their intervals 
-    df_county = add_new_pre(df_county, 'Predicted Cases ', 'tot_cases', 'pred_new_cases')
-    df_county = add_new_pre(df_county, 'Predicted Deaths ', 'tot_deaths', 'pred_new_deaths')
-
-    ##fill missing values of some state full names
-    fillstate(df_county)
-    ## Add cases/deaths rate to the dataframe
-    add_rates(df_county)
-    generate_all_counties()
+    ## generate plots for all counties
+    #generate_all_counties(df_county)
     ## keys for the tab and map
     keys = ['Cumulative Cases', 'Cumulative Deaths', 'New Cases', 'New Deaths', 'Cases per 100k', 'Deaths per 100k',
             'New Cases per 100k', 'New Deaths per 100k']
     ## generate maps in different tabs
-    maps = generate_map(df_county)
+    maps = generate_map(df_county,keys)
     ## update html of search.html
-    update_html(maps)
+    update_html(maps, keys)
