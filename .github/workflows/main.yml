@@ -36,6 +36,7 @@ jobs:
       run: |
         pip install -r requirements.txt
         bokeh sampledata
+        conda install -c plotly plotly-orca
     # Runs a single command using the runners shell
     - name: Generate the county results
       run: python functions/update_search.py
