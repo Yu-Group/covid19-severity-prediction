@@ -7,3 +7,4 @@ bokeh
 sklearn
 IPython
 tqdm
+psutil
