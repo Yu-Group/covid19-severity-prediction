@@ -10,8 +10,6 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 sys.path.append(parentdir + '/modeling')
-import load_data
-from fit_and_predict import add_preds
 from viz import viz_interactive, viz_map_utils
 import plotly
 import re
@@ -19,62 +17,17 @@ import plotly.express as px
 from urllib.request import urlopen
 import json
 import plotly.graph_objs as go
-
-## Add prediction history to dataframe
-def add_prediction_history(df_tab):
-    def find_interval(a):
-        return [max(a[6][0] - a[5][1], 0), max(a[6][1] - a[5][0], 0)]
-
-    def add_predictions_7day(data, df):
-        data = data.sort_values(by='countyFIPS')
-        dic = {'cases': 'Cases', 'deaths': 'Deaths'}
-        for i in range(df_tab.shape[0]):
-            for key in dic.keys():
-                df.loc[i, 'pred_7day_' + key].append(data.loc[i, 'Predicted ' + dic[key] + ' 7-day'])
-                df.loc[i, 'pred_7day_' + key + '_interval'].append(
-                    data.loc[i, 'Predicted ' + dic[key] + ' Intervals'][6])
-                df.loc[i, 'pred_7day_new_' + key].append(max(0,
-                                                             data.loc[i, 'Predicted ' + dic[key] + ' 7-day'] - data.loc[
-                                                                 i, 'Predicted ' + dic[key] + ' 6-day']))
-                df.loc[i, 'pred_7day_new_' + key + '_interval'].append(
-                    find_interval(data.loc[i, 'Predicted ' + dic[key] + ' Intervals']))
-
-    cached_dir = oj(parentdir, 'data')
-    i = 0
-    for c in ['deaths', 'cases']:
-        for pre in ['pred_7day_', 'pred_7day_new_']:
-            df_tab[pre + c] = [[] for _ in range(df_tab.shape[0])]
-            df_tab[pre + c + '_interval'] = [[] for _ in range(df_tab.shape[0])]
-    date2 = []
-    k = 0
-    while True:
-        d = (datetime.today() - timedelta(days=i)).date()
-        i += 1
-        if cached_dir is not None:
-            cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
-            if os.path.exists(cached_fname):
-                date2.append(d + timedelta(days=6))
-                add_predictions_7day(pd.read_pickle(cached_fname), df_tab)
-            else:
-                k += 1
-                if k > 1:
-                    break
-    return df_tab, date2
+import pickle
 
 
 # generate html for individual counties
-def generate_all_counties(df_tab):
+def generate_all_counties(df, past_dates):
     print('generating html for counties')
-    df_tab = df_county[['CountyName', 'State', 'new_cases', 'new_deaths',
-                        'deaths', 'cases', 'countyFIPS', 'pred_cases', 'pred_deaths', 'Predicted Deaths Intervals',
-                        'Predicted Cases Intervals',
-                        'pred_new_cases', 'pred_new_deaths', 'pred_new_cases_interval', 'pred_new_deaths_interval']]
-    df_tab = df_tab.rename(columns={'CountyName': 'County', 'State': 'State',
+    df = df.rename(columns={'CountyName': 'County', 'State': 'State',
                                     'Predicted Deaths Intervals': 'pred_deaths_interval',
                                     'Predicted Cases Intervals': 'pred_cases_interval'})
-    dates = viz_map_utils.date_in_data(df_county)
-    df_tab, date2 = add_prediction_history(df_tab)
-    viz_interactive.viz_curves_all_counties(df_tab, oj(parentdir, 'results/All_counties/'), dates, date2)
+    dates = viz_map_utils.date_in_data(df)
+    viz_interactive.viz_curves_all_counties(df, oj(parentdir, 'results/All_counties/'), dates, past_dates)
     print('succesfully generated all county html')
 
 
@@ -187,10 +140,11 @@ def add_new(df_county):
 
 if __name__ == '__main__':
     print('loading data...')
-    df_county = pd.read_pickle('update_search.pkl')
-
+    with open('functions/past_dates.pkl','rb') as f:
+        past_dates = pickle.load(f)
+    df_county = pd.read_pickle('functions/update_search.pkl')
     ## generate plots for all counties
-    #generate_all_counties(df_county)
+    #generate_all_counties(df_county, past_dates)
     ## keys for the tab and map
     keys = ['Cumulative Cases', 'Cumulative Deaths', 'New Cases', 'New Deaths', 'Cases per 100k', 'Deaths per 100k',
             'New Cases per 100k', 'New Deaths per 100k']
