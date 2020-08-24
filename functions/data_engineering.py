@@ -197,6 +197,6 @@ if __name__ == '__main__':
     ## Add past predictions
     df_county, past_dates = add_prediction_history(df_county)
     ## cache the results
-    with open('past_dates.pkl','wb') as f:
+    with open('functions/past_dates.pkl','wb') as f:
         pickle.dump(past_dates, f)
-    df_county.to_pickle('update_search.pkl')
+    df_county.to_pickle('functions/update_search.pkl')
