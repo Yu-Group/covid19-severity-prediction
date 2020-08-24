@@ -1,12 +1,5 @@
 numpy
 pandas
-os
-sys
-inspect
 datetime
 plotly
-re
 plotly.express
-urllib.request
-plotly.graph_objs
-json
