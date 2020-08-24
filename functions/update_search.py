@@ -149,6 +149,6 @@ if __name__ == '__main__':
     keys = ['Cumulative Cases', 'Cumulative Deaths', 'New Cases', 'New Deaths', 'Cases per 100k', 'Deaths per 100k',
             'New Cases per 100k', 'New Deaths per 100k']
     ## generate maps in different tabs
-    maps = generate_map(df_county,keys)
+    #maps = generate_map(df_county,keys)
     ## update html of search.html
-    update_html(maps, keys)
+    #update_html(maps, keys)
