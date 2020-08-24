@@ -1,5 +1,0 @@
-numpy
-pandas
-datetime
-plotly
-plotly.express
