@@ -8,3 +8,4 @@ sklearn
 IPython
 tqdm
 psutil
+requests
