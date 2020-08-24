@@ -190,7 +190,7 @@ if __name__ == '__main__':
     df_county = pd.read_pickle('update_search.pkl')
 
     ## generate plots for all counties
-    #generate_all_counties(df_county)
+    generate_all_counties(df_county)
     ## keys for the tab and map
     keys = ['Cumulative Cases', 'Cumulative Deaths', 'New Cases', 'New Deaths', 'Cases per 100k', 'Deaths per 100k',
             'New Cases per 100k', 'New Deaths per 100k']
