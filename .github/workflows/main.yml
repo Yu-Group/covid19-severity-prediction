@@ -20,7 +20,8 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
+    - name: Install dependencies
+      run: pip install -r requirements.txt
     # Runs a single command using the runners shell
     - name: Generate the county results
       run: python functions/update_search.py
