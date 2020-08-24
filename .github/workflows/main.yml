@@ -11,7 +11,7 @@ jobs:
     - name: Setup timezone
       uses: zcong1993/setup-timezone@master
       with:
-        timezone: North America/Los Angeles
+        timezone: GMT-7
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
       uses: actions/setup-python@v2
