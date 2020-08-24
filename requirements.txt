@@ -3,3 +3,5 @@ pandas
 datetime
 plotly
 plotly.express
+bokeh
+sklearn
