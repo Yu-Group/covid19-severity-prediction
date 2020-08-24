@@ -10,8 +10,6 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 sys.path.append(parentdir + '/modeling')
-import load_data
-from fit_and_predict import add_preds
 from viz import viz_interactive, viz_map_utils
 import plotly
 import re
