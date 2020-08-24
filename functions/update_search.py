@@ -144,7 +144,7 @@ if __name__ == '__main__':
         past_dates = pickle.load(f)
     df_county = pd.read_pickle('functions/update_search.pkl')
     ## generate plots for all counties
-    generate_all_counties(df_county, past_dates)
+    #generate_all_counties(df_county, past_dates)
     ## keys for the tab and map
     keys = ['Cumulative Cases', 'Cumulative Deaths', 'New Cases', 'New Deaths', 'Cases per 100k', 'Deaths per 100k',
             'New Cases per 100k', 'New Deaths per 100k']
