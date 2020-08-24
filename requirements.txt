@@ -6,3 +6,4 @@ plotly.express
 bokeh
 sklearn
 IPython
+tqdm
