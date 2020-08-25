@@ -30,7 +30,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
-        bokeh sampledata
         conda install numpy
         conda install pandas
         conda install datetime
@@ -43,6 +42,7 @@ jobs:
         conda install psutil
         conda install requests
         conda install -c plotly plotly-orca
+        bokeh sampledata
         which python
     # Runs a single command using the runners shell
     - name: Generate the county results
