@@ -196,8 +196,10 @@ if __name__ == '__main__':
     add_rates(df_county)
     ## Add past predictions
     df_county, past_dates = add_prediction_history(df_county)
+    ## dates with data
+    dates = viz_map_utils.date_in_data(df_county)
     ## cache the results
     with open('functions/past_dates.pkl','wb') as f:
-        pickle.dump(past_dates, f)
-    col = df_county.columns.to_list()[:6] + df_county.columns.to_list()[-46:]    
+        pickle.dump((past_dates,dates), f)
+    col = df_county.columns.to_list()[:6] + df_county.columns.to_list()[-60:]    
     df_county[col].to_pickle('functions/update_search.pkl')

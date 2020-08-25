@@ -21,12 +21,11 @@ import pickle
 
 
 # generate html for individual counties
-def generate_all_counties(df, past_dates):
+def generate_all_counties(df, past_dates,dates):
     print('generating html for counties')
     df = df.rename(columns={'CountyName': 'County', 'State': 'State',
                                     'Predicted Deaths Intervals': 'pred_deaths_interval',
                                     'Predicted Cases Intervals': 'pred_cases_interval'})
-    dates = viz_map_utils.date_in_data(df)
     viz_interactive.viz_curves_all_counties(df, oj(parentdir, 'results/All_counties/'), dates, past_dates)
     print('succesfully generated all county html')
 
@@ -141,10 +140,10 @@ def add_new(df_county):
 if __name__ == '__main__':
     print('loading data...')
     with open('functions/past_dates.pkl','rb') as f:
-        past_dates = pickle.load(f)
+        past_dates, dates = pickle.load(f)
     df_county = pd.read_pickle('functions/update_search.pkl')
     ## generate plots for all counties
-    generate_all_counties(df_county, past_dates)
+    generate_all_counties(df_county, past_dates, dates)
     ## keys for the tab and map
     keys = ['Cumulative Cases', 'Cumulative Deaths', 'New Cases', 'New Deaths', 'Cases per 100k', 'Deaths per 100k',
             'New Cases per 100k', 'New Deaths per 100k']
