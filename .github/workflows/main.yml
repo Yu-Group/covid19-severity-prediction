@@ -23,20 +23,27 @@ jobs:
       with:
         timezone: GMT-7
     - uses: actions/checkout@v2
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v2
-      with:
-        # Semantic version range syntax or exact version of a Python version
-        python-version: '3.x' 
-        # Optional - x64 or x86 architecture, defaults to x64
-        architecture: 'x64' 
+    - uses: s-weigand/setup-conda@v1
+    - run: conda --version
+    - run: which python
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
-        conda install -r requirements.txt
         bokeh sampledata
+        conda install numpy
+        conda install pandas
+        conda install datetime
+        conda install plotly
+        conda install plotly.express
+        conda install bokeh
+        conda install sklearn
+        conda install IPython
+        conda install tqdm
+        conda install psutil
+        conda install requests
         conda install -c plotly plotly-orca
+        which python
     # Runs a single command using the runners shell
     - name: Generate the county results
       run: python functions/update_search.py
