@@ -199,4 +199,5 @@ if __name__ == '__main__':
     ## cache the results
     with open('functions/past_dates.pkl','wb') as f:
         pickle.dump(past_dates, f)
-    df_county.to_pickle('functions/update_search.pkl')
+    col = df_county.columns.to_list()[:6] + df_county.columns.to_list()[-46:]    
+    df_county[col].to_pickle('functions/update_search.pkl')
