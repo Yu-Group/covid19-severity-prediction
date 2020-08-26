@@ -194,7 +194,7 @@ if __name__ == '__main__':
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
 
-    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21],
+    df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21, 28],
                           cached_dir=oj(parentdir, 'data'), add_predict_interval=True, interval_target_days=NUM_DAYS_LIST)  # adds keys like "Predicted Deaths 1-day"
     df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
                                                             'covid-19-private-data'))
