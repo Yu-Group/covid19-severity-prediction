@@ -4,7 +4,6 @@
 **.pkl
 !functions/update_search.pkl
 !functions/past_dates.pkl
-**.json
 **.pt
 **.pdf
 **.gif

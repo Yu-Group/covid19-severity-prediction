@@ -199,7 +199,7 @@ if __name__ == '__main__':
     ## dates with data
     dates = viz_map_utils.date_in_data(df_county)
     ## cache the results
-    with open('functions/past_dates.pkl','wb') as f:
+    with open(oj(currentdir,'past_dates.pkl'),'wb') as f:
         pickle.dump((past_dates,dates), f)
     col = df_county.columns.to_list()[:6] + df_county.columns.to_list()[-60:]    
-    df_county[col].to_pickle('functions/update_search.pkl')
+    df_county[col].to_json(oj(currentdir,'update_search.json'),orient='split')

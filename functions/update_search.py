@@ -116,32 +116,21 @@ def update_html(maps,keys):
     print('succesfully updated search html')
 
 
-## Add cases/deaths rate to dataframe
-def add_rates(df_county):
-    for key in ['tot_deaths', 'tot_cases', 'new_deaths_last', 'new_cases_last']:
-        df_county[key + '_rate'] = round(df_county[key] / df_county['PopulationEstimate2018'] * 100000, 2)
-
-
-## Add new cases/deaths to dataframe
-def add_new(df_county):
-    def get_col_name(key, days):
-        return '#' + key + '_' + (datetime.today() - timedelta(days=days)).strftime('%m-%d-%Y')
-
-    for key in ['Cases', 'Deaths']:
-        df_county['new_' + key.lower() + '_last'] = df_county[get_col_name(key, 1)] - df_county[get_col_name(key, 2)]
-    for key in ['deaths', 'cases']:
-        df_county['new_' + key] = [[] for _ in range(df_county.shape[0])]
-        for i in range(df_county.shape[0]):
-            df_county.loc[i, 'new_' + key].append(df_county.loc[i, key][0])
-            for j in range(1, len(df_county.loc[i, key])):
-                df_county.loc[i, 'new_' + key].append(df_county.loc[i, key][j] - df_county.loc[i, key][j - 1])
-
+## update fips
+def update_fips(df_county):
+    for i in range(df_county.shape[0]):
+        s = str(df_county.loc[i,'countyFIPS'])
+        while len(s) < 5:
+            s = '0' + s
+        df_county.loc[i,'countyFIPS'] = s
 
 if __name__ == '__main__':
     print('loading data...')
-    with open('functions/past_dates.pkl','rb') as f:
+    with open(oj(currentdir,'past_dates.pkl'),'rb') as f:
         past_dates, dates = pickle.load(f)
-    df_county = pd.read_pickle('functions/update_search.pkl')
+    df_county = pd.read_json(oj(currentdir,'update_search.json'),orient='split')
+    ##update fips
+    update_fips(df_county)
     ## generate plots for all counties
     generate_all_counties(df_county, past_dates, dates)
     ## keys for the tab and map
