@@ -5,7 +5,7 @@ import os
 from os.path import join as oj
 import numpy as np
 
-from load import load_commute
+from .load import load_commute
 
 def clean_commute(data_dir='./', 
                       out_dir='./'):

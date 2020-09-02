@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>modeling.reproduce_paper_results API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>modeling.reproduce_paper_results</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/python3
+
+import sys
+sys.path.append(&#39;../&#39;)
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import timedelta, date
+import warnings
+warnings.filterwarnings(&#34;ignore&#34;)
+from collections import defaultdict
+import os
+
+
+def compute_prediction_errors(metric):
+    &#34;&#34;&#34;
+    compute errors of different predictors from March 22 to Jun 20
+    
+    Input:
+        metric: str
+            one of all_metrics
+            
+    Output: 
+        all_errors: dict
+            for each method in all_methods, all_errors[method] is a dictionary
+            for h = 1, 2, ..., 21, all_errors[method][h] is a list of previous prediciton errors
+        all_dates: list
+            all dates from March 22 to Jun 20, in MM/DD format
+    &#34;&#34;&#34;
+
+    all_dates = []
+    all_errors = defaultdict(list)
+    for method in all_methods:
+        all_errors[method] = defaultdict(list)
+
+    for td in range(1, 22):
+        for i in range(1, error_num_days + 1):
+            d1 = today - timedelta(i)  # we want to predict cumulative deaths on d1
+            d2 = today - timedelta(i + td - 1)  # the prediction is made on day d2
+            all_dates.append(f&#39;{d1.month}/{d1.day}&#39;)
+            actual = np.array([p[-i] for p in df_county[&#39;deaths&#39;].values])
+            for method in all_methods:
+                preds_key = f&#39;all_deaths_pred_{d2.month}_{d2.day}_{method}_{horizon}&#39;
+                if preds_key in df_county:
+                    preds = np.array([p[td - horizon - 1] for p in df_county[preds_key]])
+                    y = actual[actual &gt;= 10]
+                    y_preds = preds[actual &gt;= 10]
+                    if metric == &#39;mae&#39;:
+                        err = y - y_preds
+                    elif metric == &#39;mape&#39;:
+                        err = 100 * (y - y_preds) / np.maximum(y, 1)
+                    elif metric == &#39;sqrt&#39;:
+                        err = np.sqrt(y) - np.sqrt(np.abs(y_preds))
+                    all_errors[method][td].append(np.mean(np.abs(err)))
+                else:
+                    all_errors[method][td].append(np.nan)
+    all_dates = np.array(all_dates)
+
+    return all_errors, all_dates
+
+
+def print_prediction_error_quantiles(metric, all_errors):
+    &#34;&#34;&#34;
+    Print Table 4 in the paper
+    &#34;&#34;&#34;
+
+    quantiles = defaultdict(list)
+    for td in [3, 5, 7, 14]:
+        for qt in [10, 50, 90]:
+            colname = f&#39;{td}_day_{qt}&#39;
+            for method in all_methods:
+                quantiles[colname].append(np.nanquantile(all_errors[method][td], qt / 100.0))
+    res_df = pd.DataFrame(quantiles, index=[&#39;separate&#39;,
+                                            &#39;shared&#39;,
+                                            &#39;demographics&#39;,
+                                            &#39;expanded shared&#39;,
+                                            &#39;linear&#39;,
+                                            &#39;ensemble&#39;])
+    filename = os.path.join(result_dir, f&#39;{metric}_error_quantiles.csv&#39;)
+    res_df.to_csv(filename)
+
+
+def plot_7_day_prediction_errors(metric, all_errors, all_dates):
+    &#34;&#34;&#34;
+    Plot Figure 6 in the paper
+    &#34;&#34;&#34;
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    for method in [&#39;linear&#39;, &#39;advanced_shared_model&#39;, &#39;ensemble&#39;]:
+        if method != &#39;ensemble&#39;:
+            ax.plot(all_errors[method][7][::-1],
+                    label=label_name[method],
+                    color=color_name[method],
+                    linestyle=ls_name[method],
+                    linewidth=2.5,
+                    alpha=.66)
+        else:
+            ax.plot(all_errors[method][7][::-1],
+                    label=label_name[method],
+                    color=color_name[method],
+                    linestyle=ls_name[method],
+                    linewidth=2.5)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Square root scale MAE&#34;, fontsize=15)
+    if metric == &#39;mape&#39;:
+        plt.legend(fontsize=12)
+    plt.yticks([20, 40, 60], fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.xticks(range(0, error_num_days, 14), all_dates[::-1][range(0, error_num_days, 14)])
+    plt.xlabel(&#34;Date&#34;, fontsize=15)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;over_time_{metric}_jun21.pdf&#39;)
+    plt.savefig(filename)
+
+
+def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
+    &#34;&#34;&#34;
+    Plot Figure 7 and Figure 8 (a)-(c) in the paper
+    &#34;&#34;&#34;
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    color_name_by_td = {7: &#39;darkred&#39;, 10: &#39;darkorange&#39;, 14: &#39;steelblue&#39;}
+    ls_name_by_td = {7: &#39;:&#39;, 10: &#39;--&#39;, 14: &#39;-&#39;}
+    for td in [7, 10, 14]:
+        plt.plot(all_errors[&#39;ensemble&#39;][td][:71][::-1],
+                 label=f&#39;{td} day&#39;,
+                 linestyle=ls_name_by_td[td],
+                 color=color_name_by_td[td],
+                 linewidth=2.5)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Square root scale MAE&#34;, fontsize=15)
+    plt.xlabel(&#34;Date&#34;, fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.xticks(range(0, 70, 11), all_dates[np.arange(0, 70, 11)][::-1])
+    if metric == &#39;mape&#39;:
+        plt.legend(fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{metric}_clep_14_day.pdf&#39;)
+    plt.savefig(filename)
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.boxplot([all_errors[&#39;ensemble&#39;][td][:71] for td in [3, 5, 7, 10, 14]])
+    plt.yscale(&#39;linear&#39;)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Square root scale MAE&#34;, fontsize=15)
+    plt.xlabel(&#34;Horizon&#34;, fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.xticks([1, 2, 3, 4, 5], [3, 5, 7, 10, 14])
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{metric}_clep_box_plot.pdf&#39;)
+    plt.savefig(filename)
+
+
+def plot_clep_median_error(metric, all_errors):
+    &#34;&#34;&#34;
+    Plot Figure 8 (d)-(f) in the paper
+    &#34;&#34;&#34;
+
+    median_error = []
+    for td in range(1, 22):
+        median_error.append(np.median(all_errors[&#39;ensemble&#39;][td]))
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    plt.plot(np.arange(1, 22, 1), median_error, color=&#39;lightcoral&#39;, linewidth=3)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Median of raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;Median of MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Median of square root MAE&#34;, fontsize=15)
+    plt.xlabel(&#34;Horizon&#34;, fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.xticks([1, 6, 11, 16, 21])
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;median_{metric}_clep_21_day.pdf&#39;)
+    plt.savefig(filename)
+
+
+def print_and_plot_all_prediction_errors():
+    &#34;&#34;&#34;
+    produce all tables and plots related to CLEP performance
+    &#34;&#34;&#34;
+
+    for metric in all_metrics:
+        all_errors, all_dates = compute_prediction_errors(metric)
+        print_prediction_error_quantiles(metric, all_errors)
+        plot_7_day_prediction_errors(metric, all_errors, all_dates)
+        plot_7_10_14_day_clep_errors(metric, all_errors, all_dates)
+        plot_clep_median_error(metric, all_errors)
+
+
+def county_level_results(counties, td):
+    &#34;&#34;&#34;
+    plot Figure 9 and 10 in the paper
+    &#34;&#34;&#34;
+
+    df_county[&#39;CountyNamew/StateAbbrev&#39;] = [df_county[&#39;CountyName&#39;].iloc[i] + &#39;, &#39; + df_county[&#39;StateName&#39;].iloc[i] for
+                                            i in range(len(df_county))]
+    random1 = [&#39;Bergen, NJ&#39;, &#39;Broward, FL&#39;, &#39;Dougherty, GA&#39;, &#39;Monmouth, NJ&#39;, &#39;Oakland, MI&#39;, &#39;Suffolk, NY&#39;]
+    random_index = np.where(df_county[&#39;CountyNamew/StateAbbrev&#39;].isin(random1) == True)[0]
+
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        # ax = fig.add_subplot(3, 2, i+1)
+        if counties == &#39;worst&#39;:
+            r = df_county.iloc[i]
+        elif counties == &#39;random&#39;:
+            r = df_county.iloc[random_index[i]]
+        ax.spines[&#34;top&#34;].set_visible(False)
+        ax.spines[&#34;right&#34;].set_visible(False)
+        # num = r[&#39;deaths&#39;]
+        plt.title(r[&#39;CountyName&#39;] + &#39; County, &#39; + r[&#39;StateName&#39;], fontsize=10)
+        actual, pred, mepi, dates = [], [], [], []
+        for j in range(1, 72):
+            d0 = today - timedelta(j)
+            d1 = d0 - timedelta(td - 1)
+            dates.append(f&#39;{d0.month}/{d0.day}&#39;)
+            actual.append(r[f&#39;#Deaths_{d0.strftime(&#34;%m-%d-%Y&#34;)}&#39;])
+            mepi.append(r[f&#39;all_deaths_pred_{d1.month}_{d1.day}_ensemble_mepi&#39;][td - 1])
+            pred.append(r[f&#39;all_deaths_pred_{d1.month}_{d1.day}_ensemble_{horizon}&#39;][td - 1])
+        plt.plot(actual[::-1], label=&#39;Recorded deaths&#39;, color=&#39;black&#39;)
+        plt.plot(pred[::-1], label=f&#39;{td}-day predictions&#39;, linestyle=&#39;--&#39;, color=&#39;steelblue&#39;)
+        plt.fill_between(range(71),
+                         [p[0] for p in mepi][::-1],
+                         [p[1] for p in mepi][::-1],
+                         # color=&#39;r&#39;,
+                         alpha=.15,
+                         color=&#39;steelblue&#39;,
+                         label=&#39;Prediction intervals&#39;
+                         )
+        plt.grid(which=&#39;major&#39;, linestyle=&#39;--&#39;, linewidth=.5, alpha=.5)
+        plt.xticks(range(0, 71, 11), np.array(dates)[::-1][range(0, 71, 11)], fontsize=8)
+        plt.yticks(fontsize=8)
+        # plt.ylim((0, 5 * np.max(actual)))
+        if td == 14:
+            plt.ylim((0, min(20000, 2 * np.max(actual))))
+        if i == 0:
+            plt.legend(loc=&#39;lower right&#39;, fontsize=6)
+
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor=&#39;none&#39;, top=False, bottom=False, left=False, right=False)
+    plt.xlabel(&#34;Date&#34;)
+    plt.ylabel(&#34;Cumulative deaths&#34;)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{counties}_counties_jun21_{td}_day.pdf&#39;)
+    plt.savefig(filename)
+
+
+def plot_all_county_level_results():
+    &#34;&#34;&#34;
+    produce all county-level CLEP and MEPI results (Figures 9 and 10)
+    &#34;&#34;&#34;
+
+    for counties in [&#39;worst&#39;, &#39;random&#39;]:
+        for td in [7, 14]:
+            county_level_results(counties, td)
+
+
+def mepi_results(td, period):
+    &#34;&#34;&#34;
+    compute mepi coverage and performance, and plot Figure 11 and 12 in the paper
+    &#34;&#34;&#34;
+
+    avg_coverage = np.zeros(len(df_county))
+    avg_length = np.zeros(len(df_county))
+    ndays = np.zeros(len(df_county))
+    for i in range(len(df_county)):
+        for j in mepi_eval_period[period]:
+            d0 = today - timedelta(j)
+            d1 = d0 - timedelta(td - 1)
+            actual = df_county[f&#39;#Deaths_{d0.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+            mepi = df_county[f&#39;all_deaths_pred_{d1.month}_{d1.day}_ensemble_mepi&#39;].values[i][td - 1]
+            if period != 3 or (period == 3 and actual &gt;= 10):
+                avg_coverage[i] += (int((mepi[0])) &lt;= actual &lt;= int((mepi[1])))
+                avg_length[i] += (int((mepi[1])) - int((mepi[0]))) / max(actual, 1)
+                ndays[i] += 1
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    x = np.array(avg_coverage[ndays &gt;= 10]) / ndays[ndays &gt;= 10] * 100
+    ax = plt.subplot(111)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.xticks(fontsize=18)
+    plt.xlabel(&#34;Coverage %&#34;, fontsize=14)
+    plt.ylabel(&#34;Count&#34;, fontsize=14)
+    plt.hist(x,
+             color=&#34;#3F5D7D&#34;, bins=15)
+    # plt.title(&#34;Histogram of coverage&#34;, fontsize=14)
+    plt.xlim((0, 105))
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;mepi_coverage_period_{period}_{td}_day.pdf&#39;)
+    plt.savefig(filename)
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    x = np.array(avg_length[ndays &gt;= 10]) / ndays[ndays &gt;= 10]
+    ax = plt.subplot(111)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.xticks(fontsize=18)
+    plt.xlabel(&#34;Average normalized length&#34;, fontsize=14)
+    plt.ylabel(&#34;Count&#34;, fontsize=14)
+    plt.hist(x[x &lt; 12],
+             color=&#34;#3F5D7D&#34;, bins=50)
+    if td == 14:
+        plt.xlim((0, 12))
+        plt.xticks([2.0, 4.0, 6.0, 8.0, 10.0])
+    if td == 7:
+        plt.xlim((0, 5))
+        plt.xticks([1, 2, 3, 4])
+    # plt.xticks([2.0, 4.0, 6.0])
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;mepi_length_period_{period}_{td}_day.pdf&#39;)
+    plt.savefig(filename)
+
+def error_orders(i, month, day, td, lb_days=5, metric=&#39;normalized&#39;):
+    &#34;&#34;&#34;
+    Ranking of errors \Delta{t-4}, \Delta{t-3}, ... \Delta{t} and \Delta{t+td}
+    
+    Input:
+        i: int
+            index for county
+        month, day: int
+            month and day of day t
+        td: int
+            prediction horizon (number of days to predict ahead)
+        lb_days: int
+            number of past days (errors) to look back when computing MEPI
+        metric: str
+            &#34;normalized&#34; or &#34;absolute&#34;
+    Output:
+        error_orders: list
+            Orders of {\Delta{t-4}, \Delta{t-3}, ... \Delta{t}, \Delta{t+k}}. Each element in the list
+            is an integer between 1 and 6. 1 is smallest, 6 is largest.
+    &#34;&#34;&#34;
+    
+    d0 = date(2020, month, day)
+    mepis = []
+    preds = df_county[f&#39;all_deaths_pred_{month}_{day}_ensemble_{horizon}&#39;].values
+    err = []
+    for lb in range(lb_days):
+        d1 = d0 - timedelta(lb+1)
+        d2 = d0 - timedelta(lb+td)
+        actual = df_county[f&#39;#Deaths_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+        pred = df_county[f&#39;all_deaths_pred_{d2.month}_{d2.day}_ensemble_{horizon}&#39;].values[i][td-1]
+        if metric == &#39;normalized&#39;:
+            err.append(abs(actual/max(pred, 1)-1))
+        elif metric == &#39;absolute&#39;:
+            err.append(abs(actual-pred))
+    d1 = d0 + timedelta(td-1)
+    actual = df_county[f&#39;#Deaths_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+    pred = df_county[f&#39;all_deaths_pred_{d0.month}_{d0.day}_ensemble_{horizon}&#39;].values[i][td-1]
+    if metric == &#39;normalized&#39;:
+        err.append(abs(actual/max(pred, 1)-1))
+    elif metric == &#39;absolute&#39;:
+        err.append(abs(actual-pred))
+    error_orders = 1 + np.argsort(np.array(err))
+    return error_orders
+
+def plot_normalized_error_orders(td, counties):
+    &#34;&#34;&#34;
+    plot Figure 5 and 18 in the paper (average rank of normalized error)
+    &#34;&#34;&#34;
+    
+    df_county[&#39;CountyNamew/StateAbbrev&#39;] = [df_county[&#39;CountyName&#39;].iloc[i] + &#39;, &#39; + df_county[&#39;StateName&#39;].iloc[i] for i in range(len(df_county))]
+    random1 = [&#39;Bergen, NJ&#39;, &#39;Broward, FL&#39;, &#39;Dougherty, GA&#39;, &#39;Monmouth, NJ&#39;, &#39;Oakland, MI&#39;, &#39;Suffolk, NY&#39;]
+    random_index = np.where(df_county[&#39;CountyNamew/StateAbbrev&#39;].isin(random1) == True)[0]
+    
+    err_labels = [r&#39;${\Delta}_{t-4}$&#39;,
+     r&#39;${\Delta}_{t-3}$&#39;,
+     r&#39;${\Delta}_{t-2}$&#39;,
+     r&#39;${\Delta}_{t-1}$&#39;,
+     r&#39;${\Delta}_{t}$&#39;,
+     f&#39;$\Delta_t+{td}$&#39;]
+    
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        ax.spines[&#34;top&#34;].set_visible(False)  
+        ax.spines[&#34;right&#34;].set_visible(False)
+        rank_sum = np.zeros(6)
+        if counties == &#39;worst&#39;:
+            r = df_county.iloc[i]
+        elif counties == &#39;random&#39;:
+            r = df_county.iloc[random_index[i]]
+        plt.title(r[&#39;CountyName&#39;] + &#39; County, &#39; + r[&#39;StateName&#39;], fontsize=12)
+        start = 1 + td
+        end = 95 - td
+        for d in range(start, end):
+            d1 = today - timedelta(d)
+            rank_sum += error_orders(i, d1.month, d1.day, td, metric=&#39;normalized&#39;)
+        ax.plot(err_labels,
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                linewidth=2,
+                linestyle=&#39;-&#39;
+                )
+        ax.scatter(err_labels,
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                s=15            
+                )
+
+        if i &lt;= 2:
+            plt.xticks([])
+        plt.ylim((0, 4.8))
+        ax.axhline(3.5, linestyle=&#39;--&#39;, color=&#39;k&#39;, alpha=.5, linewidth=2)
+        plt.yticks(fontsize=12)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor=&#39;none&#39;, top=False, bottom=False, left=False, right=False)
+    fig.text(0.5, 0.04, &#39;Error&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, fontsize=12)
+    #fig.text(0.04, 0.5, &#39;Cumulative deaths&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, rotation=&#39;vertical&#39;)
+    #plt.xlabel(&#34;Error&#34;, fontsize=12)
+    plt.ylabel(&#34;Average rank of normalized error&#34;, fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{counties}_counties_rank_average_normalized_error_{td}_day.pdf&#39;)
+    plt.savefig(filename)
+    
+
+def plot_error_orders_eda_plots(lb_days, metric):
+    &#34;&#34;&#34;
+    plot Figure 17 in the paper (eda plots of error ranking)
+    &#34;&#34;&#34;
+    
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        ax.spines[&#34;top&#34;].set_visible(False)  
+        ax.spines[&#34;right&#34;].set_visible(False)
+        rank_sum = np.zeros(lb_days + 1)
+        r = df_county.iloc[i]
+        plt.title(r[&#39;CountyName&#39;] + &#39; County, &#39; + r[&#39;StateName&#39;], fontsize=12)
+        start = 58
+        end = 88 + 5 - lb_days
+        for d in range(start, end):
+            d1 = today - timedelta(d)
+            rank_sum += error_orders(i, d1.month, d1.day, 7, lb_days=lb_days, metric=metric)
+        ax.plot(
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                linewidth=2,
+                linestyle=&#39;-&#39;
+                )
+        ax.scatter(range(lb_days + 1),
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                s=15            
+                )
+
+        if i &lt;= 2:
+            plt.xticks([])
+        else:
+            if lb_days == 5:
+                plt.xticks(range(6), [r&#39;${\Delta}_{t-4}$&#39;,
+                r&#39;${\Delta}_{t-3}$&#39;,
+                r&#39;${\Delta}_{t-2}$&#39;,
+                r&#39;${\Delta}_{t-1}$&#39;,
+                r&#39;${\Delta}_{t}$&#39;,
+                r&#39;${\Delta}_{t+7}$&#39;], fontsize=12)
+            elif lb_days == 10:
+                plt.xticks(range(0, 12, 2), [r&#39;${\Delta}_{t-9}$&#39;,
+                r&#39;${\Delta}_{t-7}$&#39;,
+                r&#39;${\Delta}_{t-5}$&#39;,
+                r&#39;${\Delta}_{t-3}$&#39;,
+                r&#39;${\Delta}_{t-1}$&#39;,
+                r&#39;${\Delta}_{t+7}$&#39;], rotation=45, fontsize=12)
+        if lb_days == 5:
+            plt.ylim((0, 4.8))
+            ax.axhline(3.5, linestyle=&#39;--&#39;, color=&#39;k&#39;, alpha=.5, linewidth=2)
+        elif lb_days == 10:
+            plt.ylim((0, 9))
+            plt.yticks((0, 3, 6))
+            ax.axhline(6, linestyle=&#39;--&#39;, color=&#39;k&#39;, alpha=.5, linewidth=2)
+        plt.yticks(fontsize=12)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor=&#39;none&#39;, top=False, bottom=False, left=False, right=False)
+    fig.text(0.5, 0.04, &#39;Error&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, fontsize=12)
+    #fig.text(0.04, 0.5, &#39;Cumulative deaths&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, rotation=&#39;vertical&#39;)
+    #plt.xlabel(&#34;Error&#34;, fontsize=12)
+    plt.ylabel(f&#34;Average rank of {metric} error&#34;, fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;eda_rank_average_{metric}_error_look_back_{lb_days}_day.pdf&#39;)
+    plt.savefig(filename)
+
+def plot_all_mepi_results():    
+
+    &#34;&#34;&#34;
+    produce all MEPI-related results
+    &#34;&#34;&#34;
+    for counties in [&#39;worst&#39;, &#39;random&#39;]:
+        for td in [7, 14]:
+            plot_normalized_error_orders(td, counties)
+    plot_error_orders_eda_plots(5, &#39;normalized&#39;)
+    plot_error_orders_eda_plots(5, &#39;absolute&#39;)
+    plot_error_orders_eda_plots(10, &#39;normalized&#39;)
+            
+    for period in [1, 2, 3]:
+        for td in [7, 14]:
+            mepi_results(td, period)  
+
+
+if __name__ == &#39;__main__&#39;:
+    today = date(2020, 6, 21)
+    df_county = pd.read_pickle(&#34;all_deaths_preds_6_21.pkl&#34;)
+    label_name = {&#39;linear&#39;: &#39;linear&#39;, &#39;advanced_shared_model&#39;: &#39;expanded shared&#39;, &#39;ensemble&#39;: &#39;CLEP&#39;}
+    color_name = {&#39;linear&#39;: &#39;darkred&#39;, &#39;advanced_shared_model&#39;: &#39;darkorange&#39;, &#39;ensemble&#39;: &#39;steelblue&#39;}
+    ls_name = {&#39;linear&#39;: &#39;:&#39;, &#39;advanced_shared_model&#39;: &#39;--&#39;, &#39;ensemble&#39;: &#39;-&#39;}
+    all_methods = [&#39;exponential&#39;, &#39;shared_exponential&#39;, &#39;demographic&#39;, &#39;advanced_shared_model&#39;, &#39;linear&#39;, &#39;ensemble&#39;]
+    all_metrics = [&#39;mae&#39;, &#39;mape&#39;, &#39;sqrt&#39;]
+    result_dir = &#39;reproduce_paper_results/&#39;
+    mepi_eval_period = {1: range(1, 42), 2: range(42, 72), 3: range(1, 72)}
+    error_num_days = 91
+    horizon = 21
+    os.makedirs(&#39;reproduce_paper_results&#39;, exist_ok=True)
+    print(&#39;print and plot all pred errors...&#39;)
+    print_and_plot_all_prediction_errors()
+    print(&#39;plot all count-level results...&#39;)
+    plot_all_county_level_results()
+    print(&#39;plot all mepi results...&#39;)
+    plot_all_mepi_results()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="modeling.reproduce_paper_results.compute_prediction_errors"><code class="name flex">
+<span>def <span class="ident">compute_prediction_errors</span></span>(<span>metric)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>compute errors of different predictors from March 22 to Jun 20</p>
+<h2 id="input">Input</h2>
+<dl>
+<dt><strong><code>metric</code></strong></dt>
+<dd>str
+one of all_metrics</dd>
+<dt><strong><code>Output</code></strong></dt>
+<dd>all_errors: dict
+for each method in all_methods, all_errors[method] is a dictionary
+for h = 1, 2, &hellip;, 21, all_errors[method][h] is a list of previous prediciton errors
+all_dates: list
+all dates from March 22 to Jun 20, in MM/DD format</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compute_prediction_errors(metric):
+    &#34;&#34;&#34;
+    compute errors of different predictors from March 22 to Jun 20
+    
+    Input:
+        metric: str
+            one of all_metrics
+            
+    Output: 
+        all_errors: dict
+            for each method in all_methods, all_errors[method] is a dictionary
+            for h = 1, 2, ..., 21, all_errors[method][h] is a list of previous prediciton errors
+        all_dates: list
+            all dates from March 22 to Jun 20, in MM/DD format
+    &#34;&#34;&#34;
+
+    all_dates = []
+    all_errors = defaultdict(list)
+    for method in all_methods:
+        all_errors[method] = defaultdict(list)
+
+    for td in range(1, 22):
+        for i in range(1, error_num_days + 1):
+            d1 = today - timedelta(i)  # we want to predict cumulative deaths on d1
+            d2 = today - timedelta(i + td - 1)  # the prediction is made on day d2
+            all_dates.append(f&#39;{d1.month}/{d1.day}&#39;)
+            actual = np.array([p[-i] for p in df_county[&#39;deaths&#39;].values])
+            for method in all_methods:
+                preds_key = f&#39;all_deaths_pred_{d2.month}_{d2.day}_{method}_{horizon}&#39;
+                if preds_key in df_county:
+                    preds = np.array([p[td - horizon - 1] for p in df_county[preds_key]])
+                    y = actual[actual &gt;= 10]
+                    y_preds = preds[actual &gt;= 10]
+                    if metric == &#39;mae&#39;:
+                        err = y - y_preds
+                    elif metric == &#39;mape&#39;:
+                        err = 100 * (y - y_preds) / np.maximum(y, 1)
+                    elif metric == &#39;sqrt&#39;:
+                        err = np.sqrt(y) - np.sqrt(np.abs(y_preds))
+                    all_errors[method][td].append(np.mean(np.abs(err)))
+                else:
+                    all_errors[method][td].append(np.nan)
+    all_dates = np.array(all_dates)
+
+    return all_errors, all_dates</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.county_level_results"><code class="name flex">
+<span>def <span class="ident">county_level_results</span></span>(<span>counties, td)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>plot Figure 9 and 10 in the paper</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def county_level_results(counties, td):
+    &#34;&#34;&#34;
+    plot Figure 9 and 10 in the paper
+    &#34;&#34;&#34;
+
+    df_county[&#39;CountyNamew/StateAbbrev&#39;] = [df_county[&#39;CountyName&#39;].iloc[i] + &#39;, &#39; + df_county[&#39;StateName&#39;].iloc[i] for
+                                            i in range(len(df_county))]
+    random1 = [&#39;Bergen, NJ&#39;, &#39;Broward, FL&#39;, &#39;Dougherty, GA&#39;, &#39;Monmouth, NJ&#39;, &#39;Oakland, MI&#39;, &#39;Suffolk, NY&#39;]
+    random_index = np.where(df_county[&#39;CountyNamew/StateAbbrev&#39;].isin(random1) == True)[0]
+
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        # ax = fig.add_subplot(3, 2, i+1)
+        if counties == &#39;worst&#39;:
+            r = df_county.iloc[i]
+        elif counties == &#39;random&#39;:
+            r = df_county.iloc[random_index[i]]
+        ax.spines[&#34;top&#34;].set_visible(False)
+        ax.spines[&#34;right&#34;].set_visible(False)
+        # num = r[&#39;deaths&#39;]
+        plt.title(r[&#39;CountyName&#39;] + &#39; County, &#39; + r[&#39;StateName&#39;], fontsize=10)
+        actual, pred, mepi, dates = [], [], [], []
+        for j in range(1, 72):
+            d0 = today - timedelta(j)
+            d1 = d0 - timedelta(td - 1)
+            dates.append(f&#39;{d0.month}/{d0.day}&#39;)
+            actual.append(r[f&#39;#Deaths_{d0.strftime(&#34;%m-%d-%Y&#34;)}&#39;])
+            mepi.append(r[f&#39;all_deaths_pred_{d1.month}_{d1.day}_ensemble_mepi&#39;][td - 1])
+            pred.append(r[f&#39;all_deaths_pred_{d1.month}_{d1.day}_ensemble_{horizon}&#39;][td - 1])
+        plt.plot(actual[::-1], label=&#39;Recorded deaths&#39;, color=&#39;black&#39;)
+        plt.plot(pred[::-1], label=f&#39;{td}-day predictions&#39;, linestyle=&#39;--&#39;, color=&#39;steelblue&#39;)
+        plt.fill_between(range(71),
+                         [p[0] for p in mepi][::-1],
+                         [p[1] for p in mepi][::-1],
+                         # color=&#39;r&#39;,
+                         alpha=.15,
+                         color=&#39;steelblue&#39;,
+                         label=&#39;Prediction intervals&#39;
+                         )
+        plt.grid(which=&#39;major&#39;, linestyle=&#39;--&#39;, linewidth=.5, alpha=.5)
+        plt.xticks(range(0, 71, 11), np.array(dates)[::-1][range(0, 71, 11)], fontsize=8)
+        plt.yticks(fontsize=8)
+        # plt.ylim((0, 5 * np.max(actual)))
+        if td == 14:
+            plt.ylim((0, min(20000, 2 * np.max(actual))))
+        if i == 0:
+            plt.legend(loc=&#39;lower right&#39;, fontsize=6)
+
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor=&#39;none&#39;, top=False, bottom=False, left=False, right=False)
+    plt.xlabel(&#34;Date&#34;)
+    plt.ylabel(&#34;Cumulative deaths&#34;)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{counties}_counties_jun21_{td}_day.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.error_orders"><code class="name flex">
+<span>def <span class="ident">error_orders</span></span>(<span>i, month, day, td, lb_days=5, metric='normalized')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Ranking of errors \Delta{t-4}, \Delta{t-3}, &hellip; \Delta{t} and \Delta{t+td}</p>
+<h2 id="input">Input</h2>
+<dl>
+<dt><strong><code>i</code></strong></dt>
+<dd>int
+index for county</dd>
+<dt><strong><code>month</code></strong>, <strong><code>day</code></strong> :&ensp;<code>int</code></dt>
+<dd>month and day of day t</dd>
+<dt><strong><code>td</code></strong></dt>
+<dd>int
+prediction horizon (number of days to predict ahead)</dd>
+<dt><strong><code>lb_days</code></strong></dt>
+<dd>int
+number of past days (errors) to look back when computing MEPI</dd>
+<dt><strong><code>metric</code></strong></dt>
+<dd>str
+"normalized" or "absolute"</dd>
+</dl>
+<h2 id="output">Output</h2>
+<dl>
+<dt><strong><a title="modeling.reproduce_paper_results.error_orders" href="#modeling.reproduce_paper_results.error_orders"><code>error_orders()</code></a></strong></dt>
+<dd>list
+Orders of {\Delta{t-4}, \Delta{t-3}, &hellip; \Delta{t}, \Delta{t+k}}. Each element in the list
+is an integer between 1 and 6. 1 is smallest, 6 is largest.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def error_orders(i, month, day, td, lb_days=5, metric=&#39;normalized&#39;):
+    &#34;&#34;&#34;
+    Ranking of errors \Delta{t-4}, \Delta{t-3}, ... \Delta{t} and \Delta{t+td}
+    
+    Input:
+        i: int
+            index for county
+        month, day: int
+            month and day of day t
+        td: int
+            prediction horizon (number of days to predict ahead)
+        lb_days: int
+            number of past days (errors) to look back when computing MEPI
+        metric: str
+            &#34;normalized&#34; or &#34;absolute&#34;
+    Output:
+        error_orders: list
+            Orders of {\Delta{t-4}, \Delta{t-3}, ... \Delta{t}, \Delta{t+k}}. Each element in the list
+            is an integer between 1 and 6. 1 is smallest, 6 is largest.
+    &#34;&#34;&#34;
+    
+    d0 = date(2020, month, day)
+    mepis = []
+    preds = df_county[f&#39;all_deaths_pred_{month}_{day}_ensemble_{horizon}&#39;].values
+    err = []
+    for lb in range(lb_days):
+        d1 = d0 - timedelta(lb+1)
+        d2 = d0 - timedelta(lb+td)
+        actual = df_county[f&#39;#Deaths_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+        pred = df_county[f&#39;all_deaths_pred_{d2.month}_{d2.day}_ensemble_{horizon}&#39;].values[i][td-1]
+        if metric == &#39;normalized&#39;:
+            err.append(abs(actual/max(pred, 1)-1))
+        elif metric == &#39;absolute&#39;:
+            err.append(abs(actual-pred))
+    d1 = d0 + timedelta(td-1)
+    actual = df_county[f&#39;#Deaths_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+    pred = df_county[f&#39;all_deaths_pred_{d0.month}_{d0.day}_ensemble_{horizon}&#39;].values[i][td-1]
+    if metric == &#39;normalized&#39;:
+        err.append(abs(actual/max(pred, 1)-1))
+    elif metric == &#39;absolute&#39;:
+        err.append(abs(actual-pred))
+    error_orders = 1 + np.argsort(np.array(err))
+    return error_orders</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.mepi_results"><code class="name flex">
+<span>def <span class="ident">mepi_results</span></span>(<span>td, period)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>compute mepi coverage and performance, and plot Figure 11 and 12 in the paper</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mepi_results(td, period):
+    &#34;&#34;&#34;
+    compute mepi coverage and performance, and plot Figure 11 and 12 in the paper
+    &#34;&#34;&#34;
+
+    avg_coverage = np.zeros(len(df_county))
+    avg_length = np.zeros(len(df_county))
+    ndays = np.zeros(len(df_county))
+    for i in range(len(df_county)):
+        for j in mepi_eval_period[period]:
+            d0 = today - timedelta(j)
+            d1 = d0 - timedelta(td - 1)
+            actual = df_county[f&#39;#Deaths_{d0.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+            mepi = df_county[f&#39;all_deaths_pred_{d1.month}_{d1.day}_ensemble_mepi&#39;].values[i][td - 1]
+            if period != 3 or (period == 3 and actual &gt;= 10):
+                avg_coverage[i] += (int((mepi[0])) &lt;= actual &lt;= int((mepi[1])))
+                avg_length[i] += (int((mepi[1])) - int((mepi[0]))) / max(actual, 1)
+                ndays[i] += 1
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    x = np.array(avg_coverage[ndays &gt;= 10]) / ndays[ndays &gt;= 10] * 100
+    ax = plt.subplot(111)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.xticks(fontsize=18)
+    plt.xlabel(&#34;Coverage %&#34;, fontsize=14)
+    plt.ylabel(&#34;Count&#34;, fontsize=14)
+    plt.hist(x,
+             color=&#34;#3F5D7D&#34;, bins=15)
+    # plt.title(&#34;Histogram of coverage&#34;, fontsize=14)
+    plt.xlim((0, 105))
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;mepi_coverage_period_{period}_{td}_day.pdf&#39;)
+    plt.savefig(filename)
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    x = np.array(avg_length[ndays &gt;= 10]) / ndays[ndays &gt;= 10]
+    ax = plt.subplot(111)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.xticks(fontsize=18)
+    plt.xlabel(&#34;Average normalized length&#34;, fontsize=14)
+    plt.ylabel(&#34;Count&#34;, fontsize=14)
+    plt.hist(x[x &lt; 12],
+             color=&#34;#3F5D7D&#34;, bins=50)
+    if td == 14:
+        plt.xlim((0, 12))
+        plt.xticks([2.0, 4.0, 6.0, 8.0, 10.0])
+    if td == 7:
+        plt.xlim((0, 5))
+        plt.xticks([1, 2, 3, 4])
+    # plt.xticks([2.0, 4.0, 6.0])
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;mepi_length_period_{period}_{td}_day.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_7_10_14_day_clep_errors"><code class="name flex">
+<span>def <span class="ident">plot_7_10_14_day_clep_errors</span></span>(<span>metric, all_errors, all_dates)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Plot Figure 7 and Figure 8 (a)-(c) in the paper</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
+    &#34;&#34;&#34;
+    Plot Figure 7 and Figure 8 (a)-(c) in the paper
+    &#34;&#34;&#34;
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    color_name_by_td = {7: &#39;darkred&#39;, 10: &#39;darkorange&#39;, 14: &#39;steelblue&#39;}
+    ls_name_by_td = {7: &#39;:&#39;, 10: &#39;--&#39;, 14: &#39;-&#39;}
+    for td in [7, 10, 14]:
+        plt.plot(all_errors[&#39;ensemble&#39;][td][:71][::-1],
+                 label=f&#39;{td} day&#39;,
+                 linestyle=ls_name_by_td[td],
+                 color=color_name_by_td[td],
+                 linewidth=2.5)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Square root scale MAE&#34;, fontsize=15)
+    plt.xlabel(&#34;Date&#34;, fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.xticks(range(0, 70, 11), all_dates[np.arange(0, 70, 11)][::-1])
+    if metric == &#39;mape&#39;:
+        plt.legend(fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{metric}_clep_14_day.pdf&#39;)
+    plt.savefig(filename)
+
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.boxplot([all_errors[&#39;ensemble&#39;][td][:71] for td in [3, 5, 7, 10, 14]])
+    plt.yscale(&#39;linear&#39;)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Square root scale MAE&#34;, fontsize=15)
+    plt.xlabel(&#34;Horizon&#34;, fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.xticks([1, 2, 3, 4, 5], [3, 5, 7, 10, 14])
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{metric}_clep_box_plot.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_7_day_prediction_errors"><code class="name flex">
+<span>def <span class="ident">plot_7_day_prediction_errors</span></span>(<span>metric, all_errors, all_dates)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Plot Figure 6 in the paper</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_7_day_prediction_errors(metric, all_errors, all_dates):
+    &#34;&#34;&#34;
+    Plot Figure 6 in the paper
+    &#34;&#34;&#34;
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    for method in [&#39;linear&#39;, &#39;advanced_shared_model&#39;, &#39;ensemble&#39;]:
+        if method != &#39;ensemble&#39;:
+            ax.plot(all_errors[method][7][::-1],
+                    label=label_name[method],
+                    color=color_name[method],
+                    linestyle=ls_name[method],
+                    linewidth=2.5,
+                    alpha=.66)
+        else:
+            ax.plot(all_errors[method][7][::-1],
+                    label=label_name[method],
+                    color=color_name[method],
+                    linestyle=ls_name[method],
+                    linewidth=2.5)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Square root scale MAE&#34;, fontsize=15)
+    if metric == &#39;mape&#39;:
+        plt.legend(fontsize=12)
+    plt.yticks([20, 40, 60], fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.xticks(range(0, error_num_days, 14), all_dates[::-1][range(0, error_num_days, 14)])
+    plt.xlabel(&#34;Date&#34;, fontsize=15)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;over_time_{metric}_jun21.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_all_county_level_results"><code class="name flex">
+<span>def <span class="ident">plot_all_county_level_results</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>produce all county-level CLEP and MEPI results (Figures 9 and 10)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_all_county_level_results():
+    &#34;&#34;&#34;
+    produce all county-level CLEP and MEPI results (Figures 9 and 10)
+    &#34;&#34;&#34;
+
+    for counties in [&#39;worst&#39;, &#39;random&#39;]:
+        for td in [7, 14]:
+            county_level_results(counties, td)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_all_mepi_results"><code class="name flex">
+<span>def <span class="ident">plot_all_mepi_results</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>produce all MEPI-related results</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_all_mepi_results():    
+
+    &#34;&#34;&#34;
+    produce all MEPI-related results
+    &#34;&#34;&#34;
+    for counties in [&#39;worst&#39;, &#39;random&#39;]:
+        for td in [7, 14]:
+            plot_normalized_error_orders(td, counties)
+    plot_error_orders_eda_plots(5, &#39;normalized&#39;)
+    plot_error_orders_eda_plots(5, &#39;absolute&#39;)
+    plot_error_orders_eda_plots(10, &#39;normalized&#39;)
+            
+    for period in [1, 2, 3]:
+        for td in [7, 14]:
+            mepi_results(td, period)  </code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_clep_median_error"><code class="name flex">
+<span>def <span class="ident">plot_clep_median_error</span></span>(<span>metric, all_errors)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Plot Figure 8 (d)-(f) in the paper</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_clep_median_error(metric, all_errors):
+    &#34;&#34;&#34;
+    Plot Figure 8 (d)-(f) in the paper
+    &#34;&#34;&#34;
+
+    median_error = []
+    for td in range(1, 22):
+        median_error.append(np.median(all_errors[&#39;ensemble&#39;][td]))
+    plt.figure(figsize=(4, 3), dpi=200)
+    ax = plt.subplot(111)
+    plt.plot(np.arange(1, 22, 1), median_error, color=&#39;lightcoral&#39;, linewidth=3)
+    if metric == &#39;mae&#39;:
+        plt.ylabel(&#34;Median of raw scale MAE&#34;, fontsize=15)
+    elif metric == &#39;mape&#39;:
+        plt.ylabel(&#34;Median of MAPE&#34;, fontsize=15)
+    elif metric == &#39;sqrt&#39;:
+        plt.ylabel(&#34;Median of square root MAE&#34;, fontsize=15)
+    plt.xlabel(&#34;Horizon&#34;, fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+    ax.spines[&#34;top&#34;].set_visible(False)
+    ax.spines[&#34;right&#34;].set_visible(False)
+    plt.xticks([1, 6, 11, 16, 21])
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;median_{metric}_clep_21_day.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_error_orders_eda_plots"><code class="name flex">
+<span>def <span class="ident">plot_error_orders_eda_plots</span></span>(<span>lb_days, metric)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>plot Figure 17 in the paper (eda plots of error ranking)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_error_orders_eda_plots(lb_days, metric):
+    &#34;&#34;&#34;
+    plot Figure 17 in the paper (eda plots of error ranking)
+    &#34;&#34;&#34;
+    
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        ax.spines[&#34;top&#34;].set_visible(False)  
+        ax.spines[&#34;right&#34;].set_visible(False)
+        rank_sum = np.zeros(lb_days + 1)
+        r = df_county.iloc[i]
+        plt.title(r[&#39;CountyName&#39;] + &#39; County, &#39; + r[&#39;StateName&#39;], fontsize=12)
+        start = 58
+        end = 88 + 5 - lb_days
+        for d in range(start, end):
+            d1 = today - timedelta(d)
+            rank_sum += error_orders(i, d1.month, d1.day, 7, lb_days=lb_days, metric=metric)
+        ax.plot(
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                linewidth=2,
+                linestyle=&#39;-&#39;
+                )
+        ax.scatter(range(lb_days + 1),
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                s=15            
+                )
+
+        if i &lt;= 2:
+            plt.xticks([])
+        else:
+            if lb_days == 5:
+                plt.xticks(range(6), [r&#39;${\Delta}_{t-4}$&#39;,
+                r&#39;${\Delta}_{t-3}$&#39;,
+                r&#39;${\Delta}_{t-2}$&#39;,
+                r&#39;${\Delta}_{t-1}$&#39;,
+                r&#39;${\Delta}_{t}$&#39;,
+                r&#39;${\Delta}_{t+7}$&#39;], fontsize=12)
+            elif lb_days == 10:
+                plt.xticks(range(0, 12, 2), [r&#39;${\Delta}_{t-9}$&#39;,
+                r&#39;${\Delta}_{t-7}$&#39;,
+                r&#39;${\Delta}_{t-5}$&#39;,
+                r&#39;${\Delta}_{t-3}$&#39;,
+                r&#39;${\Delta}_{t-1}$&#39;,
+                r&#39;${\Delta}_{t+7}$&#39;], rotation=45, fontsize=12)
+        if lb_days == 5:
+            plt.ylim((0, 4.8))
+            ax.axhline(3.5, linestyle=&#39;--&#39;, color=&#39;k&#39;, alpha=.5, linewidth=2)
+        elif lb_days == 10:
+            plt.ylim((0, 9))
+            plt.yticks((0, 3, 6))
+            ax.axhline(6, linestyle=&#39;--&#39;, color=&#39;k&#39;, alpha=.5, linewidth=2)
+        plt.yticks(fontsize=12)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor=&#39;none&#39;, top=False, bottom=False, left=False, right=False)
+    fig.text(0.5, 0.04, &#39;Error&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, fontsize=12)
+    #fig.text(0.04, 0.5, &#39;Cumulative deaths&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, rotation=&#39;vertical&#39;)
+    #plt.xlabel(&#34;Error&#34;, fontsize=12)
+    plt.ylabel(f&#34;Average rank of {metric} error&#34;, fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;eda_rank_average_{metric}_error_look_back_{lb_days}_day.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.plot_normalized_error_orders"><code class="name flex">
+<span>def <span class="ident">plot_normalized_error_orders</span></span>(<span>td, counties)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>plot Figure 5 and 18 in the paper (average rank of normalized error)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_normalized_error_orders(td, counties):
+    &#34;&#34;&#34;
+    plot Figure 5 and 18 in the paper (average rank of normalized error)
+    &#34;&#34;&#34;
+    
+    df_county[&#39;CountyNamew/StateAbbrev&#39;] = [df_county[&#39;CountyName&#39;].iloc[i] + &#39;, &#39; + df_county[&#39;StateName&#39;].iloc[i] for i in range(len(df_county))]
+    random1 = [&#39;Bergen, NJ&#39;, &#39;Broward, FL&#39;, &#39;Dougherty, GA&#39;, &#39;Monmouth, NJ&#39;, &#39;Oakland, MI&#39;, &#39;Suffolk, NY&#39;]
+    random_index = np.where(df_county[&#39;CountyNamew/StateAbbrev&#39;].isin(random1) == True)[0]
+    
+    err_labels = [r&#39;${\Delta}_{t-4}$&#39;,
+     r&#39;${\Delta}_{t-3}$&#39;,
+     r&#39;${\Delta}_{t-2}$&#39;,
+     r&#39;${\Delta}_{t-1}$&#39;,
+     r&#39;${\Delta}_{t}$&#39;,
+     f&#39;$\Delta_t+{td}$&#39;]
+    
+    R, C = 2, 3
+    fig = plt.figure(figsize=(9, 4), dpi=400)
+    for i in range(R * C):
+        ax = plt.subplot(R, C, i + 1)
+        ax.spines[&#34;top&#34;].set_visible(False)  
+        ax.spines[&#34;right&#34;].set_visible(False)
+        rank_sum = np.zeros(6)
+        if counties == &#39;worst&#39;:
+            r = df_county.iloc[i]
+        elif counties == &#39;random&#39;:
+            r = df_county.iloc[random_index[i]]
+        plt.title(r[&#39;CountyName&#39;] + &#39; County, &#39; + r[&#39;StateName&#39;], fontsize=12)
+        start = 1 + td
+        end = 95 - td
+        for d in range(start, end):
+            d1 = today - timedelta(d)
+            rank_sum += error_orders(i, d1.month, d1.day, td, metric=&#39;normalized&#39;)
+        ax.plot(err_labels,
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                linewidth=2,
+                linestyle=&#39;-&#39;
+                )
+        ax.scatter(err_labels,
+                rank_sum/(end-start),
+                color=&#34;#3F5D7D&#34;,
+                s=15            
+                )
+
+        if i &lt;= 2:
+            plt.xticks([])
+        plt.ylim((0, 4.8))
+        ax.axhline(3.5, linestyle=&#39;--&#39;, color=&#39;k&#39;, alpha=.5, linewidth=2)
+        plt.yticks(fontsize=12)
+    fig.add_subplot(111, frameon=False)
+    plt.tick_params(labelcolor=&#39;none&#39;, top=False, bottom=False, left=False, right=False)
+    fig.text(0.5, 0.04, &#39;Error&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, fontsize=12)
+    #fig.text(0.04, 0.5, &#39;Cumulative deaths&#39;, ha=&#39;center&#39;, va=&#39;center&#39;, rotation=&#39;vertical&#39;)
+    #plt.xlabel(&#34;Error&#34;, fontsize=12)
+    plt.ylabel(&#34;Average rank of normalized error&#34;, fontsize=12)
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f&#39;{counties}_counties_rank_average_normalized_error_{td}_day.pdf&#39;)
+    plt.savefig(filename)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.print_and_plot_all_prediction_errors"><code class="name flex">
+<span>def <span class="ident">print_and_plot_all_prediction_errors</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>produce all tables and plots related to CLEP performance</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_and_plot_all_prediction_errors():
+    &#34;&#34;&#34;
+    produce all tables and plots related to CLEP performance
+    &#34;&#34;&#34;
+
+    for metric in all_metrics:
+        all_errors, all_dates = compute_prediction_errors(metric)
+        print_prediction_error_quantiles(metric, all_errors)
+        plot_7_day_prediction_errors(metric, all_errors, all_dates)
+        plot_7_10_14_day_clep_errors(metric, all_errors, all_dates)
+        plot_clep_median_error(metric, all_errors)</code></pre>
+</details>
+</dd>
+<dt id="modeling.reproduce_paper_results.print_prediction_error_quantiles"><code class="name flex">
+<span>def <span class="ident">print_prediction_error_quantiles</span></span>(<span>metric, all_errors)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Print Table 4 in the paper</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_prediction_error_quantiles(metric, all_errors):
+    &#34;&#34;&#34;
+    Print Table 4 in the paper
+    &#34;&#34;&#34;
+
+    quantiles = defaultdict(list)
+    for td in [3, 5, 7, 14]:
+        for qt in [10, 50, 90]:
+            colname = f&#39;{td}_day_{qt}&#39;
+            for method in all_methods:
+                quantiles[colname].append(np.nanquantile(all_errors[method][td], qt / 100.0))
+    res_df = pd.DataFrame(quantiles, index=[&#39;separate&#39;,
+                                            &#39;shared&#39;,
+                                            &#39;demographics&#39;,
+                                            &#39;expanded shared&#39;,
+                                            &#39;linear&#39;,
+                                            &#39;ensemble&#39;])
+    filename = os.path.join(result_dir, f&#39;{metric}_error_quantiles.csv&#39;)
+    res_df.to_csv(filename)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="modeling" href="index.html">modeling</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="modeling.reproduce_paper_results.compute_prediction_errors" href="#modeling.reproduce_paper_results.compute_prediction_errors">compute_prediction_errors</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.county_level_results" href="#modeling.reproduce_paper_results.county_level_results">county_level_results</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.error_orders" href="#modeling.reproduce_paper_results.error_orders">error_orders</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.mepi_results" href="#modeling.reproduce_paper_results.mepi_results">mepi_results</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_7_10_14_day_clep_errors" href="#modeling.reproduce_paper_results.plot_7_10_14_day_clep_errors">plot_7_10_14_day_clep_errors</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_7_day_prediction_errors" href="#modeling.reproduce_paper_results.plot_7_day_prediction_errors">plot_7_day_prediction_errors</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_all_county_level_results" href="#modeling.reproduce_paper_results.plot_all_county_level_results">plot_all_county_level_results</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_all_mepi_results" href="#modeling.reproduce_paper_results.plot_all_mepi_results">plot_all_mepi_results</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_clep_median_error" href="#modeling.reproduce_paper_results.plot_clep_median_error">plot_clep_median_error</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_error_orders_eda_plots" href="#modeling.reproduce_paper_results.plot_error_orders_eda_plots">plot_error_orders_eda_plots</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.plot_normalized_error_orders" href="#modeling.reproduce_paper_results.plot_normalized_error_orders">plot_normalized_error_orders</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.print_and_plot_all_prediction_errors" href="#modeling.reproduce_paper_results.print_and_plot_all_prediction_errors">print_and_plot_all_prediction_errors</a></code></li>
+<li><code><a title="modeling.reproduce_paper_results.print_prediction_error_quantiles" href="#modeling.reproduce_paper_results.print_prediction_error_quantiles">print_prediction_error_quantiles</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -11,7 +11,8 @@
   </br> Resources </br>
   <a href="./data/county_data_abridged.csv">Data csv</a> •
   <a href="https://arxiv.org/abs/2005.07882">Paper</a> •
-  <a href="http://covidseverity.com/">Website</a> 
+  <a href="http://covidseverity.com/">Website</a> •
+  <a href="https://Yu-Group.github.io/covid19-severity-prediction/docs/index.html">Modeling docs</a> 
 </p>
 
 # Overview

@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>modeling.models.exponential_modeling API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>modeling.models.exponential_modeling</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+from statsmodels.genmod.generalized_linear_model import PerfectSeparationError
+from sklearn.preprocessing import StandardScaler
+import copy
+import statsmodels.api as sm
+
+
+def exponential_fit(counts, mode, target_day=np.array([1])):
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
+
+    &#34;&#34;&#34;
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    &#34;&#34;&#34;
+    predicted_counts = []
+    for i in range(len(counts)):
+        if mode == &#39;eval_mode&#39;:
+            # Only use days up to from target[-1] for training. So if target[-1] = 1, only use the days before today for training and predict on today&#39;s data
+            num_days_back = target_day[-1]
+            train_ts = counts[i][:-num_days_back]
+        elif mode == &#39;predict_future&#39;:
+            # Use all days
+            train_ts = counts[i]
+        else:
+            print(&#39;Unknown mode&#39;)
+            raise ValueError
+
+            # if train_ts[-1] &gt; 100:
+        #     start = np.where(train_ts &gt;= 10)[0][0]
+
+        # elif train_ts[-1] &gt;= 1:
+        #     start = np.where(train_ts == 0)[0][-1] + 1
+        # else:
+        #     start = len(train_ts)
+        # active_day = len(train_ts) - start # days since &#39;outbreak&#39;
+
+        # # active_day =5
+        # # start = len(train_ts)-active_day 
+        # if active_day &gt; 5:
+        #     active_day = 5
+        #     start = len(train_ts) - active_day
+
+        if train_ts[-1] &gt;= 1:
+            start = np.where(train_ts == 0)[0][-1] + 1
+        else:
+            start = len(train_ts)
+        active_day = len(train_ts) - start  # days since &#39;outbreak&#39;
+        if active_day &gt; 5:
+            active_day = 5
+        start = len(train_ts) - active_day
+
+        if active_day &lt;= 2 or min(train_ts[start:]) == max(train_ts[start:]):
+            # corner case 1: cases remain constant, unable to fit Poisson glm
+            # solution: use previous day cases to predict
+            predicted_counts.append(np.array([train_ts[-1]] * len(target_day)))
+        # if active_day &gt;= 3 and train_ts[-1] &gt; 4:
+        elif min(train_ts[start:]) &gt; 0 and min(np.diff(np.log(train_ts[start:]))) == max(
+                np.diff(np.log(train_ts[start:]))):
+            # corner case 2: cases follow perfect exponential growth, unable to fit Poisson glm
+            # solution: use cosntant growth rate to predict
+            rate = 1.0 * train_ts[-1] / train_ts[-2]
+            predicted_counts.append(np.array(train_ts[-1] * np.array([rate ** i for i in target_day])))
+        else:
+            # fit Poisson glm
+            X_train = np.transpose(np.vstack((np.array(range(active_day)),
+                                              # np.log(np.array(range(active_day))+1),
+                                              np.ones(active_day))))
+            m = sm.GLM(train_ts[start:],
+                       X_train,
+                       family=sm.families.Poisson(),
+                       # family=sm.families.NegativeBinomial(alpha=.05),
+                       freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
+            try:
+                m = m.fit()
+                X_test = np.transpose(np.vstack((target_day + active_day - 1,
+                                                 # np.log(target_day + active_day),
+                                                 np.ones(len(target_day)))))
+                predicted_counts.append(np.array(m.predict(X_test)))
+            except PerfectSeparationError as e:
+                print(&#39;Warning: PerfectSeparationError detected&#39;)
+                rate = 1.0 * train_ts[-1] / train_ts[-2]
+                predicted_counts.append(np.array(train_ts[-1] * np.array([rate ** i for i in target_day])))
+                # X_train[-1][0] += 1
+                # m = sm.GLM(train_ts[start:],
+                # X_train,
+                # family=sm.families.Poisson(),
+                # family=sm.families.NegativeBinomial(alpha=.05),
+                # freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
+                # m =  m.fit()
+
+        # else:
+        #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
+
+    return predicted_counts
+
+
+def estimate_cases(df, method=&#34;exponential&#34;, target_day=np.array([1]),
+                   output_key=&#39;predicted_cases&#39;):
+    # estimate number of cases using exponential curve
+
+    predicted_cases = []
+
+    if method == &#34;exponential&#34;:
+        predicted_cases = exponential_fit(df[&#39;cases&#39;].values, target_day=target_day)
+
+    df[output_key] = predicted_cases
+    return df
+
+
+def linear_fit(counts, mode, target_day=np.array([1])):
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
+
+    &#34;&#34;&#34;
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    &#34;&#34;&#34;
+    predicted_counts = []
+    for i in range(len(counts)):
+        if mode == &#39;eval_mode&#39;:
+            # Only use days up to from target[-1] for training. So if target[-1] = 1, only use the days before today for training and predict on today&#39;s data
+            num_days_back = target_day[-1]
+            train_ts = counts[i][:-num_days_back]
+        elif mode == &#39;predict_future&#39;:
+            # Use all days
+            train_ts = counts[i]
+        else:
+            print(&#39;Unknown mode&#39;)
+            raise ValueError
+
+        active_day = 4
+        start = len(train_ts) - active_day
+
+        if min(train_ts[start:]) == max(train_ts[start:]):
+            # corner case 1: cases remain constant, unable to fit Poisson glm
+            # solution: use previous day cases to predict
+            predicted_counts.append(np.array([train_ts[-1]] * len(target_day)))
+        elif min(np.diff(train_ts[start:])) == max(np.diff(train_ts[start:])):
+            rate = max(train_ts[-1] - train_ts[-2], 0)
+            predicted_counts.append(np.array(train_ts[-1] + np.array([rate * i for i in target_day])))
+        else:
+            # fit Gaussian glm
+            X_train = np.transpose(np.vstack((np.array(range(active_day)),
+                                              np.ones(active_day))))
+            m = sm.GLM(train_ts[start:],
+                       X_train,
+                       family=sm.families.Gaussian()
+                       # family=sm.families.NegativeBinomial(alpha=.05),
+                       )
+            try:
+                m = m.fit()
+                X_test = np.transpose(np.vstack((target_day + active_day - 1,
+                                                 np.ones(len(target_day)))))
+                predicted_counts.append(np.array(m.predict(X_test)))
+            except PerfectSeparationError as e:
+                print(&#39;Warning: PerfectSeparationError detected&#39;)
+                rate = max(train_ts[-1] - train_ts[-2], 0)
+                predicted_counts.append(np.array(train_ts[-1] + np.array([rate * i for i in target_day])))
+
+                # else:
+        #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
+
+    return predicted_counts
+
+
+def estimate_cases(df, method=&#34;exponential&#34;, target_day=np.array([1]),
+                   output_key=&#39;predicted_cases&#39;):
+    # estimate number of cases using exponential curve
+
+    predicted_cases = []
+
+    if method == &#34;exponential&#34;:
+        predicted_cases = exponential_fit(df[&#39;cases&#39;].values, target_day=target_day)
+
+    df[output_key] = predicted_cases
+    return df
+
+
+def estimate_death_rate(df, method=&#34;constant&#34;):
+    predicted_death_rate = []
+
+    if method == &#39;constant&#39;:
+        for i in range(len(df)):
+            predicted_death_rate.append(df[&#39;deaths&#39;].values[i][-1] / max(1, df[&#39;cases&#39;].values[i][-1]))
+
+    df[&#39;predicted_death_rate&#39;] = predicted_death_rate
+    return df
+
+
+def estimate_deaths(df, mode, method=&#34;exponential&#34;,
+                    target_day=np.array([1]),
+                    output_key=&#39;predicted_deaths_exponential&#39;):
+    &#34;&#34;&#34;
+    mode: either &#39;predict_future&#39; or &#39;eval_mode&#39;
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow&#39;s deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count
+    using information from k days ago. target_day= np.array([1,2,3,...,k]) will predict todays deaths, yesterdays deaths, deaths k-1 days ago
+    using information from k days ago.
+    &#34;&#34;&#34;
+
+    predicted_deaths = []
+
+    if method == &#39;exponential&#39;:
+        predicted_deaths = exponential_fit(df[&#39;deaths&#39;].values, mode, target_day=target_day)
+
+    elif method == &#39;cases_exponential_rate_constant&#39;:
+        print(&#39;Nick: I need to add eval/future mode&#39;)
+        raise NotImplementedError
+
+        # predicts number of cases using exponential fitting,
+        # then multiply by latest death rate
+
+        predicted_cases = estimate_cases(df, method=&#34;exponential&#34;, target_day=target_day)[&#39;predicted_cases&#39;].values
+        predicted_death_rate = estimate_death_rate(df, method=&#34;constant&#34;)[&#39;predicted_death_rate&#39;].values
+        predicted_deaths = [np.array(predicted_cases[i]) * predicted_death_rate[i] for i in range(len(df))]
+
+    df[output_key] = predicted_deaths
+
+    return df
+
+
+def get_exponential_forecasts(df,
+                              outcome=&#39;cases&#39;,
+
+                              target_day=np.array([1]),
+                              output_key=&#39;predicted_cases_exponential&#39;):
+    &#34;&#34;&#34;
+    merging cases and deaths prediction
+    
+    outcome=&#39;cases&#39; for future cases prediction, &#39;deaths&#39; for future deaths prediction
+    &#34;&#34;&#34;
+
+    predicted_outcome = exponential_fit(df[outcome].values, mode=&#39;predict_future&#39;, target_day=target_day)
+    df[output_key] = predicted_outcome
+
+    return df
+
+
+def leave_t_day_out(df, t):
+    df2 = copy.deepcopy(df)
+    # days = len(df[&#39;deaths&#39;].values[0])
+    for i in range(len(df)):
+        if &#39;deaths&#39; in df2.columns:
+            df2[&#39;deaths&#39;].values[i] = df2[&#39;deaths&#39;].values[i][:-t]
+        if &#39;cases&#39; in df2.columns:
+            df2[&#39;cases&#39;].values[i] = df2[&#39;cases&#39;].values[i][:-t]
+        if &#39;new_deaths&#39; in df2.columns:
+            df2[&#39;new_deaths&#39;].values[i] = df2[&#39;new_deaths&#39;].values[i][:-t]
+        if &#39;deaths_per_cap&#39; in df2.columns:
+            df2[&#39;deaths_per_cap&#39;].values[i] = df2[&#39;deaths_per_cap&#39;].values[i][:-t]
+
+        if &#39;neighbor_deaths&#39; in df2.columns:
+            df2[&#39;neighbor_deaths&#39;].values[i] = df2[&#39;neighbor_deaths&#39;].values[i][:-t]
+            df2[&#39;neighbor_cases&#39;].values[i] = df2[&#39;neighbor_cases&#39;].values[i][:-t]
+
+        if &#39;hospitalizations&#39; in df2.columns:
+            df2[&#39;hospitalizations&#39;].values[i] = df2[&#39;hospitalizations&#39;].values[i][:-t]
+
+    return df2
+
+
+def create_shared_simple_dataset(train_df, outcome=&#39;deaths&#39;, days_to_subtract=0):
+    &#34;&#34;&#34;
+    Create a very simple dataset for creating a shared Poisson GLM across counties:
+    Input: train_df: A df with county level deaths
+    Output:
+    X_train: a list of lists of the form [np.log(previous_days_death_count+1),1]
+    y_train: a list of with elements - current_days_death_count
+    &#34;&#34;&#34;
+    X_train = []
+    y_train = []
+    county_deaths = list(train_df[outcome])
+    for i in range(len(county_deaths)):
+        deaths = county_deaths[i]
+        for j in range(len(deaths) - days_to_subtract):
+            # Only add a point if total death are greater than 3. (3 chosen abritrarily)
+            if deaths[j] &gt;= 3:
+                X_train.append([np.log(deaths[j - 1] + 1), 1])
+                y_train.append(deaths[j])
+    return X_train, y_train
+
+
+def create_time_features(time_index, county_deaths):
+    time_feature_names = [&#39;log(deaths)&#39;, &#39;dif log deaths&#39;]
+    time_features = []
+    time_features.append(np.log(county_deaths[time_index] + 1))
+    time_features.append(np.log(county_deaths[time_index] + 1) - np.log(county_deaths[time_index - 1] + 1))
+    return time_feature_names, time_features
+
+
+def create_shared_demographic_dataset(train_df, demographic_vars, outcome=&#39;deaths&#39;, days_to_subtract=0):
+    &#34;&#34;&#34;
+    Create a very simple dataset for creating a shared Poisson GLM across counties:
+    Input: train_df: A df with county level deaths
+    Output:
+    X_train: a list of lists of the form [np.log(previous_days_death_count+1),1]
+    y_train: a list of with elements - current_days_death_count
+    &#34;&#34;&#34;
+    X_train = []
+    y_train = []
+    county_deaths = list(train_df[outcome])
+    demographic_info = list(train_df[demographic_vars].values)
+    for i in range(len(county_deaths)):
+        deaths = county_deaths[i]
+        for j in range(len(deaths) - days_to_subtract):
+            # Only add a point if total death are greater than 3. (3 chosen abritrarily)
+            if deaths[j] &gt;= 3:
+                # sometimes the numeric values are stored as strings for some variables
+                demographics = [float(d) for d in list(demographic_info[i])]
+                # time_feature_names, time_features = create_time_features(j-1,deaths)
+                X_train.append(list(demographics) + [np.log(deaths[j - 1] + 1), 1])
+                y_train.append(deaths[j])
+    return X_train, y_train
+
+
+def _fit_shared_exponential(X_train, y_train):
+    &#34;&#34;&#34;
+    Input: 
+    X_train: A list of lists, where each sublist is [log(prev_days_death+1),1], where the 1 is for the bias term for the model
+    y_train: A list of deaths for current day under the model
+    Output: 
+    Trains a poisson GLM with parameters shared across all counties.
+    &#34;&#34;&#34;
+
+    model = sm.GLM(y_train, [x + [1] for x in X_train],
+                   family=sm.families.Poisson())
+
+    # model = model.fit()
+    model = model.fit_regularized()
+
+    return model
+
+
+def fit_and_predict_shared_exponential(df, mode, outcome=&#39;deaths&#39;, demographic_vars=[], target_day=np.array([1]),
+                                       verbose=False):
+    &#34;&#34;&#34;
+    fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
+    Input:
+    df: dataframes with county level deaths, cases, and demographic information
+    mode: either &#39;predict_future&#39; or &#39;eval_mode&#39;
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow&#39;s deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count using info from k days ago
+    demographic_vars: a list of columns to use for demographic variables
+    Output:
+    predicted_deaths: a list containing predictions for the current death count for current day of test_df
+    &#34;&#34;&#34;
+
+    if len(demographic_vars) &gt; 0:
+        if mode == &#39;predict_future&#39;:
+            X_train, y_train = create_shared_demographic_dataset(df, demographic_vars, outcome=outcome)
+        elif mode == &#39;eval_mode&#39;:
+            X_train, y_train = create_shared_demographic_dataset(df, demographic_vars, outcome=outcome,
+                                                                 days_to_subtract=target_day[-1])
+    else:
+        if mode == &#39;predict_future&#39;:
+            X_train, y_train = create_shared_simple_dataset(df, outcome=outcome)
+        elif mode == &#39;eval_mode&#39;:
+            X_train, y_train = create_shared_simple_dataset(df, outcome=outcome, days_to_subtract=target_day[-1])
+
+    scaler = StandardScaler().fit(X_train)
+    X_train = scaler.transform(X_train)
+
+    model = _fit_shared_exponential(X_train, y_train)
+    features = demographic_vars + [&#39;log(deaths)&#39;, &#39;bias&#39;]  # ,&#39;bias2&#39;]
+    if verbose:
+        print(&#39;Feature weights&#39;)
+        for i, f in enumerate(features):
+            print(f + &#39; : &#39; + str(model.params[i]))
+
+    predicted_deaths = get_shared_death_predictions(df, model, mode, target_day=target_day, outcome=outcome,
+                                                    demographic_vars=demographic_vars, scaler=scaler)
+    return predicted_deaths
+
+
+def _predict_shared_deaths(number_of_deaths, demographics, model, target_day, scaler):
+    &#34;&#34;&#34;
+    Predicts deaths for days in target_day
+    &#34;&#34;&#34;
+    # Inputs:
+    # number_of_deaths: number of deaths to start predicting from
+    # demographics: demographic information by county if any 
+    # model: model that implements predict function
+    # target_day: see parent functions
+    death_predictions = []
+    prev_deaths = number_of_deaths
+    for i in range(target_day[-1]):
+        cur_deaths = model.predict(scaler.transform([demographics + [np.log(prev_deaths + 1), 1]]) + [1])[0]
+        # cur_deaths = model.predict([demographics+[np.log(prev_deaths+1),1]+[1]])[0]
+
+        if i + 1 in target_day:
+            death_predictions.append(cur_deaths)
+        prev_deaths = cur_deaths
+    return death_predictions
+
+
+def get_shared_death_predictions(test_df, model, mode, target_day, scaler, outcome=&#39;deaths&#39;, demographic_vars=[]):
+    &#34;&#34;&#34;Predicts the death total for the most recent day in test_df
+    Input:
+    test_df: dataframes with county level deaths:
+    Output:
+    predicted_deaths: a list containing predictions for the current death count for current day of test_df
+    &#34;&#34;&#34;
+    county_deaths = list(test_df[outcome])
+    if len(demographic_vars) &gt; 0:
+        demographic_info = list(test_df[demographic_vars].values)
+
+    predicted_deaths = []
+    for i, deaths in enumerate(county_deaths):
+        if len(demographic_vars) &gt; 0:
+            # sometimes the numeric values are stored as strings for some variables
+            demographics = [float(d) for d in list(demographic_info[i])]
+        else:
+            demographics = []
+        if mode == &#39;predict_future&#39;:
+            predicted_county_deaths = _predict_shared_deaths(deaths[-1], demographics, model, target_day, scaler)
+        elif mode == &#39;eval_mode&#39;:
+            predicted_county_deaths = _predict_shared_deaths(deaths[-(target_day[-1] + 1)], demographics, model,
+                                                             target_day, scaler)
+        predicted_deaths.append(predicted_county_deaths)
+
+    return predicted_deaths</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="modeling.models.exponential_modeling.create_shared_demographic_dataset"><code class="name flex">
+<span>def <span class="ident">create_shared_demographic_dataset</span></span>(<span>train_df, demographic_vars, outcome='deaths', days_to_subtract=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a very simple dataset for creating a shared Poisson GLM across counties:
+Input: train_df: A df with county level deaths
+Output:
+X_train: a list of lists of the form [np.log(previous_days_death_count+1),1]
+y_train: a list of with elements - current_days_death_count</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_shared_demographic_dataset(train_df, demographic_vars, outcome=&#39;deaths&#39;, days_to_subtract=0):
+    &#34;&#34;&#34;
+    Create a very simple dataset for creating a shared Poisson GLM across counties:
+    Input: train_df: A df with county level deaths
+    Output:
+    X_train: a list of lists of the form [np.log(previous_days_death_count+1),1]
+    y_train: a list of with elements - current_days_death_count
+    &#34;&#34;&#34;
+    X_train = []
+    y_train = []
+    county_deaths = list(train_df[outcome])
+    demographic_info = list(train_df[demographic_vars].values)
+    for i in range(len(county_deaths)):
+        deaths = county_deaths[i]
+        for j in range(len(deaths) - days_to_subtract):
+            # Only add a point if total death are greater than 3. (3 chosen abritrarily)
+            if deaths[j] &gt;= 3:
+                # sometimes the numeric values are stored as strings for some variables
+                demographics = [float(d) for d in list(demographic_info[i])]
+                # time_feature_names, time_features = create_time_features(j-1,deaths)
+                X_train.append(list(demographics) + [np.log(deaths[j - 1] + 1), 1])
+                y_train.append(deaths[j])
+    return X_train, y_train</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.create_shared_simple_dataset"><code class="name flex">
+<span>def <span class="ident">create_shared_simple_dataset</span></span>(<span>train_df, outcome='deaths', days_to_subtract=0)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a very simple dataset for creating a shared Poisson GLM across counties:
+Input: train_df: A df with county level deaths
+Output:
+X_train: a list of lists of the form [np.log(previous_days_death_count+1),1]
+y_train: a list of with elements - current_days_death_count</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_shared_simple_dataset(train_df, outcome=&#39;deaths&#39;, days_to_subtract=0):
+    &#34;&#34;&#34;
+    Create a very simple dataset for creating a shared Poisson GLM across counties:
+    Input: train_df: A df with county level deaths
+    Output:
+    X_train: a list of lists of the form [np.log(previous_days_death_count+1),1]
+    y_train: a list of with elements - current_days_death_count
+    &#34;&#34;&#34;
+    X_train = []
+    y_train = []
+    county_deaths = list(train_df[outcome])
+    for i in range(len(county_deaths)):
+        deaths = county_deaths[i]
+        for j in range(len(deaths) - days_to_subtract):
+            # Only add a point if total death are greater than 3. (3 chosen abritrarily)
+            if deaths[j] &gt;= 3:
+                X_train.append([np.log(deaths[j - 1] + 1), 1])
+                y_train.append(deaths[j])
+    return X_train, y_train</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.create_time_features"><code class="name flex">
+<span>def <span class="ident">create_time_features</span></span>(<span>time_index, county_deaths)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_time_features(time_index, county_deaths):
+    time_feature_names = [&#39;log(deaths)&#39;, &#39;dif log deaths&#39;]
+    time_features = []
+    time_features.append(np.log(county_deaths[time_index] + 1))
+    time_features.append(np.log(county_deaths[time_index] + 1) - np.log(county_deaths[time_index - 1] + 1))
+    return time_feature_names, time_features</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.estimate_cases"><code class="name flex">
+<span>def <span class="ident">estimate_cases</span></span>(<span>df, method='exponential', target_day=array([1]), output_key='predicted_cases')</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate_cases(df, method=&#34;exponential&#34;, target_day=np.array([1]),
+                   output_key=&#39;predicted_cases&#39;):
+    # estimate number of cases using exponential curve
+
+    predicted_cases = []
+
+    if method == &#34;exponential&#34;:
+        predicted_cases = exponential_fit(df[&#39;cases&#39;].values, target_day=target_day)
+
+    df[output_key] = predicted_cases
+    return df</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.estimate_death_rate"><code class="name flex">
+<span>def <span class="ident">estimate_death_rate</span></span>(<span>df, method='constant')</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate_death_rate(df, method=&#34;constant&#34;):
+    predicted_death_rate = []
+
+    if method == &#39;constant&#39;:
+        for i in range(len(df)):
+            predicted_death_rate.append(df[&#39;deaths&#39;].values[i][-1] / max(1, df[&#39;cases&#39;].values[i][-1]))
+
+    df[&#39;predicted_death_rate&#39;] = predicted_death_rate
+    return df</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.estimate_deaths"><code class="name flex">
+<span>def <span class="ident">estimate_deaths</span></span>(<span>df, mode, method='exponential', target_day=array([1]), output_key='predicted_deaths_exponential')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>mode: either 'predict_future' or 'eval_mode'
+predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow's deaths
+eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count
+using information from k days ago. target_day= np.array([1,2,3,&hellip;,k]) will predict todays deaths, yesterdays deaths, deaths k-1 days ago
+using information from k days ago.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def estimate_deaths(df, mode, method=&#34;exponential&#34;,
+                    target_day=np.array([1]),
+                    output_key=&#39;predicted_deaths_exponential&#39;):
+    &#34;&#34;&#34;
+    mode: either &#39;predict_future&#39; or &#39;eval_mode&#39;
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow&#39;s deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count
+    using information from k days ago. target_day= np.array([1,2,3,...,k]) will predict todays deaths, yesterdays deaths, deaths k-1 days ago
+    using information from k days ago.
+    &#34;&#34;&#34;
+
+    predicted_deaths = []
+
+    if method == &#39;exponential&#39;:
+        predicted_deaths = exponential_fit(df[&#39;deaths&#39;].values, mode, target_day=target_day)
+
+    elif method == &#39;cases_exponential_rate_constant&#39;:
+        print(&#39;Nick: I need to add eval/future mode&#39;)
+        raise NotImplementedError
+
+        # predicts number of cases using exponential fitting,
+        # then multiply by latest death rate
+
+        predicted_cases = estimate_cases(df, method=&#34;exponential&#34;, target_day=target_day)[&#39;predicted_cases&#39;].values
+        predicted_death_rate = estimate_death_rate(df, method=&#34;constant&#34;)[&#39;predicted_death_rate&#39;].values
+        predicted_deaths = [np.array(predicted_cases[i]) * predicted_death_rate[i] for i in range(len(df))]
+
+    df[output_key] = predicted_deaths
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.exponential_fit"><code class="name flex">
+<span>def <span class="ident">exponential_fit</span></span>(<span>counts, mode, target_day=array([1]))</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>counts</code></strong></dt>
+<dd>array
+each row is the cases/deaths of one county over time</dd>
+<dt><strong><code>target_day</code></strong></dt>
+<dd>array
+for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}</dd>
+</dl>
+<h2 id="return">Return</h2>
+<dl>
+<dt><strong><code>array</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>predicted cases/deaths for all county, for each day in target_day</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exponential_fit(counts, mode, target_day=np.array([1])):
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
+
+    &#34;&#34;&#34;
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    &#34;&#34;&#34;
+    predicted_counts = []
+    for i in range(len(counts)):
+        if mode == &#39;eval_mode&#39;:
+            # Only use days up to from target[-1] for training. So if target[-1] = 1, only use the days before today for training and predict on today&#39;s data
+            num_days_back = target_day[-1]
+            train_ts = counts[i][:-num_days_back]
+        elif mode == &#39;predict_future&#39;:
+            # Use all days
+            train_ts = counts[i]
+        else:
+            print(&#39;Unknown mode&#39;)
+            raise ValueError
+
+            # if train_ts[-1] &gt; 100:
+        #     start = np.where(train_ts &gt;= 10)[0][0]
+
+        # elif train_ts[-1] &gt;= 1:
+        #     start = np.where(train_ts == 0)[0][-1] + 1
+        # else:
+        #     start = len(train_ts)
+        # active_day = len(train_ts) - start # days since &#39;outbreak&#39;
+
+        # # active_day =5
+        # # start = len(train_ts)-active_day 
+        # if active_day &gt; 5:
+        #     active_day = 5
+        #     start = len(train_ts) - active_day
+
+        if train_ts[-1] &gt;= 1:
+            start = np.where(train_ts == 0)[0][-1] + 1
+        else:
+            start = len(train_ts)
+        active_day = len(train_ts) - start  # days since &#39;outbreak&#39;
+        if active_day &gt; 5:
+            active_day = 5
+        start = len(train_ts) - active_day
+
+        if active_day &lt;= 2 or min(train_ts[start:]) == max(train_ts[start:]):
+            # corner case 1: cases remain constant, unable to fit Poisson glm
+            # solution: use previous day cases to predict
+            predicted_counts.append(np.array([train_ts[-1]] * len(target_day)))
+        # if active_day &gt;= 3 and train_ts[-1] &gt; 4:
+        elif min(train_ts[start:]) &gt; 0 and min(np.diff(np.log(train_ts[start:]))) == max(
+                np.diff(np.log(train_ts[start:]))):
+            # corner case 2: cases follow perfect exponential growth, unable to fit Poisson glm
+            # solution: use cosntant growth rate to predict
+            rate = 1.0 * train_ts[-1] / train_ts[-2]
+            predicted_counts.append(np.array(train_ts[-1] * np.array([rate ** i for i in target_day])))
+        else:
+            # fit Poisson glm
+            X_train = np.transpose(np.vstack((np.array(range(active_day)),
+                                              # np.log(np.array(range(active_day))+1),
+                                              np.ones(active_day))))
+            m = sm.GLM(train_ts[start:],
+                       X_train,
+                       family=sm.families.Poisson(),
+                       # family=sm.families.NegativeBinomial(alpha=.05),
+                       freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
+            try:
+                m = m.fit()
+                X_test = np.transpose(np.vstack((target_day + active_day - 1,
+                                                 # np.log(target_day + active_day),
+                                                 np.ones(len(target_day)))))
+                predicted_counts.append(np.array(m.predict(X_test)))
+            except PerfectSeparationError as e:
+                print(&#39;Warning: PerfectSeparationError detected&#39;)
+                rate = 1.0 * train_ts[-1] / train_ts[-2]
+                predicted_counts.append(np.array(train_ts[-1] * np.array([rate ** i for i in target_day])))
+                # X_train[-1][0] += 1
+                # m = sm.GLM(train_ts[start:],
+                # X_train,
+                # family=sm.families.Poisson(),
+                # family=sm.families.NegativeBinomial(alpha=.05),
+                # freq_weights=np.array([1 ** i for i in range(active_day)])[::-1])
+                # m =  m.fit()
+
+        # else:
+        #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
+
+    return predicted_counts</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.fit_and_predict_shared_exponential"><code class="name flex">
+<span>def <span class="ident">fit_and_predict_shared_exponential</span></span>(<span>df, mode, outcome='deaths', demographic_vars=[], target_day=array([1]), verbose=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
+Input:
+df: dataframes with county level deaths, cases, and demographic information
+mode: either 'predict_future' or 'eval_mode'
+predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow's deaths
+eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count using info from k days ago
+demographic_vars: a list of columns to use for demographic variables
+Output:
+predicted_deaths: a list containing predictions for the current death count for current day of test_df</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fit_and_predict_shared_exponential(df, mode, outcome=&#39;deaths&#39;, demographic_vars=[], target_day=np.array([1]),
+                                       verbose=False):
+    &#34;&#34;&#34;
+    fits a poisson glm to all counties in train_df and makes prediction for the most recent day for test_df
+    Input:
+    df: dataframes with county level deaths, cases, and demographic information
+    mode: either &#39;predict_future&#39; or &#39;eval_mode&#39;
+    predict_future is predicting deaths on FUTURE days, so target_day=np.array([1])) means it predicts tomorrow&#39;s deaths
+    eval_mode is for evaluating the performance of the classifier. target_day=np.array([k])) will predict the current days death count using info from k days ago
+    demographic_vars: a list of columns to use for demographic variables
+    Output:
+    predicted_deaths: a list containing predictions for the current death count for current day of test_df
+    &#34;&#34;&#34;
+
+    if len(demographic_vars) &gt; 0:
+        if mode == &#39;predict_future&#39;:
+            X_train, y_train = create_shared_demographic_dataset(df, demographic_vars, outcome=outcome)
+        elif mode == &#39;eval_mode&#39;:
+            X_train, y_train = create_shared_demographic_dataset(df, demographic_vars, outcome=outcome,
+                                                                 days_to_subtract=target_day[-1])
+    else:
+        if mode == &#39;predict_future&#39;:
+            X_train, y_train = create_shared_simple_dataset(df, outcome=outcome)
+        elif mode == &#39;eval_mode&#39;:
+            X_train, y_train = create_shared_simple_dataset(df, outcome=outcome, days_to_subtract=target_day[-1])
+
+    scaler = StandardScaler().fit(X_train)
+    X_train = scaler.transform(X_train)
+
+    model = _fit_shared_exponential(X_train, y_train)
+    features = demographic_vars + [&#39;log(deaths)&#39;, &#39;bias&#39;]  # ,&#39;bias2&#39;]
+    if verbose:
+        print(&#39;Feature weights&#39;)
+        for i, f in enumerate(features):
+            print(f + &#39; : &#39; + str(model.params[i]))
+
+    predicted_deaths = get_shared_death_predictions(df, model, mode, target_day=target_day, outcome=outcome,
+                                                    demographic_vars=demographic_vars, scaler=scaler)
+    return predicted_deaths</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.get_exponential_forecasts"><code class="name flex">
+<span>def <span class="ident">get_exponential_forecasts</span></span>(<span>df, outcome='cases', target_day=array([1]), output_key='predicted_cases_exponential')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>merging cases and deaths prediction</p>
+<p>outcome='cases' for future cases prediction, 'deaths' for future deaths prediction</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_exponential_forecasts(df,
+                              outcome=&#39;cases&#39;,
+
+                              target_day=np.array([1]),
+                              output_key=&#39;predicted_cases_exponential&#39;):
+    &#34;&#34;&#34;
+    merging cases and deaths prediction
+    
+    outcome=&#39;cases&#39; for future cases prediction, &#39;deaths&#39; for future deaths prediction
+    &#34;&#34;&#34;
+
+    predicted_outcome = exponential_fit(df[outcome].values, mode=&#39;predict_future&#39;, target_day=target_day)
+    df[output_key] = predicted_outcome
+
+    return df</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.get_shared_death_predictions"><code class="name flex">
+<span>def <span class="ident">get_shared_death_predictions</span></span>(<span>test_df, model, mode, target_day, scaler, outcome='deaths', demographic_vars=[])</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Predicts the death total for the most recent day in test_df
+Input:
+test_df: dataframes with county level deaths:
+Output:
+predicted_deaths: a list containing predictions for the current death count for current day of test_df</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_shared_death_predictions(test_df, model, mode, target_day, scaler, outcome=&#39;deaths&#39;, demographic_vars=[]):
+    &#34;&#34;&#34;Predicts the death total for the most recent day in test_df
+    Input:
+    test_df: dataframes with county level deaths:
+    Output:
+    predicted_deaths: a list containing predictions for the current death count for current day of test_df
+    &#34;&#34;&#34;
+    county_deaths = list(test_df[outcome])
+    if len(demographic_vars) &gt; 0:
+        demographic_info = list(test_df[demographic_vars].values)
+
+    predicted_deaths = []
+    for i, deaths in enumerate(county_deaths):
+        if len(demographic_vars) &gt; 0:
+            # sometimes the numeric values are stored as strings for some variables
+            demographics = [float(d) for d in list(demographic_info[i])]
+        else:
+            demographics = []
+        if mode == &#39;predict_future&#39;:
+            predicted_county_deaths = _predict_shared_deaths(deaths[-1], demographics, model, target_day, scaler)
+        elif mode == &#39;eval_mode&#39;:
+            predicted_county_deaths = _predict_shared_deaths(deaths[-(target_day[-1] + 1)], demographics, model,
+                                                             target_day, scaler)
+        predicted_deaths.append(predicted_county_deaths)
+
+    return predicted_deaths</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.leave_t_day_out"><code class="name flex">
+<span>def <span class="ident">leave_t_day_out</span></span>(<span>df, t)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def leave_t_day_out(df, t):
+    df2 = copy.deepcopy(df)
+    # days = len(df[&#39;deaths&#39;].values[0])
+    for i in range(len(df)):
+        if &#39;deaths&#39; in df2.columns:
+            df2[&#39;deaths&#39;].values[i] = df2[&#39;deaths&#39;].values[i][:-t]
+        if &#39;cases&#39; in df2.columns:
+            df2[&#39;cases&#39;].values[i] = df2[&#39;cases&#39;].values[i][:-t]
+        if &#39;new_deaths&#39; in df2.columns:
+            df2[&#39;new_deaths&#39;].values[i] = df2[&#39;new_deaths&#39;].values[i][:-t]
+        if &#39;deaths_per_cap&#39; in df2.columns:
+            df2[&#39;deaths_per_cap&#39;].values[i] = df2[&#39;deaths_per_cap&#39;].values[i][:-t]
+
+        if &#39;neighbor_deaths&#39; in df2.columns:
+            df2[&#39;neighbor_deaths&#39;].values[i] = df2[&#39;neighbor_deaths&#39;].values[i][:-t]
+            df2[&#39;neighbor_cases&#39;].values[i] = df2[&#39;neighbor_cases&#39;].values[i][:-t]
+
+        if &#39;hospitalizations&#39; in df2.columns:
+            df2[&#39;hospitalizations&#39;].values[i] = df2[&#39;hospitalizations&#39;].values[i][:-t]
+
+    return df2</code></pre>
+</details>
+</dd>
+<dt id="modeling.models.exponential_modeling.linear_fit"><code class="name flex">
+<span>def <span class="ident">linear_fit</span></span>(<span>counts, mode, target_day=array([1]))</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>counts</code></strong></dt>
+<dd>array
+each row is the cases/deaths of one county over time</dd>
+<dt><strong><code>target_day</code></strong></dt>
+<dd>array
+for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}</dd>
+</dl>
+<h2 id="return">Return</h2>
+<dl>
+<dt><strong><code>array</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>predicted cases/deaths for all county, for each day in target_day</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def linear_fit(counts, mode, target_day=np.array([1])):
+    # let target_day=np.array([5]) to predict 5 days in advance, 
+    # and target_day=np.array([1, 2, 3, 4, 5]) to generate predictions for 1-5 days in advance 
+
+    &#34;&#34;&#34;
+    Parameters:
+        counts: array
+            each row is the cases/deaths of one county over time
+        target_day: array
+            for each element {d} in the array, will predict cases/deaths {d} days from the last day in {counts}
+    Return:
+        array
+        predicted cases/deaths for all county, for each day in target_day
+    &#34;&#34;&#34;
+    predicted_counts = []
+    for i in range(len(counts)):
+        if mode == &#39;eval_mode&#39;:
+            # Only use days up to from target[-1] for training. So if target[-1] = 1, only use the days before today for training and predict on today&#39;s data
+            num_days_back = target_day[-1]
+            train_ts = counts[i][:-num_days_back]
+        elif mode == &#39;predict_future&#39;:
+            # Use all days
+            train_ts = counts[i]
+        else:
+            print(&#39;Unknown mode&#39;)
+            raise ValueError
+
+        active_day = 4
+        start = len(train_ts) - active_day
+
+        if min(train_ts[start:]) == max(train_ts[start:]):
+            # corner case 1: cases remain constant, unable to fit Poisson glm
+            # solution: use previous day cases to predict
+            predicted_counts.append(np.array([train_ts[-1]] * len(target_day)))
+        elif min(np.diff(train_ts[start:])) == max(np.diff(train_ts[start:])):
+            rate = max(train_ts[-1] - train_ts[-2], 0)
+            predicted_counts.append(np.array(train_ts[-1] + np.array([rate * i for i in target_day])))
+        else:
+            # fit Gaussian glm
+            X_train = np.transpose(np.vstack((np.array(range(active_day)),
+                                              np.ones(active_day))))
+            m = sm.GLM(train_ts[start:],
+                       X_train,
+                       family=sm.families.Gaussian()
+                       # family=sm.families.NegativeBinomial(alpha=.05),
+                       )
+            try:
+                m = m.fit()
+                X_test = np.transpose(np.vstack((target_day + active_day - 1,
+                                                 np.ones(len(target_day)))))
+                predicted_counts.append(np.array(m.predict(X_test)))
+            except PerfectSeparationError as e:
+                print(&#39;Warning: PerfectSeparationError detected&#39;)
+                rate = max(train_ts[-1] - train_ts[-2], 0)
+                predicted_counts.append(np.array(train_ts[-1] + np.array([rate * i for i in target_day])))
+
+                # else:
+        #    predicted_counts.append(np.array([train_ts[-1]]*len(target_day)))
+        ## if there are too few data points to fit a curve, return the cases/deaths of current day as predictions for future
+
+    return predicted_counts</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="modeling.models" href="index.html">modeling.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="modeling.models.exponential_modeling.create_shared_demographic_dataset" href="#modeling.models.exponential_modeling.create_shared_demographic_dataset">create_shared_demographic_dataset</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.create_shared_simple_dataset" href="#modeling.models.exponential_modeling.create_shared_simple_dataset">create_shared_simple_dataset</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.create_time_features" href="#modeling.models.exponential_modeling.create_time_features">create_time_features</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.estimate_cases" href="#modeling.models.exponential_modeling.estimate_cases">estimate_cases</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.estimate_death_rate" href="#modeling.models.exponential_modeling.estimate_death_rate">estimate_death_rate</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.estimate_deaths" href="#modeling.models.exponential_modeling.estimate_deaths">estimate_deaths</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.exponential_fit" href="#modeling.models.exponential_modeling.exponential_fit">exponential_fit</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.fit_and_predict_shared_exponential" href="#modeling.models.exponential_modeling.fit_and_predict_shared_exponential">fit_and_predict_shared_exponential</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.get_exponential_forecasts" href="#modeling.models.exponential_modeling.get_exponential_forecasts">get_exponential_forecasts</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.get_shared_death_predictions" href="#modeling.models.exponential_modeling.get_shared_death_predictions">get_shared_death_predictions</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.leave_t_day_out" href="#modeling.models.exponential_modeling.leave_t_day_out">leave_t_day_out</a></code></li>
+<li><code><a title="modeling.models.exponential_modeling.linear_fit" href="#modeling.models.exponential_modeling.linear_fit">linear_fit</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

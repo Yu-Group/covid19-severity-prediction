@@ -7,7 +7,7 @@ import numpy as np
 import requests
 import urllib
 
-from load import load_bts_airtravel
+from .load import load_bts_airtravel
 
 def clean_bts_airtravel(data_dir='.'):
     ''' Clean Airline Origin and Destination Survey (DB1B) (2019)

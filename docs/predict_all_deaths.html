@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>modeling.predict_all_deaths API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>modeling.predict_all_deaths</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import sys
+
+sys.path.append(&#39;../&#39;)
+import copy
+import numpy as np
+
+import pandas as pd
+from datetime import timedelta, date
+
+import fit_and_predict
+import warnings
+import load_data
+
+warnings.filterwarnings(&#34;ignore&#34;)
+from models import exponential_modeling
+from pmdl_weight import pmdl_weight
+
+from tqdm import tqdm
+
+very_important_vars = [&#39;PopulationDensityperSqMile2010&#39;,
+                       #                        &#39;MedicareEnrollment,AgedTot2017&#39;,
+                       &#39;PopulationEstimate2018&#39;,
+                       &#39;#ICU_beds&#39;,
+                       &#39;MedianAge2010&#39;,
+                       &#39;Smokers_Percentage&#39;,
+                       &#39;DiabetesPercentage&#39;,
+                       &#39;HeartDiseaseMortality&#39;,
+                       # &#39;Respiratory Mortality&#39;,
+                       &#39;#Hospitals&#39;]
+methods = [&#39;advanced_shared_model&#39;, &#39;linear&#39;, &#39;shared_exponential&#39;,
+           &#39;demographic&#39;, &#39;exponential&#39;]
+advanced_model = {&#39;model_type&#39;: &#39;advanced_shared_model&#39;}
+linear = {&#39;model_type&#39;: &#39;linear&#39;}
+corrected = False
+df_county = pd.read_pickle(&#34;df_county_6_21.pkl&#34;)
+today = date(2020, 6, 21)
+earliest_day = date(2020, 3, 7)
+ndays = (today - earliest_day).days
+outcome = &#39;deaths&#39;
+horizon = 21
+
+if corrected:
+    &#34;&#34;&#34;
+    correcting the uptick on 4/14
+    &#34;&#34;&#34;
+    df_county_orig = load_data.load_county_level(data_dir=&#39;../data/&#39;)
+    df_county_predictions = pd.read_pickle(&#34;all_deaths_preds_6_21.pkl&#34;)
+    df_county = copy.deepcopy(df_county_orig)
+    # today = date(2020, 6, 8)
+    uptick_date = date(2020, 4, 14)
+    days_to_correct = (today - uptick_date).days
+    for i in range(len(df_county)):
+        r = df_county.iloc[i]
+        if r[&#39;StateName&#39;] == &#39;NY&#39;:
+            pred = df_county_predictions[f&#39;all_deaths_pred_4_14_ensemble_21&#39;].values[i][0]
+            actual = r[&#39;deaths&#39;][-days_to_correct]
+            correction = actual - pred
+            df_county[&#39;deaths&#39;].values[i] = np.array([x if x &lt; actual else int(x - correction) for x in r[&#39;deaths&#39;]])
+    ndays = days_to_correct
+
+
+def add_all_preds(df_county):
+    &#34;&#34;&#34;
+    add single predictor predictions for the past {ndays} days
+    &#34;&#34;&#34;
+
+    for method in methods:
+        for t in tqdm(range(1, ndays + 1)):
+            d = today - timedelta(t)
+            if d &lt; date(2020, 3, 16) and method in [&#39;demographic&#39;]:
+                continue
+            use_df = exponential_modeling.leave_t_day_out(df_county, 0 + t)
+
+            if method != &#39;ensemble&#39; and method != &#39;demographic&#39;:
+                use_df = fit_and_predict.fit_and_predict(use_df,
+                                                         target_day=np.arange(1, horizon + 1),
+                                                         outcome=outcome,
+                                                         method=method,
+                                                         mode=&#39;predict_future&#39;,
+                                                         output_key=f&#39;predicted_{outcome}_{method}_{horizon}&#39;)
+            elif method == &#39;demographic&#39;:
+                use_df = fit_and_predict.fit_and_predict(use_df,
+                                                         target_day=np.arange(1, horizon + 1),
+                                                         outcome=outcome,
+                                                         method=&#39;shared_exponential&#39;,
+                                                         mode=&#39;predict_future&#39;,
+                                                         demographic_vars=very_important_vars,
+                                                         output_key=f&#39;predicted_{outcome}_{method}_{horizon}&#39;)
+
+            df_county[f&#39;all_{outcome}_pred_{d.month}_{d.day}_{method}_{horizon}&#39;] = use_df[
+                f&#39;predicted_{outcome}_{method}_{horizon}&#39;]
+
+    return df_county
+
+
+def add_ensemble_prediction(df_county, month, day, outcome=&#39;deaths&#39;):
+    &#34;&#34;&#34;
+    add ensemble predictions made on given month and day, for the next {horizon} days
+    
+    Input:
+        df_county: pd.DataFrame
+        month: int
+        day: int
+        outcome: str
+    
+    Output: pd.DataFrame
+        the ensemble predictions are saved in the column &#39;all_deaths_pred_{month}_{day}_ensemble_{horizon}&#39;
+        
+    As an example, if month = 6 and day = 20, this function will add ensemble predictions 
+    for 6/20, 6/21, ... 6/20 + horizon - 1,
+    and the predictions are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)
+    
+    Note: this works only when previous 9 days&#39; predictions of single predictors exist in the data frame df_county
+    Otherwise, please use fit_and_predict_ensemble in fit_and_predict.py
+    &#34;&#34;&#34;
+
+    d0 = date(2020, month, day)
+    delta_0 = (today - d0).days
+
+    if d0 &lt; date(2020, 3, 16):
+        df_county[f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_ensemble_{horizon}&#39;] = df_county[
+            f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_linear_{horizon}&#39;]
+        # before 3/16, the ensemble predictor is not available, because there was not enough data to train the expanded shared predictor; as such, we impute the ensemble predictions with linear predictions
+        return df_county
+
+    weights = {}
+    for method in [&#39;advanced_shared_model&#39;, &#39;linear&#39;]:
+        y, y_preds = [], []
+        for i in range(len(df_county)):
+            y.append(df_county[&#39;deaths&#39;].values[i][-(delta_0 + 7): -delta_0])  # actual deaths of last 7 days
+
+            preds = []
+            for k in range(7):
+                d1 = d0 - timedelta(3 + k)
+                preds.append(df_county[f&#39;all_{outcome}_pred_{d1.month}_{d1.day}_{method}_{horizon}&#39;].values[i][2])
+                # 3-day-ahead predicted deaths of last 7 days.
+            y_preds.append(preds[::-1])
+        y, y_preds = np.array(y), np.array(y_preds)
+        weights[method] = pmdl_weight(np.sqrt(y), np.sqrt(np.maximum(y_preds, 0)))  # compute weights
+
+    ensemble_preds = []
+    for i in range(len(df_county)):
+        preds = np.zeros(horizon)
+        for method in [&#39;advanced_shared_model&#39;, &#39;linear&#39;]:
+            preds += weights[method][i] * np.array(
+                df_county[f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_{method}_{horizon}&#39;].values[i])
+        preds = preds / sum(weights[m][i] for m in [&#39;advanced_shared_model&#39;, &#39;linear&#39;])
+        ensemble_preds.append(preds)
+    df_county[f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_ensemble_{horizon}&#39;] = ensemble_preds
+
+    return df_county
+
+
+def add_mepi(df_county, month, day, outcome=&#39;deaths&#39;):
+    &#34;&#34;&#34;
+    compute MEPI for given month and day for up to 14-day
+    
+    Input:
+        df_county: pd.DataFrame
+        month: int
+        day: int
+        outcome: str
+    
+    Output: pd.DataFrame
+        the ensemble predictions are saved in the column &#39;all_deaths_pred_{month}_{day}_ensemble_mepi&#39;
+        
+    As an example, if month = 6 and day = 20, this function will will add mepi for 6/20, 6/21, ... 7/3,
+    and the mepi are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)
+    
+    Note: this only works when the ensemble predictions of last 19 days are available in df_county
+    &#34;&#34;&#34;
+
+    d0 = date(2020, month, day)
+    mepis = []
+    preds = df_county[f&#39;all_{outcome}_pred_{month}_{day}_ensemble_{horizon}&#39;].values
+    for i in range(len(df_county)):
+        pi_by_day = []
+        d1 = d0 - timedelta(1)
+        latest = df_county[f&#39;#{outcome.capitalize()}_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+        for j in range(min(horizon, 14)):  # add prediction intervals for up to 14 days ahead prediction
+            me = 0
+            for lb in range(5):  # find max error of last 5 days
+                d1 = d0 - timedelta(lb + 1)
+                d2 = d0 - timedelta(lb + j + 1)
+                actual = df_county[f&#39;#{outcome.capitalize()}_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+                pred = df_county[f&#39;all_{outcome}_pred_{d2.month}_{d2.day}_ensemble_{horizon}&#39;].values[i][j]
+                me = max(me, abs(actual / max(pred, 1) - 1))
+                # me = max(me, abs(actual-pred))
+            pi_by_day.append((max(preds[i][j] * (1 - me), latest), preds[i][j] * (1 + me)))
+            # pi_by_day.append((max(preds[i][j] - me, latest), preds[i][j] + me))
+        mepis.append(pi_by_day)
+    df_county[f&#39;all_{outcome}_pred_{month}_{day}_ensemble_mepi&#39;] = mepis
+
+    return df_county
+
+
+if __name__ == &#39;__main__&#39;:
+    &#39;&#39;&#39;
+    Calculate a dataframe with all predictions
+    predictions
+        all_deaths_pred_month_day_ensemble_horizon
+        this is a list of length horizon, first value is 1-day ahead prediction, second value is 2-day ahead prediction
+        example: all_deaths_pred_3_27_ensemble_21
+            list of length 21, first value is predictions made on 03/27 for 03/28, second value is predictions made on 03/27 for 03/28 and so on
+    confidence intervals
+        all_deaths_pred_month_day_ensemble_mepi - list of tuples corresponding to the predictions
+    &#39;&#39;&#39;
+    df_county = add_all_preds(df_county)  # add single predictor predictions
+    # df_county.to_pickle(&#34;all_deaths_preds_6_21.pkl&#34;)
+    for i in tqdm(range(1, ndays + 1)):  # add ensemble predictions
+        d = today - timedelta(i)
+        df_county = add_ensemble_prediction(df_county, d.month, d.day, &#39;deaths&#39;)
+    for i in tqdm(range(1, ndays - 19)):  # add mepi
+        d = today - timedelta(i)
+        df_county = add_mepi(df_county, d.month, d.day, &#39;deaths&#39;)
+
+    df_county.to_pickle(&#34;all_deaths_preds_6_21.pkl&#34;)
+
+    print(&#34;computed all predictions successfully&#34;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="modeling.predict_all_deaths.add_all_preds"><code class="name flex">
+<span>def <span class="ident">add_all_preds</span></span>(<span>df_county)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>add single predictor predictions for the past {ndays} days</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_all_preds(df_county):
+    &#34;&#34;&#34;
+    add single predictor predictions for the past {ndays} days
+    &#34;&#34;&#34;
+
+    for method in methods:
+        for t in tqdm(range(1, ndays + 1)):
+            d = today - timedelta(t)
+            if d &lt; date(2020, 3, 16) and method in [&#39;demographic&#39;]:
+                continue
+            use_df = exponential_modeling.leave_t_day_out(df_county, 0 + t)
+
+            if method != &#39;ensemble&#39; and method != &#39;demographic&#39;:
+                use_df = fit_and_predict.fit_and_predict(use_df,
+                                                         target_day=np.arange(1, horizon + 1),
+                                                         outcome=outcome,
+                                                         method=method,
+                                                         mode=&#39;predict_future&#39;,
+                                                         output_key=f&#39;predicted_{outcome}_{method}_{horizon}&#39;)
+            elif method == &#39;demographic&#39;:
+                use_df = fit_and_predict.fit_and_predict(use_df,
+                                                         target_day=np.arange(1, horizon + 1),
+                                                         outcome=outcome,
+                                                         method=&#39;shared_exponential&#39;,
+                                                         mode=&#39;predict_future&#39;,
+                                                         demographic_vars=very_important_vars,
+                                                         output_key=f&#39;predicted_{outcome}_{method}_{horizon}&#39;)
+
+            df_county[f&#39;all_{outcome}_pred_{d.month}_{d.day}_{method}_{horizon}&#39;] = use_df[
+                f&#39;predicted_{outcome}_{method}_{horizon}&#39;]
+
+    return df_county</code></pre>
+</details>
+</dd>
+<dt id="modeling.predict_all_deaths.add_ensemble_prediction"><code class="name flex">
+<span>def <span class="ident">add_ensemble_prediction</span></span>(<span>df_county, month, day, outcome='deaths')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>add ensemble predictions made on given month and day, for the next {horizon} days</p>
+<h2 id="input">Input</h2>
+<dl>
+<dt><strong><code>df_county</code></strong></dt>
+<dd>pd.DataFrame</dd>
+<dt><strong><code>month</code></strong></dt>
+<dd>int</dd>
+<dt><strong><code>day</code></strong></dt>
+<dd>int</dd>
+<dt><strong><code>outcome</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>Output</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>the ensemble predictions are saved in the column 'all_deaths_pred_{month}<em horizon>{day}_ensemble</em>'</dd>
+</dl>
+<p>As an example, if month = 6 and day = 20, this function will add ensemble predictions
+for 6/20, 6/21, &hellip; 6/20 + horizon - 1,
+and the predictions are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)</p>
+<dl>
+<dt><strong><code>Note</code></strong> :&ensp;<code>this</code> <code>works</code> <code>only</code> <code>when</code> <code>previous</code> <code>9</code> <code>days'</code> <code>predictions</code> of <code>single</code> <code>predictors</code> <code>exist</code> <code>in</code> <code>the</code> <code>data</code> <code>frame</code> <code>df_county</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>Otherwise, please use fit_and_predict_ensemble in fit_and_predict.py</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_ensemble_prediction(df_county, month, day, outcome=&#39;deaths&#39;):
+    &#34;&#34;&#34;
+    add ensemble predictions made on given month and day, for the next {horizon} days
+    
+    Input:
+        df_county: pd.DataFrame
+        month: int
+        day: int
+        outcome: str
+    
+    Output: pd.DataFrame
+        the ensemble predictions are saved in the column &#39;all_deaths_pred_{month}_{day}_ensemble_{horizon}&#39;
+        
+    As an example, if month = 6 and day = 20, this function will add ensemble predictions 
+    for 6/20, 6/21, ... 6/20 + horizon - 1,
+    and the predictions are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)
+    
+    Note: this works only when previous 9 days&#39; predictions of single predictors exist in the data frame df_county
+    Otherwise, please use fit_and_predict_ensemble in fit_and_predict.py
+    &#34;&#34;&#34;
+
+    d0 = date(2020, month, day)
+    delta_0 = (today - d0).days
+
+    if d0 &lt; date(2020, 3, 16):
+        df_county[f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_ensemble_{horizon}&#39;] = df_county[
+            f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_linear_{horizon}&#39;]
+        # before 3/16, the ensemble predictor is not available, because there was not enough data to train the expanded shared predictor; as such, we impute the ensemble predictions with linear predictions
+        return df_county
+
+    weights = {}
+    for method in [&#39;advanced_shared_model&#39;, &#39;linear&#39;]:
+        y, y_preds = [], []
+        for i in range(len(df_county)):
+            y.append(df_county[&#39;deaths&#39;].values[i][-(delta_0 + 7): -delta_0])  # actual deaths of last 7 days
+
+            preds = []
+            for k in range(7):
+                d1 = d0 - timedelta(3 + k)
+                preds.append(df_county[f&#39;all_{outcome}_pred_{d1.month}_{d1.day}_{method}_{horizon}&#39;].values[i][2])
+                # 3-day-ahead predicted deaths of last 7 days.
+            y_preds.append(preds[::-1])
+        y, y_preds = np.array(y), np.array(y_preds)
+        weights[method] = pmdl_weight(np.sqrt(y), np.sqrt(np.maximum(y_preds, 0)))  # compute weights
+
+    ensemble_preds = []
+    for i in range(len(df_county)):
+        preds = np.zeros(horizon)
+        for method in [&#39;advanced_shared_model&#39;, &#39;linear&#39;]:
+            preds += weights[method][i] * np.array(
+                df_county[f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_{method}_{horizon}&#39;].values[i])
+        preds = preds / sum(weights[m][i] for m in [&#39;advanced_shared_model&#39;, &#39;linear&#39;])
+        ensemble_preds.append(preds)
+    df_county[f&#39;all_{outcome}_pred_{d0.month}_{d0.day}_ensemble_{horizon}&#39;] = ensemble_preds
+
+    return df_county</code></pre>
+</details>
+</dd>
+<dt id="modeling.predict_all_deaths.add_mepi"><code class="name flex">
+<span>def <span class="ident">add_mepi</span></span>(<span>df_county, month, day, outcome='deaths')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>compute MEPI for given month and day for up to 14-day</p>
+<h2 id="input">Input</h2>
+<dl>
+<dt><strong><code>df_county</code></strong></dt>
+<dd>pd.DataFrame</dd>
+<dt><strong><code>month</code></strong></dt>
+<dd>int</dd>
+<dt><strong><code>day</code></strong></dt>
+<dd>int</dd>
+<dt><strong><code>outcome</code></strong></dt>
+<dd>str</dd>
+<dt><strong><code>Output</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>the ensemble predictions are saved in the column 'all_deaths_pred_{month}_{day}_ensemble_mepi'</dd>
+</dl>
+<p>As an example, if month = 6 and day = 20, this function will will add mepi for 6/20, 6/21, &hellip; 7/3,
+and the mepi are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)</p>
+<dl>
+<dt><strong><code>Note</code></strong> :&ensp;<code>this</code> <code>only</code> <code>works</code> <code>when</code> <code>the</code> <code>ensemble</code> <code>predictions</code> of <code>last</code> <code>19</code> <code>days</code> <code>are</code> <code>available</code> <code>in</code> <code>df_county</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_mepi(df_county, month, day, outcome=&#39;deaths&#39;):
+    &#34;&#34;&#34;
+    compute MEPI for given month and day for up to 14-day
+    
+    Input:
+        df_county: pd.DataFrame
+        month: int
+        day: int
+        outcome: str
+    
+    Output: pd.DataFrame
+        the ensemble predictions are saved in the column &#39;all_deaths_pred_{month}_{day}_ensemble_mepi&#39;
+        
+    As an example, if month = 6 and day = 20, this function will will add mepi for 6/20, 6/21, ... 7/3,
+    and the mepi are made based on data up to 6/19 (since the data on 6/19 is not available until 6/20)
+    
+    Note: this only works when the ensemble predictions of last 19 days are available in df_county
+    &#34;&#34;&#34;
+
+    d0 = date(2020, month, day)
+    mepis = []
+    preds = df_county[f&#39;all_{outcome}_pred_{month}_{day}_ensemble_{horizon}&#39;].values
+    for i in range(len(df_county)):
+        pi_by_day = []
+        d1 = d0 - timedelta(1)
+        latest = df_county[f&#39;#{outcome.capitalize()}_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+        for j in range(min(horizon, 14)):  # add prediction intervals for up to 14 days ahead prediction
+            me = 0
+            for lb in range(5):  # find max error of last 5 days
+                d1 = d0 - timedelta(lb + 1)
+                d2 = d0 - timedelta(lb + j + 1)
+                actual = df_county[f&#39;#{outcome.capitalize()}_{d1.strftime(&#34;%m-%d-%Y&#34;)}&#39;].values[i]
+                pred = df_county[f&#39;all_{outcome}_pred_{d2.month}_{d2.day}_ensemble_{horizon}&#39;].values[i][j]
+                me = max(me, abs(actual / max(pred, 1) - 1))
+                # me = max(me, abs(actual-pred))
+            pi_by_day.append((max(preds[i][j] * (1 - me), latest), preds[i][j] * (1 + me)))
+            # pi_by_day.append((max(preds[i][j] - me, latest), preds[i][j] + me))
+        mepis.append(pi_by_day)
+    df_county[f&#39;all_{outcome}_pred_{month}_{day}_ensemble_mepi&#39;] = mepis
+
+    return df_county</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="modeling" href="index.html">modeling</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="modeling.predict_all_deaths.add_all_preds" href="#modeling.predict_all_deaths.add_all_preds">add_all_preds</a></code></li>
+<li><code><a title="modeling.predict_all_deaths.add_ensemble_prediction" href="#modeling.predict_all_deaths.add_ensemble_prediction">add_ensemble_prediction</a></code></li>
+<li><code><a title="modeling.predict_all_deaths.add_mepi" href="#modeling.predict_all_deaths.add_mepi">add_mepi</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
