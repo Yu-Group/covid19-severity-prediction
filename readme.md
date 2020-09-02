@@ -4,9 +4,14 @@
 </p>
 
 <p align="center">
+  Table of contents </br>
   <a href="#overview">Overview</a> •
   <a href="#quickstart-with-the-data--models">Quickstart</a> •
   <a href="#acknowledgements">Acknowledgements</a> 
+  </br> Resources </br>
+  <a href="./data/county_data_abridged.csv">Data csv</a> •
+  <a href="https://arxiv.org/abs/2005.07882">Paper</a> •
+  <a href="http://covidseverity.com/">Website</a> 
 </p>
 
 # Overview
@@ -73,7 +78,7 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 - Helpful input from many including: SriSatish Ambati, Rob Crockett, Tina Elassia-Rad, Marty Elisco, Nick Jewell, Valerie Isham, Valerie Karplus, Andreas Lange, Ying Lu, Samuel Scarpino, Jas Sekhon, Phillip Stark, Jacob Steinhardt, Suzanne Tamang, Brian Yandell, Tarek Zohdi
 - Additionally, we would like to thank our sources, which can be found in the [data readme](./data/readme.md)
 
-To reference, please cite [the paper](https://arxiv.org/abs/2005.07882) 
+To reference, please cite [the paper](https://arxiv.org/abs/2005.07882):
 ```c
 @article{altieri2020curating,
   title={Curating a COVID-19 data repository and forecasting county-level death counts in the United States},
