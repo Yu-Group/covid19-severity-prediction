@@ -77,6 +77,7 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 - Support from Google: Cat Allman and Peter Norvig
 - [Shen Group team](https://shen.ieor.berkeley.edu/) (IEOR): Junyu Cao, Shunan Jiang, Pelagie Elimbi Moudio
 - Helpful input from many including: SriSatish Ambati, Rob Crockett, Tina Elassia-Rad, Marty Elisco, Nick Jewell, Valerie Isham, Valerie Karplus, Andreas Lange, Ying Lu, Samuel Scarpino, Jas Sekhon, Phillip Stark, Jacob Steinhardt, Suzanne Tamang, Brian Yandell, Tarek Zohdi
+- Thanks to support from AWS and Google
 - Additionally, we would like to thank our sources, which can be found in the [data readme](./data/readme.md)
 
 To reference, please cite [the paper](https://arxiv.org/abs/2005.07882):
