@@ -196,7 +196,6 @@ if __name__ == '__main__':
     add_rates(df_county)
     ## Add past predictions
     df_county, past_dates = add_prediction_history(df_county)
-    print(len(past_dates))
     ## dates with data
     dates = viz_map_utils.date_in_data(df_county)
     ## cache the results
