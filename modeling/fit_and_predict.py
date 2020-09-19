@@ -461,7 +461,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                          verbose=verbose)
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
 
-    yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
+    yesterday = datetime.datetime.today() - datetime.timedelta(days=3)
     one_week_ago = yesterday - datetime.timedelta(days = 7)
     DATA_DATE_FORMAT = '%m-%d-%Y'
     yesterday_str = yesterday.strftime(DATA_DATE_FORMAT)
