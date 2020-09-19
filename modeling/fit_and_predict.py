@@ -461,14 +461,15 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                          verbose=verbose)
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
 
-    yesterday = datetime.datetime.today() - datetime.timedelta(days=3)
-    one_week_ago = yesterday - datetime.timedelta(days = 7)
+    # sometimes USAfacts updates deaths after 10am, so go back 2 days to be safe
+    most_recent = datetime.datetime.today() - datetime.timedelta(days=2)
+    one_week_ago = most_recent - datetime.timedelta(days = 7)
     DATA_DATE_FORMAT = '%m-%d-%Y'
-    yesterday_str = yesterday.strftime(DATA_DATE_FORMAT)
+    most_recent_str = most_recent.strftime(DATA_DATE_FORMAT)
     one_week_ago_str = one_week_ago.strftime(DATA_DATE_FORMAT)
 
     # add recent_deaths (one-week totals)
-    df_county['recent_deaths'] = df_county['#Deaths_'+yesterday_str] - df_county['#Deaths_'+one_week_ago_str]
+    df_county['recent_deaths'] = df_county['#Deaths_'+most_recent_str] - df_county['#Deaths_'+one_week_ago_str]
 
     if cached_dir is not None:
         df_county.to_pickle(cached_fname)
