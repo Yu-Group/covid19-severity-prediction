@@ -35,3 +35,13 @@ list_of_columns.csv
 modeling/intermediate*
 **.xls
 modeling/*.csv
+
+
+# results in dashboard
+results/All_counties
+results/classic
+results/search.html
+results/db-support
+results/js
+results/style
+functions/update_search.json
