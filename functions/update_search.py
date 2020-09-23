@@ -103,6 +103,7 @@ def generate_map(df, keys):
         fig.write_image(oj(parentdir,"results/" + key + ".svg"),width=200, height=550)
     print('succesfully generated search map')
     return maps
+
 ## update search.html
 def update_html(maps,keys):
     f = open(oj(parentdir, 'results/template.html'), "r")
