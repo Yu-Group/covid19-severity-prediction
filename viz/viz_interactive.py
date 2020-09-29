@@ -15,6 +15,7 @@ import plotly.express as px
 import plotly
 import pandas as pd
 from datetime import datetime, timedelta
+from tqdm import tqdm
 
 red = '179,74,71'
 blue = '111,136,190'
@@ -265,7 +266,7 @@ def viz_curves_all_counties(df, filename, date1, date2, keys_curves = ['deaths',
         return plotly.offline.plot(fig, 
                 include_plotlyjs= js, output_type='div')
            
-    for i in range(df.shape[0]):
+    for i in tqdm(range(df.shape[0])):
         row = df.iloc[i]
         state,county,FIPS = row['State'],row['County']+" County",row['countyFIPS']
         if state == 'Alaska':

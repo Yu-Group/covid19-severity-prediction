@@ -59,18 +59,17 @@ cp -r $REPO_DIR/results/* $DASHBOARD_DIR/results
 # $(which python3) $REPO_DIR/functions/update_ihme.py >> $LOG_FILE
 
 # push the dashboard repo
-cd DASHBOARD_DIR=/home/ubuntu/covid19-dashboard
+cd $DASHBOARD_DIR
 git pull origin master # pull from origin
 git add .
 git commit -am "daily update" # commit to git
 git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-dashboard.git # push to origin
 
 
-# after running all scripts need to push to git
+# push to main github repo
 cd $REPO_DIR
 git pull origin master # pull from origin
 git add .
+git add -f results/search_map.svg
 git commit -am "daily update" # commit to git
-
-# push to origin
-git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-dashboard.git 
+git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-severity-prediction.git 
