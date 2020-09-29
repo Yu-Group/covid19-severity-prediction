@@ -36,8 +36,6 @@ git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19
 
 
 
-
-
 ################# update visualizations #####################
 # update severity index gsheet + index viz
 $(which python3) $REPO_DIR/functions/update_severity_index.py >> $LOG_FILE
@@ -62,27 +60,17 @@ cp -r $REPO_DIR/results/* $DASHBOARD_DIR/results
 
 # push the dashboard repo
 cd DASHBOARD_DIR=/home/ubuntu/covid19-dashboard
-# pull from origin
-git pull origin master
+git pull origin master # pull from origin
 git add .
-
-# commit to git
-git commit -am "daily update"
-
-# push to origin
-git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-severity-prediction.git 
-
+git commit -am "daily update" # commit to git
+git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-dashboard.git # push to origin
 
 
 # after running all scripts need to push to git
 cd $REPO_DIR
-
-# pull from origin
-git pull origin master
+git pull origin master # pull from origin
 git add .
-
-# commit to git
-git commit -am "daily update"
+git commit -am "daily update" # commit to git
 
 # push to origin
 git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-dashboard.git 
