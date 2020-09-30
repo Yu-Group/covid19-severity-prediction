@@ -24,14 +24,10 @@ $(which python3) download.py >> $LOG_FILE
 cd $REPO_DIR/data/county_level/processed/usafacts_infections
 $(which python3) clean.py >> $LOG_FILE
 
-# push to git
-git add .
-
-# commit to git
-git commit -am "update usafacts and nytimes data"
-
-# push to origin
-git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-severity-prediction.git 
+# push data to git
+git add . # add
+git commit -am "update usafacts and nytimes data" # commit to git
+git push --quiet https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Yu-Group/covid19-severity-prediction.git # push to origin
 
 
 
@@ -54,9 +50,6 @@ $(which python3) $REPO_DIR/functions/update_search.py >> $LOG_FILE
 cp $REPO_DIR/results/All_counties/* $DASHBOARD_DIR/results/All_counties
 cp $REPO_DIR/functions/update_search.json $DASHBOARD_DIR/functions
 cp -r $REPO_DIR/results/* $DASHBOARD_DIR/results
-# cp $REPO_DIR/results/search.html $DASHBOARD_DIR/results/
-# cache IHME preds
-# $(which python3) $REPO_DIR/functions/update_ihme.py >> $LOG_FILE
 
 # push the dashboard repo
 cd $DASHBOARD_DIR
