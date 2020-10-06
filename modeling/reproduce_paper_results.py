@@ -271,6 +271,43 @@ def county_level_results(counties, td):
     plt.tight_layout()
     filename = os.path.join(result_dir, f'{counties}_counties_jun21_{td}_day.pdf')
     plt.savefig(filename)
+    
+def county_level_linear_weights(counties):
+    """
+    plot Figure 9 and 10 in the paper
+    """
+
+    df_county['CountyNamew/StateAbbrev'] = [df_county['CountyName'].iloc[i] + ', ' + df_county['StateName'].iloc[i] for
+                                            i in range(len(df_county))]
+    random1 = ['Bergen, NJ', 'Broward, FL', 'Dougherty, GA', 'Monmouth, NJ', 'Oakland, MI', 'Suffolk, NY']
+    random_index = np.where(df_county['CountyNamew/StateAbbrev'].isin(random1) == True)[0]
+
+    
+    fig = plt.figure(figsize=(6, 4), dpi=400)
+
+    ax = plt.subplot(1, 1, 1)
+        # ax = fig.add_subplot(3, 2, i+1)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    all_dates = linear_weights_by_day.columns[::-1]
+    for i in range(6):
+        if counties == 'worst':
+            ri = i
+        elif counties == 'random':
+            ri = random_index[i]
+        if i <= 1:
+            plt.plot(range(len(all_dates)), linear_weights_by_day.iloc[ri][::-1], label=df_county['CountyNamew/StateAbbrev'].values[ri], alpha=1, linewidth=1.5)
+        else:
+            plt.plot(range(len(all_dates)), linear_weights_by_day.iloc[ri][::-1], alpha=.2, linewidth=1, color='gray')
+    plt.xticks(range(0, 91, 11), all_dates[range(0, 91, 11)])
+    plt.legend(loc='lower right', fontsize=12)
+    plt.xlabel("Date", fontsize=15)
+    plt.ylabel("Weight of linear predictor", fontsize=15)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)  
+    plt.tight_layout()
+    filename = os.path.join(result_dir, f'{counties}_counties_linear_weights.pdf')
+    plt.savefig(filename)
 
 
 def plot_all_county_level_results():
@@ -279,6 +316,7 @@ def plot_all_county_level_results():
     """
 
     for counties in ['worst', 'random']:
+        county_level_linear_weights(counties)
         for td in [7, 14]:
             county_level_results(counties, td)
 
@@ -530,6 +568,7 @@ def plot_all_mepi_results():
 if __name__ == '__main__':
     today = date(2020, 6, 21)
     df_county = pd.read_pickle("all_deaths_preds_6_21.pkl")
+    linear_weights_by_day = pd.read_pickle("linear_weights_by_day.pkl")
     label_name = {'linear': 'linear', 'advanced_shared_model': 'expanded shared', 'ensemble': 'CLEP'}
     color_name = {'linear': 'darkred', 'advanced_shared_model': 'darkorange', 'ensemble': 'steelblue'}
     ls_name = {'linear': ':', 'advanced_shared_model': '--', 'ensemble': '-'}
@@ -541,8 +580,8 @@ if __name__ == '__main__':
     horizon = 21
     os.makedirs('reproduce_paper_results', exist_ok=True)
     print('print and plot all pred errors...')
-    print_and_plot_all_prediction_errors()
+    #print_and_plot_all_prediction_errors()
     print('plot all count-level results...')
     plot_all_county_level_results()
     print('plot all mepi results...')
-    plot_all_mepi_results()
+    #plot_all_mepi_results()

@@ -32,7 +32,9 @@ methods = ['advanced_shared_model', 'linear', 'shared_exponential',
 advanced_model = {'model_type': 'advanced_shared_model'}
 linear = {'model_type': 'linear'}
 corrected = False
-df_county = pd.read_pickle("df_county_6_21.pkl")
+#df_county = pd.read_pickle("df_county_6_21.pkl")
+df_county = pd.read_pickle("all_deaths_preds_6_21.pkl")
+linear_weights_by_day = {}
 today = date(2020, 6, 21)
 earliest_day = date(2020, 3, 7)
 ndays = (today - earliest_day).days
@@ -139,14 +141,18 @@ def add_ensemble_prediction(df_county, month, day, outcome='deaths'):
         weights[method] = pmdl_weight(np.sqrt(y), np.sqrt(np.maximum(y_preds, 0)))  # compute weights
 
     ensemble_preds = []
+    linear_weights = []
     for i in range(len(df_county)):
         preds = np.zeros(horizon)
         for method in ['advanced_shared_model', 'linear']:
             preds += weights[method][i] * np.array(
                 df_county[f'all_{outcome}_pred_{d0.month}_{d0.day}_{method}_{horizon}'].values[i])
-        preds = preds / sum(weights[m][i] for m in ['advanced_shared_model', 'linear'])
+        sum_weights = sum(weights[m][i] for m in ['advanced_shared_model', 'linear'])
+        preds = preds / sum_weights
         ensemble_preds.append(preds)
+        linear_weights.append(weights['linear'][i]/sum_weights)
     df_county[f'all_{outcome}_pred_{d0.month}_{d0.day}_ensemble_{horizon}'] = ensemble_preds
+    linear_weights_by_day[f'{d0.month}/{d0.day}'] = linear_weights
 
     return df_county
 
@@ -205,15 +211,17 @@ if __name__ == '__main__':
     confidence intervals
         all_deaths_pred_month_day_ensemble_mepi - list of tuples corresponding to the predictions
     '''
-    df_county = add_all_preds(df_county)  # add single predictor predictions
+    #df_county = add_all_preds(df_county)  # add single predictor predictions
     # df_county.to_pickle("all_deaths_preds_6_21.pkl")
     for i in tqdm(range(1, ndays + 1)):  # add ensemble predictions
         d = today - timedelta(i)
         df_county = add_ensemble_prediction(df_county, d.month, d.day, 'deaths')
-    for i in tqdm(range(1, ndays - 19)):  # add mepi
-        d = today - timedelta(i)
-        df_county = add_mepi(df_county, d.month, d.day, 'deaths')
+    linear_weights_by_day = pd.DataFrame(linear_weights_by_day)
+    #for i in tqdm(range(1, ndays - 19)):  # add mepi
+    #    d = today - timedelta(i)
+    #    df_county = add_mepi(df_county, d.month, d.day, 'deaths')
 
-    df_county.to_pickle("all_deaths_preds_6_21.pkl")
+    #df_county.to_pickle("all_deaths_preds_6_21.pkl")
+    linear_weights_by_day.to_pickle("linear_weights_by_day.pkl")
 
     print("computed all predictions successfully")
