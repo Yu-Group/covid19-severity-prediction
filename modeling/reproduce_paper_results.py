@@ -92,14 +92,15 @@ def plot_7_day_prediction_errors(metric, all_errors, all_dates):
                     label=label_name[method],
                     color=color_name[method],
                     linestyle=ls_name[method],
-                    linewidth=2.5,
+                    linewidth=1.5,
                     alpha=.66)
         else:
             ax.plot(all_errors[method][7][::-1],
                     label=label_name[method],
                     color=color_name[method],
                     linestyle=ls_name[method],
-                    linewidth=2.5)
+                    linewidth=1.5,
+                    alpha=.8)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     if metric == 'mae':
@@ -570,8 +571,8 @@ if __name__ == '__main__':
     df_county = pd.read_pickle("all_deaths_preds_6_21.pkl")
     linear_weights_by_day = pd.read_pickle("linear_weights_by_day.pkl")
     label_name = {'linear': 'linear', 'advanced_shared_model': 'expanded shared', 'ensemble': 'CLEP'}
-    color_name = {'linear': 'darkred', 'advanced_shared_model': 'darkorange', 'ensemble': 'steelblue'}
-    ls_name = {'linear': ':', 'advanced_shared_model': '--', 'ensemble': '-'}
+    color_name = {'linear': '#B4C292', 'advanced_shared_model': '#D17A22', 'ensemble': '#4C061D'}
+    ls_name = {'linear': '-', 'advanced_shared_model': '-', 'ensemble': '-'}
     all_methods = ['exponential', 'shared_exponential', 'demographic', 'advanced_shared_model', 'linear', 'ensemble']
     all_metrics = ['mae', 'mape', 'sqrt']
     result_dir = 'reproduce_paper_results/'
@@ -580,8 +581,8 @@ if __name__ == '__main__':
     horizon = 21
     os.makedirs('reproduce_paper_results', exist_ok=True)
     print('print and plot all pred errors...')
-    #print_and_plot_all_prediction_errors()
+    print_and_plot_all_prediction_errors()
     print('plot all count-level results...')
-    plot_all_county_level_results()
+    #plot_all_county_level_results()
     print('plot all mepi results...')
     #plot_all_mepi_results()
