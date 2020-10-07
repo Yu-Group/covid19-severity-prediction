@@ -130,9 +130,9 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
 
     plt.figure(figsize=(4, 3), dpi=200)
     ax = plt.subplot(111)
-    color_name_by_td = {7: '#B1C8C9', 10: '#4DE0E8', 14: '#1D6569'}
+    color_name_by_td = {7: '#B1C8C9', 10: '#40C2C9', 14: '#27787C'}
     ls_name_by_td = {7: '-', 10: '-', 14: '-'}
-    for td in [7, 10, 14]:
+    for td in [14, 10, 7]:
         plt.plot(all_errors['ensemble'][td][:71][::-1],
                  label=f'{td} day',
                  linestyle=ls_name_by_td[td],
@@ -156,7 +156,7 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
     filename = os.path.join(result_dir, f'{metric}_clep_14_day.pdf')
     plt.savefig(filename)
 
-    plt.figure(figsize=(4, 3), dpi=200)
+    plt.figure(figsize=(6, 3), dpi=200)
     ax = plt.subplot(111)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
@@ -176,6 +176,7 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
     plt.yscale('linear')
     if metric == 'mae':
         plt.ylabel("Raw scale MAE", fontsize=15)
+        plt.yticks([50, 100, 150])
     elif metric == 'mape':
         plt.ylabel("MAPE", fontsize=15)
     elif metric == 'sqrt':
@@ -187,6 +188,8 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
     plt.yticks(fontsize=12)
     plt.xticks(fontsize=12)
     plt.ylim((0, 160))
+    if metric == 'mae':
+        print(np.sum(np.array(all_errors['ensemble'][21][:71]) > 160))
     plt.xlim((0, 23))
     plt.xticks(positions)
     plt.plot(np.arange(1, 22), median_error[1:], linestyle='--', color='k')
@@ -231,7 +234,7 @@ def print_and_plot_all_prediction_errors():
     for metric in all_metrics:
         all_errors, all_dates = compute_prediction_errors(metric)
         #print_prediction_error_quantiles(metric, all_errors)
-        #plot_7_day_prediction_errors(metric, all_errors, all_dates)
+        plot_7_day_prediction_errors(metric, all_errors, all_dates)
         plot_7_10_14_day_clep_errors(metric, all_errors, all_dates)
         plot_clep_median_error(metric, all_errors)
 
@@ -319,8 +322,10 @@ def county_level_linear_weights(counties):
             ri = random_index[i]
         if i <= 1:
             plt.plot(range(len(all_dates)), linear_weights_by_day.iloc[ri][::-1], label=df_county['CountyNamew/StateAbbrev'].values[ri], alpha=1, linewidth=1.5)
+        elif i == 2:
+            plt.plot(range(len(all_dates)), linear_weights_by_day.iloc[ri][::-1], alpha=.28, linewidth=1, color='k', label='Other counties')
         else:
-            plt.plot(range(len(all_dates)), linear_weights_by_day.iloc[ri][::-1], alpha=.2, linewidth=1, color='gray')
+            plt.plot(range(len(all_dates)), linear_weights_by_day.iloc[ri][::-1], alpha=.28, linewidth=1, color='k')            
     plt.xticks(range(0, 91, 11), all_dates[range(0, 91, 11)])
     plt.legend(loc='lower right', fontsize=12)
     plt.xlabel("Date", fontsize=15)
@@ -592,7 +597,7 @@ if __name__ == '__main__':
     df_county = pd.read_pickle("all_deaths_preds_6_21.pkl")
     linear_weights_by_day = pd.read_pickle("linear_weights_by_day.pkl")
     label_name = {'linear': 'linear', 'advanced_shared_model': 'expanded shared', 'ensemble': 'CLEP'}
-    color_name = {'linear': '#B4C292', 'advanced_shared_model': '#D17A22', 'ensemble': '#7C6F4E'}
+    color_name = {'linear': '#7E9051', 'advanced_shared_model': '#D17A22', 'ensemble': '#7C6F4E'}
     ls_name = {'linear': '-', 'advanced_shared_model': '-', 'ensemble': '-'}
     all_methods = ['exponential', 'shared_exponential', 'demographic', 'advanced_shared_model', 'linear', 'ensemble']
     all_metrics = ['mae', 'mape', 'sqrt']
@@ -602,8 +607,8 @@ if __name__ == '__main__':
     horizon = 21
     os.makedirs('reproduce_paper_results', exist_ok=True)
     print('print and plot all pred errors...')
-    print_and_plot_all_prediction_errors()
+    #print_and_plot_all_prediction_errors()
     print('plot all count-level results...')
-    #plot_all_county_level_results()
+    plot_all_county_level_results()
     print('plot all mepi results...')
     #plot_all_mepi_results()
