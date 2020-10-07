@@ -93,25 +93,28 @@ def plot_7_day_prediction_errors(metric, all_errors, all_dates):
                     color=color_name[method],
                     linestyle=ls_name[method],
                     linewidth=1.5,
-                    alpha=.66)
+                    alpha=.8)
         else:
             ax.plot(all_errors[method][7][::-1],
                     label=label_name[method],
                     color=color_name[method],
                     linestyle=ls_name[method],
                     linewidth=1.5,
-                    alpha=.8)
+                    alpha=1)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     if metric == 'mae':
         plt.ylabel("Raw scale MAE", fontsize=15)
+        plt.yticks([20, 40, 60], fontsize=12)
     elif metric == 'mape':
         plt.ylabel("MAPE", fontsize=15)
+        plt.yticks([50, 100, 150], fontsize=12)
     elif metric == 'sqrt':
         plt.ylabel("Square root scale MAE", fontsize=15)
+        plt.yticks([1, 2, 3], fontsize=12)
     if metric == 'mape':
         plt.legend(fontsize=12)
-    plt.yticks([20, 40, 60], fontsize=12)
+    #plt.yticks([20, 40, 60], fontsize=12)
     plt.xticks(fontsize=12)
     plt.xticks(range(0, error_num_days, 14), all_dates[::-1][range(0, error_num_days, 14)])
     plt.xlabel("Date", fontsize=15)
@@ -127,14 +130,14 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
 
     plt.figure(figsize=(4, 3), dpi=200)
     ax = plt.subplot(111)
-    color_name_by_td = {7: 'darkred', 10: 'darkorange', 14: 'steelblue'}
-    ls_name_by_td = {7: ':', 10: '--', 14: '-'}
+    color_name_by_td = {7: '#B1C8C9', 10: '#4DE0E8', 14: '#1D6569'}
+    ls_name_by_td = {7: '-', 10: '-', 14: '-'}
     for td in [7, 10, 14]:
         plt.plot(all_errors['ensemble'][td][:71][::-1],
                  label=f'{td} day',
                  linestyle=ls_name_by_td[td],
                  color=color_name_by_td[td],
-                 linewidth=2.5)
+                 linewidth=1.5)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     if metric == 'mae':
@@ -157,7 +160,19 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
     ax = plt.subplot(111)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    plt.boxplot([all_errors['ensemble'][td][:71] for td in [3, 5, 7, 10, 14]])
+    flierprops = dict(marker='+', markerfacecolor='#3F5D7D', markersize=5,
+                      linestyle='none', 
+                      markeredgecolor='#3F5D7D',
+                      alpha=.5)
+    medianprops = dict(color='k')
+    positions = [3, 5, 7, 10, 14, 21]
+    plt.boxplot([all_errors['ensemble'][td][:71] for td in positions],
+                positions=positions,
+                notch=False,
+                flierprops=flierprops,
+                patch_artist=True,
+                boxprops=dict(facecolor='#3F5D7D', color='#3F5D7D'),
+                medianprops=medianprops)
     plt.yscale('linear')
     if metric == 'mae':
         plt.ylabel("Raw scale MAE", fontsize=15)
@@ -165,10 +180,16 @@ def plot_7_10_14_day_clep_errors(metric, all_errors, all_dates):
         plt.ylabel("MAPE", fontsize=15)
     elif metric == 'sqrt':
         plt.ylabel("Square root scale MAE", fontsize=15)
+    median_error = np.zeros(22)
+    for td in range(1, 22):
+        median_error[td] = np.median(all_errors['ensemble'][td][:71])
     plt.xlabel("Horizon", fontsize=15)
     plt.yticks(fontsize=12)
     plt.xticks(fontsize=12)
-    plt.xticks([1, 2, 3, 4, 5], [3, 5, 7, 10, 14])
+    plt.ylim((0, 160))
+    plt.xlim((0, 23))
+    plt.xticks(positions)
+    plt.plot(np.arange(1, 22), median_error[1:], linestyle='--', color='k')
     plt.tight_layout()
     filename = os.path.join(result_dir, f'{metric}_clep_box_plot.pdf')
     plt.savefig(filename)
@@ -181,7 +202,7 @@ def plot_clep_median_error(metric, all_errors):
 
     median_error = []
     for td in range(1, 22):
-        median_error.append(np.median(all_errors['ensemble'][td]))
+        median_error.append(np.median(all_errors['ensemble'][td][:71]))
     plt.figure(figsize=(4, 3), dpi=200)
     ax = plt.subplot(111)
     plt.plot(np.arange(1, 22, 1), median_error, color='lightcoral', linewidth=3)
@@ -209,8 +230,8 @@ def print_and_plot_all_prediction_errors():
 
     for metric in all_metrics:
         all_errors, all_dates = compute_prediction_errors(metric)
-        print_prediction_error_quantiles(metric, all_errors)
-        plot_7_day_prediction_errors(metric, all_errors, all_dates)
+        #print_prediction_error_quantiles(metric, all_errors)
+        #plot_7_day_prediction_errors(metric, all_errors, all_dates)
         plot_7_10_14_day_clep_errors(metric, all_errors, all_dates)
         plot_clep_median_error(metric, all_errors)
 
@@ -571,7 +592,7 @@ if __name__ == '__main__':
     df_county = pd.read_pickle("all_deaths_preds_6_21.pkl")
     linear_weights_by_day = pd.read_pickle("linear_weights_by_day.pkl")
     label_name = {'linear': 'linear', 'advanced_shared_model': 'expanded shared', 'ensemble': 'CLEP'}
-    color_name = {'linear': '#B4C292', 'advanced_shared_model': '#D17A22', 'ensemble': '#4C061D'}
+    color_name = {'linear': '#B4C292', 'advanced_shared_model': '#D17A22', 'ensemble': '#7C6F4E'}
     ls_name = {'linear': '-', 'advanced_shared_model': '-', 'ensemble': '-'}
     all_methods = ['exponential', 'shared_exponential', 'demographic', 'advanced_shared_model', 'linear', 'ensemble']
     all_metrics = ['mae', 'mape', 'sqrt']
