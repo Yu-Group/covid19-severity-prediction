@@ -607,7 +607,7 @@ if __name__ == '__main__':
     horizon = 21
     os.makedirs('reproduce_paper_results', exist_ok=True)
     print('print and plot all pred errors...')
-    #print_and_plot_all_prediction_errors()
+    print_and_plot_all_prediction_errors()
     print('plot all count-level results...')
     plot_all_county_level_results()
     print('plot all mepi results...')
