@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 class SharedModel:
     def __init__(self, df, outcome, demographic_variables, auxiliary_time_features, feat_transforms, mode, target_days,
                  time_series_default_values=None, scale=True, include_diffs=False, outcome_start_threshold=3,
-                 direct_predict=False, family=sm.families.Poisson()):
+                 direct_predict=False, family=sm.families.Poisson(), cutoff_time_frac=.5):
         self.outcome = outcome
         self.df = copy.deepcopy(df)
         if time_series_default_values is None:
@@ -46,6 +46,8 @@ class SharedModel:
         if self.direct_predict:
             assert len(self.target_days) == 1
         self.family = family
+        self.cutoff_time_frac = cutoff_time_frac
+
 
     def create_demographic_features(self, county_index):
         return [self.demographic_data_dict[d][county_index] for d in self.demographic_data_dict]
@@ -89,7 +91,13 @@ class SharedModel:
         # For each county in a dataset:
         for county_index in range(len(self.df)):
             # For each time period in a dataset:
-            for time_index in range(len(self.outcome_data[county_index])):
+            if self.cutoff_time_frac is None:
+                time_range = range(len(self.outcome_data[county_index]))
+                # print('time rasnge failed')
+            else:
+                time_range = range(int(len(self.outcome_data[county_index])*self.cutoff_time_frac),len(self.outcome_data[county_index]))
+
+            for time_index in time_range:
                 thresh = self.outcome_data[county_index][time_index] >= self.outcome_start_threshold
                 if self.outcome == 'deaths_per_cap':
                     thresh = self.outcome_data[county_index][time_index] >= self.outcome_start_threshold / \

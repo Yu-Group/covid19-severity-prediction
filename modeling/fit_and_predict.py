@@ -41,7 +41,10 @@ def fit_and_predict(df,
                     target_day: np.ndarray = np.array([1]),
                     output_key: str = None,
                     demographic_vars=[],
-                    verbose: bool = False):
+                    verbose: bool = False,
+                    expanded_shared_time_truncation = None
+
+                    ):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
     Predicts the values of the number of deaths for the final day of test_df and writes to the column
@@ -66,7 +69,9 @@ def fit_and_predict(df,
         target_day=np.array([k])) will predict the current days death count using information from k days ago.
         target_day= np.array([1,2,3,...,k]) will predict todays deaths, yesterdays deaths, deaths k-1 days ago using information from k days ago.
 
-
+    expanded_shared_time_truncation:
+        A way to reduce number of days trained on for the expanded shared model for computational resaons. Eg if expanded_shared_time_truncation
+        = 1/3, then we only use the 2/3rds most recent days. If this value is None, it will just use all of the days.
     Returns
     -------
     test_df
@@ -121,6 +126,7 @@ def fit_and_predict(df,
 
     elif method == 'advanced_shared_model':
 
+
         feat_transforms = defaultdict(lambda y: [lambda x: x])
         feat_transforms['deaths_per_cap'] = [lambda x: np.log(x + 1)]
         feat_transforms['deaths'] = [lambda x: np.log(x + 1)]
@@ -153,7 +159,7 @@ def fit_and_predict(df,
             t = np.array([t])
             shared_model = SharedModel(df=df, outcome=outcome, demographic_variables=[], mode=mode, target_days=t,
                                        feat_transforms=feat_transforms, auxiliary_time_features=aux_feats,
-                                       time_series_default_values=default_values, scale=True)
+                                       time_series_default_values=default_values, scale=True,cutoff_time_frac=expanded_shared_time_truncation)
             shared_model.create_dataset()
             shared_model.fit_model()
             shared_model.predict()
@@ -187,6 +193,8 @@ def fit_and_predict_ensemble(df,
                              weight_c0: int = 1,
                              weight_mu: int = 0.5,
                              debug: bool = False,
+                             expanded_shared_time_truncation = None
+
 ):
     """
     Function for ensemble prediction
@@ -220,7 +228,9 @@ def fit_and_predict_ensemble(df,
                                          target_day=target_day,
                                          output_key=f'y_preds_{i}',
                                          demographic_vars=demographic_vars,
-                                         verbose=verbose)[f'y_preds_{i}'].values
+                                         verbose=verbose,
+                                         expanded_shared_time_truncation = expanded_shared_time_truncation
+)[f'y_preds_{i}'].values
 
     if mode == 'predict_future':
         use_df = df
@@ -425,7 +435,9 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                                  mode='predict_future',
                                                  target_day=np.array([num_days_in_future]),
                                                  output_key=output_key,
-                                                 verbose=verbose)
+                                                 verbose=verbose,
+                                                 expanded_shared_time_truncation = .5
+                                                 )
             vals = df_county[output_key].values
             out = []
             for i in range(vals.shape[0]):
@@ -458,7 +470,9 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                          mode='eval_mode',
                                          target_day=np.array([3]),
                                          output_key=output_key,
-                                         verbose=verbose)
+                                         verbose=verbose,
+                                         expanded_shared_time_truncation = 1/2
+                                         )
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
 
     # sometimes USAfacts updates deaths after 10am, so go back 2 days to be safe
