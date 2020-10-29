@@ -44,6 +44,7 @@ set in this corpus is provided in this file.
         - [nchs_mortality](https://wonder.cdc.gov/cmf-icd10.html): overall mortality rates for each county from National Center for Health Statistics
         - [usdss_diabetes](https://gis.cdc.gov/grasp/diabetes/DiabetesAtlas.html#): diagnosed diabetes in each county from CDC USDSS
         - [kinsa_ili](https://www.kinsahealth.co/): measures of anomalous influenza-like illness incidence (ILI) outbreaks in real-time using Kinsa’s county-level illness signals, developed from real-time geospatial thermometer data (private data)
+        - [cmu_covidcast](https://cmu-delphi.github.io/delphi-epidata/api/covidcast.html): epidemiological data from the CMU Delphi COVIDcast, which includes data on COVID-like symptoms from Facebook surveys, estimated COVID-related doctor visits and hospital admissions, and other indicators
     - **Social Distancing and Mobility/Miscellaneous**
     	- [google_mobility](https://www.google.com/covid19/mobility/): community mobility reports from Google
     	- [apple_mobility](https://www.apple.com/covid19/mobility): mobility trends from Apple maps direction requests
@@ -55,6 +56,7 @@ set in this corpus is provided in this file.
         - [mit_voting](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VOQCHQ): county-level returns for presidential elections from 2000 to 2016 according to official state election data records
 - **Miscellaneous Data**
 	- [bts_airtravel](https://transtats.bts.gov/Databases.asp?Mode_ID=1&Mode_Desc=Aviation&Subject_ID2=0): survey data including origin, destination, and itinerary details from a 10% sample of airline tickets from the Bureau of Transportation Statistics
+    - [fb_socialconnectedness](https://data.humdata.org/dataset/social-connectedness-index): an anonymized snapshot of all active Facebook users and their friendship networks as a measure of social connectedness between two different places
 
 
 ## Quickstart
