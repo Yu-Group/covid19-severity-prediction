@@ -12,7 +12,8 @@
   <a href="./data/county_data_abridged.csv">Data csv</a> •
   <a href="https://arxiv.org/abs/2005.07882">Paper</a> •
   <a href="http://covidseverity.com/">Website</a> •
-  <a href="http://covidseverity.com/docs">Modeling docs</a> 
+  <a href="http://covidseverity.com/docs">Modeling docs</a> •
+  <a href="https://github.com/Yu-Group/covid19-matching">Dashboard code</a> 
 </p>
 
 # Overview
