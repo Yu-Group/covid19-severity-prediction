@@ -46,7 +46,8 @@ set in this corpus is provided in this file.
         - [kinsa_ili](https://www.kinsahealth.co/): measures of anomalous influenza-like illness incidence (ILI) outbreaks in real-time using Kinsa’s county-level illness signals, developed from real-time geospatial thermometer data (private data)
         - [cmu_covidcast](https://cmu-delphi.github.io/delphi-epidata/api/covidcast.html): epidemiological data from the CMU Delphi COVIDcast, which includes data on COVID-like symptoms from Facebook surveys, estimated COVID-related doctor visits and hospital admissions, and other indicators
     - **Social Distancing and Mobility/Miscellaneous**
-    	- [google_mobility](https://www.google.com/covid19/mobility/): community mobility reports from Google
+    	- [nytimes_masks](https://github.com/nytimes/covid-19-data/tree/master/mask-use): mask-wearing survey data from NYT and Dynata
+        - [google_mobility](https://www.google.com/covid19/mobility/): community mobility reports from Google
     	- [apple_mobility](https://www.apple.com/covid19/mobility): mobility trends from Apple maps direction requests
         - [unacast_mobility](https://www.unacast.com/covid19/social-distancing-scoreboard): county-level estimates of the change in mobility from pre-COVID-19 baseline from Unacast (private data)
         - [streetlight_vmt](https://www.streetlightdata.com/VMT-monitor-by-county/): estimates of total vehicle miles travelled (VMT) by residents of each county, each day; provided by Streetlight Data (private data)
