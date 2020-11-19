@@ -23,6 +23,7 @@ from .county_level.processed.khn_icu.clean import clean_khn_icu
 from .county_level.processed.medicare_chronic.clean import clean_medicare_chronic
 from .county_level.processed.mit_voting.clean import clean_mit_voting
 from .county_level.processed.nchs_mortality.clean import clean_nchs_mortality
+from .county_level.processed.nytimes_masks.clean import clean_nytimes_masks
 from .county_level.processed.unacast_mobility.clean import clean_unacast_mobility
 from .county_level.processed.usdss_diabetes.clean import clean_usdss_diabetes
 from .county_level.processed.jhu_interventions.clean import clean_jhu_interventions
@@ -95,7 +96,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         ## ADD PUBLIC DATASETS HERE
         public_datasets = ["ahrf_health", "cdc_svi", "chrr_health", "dhdsp_heart",
                            "dhdsp_stroke", "hpsa_shortage", "ihme_respiratory", "khn_icu",
-                           "medicare_chronic", "mit_voting", "nchs_mortality", 
+                           "medicare_chronic", "mit_voting", "nchs_mortality", "nytimes_masks",
                            "usdss_diabetes", "jhu_interventions", "usda_poverty"]
         ## ADD PRIVATE DATASETS HERE
         private_datasets = ["unacast_mobility", "kinsa_ili", "streetlight_vmt", 
@@ -164,7 +165,7 @@ def load_county_data(data_dir=".", cached_file="county_data.csv",
         
         # save data frame of (datasets, features)
         cols_df = pd.concat(cols_ls, axis=0, sort=False, ignore_index=True)
-        cols_df.to_csv("list_of_columns.csv", index=False)
+        cols_df.to_csv(oj(data_dir, "list_of_columns.csv"), index=False)
             
         # merge county ids data
         cnty_fips = pd.read_csv(oj(data_dir_raw, "county_ids", "county_fips.csv"))
@@ -392,7 +393,8 @@ def important_keys(df):
     comorbidity_hrsa = ['#EligibleforMedicare2018', 'MedicareEnrollment,AgedTot2017',
                         '3-YrDiabetes2015-17']
     comorbidity_misc = ["DiabetesPercentage", "HeartDiseaseMortality", "StrokeMortality", 
-                        "Smokers_Percentage", 'RespMortalityRate2014']
+                        "Smokers_Percentage", 'RespMortalityRate2014', '% Adults with Obesity',
+                        '% Fair or Poor Health']
     comorbidity = comorbidity_hrsa + comorbidity_misc
 
     # political leanings (ratio of democrat : republican votes in 2016 presidential election)
@@ -400,16 +402,21 @@ def important_keys(df):
     
     # social mobility data
     social_dist_daily = [var for var in list(df.columns) if "daily_distance_diff" in var]
-    interventions = ['stay at home', '>50 gatherings', '>500 gatherings', 'public schools', 'restaurant dine-in', 'entertainment/gym', 'federal guidelines', 'foreign travel ban']
+    interventions = ['stay at home', '>50 gatherings', '>500 gatherings', 'public schools',
+                     'restaurant dine-in', 'entertainment/gym', 'federal guidelines', 'foreign travel ban']
     social = social_dist_daily + interventions
     
-    # resource shortages/social vulnerability
-    vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop']
+    # resource shortages/social vulnerability/socioeconomic
+    vulnerability = ['SVIPercentile', 'HPSAShortage', 'HPSAServedPop', 'HPSAUnderservedPop',
+                     '% Uninsured', '% Vaccinated', 'High School Graduation Rate', 
+                     '% Unemployed', '% Children in Poverty', '% Single-Parent Households', 
+                     '% Severe Housing Problems', "Social Association Rate"]
     
-    # neighboring keys
+    # mask data
+    masks = ["Mask Never", "Mask Rarely", "Mask Sometimes", "Mask Frequently", "Mask Always"]
 
     # get list of important variables
-    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social + vulnerability
+    important_vars = geography + demographics + comorbidity + hospitals + political + age_distr + mortality + social + vulnerability + masks
     
     # keep variables that are in df
     important_vars = [var for var in important_vars if var in list(df.columns)]
