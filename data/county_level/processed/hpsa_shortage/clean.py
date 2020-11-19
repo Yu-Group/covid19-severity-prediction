@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.hpsa_shortage.load import load_hpsa_shortage
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'hpsa_shortage'))
+    from load import load_hpsa_shortage
+else:
+    from ...raw.hpsa_shortage.load import load_hpsa_shortage
 
-def clean_hpsa_shortage(data_dir='../../raw/hpsa_shortage/', 
+
+def clean_hpsa_shortage(data_dir=oj('..', '..', 'raw', 'hpsa_shortage'),
                         out_dir='.'):
     ''' Clean Health Professional Shortage Areas (HPSA)
     

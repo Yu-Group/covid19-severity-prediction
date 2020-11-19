@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.safegraph_socialdistancing.load import load_safegraph_socialdistancing
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'safegraph_socialdistancing'))
+    from load import load_safegraph_socialdistancing
+else:
+    from ...raw.safegraph_socialdistancing.load import load_safegraph_socialdistancing
 
-def clean_safegraph_socialdistancing(data_dir='../../../../../covid-19-private-data',
+
+def clean_safegraph_socialdistancing(data_dir=oj('..', '..', '..', '..', '..', 'covid-19-private-data'),
                                      out_dir='.'):
     ''' Clean SafeGraph Social Distancing data
     

@@ -8,13 +8,13 @@ from os.path import dirname
 
 if __name__ == '__main__':
     import sys
-    sys.path.append(oj(os.path.dirname(__file__), '../../raw/usafacts_infections/'))
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'usafacts_infections'))
     from load import load_usafacts_infections
 else:
     from ...raw.usafacts_infections.load import load_usafacts_infections
 
 
-def clean_usafacts_infections(data_dir='../../raw/usafacts_infections/', 
+def clean_usafacts_infections(data_dir=oj('..', '..', 'raw', 'usafacts_infections'),
                       out_dir='.'):
     ''' Clean usafacts data
     

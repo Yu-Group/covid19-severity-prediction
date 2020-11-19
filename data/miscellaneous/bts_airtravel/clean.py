@@ -7,7 +7,13 @@ import numpy as np
 import requests
 import urllib
 
-from .load import load_bts_airtravel
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__)))
+    from load import load_bts_airtravel
+else:
+    from .load import load_bts_airtravel
+    
 
 def clean_bts_airtravel(data_dir='.'):
     ''' Clean Airline Origin and Destination Survey (DB1B) (2019)

@@ -7,13 +7,13 @@ from os.path import dirname
 
 if __name__ == '__main__':
     import sys
-    sys.path.append(oj(os.path.dirname(__file__), '../../raw/nytimes_infections/'))
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'nytimes_infections'))
     from load import load_nytimes_infections
 else:
     from ...raw.nytimes_infections.load import load_nytimes_infections
 
 
-def clean_nytimes_infections(data_dir='../../raw/nytimes_infections/', 
+def clean_nytimes_infections(data_dir=oj('..', '..', 'raw', 'nytimes_infections'),
                       out_dir='.'):
     ''' Clean nytimes data
     

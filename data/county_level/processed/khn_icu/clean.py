@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.khn_icu.load import load_khn_icu
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), "..", "..", "raw", "khn_icu"))
+    from load import load_khn_icu
+else:
+    from ...raw.khn_icu.load import load_khn_icu
 
-def clean_khn_icu(data_dir='../../raw/khn_icu/', 
+
+def clean_khn_icu(data_dir=oj("..", "..", "raw", "khn_icu"),
                   out_dir='.'):
     ''' Clean Kaiser Health News ICU Beds by County Data
     

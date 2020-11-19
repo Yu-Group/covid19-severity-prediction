@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.dhdsp_heart.load import load_dhdsp_heart
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'dhdsp_heart'))
+    from load import load_dhdsp_heart
+else:
+    from ...raw.dhdsp_heart.load import load_dhdsp_heart
 
-def clean_dhdsp_heart(data_dir='../../raw/dhdsp_heart/', 
+
+def clean_dhdsp_heart(data_dir=oj('..', '..', 'raw', 'dhdsp_heart'),
                         out_dir='.'):
     ''' Clean CDC DHDSP heart disease mortality data
     

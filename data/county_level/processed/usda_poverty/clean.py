@@ -5,18 +5,15 @@ from os.path import join as oj
 from os.path import dirname
 import os
 
-
-
-
 if __name__ == '__main__':
     import sys
-    sys.path.append(oj(os.path.dirname(__file__), '../../raw/usda_poverty'))
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'usda_poverty'))
     from load import load_usda_poverty
 else:
     from ...raw.usda_poverty.load import load_usda_poverty
 
 
-def clean_usda_poverty(data_dir='../../raw/usda_poverty/', 
+def clean_usda_poverty(data_dir=oj('..', '..', 'raw', 'usda_poverty'),
                       out_dir='.'):
     ''' Clean US Dept of Agriculture Poverty Data 2018
     

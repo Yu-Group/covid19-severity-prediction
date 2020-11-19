@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.safegraph_weeklypatterns.load import load_safegraph_weeklypatterns
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'safegraph_weeklypatterns'))
+    from load import load_safegraph_weeklypatterns
+else:
+    from ...raw.safegraph_weeklypatterns.load import load_safegraph_weeklypatterns
 
-def clean_safegraph_weeklypatterns(data_dir='../../../../../covid-19-private-data',
+
+def clean_safegraph_weeklypatterns(data_dir=oj('..', '..', '..', '..', '..', 'covid-19-private-data'),
                                    out_dir='.', grouping='specialty'):
     ''' Clean SafeGraph Weekly Patterns data
     

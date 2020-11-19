@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.dhdsp_stroke.load import load_dhdsp_stroke
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'dhdsp_stroke'))
+    from load import load_dhdsp_stroke
+else:
+    from ...raw.dhdsp_stroke.load import load_dhdsp_stroke
 
-def clean_dhdsp_stroke(data_dir='../../raw/dhdsp_stroke/', 
+
+def clean_dhdsp_stroke(data_dir=oj('..', '..', 'raw', 'dhdsp_stroke'),
                         out_dir='.'):
     ''' Clean CDC DHDSP stroke mortality data
     

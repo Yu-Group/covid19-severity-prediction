@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.nchs_mortality.load import load_nchs_mortality
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'nchs_mortality'))
+    from load import load_nchs_mortality
+else:
+    from ...raw.nchs_mortality.load import load_nchs_mortality
 
-def clean_nchs_mortality(data_dir='../../raw/nchs_mortality/',
+
+def clean_nchs_mortality(data_dir=oj('..', '..', 'raw', 'nchs_mortality'),
                          out_dir='.'):
     ''' Clean NCHS Compressed Mortality Data
     

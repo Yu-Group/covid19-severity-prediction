@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.unacast_mobility.load import load_unacast_mobility
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'unacast_mobility'))
+    from load import load_unacast_mobility
+else:
+    from ...raw.unacast_mobility.load import load_unacast_mobility
 
-def clean_unacast_mobility(data_dir='../../../../../covid-19-private-data',
+
+def clean_unacast_mobility(data_dir=oj('..', '..', '..', '..', '..', 'covid-19-private-data'),
                            out_dir='.'):
     ''' Clean Unacast Social Mobility and Distancing data
     

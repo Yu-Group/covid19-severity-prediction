@@ -4,9 +4,16 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.jhu_interventions.load import load_jhu_interventions
 
-def clean_jhu_interventions(data_dir='../../raw/jhu_interventions/', 
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), "..", "..", "raw", "jhu_interventions"))
+    from load import load_jhu_interventions
+else:
+    from ...raw.jhu_interventions.load import load_jhu_interventions
+    
+
+def clean_jhu_interventions(data_dir=oj('..', '..', 'raw', 'jhu_interventions'),
                             out_dir='.'):
     ''' Clean JHU Interventions (county-level) data set (pulled directly from GitHub source)
     

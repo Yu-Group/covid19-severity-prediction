@@ -6,12 +6,13 @@ import os
 
 if __name__ == '__main__':
     import sys
-    sys.path.append(oj(os.path.dirname(__file__), '../../raw/apple_mobility/'))
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'apple_mobility'))
     from load import load_apple_mobility
 else:
     from ...raw.apple_mobility.load import load_apple_mobility
+    
 
-def clean_apple_mobility(data_dir='../../raw/apple_mobility/', 
+def clean_apple_mobility(data_dir=oj('..', '..', 'raw', 'apple_mobility'),
                          out_dir='.'):
     ''' Clean Apple Maps Mobility Trends data
     

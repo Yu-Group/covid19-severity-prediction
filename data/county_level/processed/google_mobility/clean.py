@@ -4,12 +4,13 @@ import os
 
 if __name__ == '__main__':
     import sys
-    sys.path.append(oj(os.path.dirname(__file__), '../../raw/google_mobility/'))
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'google_mobility'))
     from load import load_google_mobility
 else:
     from ...raw.google_mobility.load import load_google_mobility
 
-def clean_google_mobility(data_dir='../../raw/google_mobility/', 
+    
+def clean_google_mobility(data_dir=oj('..', '..', 'raw', 'google_mobility'), 
                           out_dir="."):
     ''' Clean Google Community Mobility Reports
     

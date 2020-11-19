@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.medicare_chronic.load import load_medicare_chronic
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'medicare_chronic'))
+    from load import load_medicare_chronic
+else:
+    from ...raw.medicare_chronic.load import load_medicare_chronic
 
-def clean_medicare_chronic(data_dir='../../raw/medicare_chronic/', 
+
+def clean_medicare_chronic(data_dir=oj('..', '..', 'raw', 'medicare_chronic'), 
                            out_dir='.'):
     ''' Clean CMS Chronic Conditions Data (2017)
     

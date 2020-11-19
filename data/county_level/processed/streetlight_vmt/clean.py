@@ -5,9 +5,15 @@ from os.path import join as oj
 import os
 from datetime import datetime
 
-from ...raw.streetlight_vmt.load import load_streetlight_vmt
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'streetlight_vmt'))
+    from load import load_streetlight_vmt
+else:
+    from ...raw.streetlight_vmt.load import load_streetlight_vmt
 
-def clean_streetlight_vmt(data_dir='../../../../../covid-19-private-data',
+
+def clean_streetlight_vmt(data_dir=oj('..', '..', '..', '..', '..', 'covid-19-private-data'),
                           out_dir='.'):
     ''' Clean Streetlight Vehicle Miles Traveled Data
     

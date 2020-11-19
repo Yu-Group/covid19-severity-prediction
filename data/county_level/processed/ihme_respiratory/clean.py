@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.ihme_respiratory.load import load_ihme_respiratory
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'ihme_respiratory'))
+    from load import load_ihme_respiratory
+else:
+    from ...raw.ihme_respiratory.load import load_ihme_respiratory
 
-def clean_ihme_respiratory(data_dir='../../raw/ihme_respiratory/', 
+
+def clean_ihme_respiratory(data_dir=oj('..', '..', 'raw', 'ihme_respiratory'),
                            out_dir='.'):
     ''' Clean US Chronic Respiratory Disease Mortality Data
     

@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.kinsa_ili.load import load_kinsa_ili
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'kinsa_ili'))
+    from load import load_kinsa_ili
+else:
+    from ...raw.kinsa_ili.load import load_kinsa_ili
 
-def clean_kinsa_ili(data_dir='../../../../../covid-19-private-data', 
+
+def clean_kinsa_ili(data_dir=oj('..', '..', '..', '..', '..', 'covid-19-private-data'),
                     out_dir='.'):
     ''' Clean Kinsa Influenza-like Illness weather map data
     

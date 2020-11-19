@@ -4,11 +4,16 @@ import pandas as pd
 import numpy as np
 from os.path import join as oj
 import os
-from tqdm import tqdm
 
-from ...raw.mit_voting.load import load_mit_voting
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'mit_voting'))
+    from load import load_mit_voting
+else:
+    from ...raw.mit_voting.load import load_mit_voting
 
-def clean_mit_voting(data_dir='../../raw/mit_voting/', 
+
+def clean_mit_voting(data_dir=oj('..', '..', 'raw', 'mit_voting'), 
                      out_dir='.'):
     ''' Clean 2000-2016 County Presidential Data
     
@@ -36,7 +41,7 @@ def clean_mit_voting(data_dir='../../raw/mit_voting/',
     ks = sorted(np.unique(df.FIPS))
     r = {'countyFIPS': ks, 
          'dem_to_rep_ratio': []}
-    for k in tqdm(ks):
+    for k in ks:
         v = df[df.FIPS == k]
         ratio = v[v.party == 'democrat'].candidatevotes.iloc[0] / v[v.party == 'republican'].candidatevotes.iloc[0]
         r['dem_to_rep_ratio'].append(ratio)

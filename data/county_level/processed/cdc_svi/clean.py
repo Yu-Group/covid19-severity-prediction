@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.cdc_svi.load import load_cdc_svi
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'cdc_svi'))
+    from load import load_cdc_svi
+else:
+    from ...raw.cdc_svi.load import load_cdc_svi
 
-def clean_cdc_svi(data_dir='../../raw/cdc_svi/', 
+
+def clean_cdc_svi(data_dir=oj('..', '..', 'raw', 'cdc_svi'),
                   out_dir='.'):
     ''' Clean CDC Social Vulnerability Index data
     

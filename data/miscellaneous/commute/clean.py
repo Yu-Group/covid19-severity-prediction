@@ -5,7 +5,13 @@ import os
 from os.path import join as oj
 import numpy as np
 
-from .load import load_commute
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__)))
+    from load import load_commute
+else:
+    from .load import load_commute
+
 
 def clean_commute(data_dir='./', 
                       out_dir='./'):

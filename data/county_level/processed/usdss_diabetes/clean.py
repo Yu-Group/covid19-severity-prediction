@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.usdss_diabetes.load import load_usdss_diabetes
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'usdss_diabetes'))
+    from load import load_usdss_diabetes
+else:
+    from ...raw.usdss_diabetes.load import load_usdss_diabetes
+    
 
-def clean_usdss_diabetes(data_dir='../../raw/usdss_diabetes/',
+def clean_usdss_diabetes(data_dir=oj('..', '..', 'raw', 'usdss_diabetes'),
                          out_dir='.'):
     ''' Clean USDSS Diagnosed Diabetes data
     

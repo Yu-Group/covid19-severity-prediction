@@ -4,9 +4,15 @@ import pandas as pd
 from os.path import join as oj
 import os
 
-from ...raw.chrr_health.load import load_chrr_health
+if __name__ == '__main__':
+    import sys
+    sys.path.append(oj(os.path.dirname(__file__), '..', '..', 'raw', 'chrr_health'))
+    from load import load_chrr_health
+else:
+    from ...raw.chrr_health.load import load_chrr_health
 
-def clean_chrr_health(data_dir='../../raw/chrr_health/', 
+
+def clean_chrr_health(data_dir=oj('..', '..', 'raw', 'chrr_health'), 
                       out_dir='.'):
     ''' Clean County Health Rankings & Roadmaps data (2020)
     
