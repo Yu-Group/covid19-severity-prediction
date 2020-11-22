@@ -9,7 +9,7 @@
 We develop simple, interpretable models for predicting the trajectory of COVID-19-related deaths at
 the county-level in the United States (updated daily). Our models show that most counties are experiencing exponential growth that can be accurately modeled several days into the future.
 However, we also find that some counties are starting to experience sub-exponential growth, possibly due to the
-"flattening-the-curve" impacts of interventions such as social distancing and shelter in place orders. Details are in our [paper](https://arxiv.org/abs/2005.07882).
+"flattening-the-curve" impacts of interventions such as social distancing and shelter in place orders. Details are in our [paper](https://hdsr.mitpress.mit.edu/pub/p6isyf0g).
 
 <img src="results/forecasts.svg" style="width:100%;">
 **7-day forecasts for selected counties**: Prediction intervals are based on the historical performance of our predictors (narrower for counties where the forecasts were accurate). If we denote *err* as the largest normalized absolute error for a given county in the past five days, then our prediction interval has the form \[prediction * (1 - *err*), prediction * (1 + *err*)\].
