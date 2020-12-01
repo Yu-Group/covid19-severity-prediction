@@ -52,7 +52,8 @@ def clean_apple_mobility(data_dir=oj('..', '..', 'raw', 'apple_mobility'),
     # rename region types to match with google mobility
     df = df.replace({'country/region': 'Country', 'sub-region': 'State/Province', 'county': 'County', 'city': 'City'})
     
-    df = df[["Region Type", "Region", "Date", "Sector", "Percent Change"]]
+    df = df[["Region Type", "Region", "State/Province", "Country",
+             "Date", "Sector", "Percent Change"]]
     df.to_csv(oj(out_dir, "apple_mobility.csv"), header=True, index=False)
     
     return df

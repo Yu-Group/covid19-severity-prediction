@@ -874,7 +874,7 @@ def load_socialmobility_data(data_dir=".", level="country", df_shape="long"):
     
     if level == "country":  # get country-level data
         appl_df = appl_df.loc[appl_df["Region Type"] == "Country"]
-        appl_df = appl_df.drop(columns = ["Region Type"])
+        appl_df = appl_df.drop(columns = ["Region Type", "State/Province", "Country"])
         appl_df = appl_df.rename(columns = {"Region": "Country"})
         
         goog_df = goog_df.loc[goog_df["Region Type"] == "Country"]
@@ -891,7 +891,7 @@ def load_socialmobility_data(data_dir=".", level="country", df_shape="long"):
                      "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas",
                      "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
         appl_df = appl_df.loc[(appl_df["Region Type"] == "State/Province") & (appl_df["Region"].isin(us_states))]
-        appl_df = appl_df.drop(columns = ["Region Type"])
+        appl_df = appl_df.drop(columns = ["Region Type", "State/Province", "Country"])
         appl_df = appl_df.rename(columns = {"Region": "State"})
         
         goog_df = goog_df.loc[(goog_df["Region Type"] == "State/Province") &\
@@ -906,14 +906,20 @@ def load_socialmobility_data(data_dir=".", level="country", df_shape="long"):
         return
     
     elif level == "county":  # get US county level data
-        goog_df = goog_df.loc[goog_df["Region Type"] == "County"]
+        appl_df = appl_df.loc[appl_df["Region Type"] == "County"]
+        appl_df = appl_df.drop(columns = ["Region Type", "Country"])
+        appl_df = appl_df.rename(columns = {"Region": "County", "State/Province": "State"})
+        
+        goog_df = goog_df.loc[(goog_df["Region Type"] == "County") &\
+                              (goog_df["Country"] == "United States")]
         goog_df = goog_df.drop(columns = ["Region Type", "Country"])
         goog_df = goog_df.rename(columns = {"State/Province": "State"})
-        df = goog_df
+        
+        df = pd.concat([appl_df, goog_df], axis = 0, sort = False)
         
     elif level == "city":
         appl_df = appl_df.loc[appl_df["Region Type"] == "City"]
-        appl_df = appl_df.drop(columns = ["Region Type"])
+        appl_df = appl_df.drop(columns = ["Region Type", "State/Province"])
         appl_df = appl_df.rename(columns = {"Region": "City"})
         df = appl_df
     
