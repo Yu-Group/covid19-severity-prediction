@@ -22,10 +22,10 @@ def load_apple_mobility(data_dir='.'):
     os.chdir(data_dir)
 
     # Link updates every day and seems volatile (the current link is
-    # https://covid19-static.cdn-apple.com/covid19-mobility-data/2008HotfixDev26/v2/en-us/applemobilitytrends-2020-05-13.csv
+    # https://covid19-static.cdn-apple.com/covid19-mobility-data/2021HotfixDev29/v3/en-us/applemobilitytrends-2020-11-29.csv
     # so we go through some extra steps to download from the right url
     BASE_PATH = "https://covid19-static.cdn-apple.com/"
-    response = load(urlopen("https://covid19-static.cdn-apple.com/covid19-mobility-data/current/v2/index.json"))
+    response = load(urlopen("https://covid19-static.cdn-apple.com/covid19-mobility-data/current/v3/index.json"))
     CSV_PATH = BASE_PATH + response['basePath'] + response['regions']['en-us']['csvPath']
     os.system(f"wget {CSV_PATH} -O apple_mobility.csv")
 
