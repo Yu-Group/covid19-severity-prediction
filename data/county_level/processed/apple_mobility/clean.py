@@ -32,15 +32,17 @@ def clean_apple_mobility(data_dir=oj('..', '..', 'raw', 'apple_mobility'),
     GOOD_COLS = {
         "geo_type": "Region Type",
         "region": "Region",
-        "transportation_type": "Sector"
+        "transportation_type": "Sector",
+        "sub-region": "State/Province",
+        "country": "Country"
     }
-    
+
     del df['alternative_name'] 
-    
+
     df = pd.melt(df, id_vars=GOOD_COLS.keys(),
                  value_vars=set(df.columns) - set(GOOD_COLS.keys()), 
                  var_name='Date', value_name='Percent Change')
-    
+
     df['Percent Change'] = df['Percent Change'] - 100.
     df = df.rename(columns=GOOD_COLS)
     
@@ -48,7 +50,7 @@ def clean_apple_mobility(data_dir=oj('..', '..', 'raw', 'apple_mobility'),
     df = df.replace({'Czech Republic': 'Czechia', 'Republic of Korea': 'South Korea', 'UK': 'United Kingdom'})
     
     # rename region types to match with google mobility
-    df = df.replace({'country/region': 'Country', 'sub-region': 'State/Province', 'city': 'City'})
+    df = df.replace({'country/region': 'Country', 'sub-region': 'State/Province', 'county': 'County', 'city': 'City'})
     
     df = df[["Region Type", "Region", "Date", "Sector", "Percent Change"]]
     df.to_csv(oj(out_dir, "apple_mobility.csv"), header=True, index=False)
