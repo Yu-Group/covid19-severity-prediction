@@ -83,10 +83,17 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 
 To reference, please cite [the paper](https://arxiv.org/abs/2005.07882):
 ```c
-@article{altieri2020curating,
-  title={Curating a COVID-19 data repository and forecasting county-level death counts in the United States},
-  author={Altieri, Nick and Barter, Rebecca and Duncan, James and Dwivedi, Raaz and Kumbier, Karl and Li, Xiao and Netzorg, Robert and Park, Briton and Singh, Chandan and Tan, Yan Shuo and others},
-  journal={arXiv preprint arXiv:2005.07882},
-  year={2020}
+
+@article{altieri2020Curating,
+  journal = {Harvard Data Science Review},
+  doi = {10.1162/99608f92.1d4e0dae},
+  note = {https://hdsr.mitpress.mit.edu/pub/p6isyf0g},
+  title = {Curating a COVID-19 Data Repository and Forecasting County-Level DeathCounts in the United States},
+  url = {https://hdsr.mitpress.mit.edu/pub/p6isyf0g},
+  author = {Altieri, Nick and Barter, Rebecca L and Duncan, James and Dwivedi, Raaz and Kumbier, Karl and Li, Xiao and Netzorg, Robert and Park, Briton and Singh, Chandan and Tan, Yan Shuo and Tang, Tiffany and Wang, Yu and Zhang, Chao and Yu, Bin},
+  date = {2020-11-03},
+  year = {2020},
+  month = {11},
+  day = {3},
 }
 ```
