@@ -402,12 +402,12 @@ def add_prediction_intervals(df,
 
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
               outcomes=['Deaths', 'Cases'], discard=False, d=datetime.datetime.today(),
-              add_predict_interval=True, interval_target_days=[],
+              add_predict_interval=True, interval_target_days=[], expanded_shared_time_truncation=0.1,
     ):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
     '''
-
+    print('adding preds....')
     # select the best model
     advanced_model = {'model_type': 'advanced_shared_model'}
     linear = {'model_type': 'linear'}
@@ -422,8 +422,10 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
             cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached_discard1day.pkl')
         if os.path.exists(cached_fname):
             return pd.read_pickle(cached_fname)
+        print('cached fname', cached_fname)
 
     print('predictions not cached, now calculating (might take a while)')
+    
     for outcome in outcomes:
         print(f'predicting {outcome}...')
         tmp = [0 for _ in range(df_county.shape[0])]
@@ -436,7 +438,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                                  target_day=np.array([num_days_in_future]),
                                                  output_key=output_key,
                                                  verbose=verbose,
-                                                 expanded_shared_time_truncation = .5
+                                                 expanded_shared_time_truncation=expanded_shared_time_truncation, # how much time to put into expanded shared
                                                  )
             vals = df_county[output_key].values
             out = []
@@ -471,9 +473,10 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                          target_day=np.array([3]),
                                          output_key=output_key,
                                          verbose=verbose,
-                                         expanded_shared_time_truncation = 1/2
+                                         expanded_shared_time_truncation=expanded_shared_time_truncation,
                                          )
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
+    
 
     # sometimes USAfacts updates deaths after 10am, so go back 2 days to be safe
     most_recent = datetime.datetime.today() - datetime.timedelta(days=2)

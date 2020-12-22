@@ -190,10 +190,10 @@ def df_to_plot(df, NUM_DAYS_LIST):
 
 if __name__ == '__main__':
     # load and merge data
-    print('loading data...')
+    print('severity index loading data...')
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
-
+    print('loaded county level!')
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21, 28], # should save the cached pkl
                           cached_dir=oj(parentdir, 'data'),
                           add_predict_interval=True,
