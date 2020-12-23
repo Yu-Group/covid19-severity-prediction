@@ -465,30 +465,40 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                                  output_key=output_key)
 
     # add 3-day lagged death preds
-    output_key = f'Predicted Deaths 3-day Lagged'
-    df_county = fit_and_predict_ensemble(df_county,
-                                         methods=BEST_MODEL,
-                                         outcome='deaths',
-                                         mode='eval_mode',
-                                         target_day=np.array([3]),
-                                         output_key=output_key,
-                                         verbose=verbose,
-                                         expanded_shared_time_truncation=expanded_shared_time_truncation,
+    print('predicting 3-day lagged deaths...')
+    try:
+        output_key = f'Predicted Deaths 3-day Lagged'
+        df_county = fit_and_predict_ensemble(df_county,
+                                             methods=BEST_MODEL,
+                                             outcome='deaths',
+                                             mode='eval_mode',
+                                             target_day=np.array([3]),
+                                             output_key=output_key,
+                                             verbose=verbose,
+                                             expanded_shared_time_truncation=expanded_shared_time_truncation,
                                          )
+    except:
+        print('err predicting 3-day lagged deaths')
+        
+    if cached_dir is not None:
+        print('caching to', cached_fname)
+        df_county.to_pickle(cached_fname)
+    
+    # process
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
     
 
     # sometimes USAfacts updates deaths after 10am, so go back 2 days to be safe
+    print('add recent deaths....')
     most_recent = datetime.datetime.today() - datetime.timedelta(days=2)
     one_week_ago = most_recent - datetime.timedelta(days = 7)
     DATA_DATE_FORMAT = '%m-%d-%Y'
     most_recent_str = most_recent.strftime(DATA_DATE_FORMAT)
     one_week_ago_str = one_week_ago.strftime(DATA_DATE_FORMAT)
-
-    # add recent_deaths (one-week totals)
-    df_county['recent_deaths'] = df_county['#Deaths_'+most_recent_str] - df_county['#Deaths_'+one_week_ago_str]
+    df_county['recent_deaths'] = df_county['#Deaths_'+most_recent_str] - df_county['#Deaths_'+one_week_ago_str] # add recent_deaths (one-week totals)
 
     if cached_dir is not None:
+        print('caching to', cached_fname)
         df_county.to_pickle(cached_fname)
     return df_county
 
