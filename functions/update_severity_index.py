@@ -197,14 +197,17 @@ if __name__ == '__main__':
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21, 28], # should save the cached pkl
                           cached_dir=oj(parentdir, 'data'),
                           add_predict_interval=True,
-                          interval_target_days=NUM_DAYS_LIST)  # adds keys like "Predicted Deaths 1-day"
+                          interval_target_days=NUM_DAYS_LIST) #, force_predict=True)  # adds keys like "Predicted Deaths 1-day"
+    print('loading hosp data...')
     df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
                                                             'covid-19-private-data'))
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)
+    print('adding severity index...')
     df = add_severity_index(df, NUM_DAYS_LIST)
     df = df.sort_values('Total Deaths Hospital', ascending=False)
 
     # write to gsheets
+    print('\tprep for gsheets')
     dfc = prep_county_df(df_county, NUM_DAYS_LIST)  # data for chicago mapping team
     print('dfc.shape', dfc.shape)
     write_to_gsheet(dfc, sheet_name='County-level Predictions',
@@ -219,6 +222,7 @@ if __name__ == '__main__':
     print('succesfully wrote to gsheets')
 
     # write to api
+    print('writing to api...')
     da = df.rename(columns={'tot_deaths': 'Total Deaths County',
                             'Predicted New Deaths 3-day': 'Predicted New Deaths County 3-day'})
     extra_ks = ['Surge 3-day', 'Rural Severity 3-day', 'Predicted New Deaths Hospital 3-day',

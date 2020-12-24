@@ -403,6 +403,7 @@ def add_prediction_intervals(df,
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
               outcomes=['Deaths', 'Cases'], discard=False, d=datetime.datetime.today(),
               add_predict_interval=True, interval_target_days=[], expanded_shared_time_truncation=0.1,
+              force_predict=False, # force_predict forces it to make a new prediction, otherwise looks for most recent pk
     ):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
@@ -415,12 +416,20 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
 
     # load cached preds
     if cached_dir is not None:
+        print('\tcached dir', cached_dir)
         # getting current date and time
         if not discard:
             cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
         else:
             cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached_discard1day.pkl')
         if os.path.exists(cached_fname):
+            return pd.read_pickle(cached_fname)
+        elif not force_predict:
+            delta = 0
+            while not os.path.exists(cached_fname):
+                d = datetime.datetime.today() - datetime.timedelta(days=delta)
+                cached_fname = oj(cached_dir, f'preds_{d.month}_{d.day}_cached.pkl')
+                delta += 1
             return pd.read_pickle(cached_fname)
         print('cached fname', cached_fname)
 
