@@ -502,7 +502,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     df_county['recent_deaths'] = df_county[most_recent_str] - df_county[one_week_ago_str] # add recent_deaths (one-week totals)
 
     if cached_dir is not None:
-        print('caching to', cached_fname)
+        print('recaching to', cached_fname)
         df_county.to_pickle(cached_fname)
     return df_county
 
