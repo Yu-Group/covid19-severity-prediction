@@ -197,7 +197,8 @@ if __name__ == '__main__':
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21, 28], # should save the cached pkl
                           cached_dir=oj(parentdir, 'data'),
                           add_predict_interval=True,
-                          interval_target_days=NUM_DAYS_LIST) #, force_predict=True)  # adds keys like "Predicted Deaths 1-day"
+                          interval_target_days=NUM_DAYS_LIST,
+                          force_predict=True) #, force_predict=True)  # adds keys like "Predicted Deaths 1-day"
     print('loading hosp data...')
     df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
                                                             'covid-19-private-data'))
