@@ -490,12 +490,16 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
 
     # sometimes USAfacts updates deaths after 10am, so go back 2 days to be safe
     print('add recent deaths....')
-    most_recent = datetime.datetime.today() - datetime.timedelta(days=2)
-    one_week_ago = most_recent - datetime.timedelta(days = 7)
     DATA_DATE_FORMAT = '%m-%d-%Y'
-    most_recent_str = most_recent.strftime(DATA_DATE_FORMAT)
-    one_week_ago_str = one_week_ago.strftime(DATA_DATE_FORMAT)
-    df_county['recent_deaths'] = df_county['#Deaths_'+most_recent_str] - df_county['#Deaths_'+one_week_ago_str] # add recent_deaths (one-week totals)
+    one_week_ago = most_recent - datetime.timedelta(days = 8)
+    most_recent_str = ''
+    delta = 2
+    while not most_recent_str in df.keys():
+        most_recent = datetime.datetime.today() - datetime.timedelta(days=delta)
+        most_recent_str = '#Deaths_' + most_recent.strftime(DATA_DATE_FORMAT)
+        delta += 1    
+    one_week_ago_str = '#Deaths_' + one_week_ago.strftime(DATA_DATE_FORMAT)
+    df_county['recent_deaths'] = df_county[most_recent_str] - df_county[one_week_ago_str] # add recent_deaths (one-week totals)
 
     if cached_dir is not None:
         print('caching to', cached_fname)
