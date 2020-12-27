@@ -490,8 +490,9 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
         print('err predicting 3-day lagged deaths')
         
     if cached_dir is not None:
-        print('caching to', cached_fname)
-        df_county.to_pickle(cached_fname)
+        cached_fname_temp = cached_fname[:-4] + '_temp.pkl'
+        print('caching to', cached_fname_temp)
+        df_county.to_pickle(cached_fname_temp)
     
     # process
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
