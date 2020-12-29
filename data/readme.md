@@ -21,6 +21,7 @@ set in this corpus is provided in this file.
     - [cms_cmi](https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/FY2020-IPPS-Final-Rule-Home-Page-Items/FY2020-IPPS-Final-Rule-Data-Files): Case Mix Index for hospitals from CMS 
     - [cms_hospitalpayment](https://www.cms.gov/OpenPayments/About/Resources): Teaching Hospital info from CMS
     - [DH_hospital](https://coronavirus-resources.esri.com/datasets/definitivehc::definitive-healthcare-usa-hospital-beds): US Hospital info from Definitive Healthcare
+    - [dhhs_hospitalcapacity](https://healthdata.gov/dataset/covid-19-reported-patient-impact-and-hospital-capacity-facility): US hopsital capcity data, updated weekly, from US DHHS
     - [hifld_hospital](https://hifld-geoplatform.opendata.arcgis.com/datasets/6ac5e325468c4cb9b905f1728d6fbf0f_0): Hospital info from homeland infrastructue foundation level data
 - **Nursing Homes Level Data**
 	- [nyt_nursinghomes](https://www.nytimes.com/interactive/2020/05/09/us/coronavirus-cases-nursing-homes-us.html): number of COVID-19-related cases and deaths from nursing homes, as reported by NYT
@@ -29,6 +30,7 @@ set in this corpus is provided in this file.
     - **COVID-19 Cases/Deaths Data**
         - [nytimes_infections](https://github.com/nytimes/covid-19-data): COVID-19-related death/case counts per day per county from NYT
         - [usafacts_infections](https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/): COVID-19-related death/case counts per day per county from USA Facts
+        - [ccd_daily](https://covidcountydata.org/data): COVID-19-related deaths, cases, hospitalizations, and testing statistics
     - **Demographics and Health Resource Availability**
         - [ahrf_health](https://data.hrsa.gov/data/download): contains county-level information on health facilities, health professions, measures of resource scarcity, health status, economic activity, health training programs, and socioeconomic and environmental characteristics from Area Health Resources Files
         - [cdc_svi](https://svi.cdc.gov/): Social Vulnerability Index for counties from CDC
