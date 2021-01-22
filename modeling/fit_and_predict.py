@@ -497,19 +497,23 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
     # process
     df_county[output_key] = [v[0] for v in df_county[output_key].values]
     
-
     # sometimes USAfacts updates deaths after 10am, so go back 2 days to be safe
     print('add recent deaths....')
     DATA_DATE_FORMAT = '%m-%d-%Y'
     one_week_ago = datetime.datetime.today() - datetime.timedelta(days = 8)
     most_recent_str = ''
     delta = 1
-    while not most_recent_str in df.keys():
+    while not most_recent_str in df_county.keys():
         most_recent = datetime.datetime.today() - datetime.timedelta(days=delta)
         most_recent_str = '#Deaths_' + most_recent.strftime(DATA_DATE_FORMAT)
-        delta += 1    
-    one_week_ago_str = '#Deaths_' + one_week_ago.strftime(DATA_DATE_FORMAT)
-    df_county['recent_deaths'] = df_county[most_recent_str] - df_county[one_week_ago_str] # add recent_deaths (one-week totals)
+        delta += 1
+
+    if most_recent <= one_week_ago:
+        print('problem: the most recent data in df_county is older than one week!')
+        df_county['recent_deaths'] = 0
+    else:
+        one_week_ago_str = '#Deaths_' + one_week_ago.strftime(DATA_DATE_FORMAT)
+        df_county['recent_deaths'] = df_county[most_recent_str] - df_county[one_week_ago_str] # add recent_deaths (one-week totals)
 
     if cached_dir is not None:
         print('recaching to', cached_fname)
