@@ -119,6 +119,11 @@ class SharedModel:
 
         # Fit and apply scaler if applicable
         if self.scaler:
+            bad_indices = np.where(np.isinf(X_train))
+            bad_indices = list(zip(bad_indices[0], bad_indices[1]))
+            for bad_index in bad_indices:
+                # replace infinite values with 0s
+                X_train[bad_index[0]][bad_index[1]] = 0
             self.scaler = StandardScaler().fit(X_train)
             X_train = self.scaler.transform(X_train)
             X_train = [list(x) for x in X_train]
