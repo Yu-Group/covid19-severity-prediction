@@ -17,7 +17,7 @@ def load_usafacts_infections(data_dir = "./"):
     -------
     data frame
     '''
-    pretty_date = lambda x: datetime.strftime(datetime.strptime(x, '%m/%d/%y'), '%m-%d-%Y')
+    pretty_date = lambda x: datetime.strftime(datetime.strptime(x, '%Y-%m-%d'), '%m-%d-%Y')
     usafacts_data_cases = oj(data_dir, 'confirmed_cases.csv')
     usafacts_data_deaths = oj(data_dir, 'deaths.csv')
   

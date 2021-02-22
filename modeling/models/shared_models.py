@@ -1,7 +1,7 @@
 import copy
 import statsmodels.api as sm
 from sklearn.preprocessing import StandardScaler
-
+import numpy as np
 
 class SharedModel:
     def __init__(self, df, outcome, demographic_variables, auxiliary_time_features, feat_transforms, mode, target_days,

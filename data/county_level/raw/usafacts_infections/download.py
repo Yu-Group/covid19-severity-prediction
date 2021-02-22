@@ -23,13 +23,12 @@ for tag in ['confirmed_cases', 'deaths']:
     for col in raw.columns:
         if 'Unnamed' in col:
             del raw[col]
-
-
+    
     # preprocess get all the duplicates
-    replicates = raw.groupby(['countyFIPS', 'stateFIPS'])['County Name'].count().reset_index()
+    replicates = raw.groupby(['countyFIPS', 'StateFIPS'])['County Name'].count().reset_index()
 
     # preprocess merge rows with the same (county, state) pair by adding up the other numbers
-    cleaned = raw.groupby(['countyFIPS', 'County Name', 'State', 'stateFIPS']).sum().reset_index()
+    cleaned = raw.groupby(['countyFIPS', 'County Name', 'State', 'StateFIPS']).sum().reset_index()
 
     # save the cleaned data
     cleaned.T.to_csv(out_path, header=True, index=True)
