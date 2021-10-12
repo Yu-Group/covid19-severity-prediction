@@ -71,7 +71,7 @@ The UC Berkeley Departments of Statistics, EECS led by Professor Bin Yu (group m
 
 - **[Yu group team](https://www.stat.berkeley.edu/~yugroup/people.html)** (Data/modeling): Nick Altieri, Rebecca Barter, James Duncan, Raaz Dwivedi, Karl Kumbier, Xiao Li, Robbie Netzorg, Briton Park, Chandan Singh (student lead), Yan Shuo Tan, Tiffany Tang, Yu Wang
   - Summer team: Abhineet Agarwal, Maya Shen, Danqing Wang, Chao Zhang
-- [Response4Life](https://response4life.org/) (Organization/distribution) team and volunteers, particularly Don Landwirth and Rick Brennan
+- [Response4Life](https://github.com/response4life) (Organization/distribution) team and volunteers, particularly Don Landwirth and Rick Brennan
 - [Medical team](https://emergency.ucsf.edu/people/aaron-kornblith-md) (Advice from a medical perspective): Roger Chaufournier, Aaron Kornblith, David Jaffe
 - Hospital-info collection: Matthew Shen, Anthony Rio, Miles Bishop, Josh Davis, and Dylan Goetting
 - [Kolak group team](https://geodacenter.github.io/covid/about) (Geospatial visualization): Qinyun Lin

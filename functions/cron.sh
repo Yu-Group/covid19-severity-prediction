@@ -3,7 +3,8 @@
 # want these all to run once a day at 8am: 0 8 * * * before each command
 # ex: 0 8 * * * /path/to/cron.sh
 
-REPO_DIR=/home/ubuntu/new_uploader
+FUNCTIONS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+REPO_DIR=$FUNCTIONS_DIR/..
 DASHBOARD_DIR=/home/ubuntu/covid19-dashboard
 LOG_FILE=$REPO_DIR/functions/update_test.log
 PATH=/home/ubuntu/anaconda3/bin/:$PATH
