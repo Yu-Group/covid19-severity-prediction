@@ -7,10 +7,8 @@ import pandas as pd
 import sys
 
 data_dir = "./"
-os.system("wget https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv -O {}confirmed_cases.csv".format(data_dir))
+os.system("wget https://static.usafacts.org/public/data/covid-19/covid_confirmed_usafacts.csv -O {}confirmed_cases.csv".format(data_dir))
 os.system("wget https://static.usafacts.org/public/data/covid-19/covid_deaths_usafacts.csv -O {}deaths.csv".format(data_dir))
-
-
 
 for tag in ['confirmed_cases', 'deaths']:
     path = "{}/{}.csv".format(data_dir, tag)
