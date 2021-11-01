@@ -194,12 +194,35 @@ if __name__ == '__main__':
     NUM_DAYS_LIST = [1, 2, 3, 4, 5, 6, 7]
     df_county = load_data.load_county_level(data_dir=oj(parentdir, 'data'))
     print('loaded county level!')
+    import time
+    begin = time.time()
+    print('severity index adding predictions...')
+
+    # TODO: remove
+    # df_county = add_preds(df_county, NUM_DAYS_LIST=[21], # should save the cached pkl
+    #                       cached_dir=None,
+    #                       add_predict_interval=True,
+    #                       outcomes=['Cases'],
+    #                       interval_target_days=[21],
+    #                       force_predict=True,
+    #                       # truncate to use only the most recent 25% of data and at most 365 days
+    #                       expanded_shared_time_truncation=0.9,
+    #                       expanded_shared_max_days=90)  # adds keys like "Predicted Deaths 1-day"
+
+
     df_county = add_preds(df_county, NUM_DAYS_LIST=NUM_DAYS_LIST + [14, 21, 28], # should save the cached pkl
                           cached_dir=oj(parentdir, 'data'),
                           add_predict_interval=True,
                           interval_target_days=NUM_DAYS_LIST,
-                          force_predict=True) #, force_predict=True)  # adds keys like "Predicted Deaths 1-day"
+                          force_predict=True,
+                          # truncate to use only the most recent 25% of data and at most 365 days
+                          # TODO: tweak expanded_shared_time_truncation and expanded_shared_max_days for AWS
+                          expanded_shared_time_truncation=0.9,
+                          expanded_shared_max_days=90)  # adds keys like "Predicted Deaths 1-day"
+    end = time.time()
+    print('severity index adding predictions took {end - begin:.3f} s')
     print('loading hosp data...')
+    # import pdb; pdb.set_trace()
     df_hospital = load_data.load_hospital_level(data_dir=oj(os.path.dirname(parentdir),
                                                             'covid-19-private-data'))
     df = merge_data.merge_county_and_hosp(df_county, df_hospital)

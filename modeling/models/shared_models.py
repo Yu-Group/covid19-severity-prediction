@@ -6,7 +6,7 @@ import numpy as np
 class SharedModel:
     def __init__(self, df, outcome, demographic_variables, auxiliary_time_features, feat_transforms, mode, target_days,
                  time_series_default_values=None, scale=True, include_diffs=False, outcome_start_threshold=3,
-                 direct_predict=False, family=sm.families.Poisson(), cutoff_time_frac=.5):
+                 direct_predict=False, family=sm.families.Poisson(), cutoff_time_frac=.5, max_days=None, debug=False):
         self.outcome = outcome
         self.df = copy.deepcopy(df)
         if time_series_default_values is None:
@@ -47,6 +47,8 @@ class SharedModel:
             assert len(self.target_days) == 1
         self.family = family
         self.cutoff_time_frac = cutoff_time_frac
+        self.max_days = max_days
+        self.debug = debug
 
 
     def create_demographic_features(self, county_index):
@@ -92,10 +94,17 @@ class SharedModel:
         for county_index in range(len(self.df)):
             # For each time period in a dataset:
             if self.cutoff_time_frac is None:
-                time_range = range(len(self.outcome_data[county_index]))
+                begin_idx = 0
+                end_idx = len(self.outcome_data[county_index])
                 # print('time rasnge failed')
             else:
-                time_range = range(int(len(self.outcome_data[county_index])*self.cutoff_time_frac),len(self.outcome_data[county_index]))
+                begin_idx = int(len(self.outcome_data[county_index])*self.cutoff_time_frac)
+                end_idx = len(self.outcome_data[county_index])
+
+            if self.max_days is not None:
+                begin_idx = np.maximum(begin_idx, end_idx - self.max_days)
+
+            time_range = range(begin_idx, end_idx)
 
             for time_index in time_range:
                 thresh = self.outcome_data[county_index][time_index] >= self.outcome_start_threshold
@@ -144,7 +153,6 @@ class SharedModel:
         tmp_outcomes = copy.deepcopy(self.outcome_data)
         for county_index in range(len(self.df)):
 
-
             if self.direct_predict:
                 time_index = len(self.outcome_data[county_index]) - 1
                 time_series_features = self.create_time_series_features(county_index, time_index)
@@ -164,6 +172,13 @@ class SharedModel:
                     time_index = len(self.outcome_data[county_index]) - 1
                     time_series_features = self.create_time_series_features(county_index, time_index)
                     demographic_features = self.create_demographic_features(county_index)
+                    if self.debug:
+                        if np.any(np.isinf(time_series_features)):
+                            print('ts features inf')
+                            import pdb; pdb.set_trace()
+                        if np.any(np.isinf(demographic_features)):
+                            print('demo features inf')
+                            import pdb; pdb.set_trace()
                     if self.scaler:
                         features = list(self.scaler.transform([time_series_features + demographic_features])[0]) + [1]
                     else:

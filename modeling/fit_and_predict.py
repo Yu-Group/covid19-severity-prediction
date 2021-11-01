@@ -12,6 +12,7 @@ from collections import defaultdict
 import inspect
 import sys
 from tqdm import tqdm
+import time
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -42,9 +43,8 @@ def fit_and_predict(df,
                     output_key: str = None,
                     demographic_vars=[],
                     verbose: bool = False,
-                    expanded_shared_time_truncation = None
-
-                    ):
+                    expanded_shared_time_truncation: float = None,
+                    expanded_shared_max_days: int = None):
     """
     Trains a method (method) to predict a current number of days ahead (target_day)
     Predicts the values of the number of deaths for the final day of test_df and writes to the column
@@ -72,6 +72,8 @@ def fit_and_predict(df,
     expanded_shared_time_truncation:
         A way to reduce number of days trained on for the expanded shared model for computational resaons. Eg if expanded_shared_time_truncation
         = 1/3, then we only use the 2/3rds most recent days. If this value is None, it will just use all of the days.
+    expanded_shared_max_days:
+        A hard maximum on the number of recent days to use in expanded shared model
     Returns
     -------
     test_df
@@ -156,13 +158,26 @@ def fit_and_predict(df,
         shared_model_predictions = [[] for i in range(len(df))]
 
         for t in target_day:
+            if verbose:
+                print(f'--- Shared model target_day: {t}')
             t = np.array([t])
+            begin = time.time()
             shared_model = SharedModel(df=df, outcome=outcome, demographic_variables=[], mode=mode, target_days=t,
                                        feat_transforms=feat_transforms, auxiliary_time_features=aux_feats,
-                                       time_series_default_values=default_values, scale=True,cutoff_time_frac=expanded_shared_time_truncation)
+                                       time_series_default_values=default_values, scale=True,cutoff_time_frac=expanded_shared_time_truncation, max_days=expanded_shared_max_days)
             shared_model.create_dataset()
+            end_data = time.time()
+            if verbose:
+                print(f'--- Finished creating shared model dataset: {end_data - begin:3.f}')
+                print(f'--- Shared model training data number of rows: {len(shared_model.y_train)}')
             shared_model.fit_model()
+            end_fit = time.time()
+            if verbose:
+                print(f'--- Finished fitting shared model in {end_fit - end_data:.3f} s')
             shared_model.predict()
+            end_predict = time.time()
+            if verbose:
+                print(f'--- Finished predicting shared model in {end_predict - end_fit:.3f} s')
             for i in range(len(shared_model.predictions)):
                 assert len(shared_model.predictions[i]) == 1
                 # If there is a prediction, make sure the new one is at least as large
@@ -193,7 +208,8 @@ def fit_and_predict_ensemble(df,
                              weight_c0: int = 1,
                              weight_mu: int = 0.5,
                              debug: bool = False,
-                             expanded_shared_time_truncation = None
+                             expanded_shared_time_truncation = None,
+                             expanded_shared_max_days = None
 
 ):
     """
@@ -229,7 +245,8 @@ def fit_and_predict_ensemble(df,
                                          output_key=f'y_preds_{i}',
                                          demographic_vars=demographic_vars,
                                          verbose=verbose,
-                                         expanded_shared_time_truncation = expanded_shared_time_truncation
+                                         expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                         expanded_shared_max_days=expanded_shared_max_days
 )[f'y_preds_{i}'].values
 
     if mode == 'predict_future':
@@ -243,7 +260,10 @@ def fit_and_predict_ensemble(df,
                                               outcome=outcome,
                                               target_day=target_day,
                                               c0=weight_c0,
-                                              mu=weight_mu)
+                                              mu=weight_mu,
+                                              expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                              expanded_shared_max_days=expanded_shared_max_days
+    )
     sum_weights = np.zeros(len(use_df))
     for model_index in weights:
         sum_weights = sum_weights + np.array(weights[model_index])
@@ -289,7 +309,9 @@ def previous_prediction_errors(df,
                                outcome: str = 'deaths',
                                methods: list = [advanced_model, linear],
                                look_back_day: int = 5,
-                               output_key: str = None):
+                               output_key: str = None,
+                               expanded_shared_time_truncation: float = None,
+                               expanded_shared_max_days: int = None):
     """
     Calculating prediction errors of previous days
     Input:
@@ -324,6 +346,8 @@ def previous_prediction_errors(df,
                                                               methods=methods,
                                                               mode='predict_future',
                                                               output_key='old_predictions',
+                                                              expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                                              expanded_shared_max_days=expanded_shared_max_days
                                                               )[
             'old_predictions'].values  # running old prediction models
         for i in range(len(df)):
@@ -348,7 +372,9 @@ def add_prediction_intervals(df,
                              methods: list = [advanced_model, linear],
                              interval_type: str = 'local',
                              look_back_day: int = 5,
-                             output_key: str = None):
+                             output_key: str = None,
+                             expanded_shared_time_truncation: float = None,
+                             expanded_shared_max_days: int = None):
     """
     Adding intervals for future prediction
     Input:
@@ -365,7 +391,10 @@ def add_prediction_intervals(df,
     assert interval_type == 'local' or interval_type == 'combined', 'unknown interval type'
     lower_bound = {'deaths': 10, 'cases': 10}
 
-    df = previous_prediction_errors(df, target_day, outcome, methods, look_back_day=5, output_key='previous_errors')
+    df = previous_prediction_errors(df, target_day, outcome, methods,
+                                    look_back_day=5, output_key='previous_errors',
+                                    expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                    expanded_shared_max_days=expanded_shared_max_days)
 
     df = fit_and_predict_ensemble(df,
                                   target_day=target_day,
@@ -373,7 +402,9 @@ def add_prediction_intervals(df,
                                   methods=methods,
                                   mode='predict_future',
                                   output_key='new_predictions',
-                                  verbose=False)
+                                  verbose=False,
+                                  expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                  expanded_shared_max_days=expanded_shared_max_days)
 
     preds = df['new_predictions'].values
     latest_cases = np.array([p[-1] for p in df[outcome].values])
@@ -403,7 +434,7 @@ def add_prediction_intervals(df,
 def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None,
               outcomes=['Deaths', 'Cases'], discard=False, d=datetime.datetime.today(),
               add_predict_interval=True, interval_target_days=[], expanded_shared_time_truncation=0.1,
-              force_predict=False, # force_predict forces it to make a new prediction, otherwise looks for most recent pk
+              expanded_shared_max_days=365, force_predict=False, # force_predict forces it to make a new prediction, otherwise looks for most recent pk
     ):
     '''Adds predictions for the current best model
     Adds keys that look like 'Predicted Deaths 1-day', 'Predicted Deaths 2-day', ...
@@ -434,11 +465,13 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
         print('cached fname', cached_fname)
 
     print('predictions not cached, now calculating (might take a while)')
-    
+
     for outcome in outcomes:
         print(f'predicting {outcome}...')
         tmp = [0 for _ in range(df_county.shape[0])]
         for num_days_in_future in tqdm(NUM_DAYS_LIST):  # 1 is tomorrow
+            print('----------------------------------------------')
+            print(f'Begin fit and predict for target day {num_days_in_future}')
             output_key = f'Predicted {outcome} {num_days_in_future}-day'
             df_county = fit_and_predict_ensemble(df_county,
                                                  methods=BEST_MODEL,
@@ -448,6 +481,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                                  output_key=output_key,
                                                  verbose=verbose,
                                                  expanded_shared_time_truncation=expanded_shared_time_truncation, # how much time to put into expanded shared
+                                                 expanded_shared_max_days=expanded_shared_max_days # max number of days to use in expanded shared
                                                  )
             vals = df_county[output_key].values
             out = []
@@ -471,7 +505,9 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                                  outcome=outcome.lower(),
                                                  methods=BEST_MODEL,
                                                  interval_type='local',
-                                                 output_key=output_key)
+                                                 output_key=output_key,
+                                                 expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                                 expanded_shared_max_days=expanded_shared_max_days)
 
     # add 3-day lagged death preds
     print('predicting 3-day lagged deaths...')
@@ -485,6 +521,7 @@ def add_preds(df_county, NUM_DAYS_LIST=[1, 2, 3], verbose=False, cached_dir=None
                                              output_key=output_key,
                                              verbose=verbose,
                                              expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                             expanded_shared_max_days=expanded_shared_max_days
                                          )
     except:
         print('err predicting 3-day lagged deaths')

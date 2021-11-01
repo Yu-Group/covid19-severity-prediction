@@ -27,7 +27,9 @@ def pmdl_weight(y, y_preds, c0=1, mu=0.5):
     return np.array(model_weights)
 
 
-def compute_pmdl_weight(df, methods, outcome, target_day, c0=1, mu=0.5):
+def compute_pmdl_weight(df, methods, outcome, target_day, c0=1, mu=0.5,
+                        expanded_shared_time_truncation=None,
+                        expanded_shared_max_days=None):
     # FIXME: currently target_day is not used in this function
     y = np.array([df[outcome].values[i][-7:] for i in range(len(df))])
     weights = {}
@@ -47,7 +49,9 @@ def compute_pmdl_weight(df, methods, outcome, target_day, c0=1, mu=0.5):
                                                   mode='predict_future',
                                                   target_day=np.array([3]),
                                                   output_key='y_preds',
-                                                  demographic_vars=demographic_vars)
+                                                  demographic_vars=demographic_vars,
+                                                  expanded_shared_time_truncation=expanded_shared_time_truncation,
+                                                  expanded_shared_max_days=expanded_shared_max_days)
 
             y_preds[:, (7 - t)] = np.array([df2['y_preds'].values[i][-1] for i in range(len(df))])
 
